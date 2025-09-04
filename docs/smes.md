@@ -38,7 +38,7 @@ Below there will be some terms like “previous” and “backup”, these are f
 
 ## Dashboard feature areas
 
-- Data Science Projects
+- Projects
     - Feature lead: `Andrew` ([andrewballantyne])
     - UX: `Kyle` ([kywalker-rh]) **and** `Kun` ([xianli123])
 - Data Science Pipelines

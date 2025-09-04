@@ -260,7 +260,7 @@ describe('Distributed Workload Metrics root page', () => {
     initIntercepts({ hasProjects: false });
     globalDistributedWorkloads.visit();
 
-    cy.findByText('No data science projects').should('exist');
+    cy.findByText('No projects').should('exist');
   });
 
   it('Should render with no quota state when there is no clusterqueue', () => {

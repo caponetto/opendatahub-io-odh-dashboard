@@ -39,7 +39,7 @@ class LMEvalPage {
   }
 
   findCreateProjectButton() {
-    return cy.findByTestId('create-data-science-project');
+    return cy.findByTestId('create-project');
   }
 
   findProjectSelector() {

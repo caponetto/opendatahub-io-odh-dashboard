@@ -83,7 +83,7 @@ const ProjectDetails: React.FC = () => {
       description={<div style={{ marginLeft: 40 }}>{description}</div>}
       breadcrumb={
         <Breadcrumb>
-          <BreadcrumbItem render={() => <Link to="/projects">Data Science Projects</Link>} />
+          <BreadcrumbItem render={() => <Link to="/projects">Projects</Link>} />
           <BreadcrumbItem isActive style={{ maxWidth: 300 }}>
             <Truncate content={displayName} />
           </BreadcrumbItem>
