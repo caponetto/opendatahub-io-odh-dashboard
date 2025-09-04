@@ -1,7 +1,6 @@
 import { mockDashboardConfig } from '#~/__mocks__';
 import { HomeModelCatalog } from '#~/__tests__/cypress/cypress/pages/home/homeModelCatalog';
 import { HomeAdminSection } from './homeAdmin';
-import { HomeAIFlow } from './homeAIFlow';
 import { HomeProject } from './homeProject';
 import { HomeResource } from './homeResource';
 
@@ -28,10 +27,6 @@ class HomePage {
 
   getHomeAdminSection() {
     return new HomeAdminSection(() => cy.findByTestId('landing-page-admin'));
-  }
-
-  getHomeAISection() {
-    return new HomeAIFlow(() => cy.findByTestId('home-page-ai-flows'));
   }
 
   getHomeModelCatalogSection() {
