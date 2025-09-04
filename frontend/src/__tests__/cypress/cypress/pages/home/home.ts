@@ -35,7 +35,7 @@ class HomePage {
   }
 
   getHomeModelCatalogSection() {
-    return new HomeModelCatalog(() => cy.findByTestId('homepage-model-catalog'));
+    return new HomeModelCatalog(() => cy.findByTestId('homepage-ai-hub-catalog'));
   }
 
   getHomeProjectSection() {
@@ -43,7 +43,7 @@ class HomePage {
   }
 
   getHomeResourceSection() {
-    return new HomeResource(() => cy.findByTestId('landing-page-resources'));
+    return new HomeResource(() => cy.findByTestId('landing-page-learning-resources'));
   }
 
   returnToHome() {

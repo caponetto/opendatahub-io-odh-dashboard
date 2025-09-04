@@ -83,7 +83,7 @@ const ModelCatalogSection: React.FC = conditionalArea(
   }
 
   return (
-    <PageSection variant="secondary" hasBodyWrapper={false} data-testid="homepage-model-catalog">
+    <PageSection variant="secondary" hasBodyWrapper={false} data-testid="homepage-ai-hub-catalog">
       <Stack hasGutter>
         <StackItem>
           <ModelCatalogSectionHeader />
