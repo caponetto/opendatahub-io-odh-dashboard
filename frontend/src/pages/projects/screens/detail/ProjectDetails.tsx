@@ -14,7 +14,7 @@ import {
 } from '@patternfly/react-core';
 import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons';
 import { Link, useSearchParams } from 'react-router-dom';
-import { useModelServingTab } from '#~/concepts/projects/projectDetails/useModelServingTab';
+import { useDeploymentsTab } from '#~/concepts/projects/projectDetails/useDeploymentsTab';
 import ApplicationsPage from '#~/pages/ApplicationsPage';
 import { ProjectDetailsContext } from '#~/pages/projects/ProjectDetailsContext';
 import GenericHorizontalBar from '#~/pages/projects/components/GenericHorizontalBar';
@@ -49,7 +49,7 @@ const ProjectDetails: React.FC = () => {
   const biasMetricsAreaAvailable = useIsAreaAvailable(SupportedArea.BIAS_METRICS).status;
   const projectSharingEnabled = useIsAreaAvailable(SupportedArea.DS_PROJECTS_PERMISSIONS).status;
   const pipelinesEnabled = useIsAreaAvailable(SupportedArea.DS_PIPELINES).status;
-  const modelServingTab = useModelServingTab();
+  const deploymentsTab = useDeploymentsTab();
   const [searchParams, setSearchParams] = useSearchParams();
   const state = searchParams.get('section');
 
@@ -174,7 +174,7 @@ const ProjectDetails: React.FC = () => {
                   },
                 ]
               : []),
-            ...modelServingTab,
+            ...deploymentsTab,
             {
               id: ProjectSectionID.CLUSTER_STORAGES,
               title: 'Cluster storage',
@@ -210,7 +210,7 @@ const ProjectDetails: React.FC = () => {
             pipelinesEnabled,
             projectSharingEnabled,
             workbenchEnabled,
-            modelServingTab,
+            deploymentsTab,
             chatBotEnabled,
           ],
         )}
