@@ -14,7 +14,11 @@ class PipelinesGlobal {
 
   navigate() {
     appChrome
-      .findNavItem({ name: 'Pipelines', rootSection: 'Develop & train', subSection: 'Pipelines' })
+      .findNavItem({
+        name: 'Pipeline definitions',
+        rootSection: 'Develop & train',
+        subSection: 'Pipelines',
+      })
       .click();
     this.wait();
   }
