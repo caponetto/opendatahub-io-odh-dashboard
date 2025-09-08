@@ -51,7 +51,7 @@ const BaseModelSection: React.FC<BaseModelSectionProps> = ({
             variant="info"
             title={`${ODH_PRODUCT_NAME} supports InstructLab fine-tuning for only specific models.`}
           >
-            Supported models are indicated by the InstructLab-tunable label in the model catalog.
+            Supported models are indicated by the InstructLab-tunable label in the AI hub catalog.
             Fine-tuning unsupported models might result in unsatisfactory results.
           </Alert>
         </FlexItem>
