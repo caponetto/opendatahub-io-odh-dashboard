@@ -24,7 +24,7 @@ class PipelinesGlobal {
   }
 
   private wait() {
-    cy.findByTestId('app-page-title').contains('Pipelines');
+    cy.findByTestId('app-page-title').contains('Pipeline definitions');
     cy.testA11y();
   }
 
