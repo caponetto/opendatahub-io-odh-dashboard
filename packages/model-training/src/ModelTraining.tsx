@@ -11,7 +11,7 @@ import ApplicationsPage from '@odh-dashboard/internal/pages/ApplicationsPage';
 import { ProjectObjectType } from '@odh-dashboard/internal/concepts/design/utils';
 import TitleWithIcon from '@odh-dashboard/internal/concepts/design/TitleWithIcon';
 
-const title = 'Model training';
+const title = 'Training jobs';
 const description =
   'Train and fine-tune machine learning models using distributed training frameworks. Create training jobs, monitor progress, and manage training experiments across your projects.';
 
