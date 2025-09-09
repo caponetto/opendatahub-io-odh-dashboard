@@ -14,7 +14,7 @@ describe('LM Evaluation Home Page', () => {
   it('should show empty state when no evaluations exist', () => {
     lmEvalPage.visit('test-project');
 
-    lmEvalPage.findPageTitle().should('have.text', 'Model evaluation runs');
+    lmEvalPage.findPageTitle().should('have.text', 'Evaluations');
     lmEvalPage.findEmptyStateTitle().should('contain.text', 'No model evaluation runs');
     lmEvalPage
       .findEmptyStateBody()
