@@ -52,7 +52,7 @@ class ModelCatalog {
   }
 
   findPageTitle() {
-    return cy.contains('Model Catalog');
+    return cy.contains('Catalog');
   }
 
   findPageDescription() {
@@ -61,7 +61,7 @@ class ModelCatalog {
 
   // Details page helpers
   findBreadcrumb() {
-    return cy.contains('Model catalog');
+    return cy.contains('Catalog');
   }
 
   findDetailsProviderText() {
