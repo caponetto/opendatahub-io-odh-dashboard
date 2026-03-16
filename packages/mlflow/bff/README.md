@@ -181,7 +181,7 @@ Examples:
 
 ### Disabling TLS verification (development only)
 
-For local Kubeflow installations with self-signed certificates, you may need to disable TLS certificate verification.
+For installations with self-signed certificates, you may need to disable TLS certificate verification.
 
 **Kubernetes deployment:**
 

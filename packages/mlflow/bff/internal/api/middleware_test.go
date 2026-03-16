@@ -223,12 +223,12 @@ func TestAttachMLflowClientWithIdentityToken(t *testing.T) {
 	mockFactory.AssertExpectations(t)
 }
 
-func TestAttachMLflowClientKubeflowModeAuthorizationHeader(t *testing.T) {
+func TestAttachMLflowClientAuthorizationHeaderFallback(t *testing.T) {
 	mockFactory := &mlflowpkg.MockFactory{}
 	mockClient := &mlflowpkg.MockClient{}
 	app := newTestAppWithFactory(mockFactory)
 
-	// Kubeflow mode: identity has no Token, so middleware reads Authorization header
+	// Identity has no Token, so middleware reads Authorization header
 	// and strips "Bearer " prefix before passing raw token to factory
 	mockFactory.On("GetClient", mock.Anything, "direct-token", "my-ns").
 		Return(mockClient, nil)
@@ -249,12 +249,12 @@ func TestAttachMLflowClientKubeflowModeAuthorizationHeader(t *testing.T) {
 	mockFactory.AssertExpectations(t)
 }
 
-func TestAttachMLflowClientKubeflowModeXForwardedToken(t *testing.T) {
+func TestAttachMLflowClientXForwardedTokenFallback(t *testing.T) {
 	mockFactory := &mlflowpkg.MockFactory{}
 	mockClient := &mlflowpkg.MockClient{}
 	app := newTestAppWithFactory(mockFactory)
 
-	// Kubeflow mode with X-Forwarded-Access-Token fallback
+	// X-Forwarded-Access-Token fallback when identity has no token
 	mockFactory.On("GetClient", mock.Anything, "raw-token", "my-ns").
 		Return(mockClient, nil)
 
