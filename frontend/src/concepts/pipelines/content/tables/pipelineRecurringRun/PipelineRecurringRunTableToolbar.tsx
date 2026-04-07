@@ -9,7 +9,7 @@ import {
   useContextExperimentArchivedOrDeleted as useIsExperimentArchived,
 } from '#~/pages/pipelines/global/experiments/ExperimentContext';
 import { PipelineVersionFilterSelector } from '#~/concepts/pipelines/content/pipelineSelector/CustomPipelineRunToolbarSelect';
-import { SupportedArea, useIsAreaAvailable } from '#~/concepts/areas';
+import useIsMlflowPipelinesAvailable from '#~/concepts/mlflow/hooks/useIsMlflowPipelinesAvailable';
 import MlflowExperimentSelector from '#~/concepts/mlflow/MlflowExperimentSelector';
 import { usePipelinesAPI } from '#~/concepts/pipelines/context';
 
@@ -29,7 +29,7 @@ const PipelineRecurringRunTableToolbar: React.FC<PipelineRecurringRunTableToolba
   const { versions } = React.useContext(PipelineRunVersionsContext);
   const { isExperimentArchived } = useIsExperimentArchived();
   const { experiment } = React.useContext(ExperimentContext);
-  const { status: isMlflowAvailable } = useIsAreaAvailable(SupportedArea.MLFLOW_PIPELINES);
+  const { available: isMlflowAvailable } = useIsMlflowPipelinesAvailable();
   const { namespace } = usePipelinesAPI();
   const options = React.useMemo(
     () => ({

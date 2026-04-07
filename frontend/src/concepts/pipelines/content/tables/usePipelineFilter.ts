@@ -12,7 +12,7 @@ import useDebounceCallback from '#~/utilities/useDebounceCallback';
 import FilterToolbar from '#~/components/FilterToolbar';
 import { PipelineRunVersionsContext } from '#~/pages/pipelines/global/runs/PipelineRunVersionsContext';
 import { PipelineRunExperimentsContext } from '#~/pages/pipelines/global/runs/PipelineRunExperimentsContext';
-import { SupportedArea, useIsAreaAvailable } from '#~/concepts/areas';
+import useIsMlflowPipelinesAvailable from '#~/concepts/mlflow/hooks/useIsMlflowPipelinesAvailable';
 
 export enum FilterOptions {
   NAME = 'name',
@@ -202,7 +202,7 @@ export const usePipelineFilterSearchParams = (
   const [searchParams, setSearchParams] = useSearchParams();
   const { versions } = React.useContext(PipelineRunVersionsContext);
   const { experiments } = React.useContext(PipelineRunExperimentsContext);
-  const { status: isMlflowAvailable } = useIsAreaAvailable(SupportedArea.MLFLOW_PIPELINES);
+  const { available: isMlflowAvailable, loaded: isMlflowLoaded } = useIsMlflowPipelinesAvailable();
 
   const isLegacyParam =
     !searchParams.has(FilterOptions.RUN_GROUP) && searchParams.has(LEGACY_EXPERIMENT_FILTER_PARAM);
@@ -238,21 +238,25 @@ export const usePipelineFilterSearchParams = (
         [FilterOptions.RUN_GROUP]: experimentFoundById
           ? experimentFoundById.display_name
           : runGroupFromParams || '',
-        [FilterOptions.MLFLOW_EXPERIMENT]: isMlflowAvailable
-          ? searchParams.get(FilterOptions.MLFLOW_EXPERIMENT) || ''
-          : '',
+        [FilterOptions.MLFLOW_EXPERIMENT]:
+          isMlflowAvailable || !isMlflowLoaded
+            ? searchParams.get(FilterOptions.MLFLOW_EXPERIMENT) || ''
+            : '',
       },
     };
-  }, [experiments, isLegacyParam, isMlflowAvailable, searchParams, versions]);
+  }, [experiments, isLegacyParam, isMlflowAvailable, isMlflowLoaded, searchParams, versions]);
+
+  const shouldStripMlflowParam =
+    isMlflowLoaded && !isMlflowAvailable && searchParams.has(FilterOptions.MLFLOW_EXPERIMENT);
 
   React.useEffect(() => {
-    if (isMlflowAvailable || !searchParams.has(FilterOptions.MLFLOW_EXPERIMENT)) {
+    if (!shouldStripMlflowParam) {
       return;
     }
     const nextParams = new URLSearchParams(searchParams);
     nextParams.delete(FilterOptions.MLFLOW_EXPERIMENT);
     setSearchParams(nextParams, { replace: true });
-  }, [isMlflowAvailable, searchParams, setSearchParams]);
+  }, [shouldStripMlflowParam, searchParams, setSearchParams]);
 
   useSetFilter(
     setFilter,
