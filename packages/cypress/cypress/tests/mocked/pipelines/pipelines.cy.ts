@@ -850,6 +850,7 @@ describe('Pipelines', () => {
     pipelineImportModal.fillPipelineName('New pipeline');
     pipelineImportModal.fillPipelineDescription('New pipeline description');
     pipelineImportModal.uploadPipelineYaml(argoWorkflowPipeline);
+    pipelineImportModal.findSubmitButton().should('be.enabled');
     pipelineImportModal.submit();
 
     pipelineImportModal.findImportModalError().should('exist');
@@ -868,6 +869,7 @@ describe('Pipelines', () => {
     pipelineImportModal.fillPipelineName('New pipeline');
     pipelineImportModal.fillPipelineDescription('New pipeline description');
     pipelineImportModal.uploadPipelineYaml(v1PipelineYamlPath);
+    pipelineImportModal.findSubmitButton().should('be.enabled');
     pipelineImportModal.submit();
 
     pipelineImportModal.findImportModalError().should('exist');
@@ -1108,6 +1110,7 @@ describe('Pipelines', () => {
     pipelineVersionImportModal.fillVersionName('Argo workflow version');
     pipelineVersionImportModal.fillVersionDescription('Argo workflow version description');
     pipelineVersionImportModal.uploadPipelineYaml(argoWorkflowPipeline);
+    pipelineVersionImportModal.findSubmitButton().should('be.enabled');
     pipelineVersionImportModal.submit();
 
     pipelineVersionImportModal.findImportModalError().should('exist');
