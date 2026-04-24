@@ -1,0 +1,95 @@
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: odh-dashboard
+rules:
+  - verbs:
+      - create
+      - get
+      - list
+      - update
+      - patch
+      - delete
+    apiGroups:
+      - dashboard.opendatahub.io
+    resources:
+      - acceleratorprofiles
+  - apiGroups:
+      - batch
+    verbs:
+      - get
+      - update
+      - delete
+    resources:
+      - cronjobs
+  - apiGroups:
+      - apps
+    verbs:
+      - patch
+      - update
+    resources:
+      - deployments
+  - apiGroups:
+      - opendatahub.io
+    verbs:
+      - get
+      - list
+      - watch
+      - create
+      - update
+      - patch
+      - delete
+    resources:
+      - odhdashboardconfigs
+  - apiGroups:
+      - kubeflow.org
+    verbs:
+      - get
+      - list
+      - watch
+      - create
+      - update
+      - patch
+      - delete
+    resources:
+      - notebooks
+  - verbs:
+      - get
+      - list
+    apiGroups:
+      - dashboard.opendatahub.io
+    resources:
+      - odhapplications
+  - verbs:
+      - get
+      - list
+    apiGroups:
+      - dashboard.opendatahub.io
+    resources:
+      - odhdocuments
+  - apiGroups:
+      - serving.kserve.io
+    verbs:
+      - '*'
+    resources:
+      - servingruntimes
+  - apiGroups:
+      - nim.opendatahub.io
+    verbs:
+      - get
+      - list
+      - watch
+      - create
+      - update
+      - patch
+      - delete
+    resources:
+      - accounts
+  - apiGroups:
+      - networking.k8s.io
+    verbs:
+      - get
+      - list
+      - watch
+    resources:
+      - ingresses

@@ -2,7 +2,7 @@ import { FastifyRequest } from 'fastify';
 import https from 'https';
 import createError from 'http-errors';
 import { setImpersonateAccessToken } from '../../../devFlags';
-import { KubeFastifyInstance } from '../../../types';
+import { KubeFastifyInstance, PlatformType } from '../../../types';
 import {
   DEV_IMPERSONATE_PASSWORD,
   DEV_IMPERSONATE_USER,
@@ -17,6 +17,16 @@ export default async (fastify: KubeFastifyInstance): Promise<void> => {
     devRoute(async (request: FastifyRequest<{ Body: { impersonate: boolean } }>) => {
       return new Promise<{ code: number; response: string }>((resolve, reject) => {
         const doImpersonate = request.body.impersonate;
+
+        if (doImpersonate && fastify.kube.platform !== PlatformType.OpenShift) {
+          reject({
+            code: 400,
+            response:
+              'Impersonation via OAuth is not supported on vanilla Kubernetes. ' +
+              'Use KUBECONFIG to switch user contexts instead.',
+          });
+          return;
+        }
         if (doImpersonate) {
           const apiPath = fastify.kube.config.getCurrentCluster().server;
           const namedHost = apiPath.slice('https://api.'.length).split(':')[0];

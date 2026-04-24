@@ -13,6 +13,8 @@ import {
   PrometheusQueryRangeResponseDataResult,
   PrometheusQueryRangeResultValue,
 } from '#~/types';
+import { useAppSelector } from '#~/redux/hooks';
+import { PlatformType } from '#~/redux/types';
 
 export type ResponsePredicate<T = PrometheusQueryRangeResultValue> = (
   data: PrometheusQueryRangeResponseData,
@@ -30,9 +32,14 @@ const usePrometheusQueryRange = <T = PrometheusQueryRangeResultValue>(
   fetchOptions?: Partial<FetchOptions>,
 ): [...FetchState<T[]>, boolean] => {
   const pendingRef = React.useRef(active);
+  const platform = useAppSelector((state) => state.platform);
   const fetchData = React.useCallback<FetchStateCallbackPromise<T[]>>(() => {
     const endInS = endInMs / 1000;
     const start = endInS - span;
+
+    if (platform !== PlatformType.OpenShift) {
+      return Promise.reject(new NotReadyError('Prometheus is not available on this platform'));
+    }
 
     if (!active) {
       return Promise.reject(new NotReadyError('Prometheus query is not active'));
@@ -52,7 +59,7 @@ const usePrometheusQueryRange = <T = PrometheusQueryRangeResultValue>(
       .finally(() => {
         pendingRef.current = false;
       });
-  }, [endInMs, span, active, apiPath, namespace, queryLang, step, responsePredicate]);
+  }, [endInMs, span, active, apiPath, namespace, queryLang, step, responsePredicate, platform]);
 
   // The query is pending if fetchData changes because it will trigger useFetchState to re-fetch
   React.useMemo(() => {

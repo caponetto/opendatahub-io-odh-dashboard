@@ -47,7 +47,8 @@ export const proxyCall = (
     const { method, requestData, overrideContentType, url } = data;
 
     getDirectCallOptions(fastify, request, url)
-      .then((requestOptions) => {
+      .then(({ headers: optHeaders, ...tlsOptions }) => {
+        const requestHeaders = { ...optHeaders };
         if (requestData) {
           let contentType: string;
           if (overrideContentType) {
@@ -58,11 +59,8 @@ export const proxyCall = (
             };charset=UTF-8`;
           }
 
-          requestOptions.headers = {
-            ...requestOptions.headers,
-            'Content-Type': contentType,
-            'Content-Length': String(Buffer.byteLength(requestData, 'utf8')),
-          };
+          requestHeaders['Content-Type'] = contentType;
+          requestHeaders['Content-Length'] = String(Buffer.byteLength(requestData, 'utf8'));
         }
 
         fastify.log.info(`Making ${method} proxy request to ${url}`);
@@ -81,7 +79,7 @@ export const proxyCall = (
         };
 
         const httpsRequest = web(url)
-          .request(url, { method, ...requestOptions }, (res) => {
+          .request(url, { method, headers: requestHeaders, ...tlsOptions }, (res) => {
             const status: ProxyCallStatus = {
               message: res.statusMessage,
               code: res.statusCode,

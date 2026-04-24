@@ -32,6 +32,7 @@ const appReducer = (state: AppState = initialState, action: GetUserAction): AppS
         serverURL: action.payload.serverURL,
         isAdmin: action.payload.isAdmin,
         isAllowed: action.payload.isAllowed,
+        platform: action.payload.platform,
         dashboardNamespace: action.payload.dashboardNamespace,
         isImpersonating: action.payload.isImpersonating,
       };

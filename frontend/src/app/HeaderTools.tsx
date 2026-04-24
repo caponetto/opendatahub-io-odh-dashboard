@@ -18,7 +18,7 @@ import { QuestionCircleIcon, MoonIcon, SunIcon } from '@patternfly/react-icons';
 import { COMMUNITY_LINK, DOC_LINK, SUPPORT_LINK, DEV_MODE, EXT_CLUSTER } from '#~/utilities/const';
 import useNotification from '#~/utilities/useNotification';
 import { updateImpersonateSettings } from '#~/services/impersonateService';
-import { AppNotification } from '#~/redux/types';
+import { AppNotification, PlatformType } from '#~/redux/types';
 import { useAppSelector } from '#~/redux/hooks';
 import AboutDialog from '#~/app/AboutDialog';
 import AppLauncher from './AppLauncher';
@@ -40,6 +40,7 @@ const HeaderTools: React.FC<Props> = ({ onNotificationsClick, ...devFeatureFlags
   const notifications: AppNotification[] = useAppSelector((state) => state.notifications);
   const userName: string = useAppSelector((state) => state.user || '');
   const isImpersonating: boolean = useAppSelector((state) => state.isImpersonating || false);
+  const platform = useAppSelector((state) => state.platform);
   const { dashboardConfig } = useAppContext();
   const { theme, setAllThemes } = useThemeContext();
   const notification = useNotification();
@@ -69,7 +70,7 @@ const HeaderTools: React.FC<Props> = ({ onNotificationsClick, ...devFeatureFlags
     </DropdownItem>,
   ];
 
-  if (!EXT_CLUSTER && DEV_MODE && !isImpersonating) {
+  if (!EXT_CLUSTER && DEV_MODE && !isImpersonating && platform === PlatformType.OpenShift) {
     userMenuItems.unshift(
       <DropdownItem
         key="impersonate"

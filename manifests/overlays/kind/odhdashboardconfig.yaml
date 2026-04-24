@@ -1,0 +1,17 @@
+apiVersion: opendatahub.io/v1alpha
+kind: OdhDashboardConfig
+metadata:
+  name: odh-dashboard-config
+spec:
+  dashboardConfig:
+    disableSupport: true
+    disableTracking: true
+    disableISVBadges: true
+    disablePerformanceMetrics: true
+    disableTrustyBiasMetrics: true
+    disableKServeMetrics: true
+    observabilityDashboard: true
+    modelAsService: true
+  groupsConfig:
+    adminGroups: system:cluster-admins
+    allowedGroups: system:authenticated

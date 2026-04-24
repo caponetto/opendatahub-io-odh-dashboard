@@ -165,10 +165,17 @@ export default async (fastify: KubeFastifyInstance): Promise<void> => {
         );
 
         const accessToken = getAccessToken(requestOptions);
-        const subprotocols = [
-          `base64url.bearer.authorization.k8s.io.${base64(accessToken)}`,
-          'base64.binary.k8s.io',
-        ];
+        const subprotocols: string[] = ['base64.binary.k8s.io'];
+        if (accessToken) {
+          subprotocols.unshift(`base64url.bearer.authorization.k8s.io.${base64(accessToken)}`);
+        }
+
+        const {
+          ca: tlsCa,
+          cert: tlsCert,
+          key: tlsKey,
+          rejectUnauthorized: tlsRejectUnauthorized,
+        } = requestOptions as Record<string, unknown>;
 
         const serverAddress = fastify.server.address();
         const target = new WebSocket(url, subprotocols, {
@@ -178,7 +185,12 @@ export default async (fastify: KubeFastifyInstance): Promise<void> => {
               req.headers.origin ||
               `http://${typeof serverAddress === 'string' ? serverAddress : serverAddress.address}`,
           },
-          ca: https.globalAgent.options.ca as WebSocket.CertMeta,
+          ca: (tlsCa ?? https.globalAgent.options.ca) as WebSocket.CertMeta,
+          ...(tlsCert != null && { cert: tlsCert as WebSocket.CertMeta }),
+          ...(tlsKey != null && { key: tlsKey as WebSocket.CertMeta }),
+          ...(tlsRejectUnauthorized != null && {
+            rejectUnauthorized: tlsRejectUnauthorized as boolean,
+          }),
         });
 
         // Track connection with socket references for proper cleanup

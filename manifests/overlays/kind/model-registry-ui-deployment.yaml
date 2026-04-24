@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: model-registry-ui
+  namespace: odh-dashboard
+  labels:
+    app: model-registry-ui
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: model-registry-ui
+  template:
+    metadata:
+      labels:
+        app: model-registry-ui
+    spec:
+      serviceAccount: odh-dashboard
+      containers:
+        - name: model-registry-ui
+          image: model-registry-ui:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8043
+              name: http
+          args:
+            - '--deployment-mode=federated'
+            - '--port=8043'
+            - '--mock-mr-client=true'
+            - '--mock-mr-catalog-client=true'
+          readinessProbe:
+            httpGet:
+              path: /healthcheck
+              port: 8043
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /healthcheck
+              port: 8043
+            initialDelaySeconds: 15
+            periodSeconds: 30
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: 300m
+              memory: 512Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: model-registry-ui
+  namespace: odh-dashboard
+  labels:
+    app: model-registry-ui
+spec:
+  selector:
+    app: model-registry-ui
+  ports:
+    - name: http
+      port: 8043
+      targetPort: 8043
+      protocol: TCP
+  type: ClusterIP

@@ -1,0 +1,99 @@
+{
+  "runs": [
+    {
+      "run_id": "run-001-1111-2222-3333-444455550001",
+      "display_name": "Iris Training - RandomForest",
+      "description": "Training run using RandomForest classifier with default parameters.",
+      "experiment_id": "exp-002-aaaa-bbbb-cccc-ddddeeee0002",
+      "created_at": "2025-04-20T16:00:00Z",
+      "scheduled_at": "2025-04-20T16:00:00Z",
+      "finished_at": "2025-04-20T16:12:34Z",
+      "storage_state": "AVAILABLE",
+      "pipeline_version_reference": {
+        "pipeline_id": "7a9b1c2d-3e4f-5a6b-8c9d-0e1f2a3b4c5d",
+        "pipeline_version_id": "a1b2c3d4-e5f6-7890-abcd-111111111111"
+      },
+      "runtime_config": {
+        "parameters": {
+          "n_estimators": 100,
+          "max_depth": 10
+        }
+      },
+      "service_account": "pipeline-runner-dspa",
+      "state": "SUCCEEDED",
+      "run_details": {
+        "task_details": []
+      },
+      "state_history": [
+        {"state": "PENDING", "update_time": "2025-04-20T16:00:00Z"},
+        {"state": "RUNNING", "update_time": "2025-04-20T16:00:05Z"},
+        {"state": "SUCCEEDED", "update_time": "2025-04-20T16:12:34Z"}
+      ]
+    },
+    {
+      "run_id": "run-002-1111-2222-3333-444455550002",
+      "display_name": "Iris Training - v2 with Tuning",
+      "description": "Training run using pipeline v2.0 with hyperparameter tuning.",
+      "experiment_id": "exp-002-aaaa-bbbb-cccc-ddddeeee0002",
+      "created_at": "2025-04-22T08:45:00Z",
+      "scheduled_at": "2025-04-22T08:45:00Z",
+      "finished_at": "",
+      "storage_state": "AVAILABLE",
+      "pipeline_version_reference": {
+        "pipeline_id": "7a9b1c2d-3e4f-5a6b-8c9d-0e1f2a3b4c5d",
+        "pipeline_version_id": "b2c3d4e5-f6a7-8901-bcde-222222222222"
+      },
+      "runtime_config": {
+        "parameters": {
+          "n_estimators": 200,
+          "max_depth": 15,
+          "cv_folds": 5
+        }
+      },
+      "service_account": "pipeline-runner-dspa",
+      "state": "RUNNING",
+      "run_details": {
+        "task_details": []
+      },
+      "state_history": [
+        {"state": "PENDING", "update_time": "2025-04-22T08:45:00Z"},
+        {"state": "RUNNING", "update_time": "2025-04-22T08:45:10Z"}
+      ]
+    },
+    {
+      "run_id": "run-003-1111-2222-3333-444455550003",
+      "display_name": "Data Preprocessing - CSV Ingest",
+      "description": "Preprocessing run that failed due to malformed input CSV.",
+      "experiment_id": "exp-001-aaaa-bbbb-cccc-ddddeeee0001",
+      "created_at": "2025-04-18T13:20:00Z",
+      "scheduled_at": "2025-04-18T13:20:00Z",
+      "finished_at": "2025-04-18T13:22:15Z",
+      "storage_state": "AVAILABLE",
+      "pipeline_version_reference": {
+        "pipeline_id": "1f2e3d4c-5b6a-7890-abcd-ef1234567890",
+        "pipeline_version_id": "c3d4e5f6-a7b8-9012-cdef-333333333333"
+      },
+      "runtime_config": {
+        "parameters": {
+          "input_path": "s3://mock-bucket/raw-data/input.csv"
+        }
+      },
+      "service_account": "pipeline-runner-dspa",
+      "state": "FAILED",
+      "error": {
+        "code": 2,
+        "message": "Failed to parse input CSV: unexpected delimiter at row 42",
+        "details": []
+      },
+      "run_details": {
+        "task_details": []
+      },
+      "state_history": [
+        {"state": "PENDING", "update_time": "2025-04-18T13:20:00Z"},
+        {"state": "RUNNING", "update_time": "2025-04-18T13:20:08Z"},
+        {"state": "FAILED", "update_time": "2025-04-18T13:22:15Z"}
+      ]
+    }
+  ],
+  "total_size": 3
+}

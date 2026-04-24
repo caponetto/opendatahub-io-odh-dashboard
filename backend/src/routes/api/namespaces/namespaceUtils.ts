@@ -1,6 +1,12 @@
 import { PatchUtils, V1SelfSubjectAccessReview } from '@kubernetes/client-node';
 import { NamespaceApplicationCase } from './const';
-import { K8sStatus, KnownLabels, KubeFastifyInstance, OauthFastifyRequest } from '../../../types';
+import {
+  K8sStatus,
+  KnownLabels,
+  KubeFastifyInstance,
+  OauthFastifyRequest,
+  PlatformType,
+} from '../../../types';
 import { createCustomError } from '../../../utils/requestUtils';
 import { isK8sStatus } from '../../../utils/pass-through';
 import { getDashboardConfig } from '../../../utils/resourceUtils';
@@ -12,8 +18,8 @@ const checkAdminNamespacePermission = (
   name: string,
 ): Promise<V1SelfSubjectAccessReview | K8sStatus> =>
   createSelfSubjectAccessReview(fastify, request, {
-    group: 'project.openshift.io',
-    resource: 'projects',
+    group: fastify.kube.platform === PlatformType.OpenShift ? 'project.openshift.io' : '',
+    resource: fastify.kube.platform === PlatformType.OpenShift ? 'projects' : 'namespaces',
     subresource: '',
     verb: 'update',
     name,

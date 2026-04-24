@@ -11,6 +11,7 @@ import {
   NotebookData,
   NotebookState,
   OauthFastifyRequest,
+  PlatformType,
 } from '../types';
 
 const testAdmin = async (
@@ -48,14 +49,16 @@ const requestSecurityGuardNotebook = async (
   // Check first admin to not give away if a user does not exist to regular users
   await testAdmin(fastify, request, true);
 
-  try {
-    await getOpenshiftUser(fastify, username);
-  } catch (e) {
-    throw createCustomError(
-      'Wrong username',
-      'Request invalid against a username that does not exist.',
-      403,
-    );
+  if (fastify.kube.platform === PlatformType.OpenShift) {
+    try {
+      await getOpenshiftUser(fastify, username);
+    } catch (e) {
+      throw createCustomError(
+        'Wrong username',
+        'Request invalid against a username that does not exist.',
+        403,
+      );
+    }
   }
 };
 

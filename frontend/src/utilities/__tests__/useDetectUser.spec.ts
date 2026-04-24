@@ -2,7 +2,7 @@ import { act } from 'react';
 import { waitFor, renderHook } from '@testing-library/react';
 import { testHook } from '@odh-dashboard/jest-config/hooks';
 import axios from '#~/utilities/axios';
-import { StatusResponse } from '#~/redux/types';
+import { PlatformType, StatusResponse } from '#~/redux/types';
 import { useAppDispatch } from '#~/redux/hooks';
 import useDetectUser from '#~/utilities/useDetectUser';
 import { getUserFulfilled, getUserPending, getUserRejected } from '#~/redux/actions/actions';
@@ -34,6 +34,7 @@ describe('useDetectUser', () => {
         clusterBranding: 'My Cluster',
         isAdmin: true,
         isAllowed: true,
+        platform: PlatformType.OpenShift,
         serverURL: 'https://api.example.com',
         isImpersonating: false,
       },

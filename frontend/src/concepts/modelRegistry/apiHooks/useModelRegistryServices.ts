@@ -8,7 +8,7 @@ import { AccessReviewResourceAttributes, ServiceKind } from '#~/k8sTypes';
 import { ServiceModel, useAccessReview, useRulesReview, listServices } from '#~/api';
 
 const accessReviewResource: AccessReviewResourceAttributes = {
-  group: 'user.openshift.io',
+  group: '',
   resource: 'services',
   verb: 'list',
 };

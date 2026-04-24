@@ -1,11 +1,30 @@
 import { IncomingMessage } from 'http';
-import { KubeFastifyInstance, RouteKind } from '../types';
+import { KubeFastifyInstance, PlatformType, RouteKind } from '../types';
 
 type RoutesResponse = {
   body: {
     items: RouteKind[];
   };
   response: IncomingMessage;
+};
+
+type IngressRule = {
+  host?: string;
+  http?: {
+    paths?: Array<{
+      path?: string;
+      backend?: {
+        service?: { name?: string; port?: { number?: number } };
+      };
+    }>;
+  };
+};
+
+type IngressKind = {
+  spec?: {
+    tls?: Array<{ hosts?: string[] }>;
+    rules?: IngressRule[];
+  };
 };
 
 export const getRouteForClusterId = (fastify: KubeFastifyInstance, route: string): string =>
@@ -22,26 +41,68 @@ const getURLForRoute = (route: RouteKind, routeSuffix: string): string => {
   return `${protocol}://${host}${suffix}`;
 };
 
+const getURLForIngress = (ingress: IngressKind, routeSuffix: string): string => {
+  const host = ingress?.spec?.rules?.[0]?.host;
+  if (!host) {
+    return null;
+  }
+  const hasTLS = ingress.spec?.tls?.some((tls) => tls.hosts?.includes(host));
+  const protocol = hasTLS ? 'https' : 'http';
+  const suffix = routeSuffix ? `/${routeSuffix}` : '';
+  return `${protocol}://${host}${suffix}`;
+};
+
+const getLinkViaRoute = async (
+  fastify: KubeFastifyInstance,
+  routeName: string,
+  namespace: string,
+  routeSuffix?: string,
+): Promise<string> => {
+  try {
+    const route = await fastify.kube.customObjectsApi
+      .getNamespacedCustomObject('route.openshift.io', 'v1', namespace, 'routes', routeName)
+      .then((res) => res.body as RouteKind);
+    return getURLForRoute(route, routeSuffix);
+  } catch {
+    return null;
+  }
+};
+
+const getLinkViaIngress = async (
+  fastify: KubeFastifyInstance,
+  ingressName: string,
+  namespace: string,
+  routeSuffix?: string,
+): Promise<string> => {
+  try {
+    const ingress = await fastify.kube.customObjectsApi
+      .getNamespacedCustomObject('networking.k8s.io', 'v1', namespace, 'ingresses', ingressName)
+      .then((res) => res.body as IngressKind);
+    return getURLForIngress(ingress, routeSuffix);
+  } catch {
+    return null;
+  }
+};
+
 export const getLink = async (
   fastify: KubeFastifyInstance,
   routeName: string,
   namespace?: string,
   routeSuffix?: string,
 ): Promise<string> => {
-  const customObjectsApi = fastify.kube.customObjectsApi;
   const routeNamespace = namespace || fastify.kube.namespace;
   if (!routeName) {
     return null;
   }
-  try {
-    const route = await customObjectsApi
-      .getNamespacedCustomObject('route.openshift.io', 'v1', routeNamespace, 'routes', routeName)
-      .then((res) => res.body as RouteKind);
-    return getURLForRoute(route, routeSuffix);
-  } catch (e) {
-    fastify.log.info(`failed to get route ${routeName} in namespace ${namespace}`);
-    return null;
+
+  if (fastify.kube.platform === PlatformType.OpenShift) {
+    const url = await getLinkViaRoute(fastify, routeName, routeNamespace, routeSuffix);
+    if (url) {
+      return url;
+    }
   }
+
+  return getLinkViaIngress(fastify, routeName, routeNamespace, routeSuffix);
 };
 
 export const getServiceLink = async (
@@ -62,17 +123,34 @@ export const getServiceLink = async (
     return null;
   }
 
-  const customObjectsApi = fastify.kube.customObjectsApi;
   const { namespace } = service.metadata;
-  try {
-    const routes = await customObjectsApi
-      .listNamespacedCustomObject('route.openshift.io', 'v1', namespace, 'routes')
-      .then((res: RoutesResponse) => res?.body?.items);
-    return getURLForRoute(routes?.[0], routeSuffix);
-  } catch (e) {
-    fastify.log.info(`failed to get route in namespace ${namespace}`);
-    return null;
+
+  if (fastify.kube.platform === PlatformType.OpenShift) {
+    try {
+      const routes = await fastify.kube.customObjectsApi
+        .listNamespacedCustomObject('route.openshift.io', 'v1', namespace, 'routes')
+        .then((res: RoutesResponse) => res?.body?.items);
+      const url = getURLForRoute(routes?.[0], routeSuffix);
+      if (url) {
+        return url;
+      }
+    } catch {
+      fastify.log.info(`failed to get route in namespace ${namespace}`);
+    }
   }
+
+  try {
+    const ingresses = await fastify.kube.customObjectsApi
+      .listNamespacedCustomObject('networking.k8s.io', 'v1', namespace, 'ingresses')
+      .then((res) => (res.body as { items: IngressKind[] }).items);
+    if (ingresses?.length) {
+      return getURLForIngress(ingresses[0], routeSuffix);
+    }
+  } catch {
+    fastify.log.info(`failed to get ingress in namespace ${namespace}`);
+  }
+
+  return null;
 };
 
 export const convertLabelsToString = (labels: { [key: string]: string }): string => {

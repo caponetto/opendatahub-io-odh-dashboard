@@ -1,15 +1,23 @@
 import * as React from 'react';
 import { getNotebookBuildConfigs, getBuildsForBuildConfig } from '#~/api';
 import useNotification from '#~/utilities/useNotification';
+import { useAppSelector } from '#~/redux/hooks';
+import { PlatformType } from '#~/redux/types';
 import { BuildConfigKind, BuildPhase } from '#~/k8sTypes';
 import { BuildStatus } from './types';
 import { compareBuilds } from './spawnerUtils';
 
 const useBuildStatuses = (namespace?: string): BuildStatus[] => {
   const notification = useNotification();
+  const platform = useAppSelector((state) => state.platform);
   const [buildStatuses, setBuildStatuses] = React.useState<BuildStatus[]>([]);
 
   React.useEffect(() => {
+    if (platform === PlatformType.Kubernetes) {
+      setBuildStatuses([]);
+      return;
+    }
+
     const getBuildStatus = async (
       ns: string,
       buildConfig: BuildConfigKind,
@@ -35,7 +43,10 @@ const useBuildStatuses = (namespace?: string): BuildStatus[] => {
           };
         })
         .catch((e) => {
-          notification.error(`failed to get builds of ${buildNotebookName}`, e);
+          notification.error(
+            `failed to get builds of ${buildNotebookName}`,
+            e instanceof Error ? e.message : String(e),
+          );
           return {
             name: buildNotebookName,
             status: BuildPhase.PENDING,
@@ -51,10 +62,13 @@ const useBuildStatuses = (namespace?: string): BuildStatus[] => {
         })
         .catch((e) => {
           setBuildStatuses([]);
-          notification.error('Error getting build configs', e);
+          notification.error(
+            'Error getting build configs',
+            e instanceof Error ? e.message : String(e),
+          );
         });
     }
-  }, [namespace, notification]);
+  }, [namespace, notification, platform]);
 
   return buildStatuses;
 };

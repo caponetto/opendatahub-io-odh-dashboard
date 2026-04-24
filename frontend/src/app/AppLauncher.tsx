@@ -17,6 +17,8 @@ import './AppLauncher.scss';
 import { SupportedArea } from '#~/concepts/areas/types';
 import useIsAreaAvailable from '#~/concepts/areas/useIsAreaAvailable';
 import { fireLinkTrackingEvent } from '#~/concepts/analyticsTracking/segmentIOUtils';
+import { useAppSelector } from '#~/redux/hooks';
+import { PlatformType } from '#~/redux/types';
 import { useAppContext } from './AppContext';
 
 const appConsoleLinkNames = ['rhodslink', 'odhlink'];
@@ -71,6 +73,8 @@ const AppLauncher: React.FC = () => {
   const { consoleLinks } = useWatchConsoleLinks();
   const { dashboardConfig } = useAppContext();
   const isMLflowEnabled = useIsAreaAvailable(SupportedArea.MLFLOW).status;
+  const platform = useAppSelector((state) => state.platform);
+  const isOpenShift = platform === PlatformType.OpenShift;
 
   const { disableClusterManager } = dashboardConfig.spec.dashboardConfig;
   const applicationSections = React.useMemo<Section[]>(() => {
@@ -84,6 +88,9 @@ const AppLauncher: React.FC = () => {
       .toSorted((a, b) => a.spec.text.localeCompare(b.spec.text));
 
     const getODHApplications = (): Section[] => {
+      if (!isOpenShift) {
+        return [];
+      }
       const osConsoleAction = getOpenShiftConsoleAction(serverURL);
       const ocmAction = disableClusterManager ? null : getOCMAction(clusterID, clusterBranding);
 
@@ -123,7 +130,15 @@ const AppLauncher: React.FC = () => {
     }, getODHApplications());
 
     return sections.toSorted((a, b) => sectionSortValue(a) - sectionSortValue(b));
-  }, [clusterBranding, clusterID, consoleLinks, disableClusterManager, serverURL, isMLflowEnabled]);
+  }, [
+    clusterBranding,
+    clusterID,
+    consoleLinks,
+    disableClusterManager,
+    isOpenShift,
+    serverURL,
+    isMLflowEnabled,
+  ]);
 
   const onSelect = () => {
     setIsOpen(false);

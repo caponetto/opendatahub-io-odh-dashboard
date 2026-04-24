@@ -84,6 +84,18 @@ undeploy:
 
 ##################################
 
+.PHONY: deploy-kind
+deploy-kind:
+	./install/deploy-kind.sh
+
+##################################
+
+.PHONY: undeploy-kind
+undeploy-kind:
+	./install/undeploy-kind.sh
+
+##################################
+
 .PHONY: port-forward
 port-forward:
 ifdef NAMESPACE

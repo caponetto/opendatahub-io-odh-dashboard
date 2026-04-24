@@ -22,17 +22,13 @@ import useIsAreaAvailable from '#~/concepts/areas/useIsAreaAvailable';
 import { ProjectsContext } from '#~/concepts/projects/ProjectsContext';
 import EvenlySpacedGallery from '#~/components/EvenlySpacedGallery';
 import { isAiProject } from '#~/concepts/projects/utils';
+import { useAppSelector } from '#~/redux/hooks';
+import { PlatformType } from '#~/redux/types';
 import ProjectsSectionHeader from './ProjectsSectionHeader';
 import EmptyProjectsCard from './EmptyProjectsCard';
 import ProjectsLoading from './ProjectsLoading';
 import ProjectCard from './ProjectCard';
 import CreateProjectCard from './CreateProjectCard';
-
-const accessReviewResource: AccessReviewResourceAttributes = {
-  group: 'project.openshift.io',
-  resource: 'projectrequests',
-  verb: 'create',
-};
 
 const MAX_SHOWN_PROJECTS = 5;
 const MIN_CARD_WIDTH = 225;
@@ -42,6 +38,13 @@ const ProjectsSection: React.FC = () => {
 
   const { status: projectsAvailable } = useIsAreaAvailable(SupportedArea.DS_PROJECTS_VIEW);
   const { projects: allProjects, loaded, loadError } = React.useContext(ProjectsContext);
+  const platform = useAppSelector((state) => state.platform);
+  const isOpenShift = platform === PlatformType.OpenShift;
+  const accessReviewResource: AccessReviewResourceAttributes = {
+    group: isOpenShift ? 'project.openshift.io' : '',
+    resource: isOpenShift ? 'projectrequests' : 'namespaces',
+    verb: 'create',
+  };
   const [allowCreate, rbacLoaded] = useAccessReview(accessReviewResource);
   const [createProjectOpen, setCreateProjectOpen] = React.useState<boolean>(false);
   const [visibleCardCount, setVisibleCardCount] = React.useState<number>(5);

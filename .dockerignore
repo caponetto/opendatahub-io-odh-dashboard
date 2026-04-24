@@ -1,8 +1,4 @@
-frontend/node_modules
 frontend/public
-backend/node_modules
-backend/dist
-node_modules/
 
 .github/
 .vscode/
@@ -14,12 +10,32 @@ scripts/
 !scripts/prepare-production-manifest.js
 manifests/
 
-# Local .env images
 **/.env.development
 **/.env.test
 
 **/.git
 **/.gitignore
+
+# Exclude all heavy subdirectories inside workspace packages by default.
+# The core dashboard Dockerfile only needs package.json files for workspace resolution
+# (plus packages/model-registry/upstream/ for the frontend build).
+packages/*/frontend/
+packages/*/bff/
+packages/*/upstream/
+packages/*/node_modules/
+packages/*/dist/
+packages/*/contract-tests/
+
+# Re-include what Dockerfile.workspace plugin builds need.
+# model-registry (core dashboard build + plugin build)
+!packages/model-registry/upstream/
+# maas plugin build
+!packages/maas/frontend/
+!packages/maas/bff/
+# Workspace deps copied by maas/Dockerfile.workspace
+!packages/llmd-serving/
+!packages/model-serving/
+!packages/kserve/
 
 .editorconfig
 .prettierrc

@@ -5,6 +5,7 @@ import * as jsYaml from 'js-yaml';
 import * as k8s from '@kubernetes/client-node';
 import { errorHandler, isKubeFastifyInstance } from '../utils';
 import { DEV_MODE } from '../utils/constants';
+import { PlatformType } from '../types';
 import { cleanupKserveRoleBindings, initializeWatchedResources } from '../utils/resourceUtils';
 
 const CONSOLE_CONFIG_YAML_FIELD = 'console-config.yaml';
@@ -19,6 +20,21 @@ const batchV1Api = kc.makeApiClient(k8s.BatchV1Api);
 const batchV1beta1Api = kc.makeApiClient(k8s.BatchV1beta1Api);
 const currentUser = kc.getCurrentUser();
 const rbac = kc.makeApiClient(k8s.RbacAuthorizationV1Api);
+
+const detectOpenShiftPlatform = async (fastify: FastifyInstance): Promise<boolean> => {
+  try {
+    await customObjectsApi.getClusterCustomObject(
+      'config.openshift.io',
+      'v1',
+      'clusterversions',
+      'version',
+    );
+    return true;
+  } catch {
+    fastify.log.info('OpenShift ClusterVersion API not found -- running on vanilla Kubernetes');
+    return false;
+  }
+};
 
 export default fp(async (fastify: FastifyInstance) => {
   let namespace;
@@ -36,30 +52,39 @@ export default fp(async (fastify: FastifyInstance) => {
     fastify.log.error(e, 'Failed to retrieve current token');
   }
 
+  const platform = (await detectOpenShiftPlatform(fastify))
+    ? PlatformType.OpenShift
+    : PlatformType.Kubernetes;
+
   let clusterID;
-  try {
-    const clusterVersion = await customObjectsApi.getClusterCustomObject(
-      'config.openshift.io',
-      'v1',
-      'clusterversions',
-      'version',
-    );
-    clusterID = (clusterVersion.body as { spec: { clusterID: string } }).spec.clusterID;
-  } catch (e) {
-    fastify.log.error(e, `Failed to retrieve cluster id: ${errorHandler(e)}.`);
-  }
-  let clusterBranding = 'okd';
-  try {
-    const consoleConfig = await coreV1Api
-      .readNamespacedConfigMap('console-config', 'openshift-console')
-      .then((result) => result.body);
-    if (consoleConfig.data?.[CONSOLE_CONFIG_YAML_FIELD]) {
-      const consoleConfigData = jsYaml.load(consoleConfig.data[CONSOLE_CONFIG_YAML_FIELD]) as any;
-      clusterBranding = consoleConfigData.customization?.branding || 'okd';
-      fastify.log.info(`Cluster Branding: ${clusterBranding}`);
+  if (platform === PlatformType.OpenShift) {
+    try {
+      const clusterVersion = await customObjectsApi.getClusterCustomObject(
+        'config.openshift.io',
+        'v1',
+        'clusterversions',
+        'version',
+      );
+      clusterID = (clusterVersion.body as { spec: { clusterID: string } }).spec.clusterID;
+    } catch (e) {
+      fastify.log.error(e, `Failed to retrieve cluster id: ${errorHandler(e)}.`);
     }
-  } catch (e) {
-    fastify.log.error(`Failed to retrieve console cluster info: ${errorHandler(e)}`);
+  }
+
+  let clusterBranding = 'okd';
+  if (platform === PlatformType.OpenShift) {
+    try {
+      const consoleConfig = await coreV1Api
+        .readNamespacedConfigMap('console-config', 'openshift-console')
+        .then((result) => result.body);
+      if (consoleConfig.data?.[CONSOLE_CONFIG_YAML_FIELD]) {
+        const consoleConfigData = jsYaml.load(consoleConfig.data[CONSOLE_CONFIG_YAML_FIELD]) as any;
+        clusterBranding = consoleConfigData.customization?.branding || 'okd';
+        fastify.log.info(`Cluster Branding: ${clusterBranding}`);
+      }
+    } catch (e) {
+      fastify.log.error(`Failed to retrieve console cluster info: ${errorHandler(e)}`);
+    }
   }
 
   if (DEV_MODE && !namespace) {
@@ -78,6 +103,7 @@ export default fp(async (fastify: FastifyInstance) => {
     currentToken,
     clusterID,
     clusterBranding,
+    platform,
     rbac,
   });
 

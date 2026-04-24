@@ -2,6 +2,8 @@ import * as React from 'react';
 import * as _ from 'lodash-es';
 import { ConsoleLinkKind } from '#~/k8sTypes';
 import { fetchConsoleLinks } from '#~/services/consoleLinksService';
+import { useAppSelector } from '#~/redux/hooks';
+import { PlatformType } from '#~/redux/types';
 import { POLL_INTERVAL } from './const';
 
 export type ConsoleLinkResults = {
@@ -11,6 +13,7 @@ export type ConsoleLinkResults = {
 };
 
 export const useWatchConsoleLinks = (): ConsoleLinkResults => {
+  const platform = useAppSelector((state) => state.platform);
   const [results, setResults] = React.useState<ConsoleLinkResults>({
     consoleLinks: [],
     loaded: false,
@@ -21,6 +24,10 @@ export const useWatchConsoleLinks = (): ConsoleLinkResults => {
   });
 
   React.useEffect(() => {
+    if (platform !== PlatformType.OpenShift) {
+      setResults({ consoleLinks: [], loaded: true });
+      return;
+    }
     let watchHandle: ReturnType<typeof setTimeout>;
     const watchConsoleLinks = () => {
       fetchConsoleLinks()
@@ -44,7 +51,7 @@ export const useWatchConsoleLinks = (): ConsoleLinkResults => {
     return () => {
       clearTimeout(watchHandle);
     };
-  }, []);
+  }, [platform]);
 
   return results;
 };

@@ -1,4 +1,9 @@
-import { KubeFastifyInstance, ModelRegistryKind, RecursivePartial } from '../../../types';
+import {
+  KubeFastifyInstance,
+  ModelRegistryKind,
+  PlatformType,
+  RecursivePartial,
+} from '../../../types';
 import { PatchUtils, V1ConfigMap, V1Secret, V1Status } from '@kubernetes/client-node';
 import { getClusterStatus } from '../../../utils/resourceUtils';
 
@@ -8,8 +13,11 @@ const MODEL_REGISTRY_PLURAL = 'modelregistries';
 
 export const getModelRegistryNamespace = (fastify: KubeFastifyInstance): string => {
   const clusterStatus = getClusterStatus(fastify);
-  const registriesNamespace = clusterStatus.components?.modelregistry?.registriesNamespace;
+  const registriesNamespace = clusterStatus?.components?.modelregistry?.registriesNamespace;
   if (!registriesNamespace) {
+    if (fastify.kube.platform !== PlatformType.OpenShift) {
+      return fastify.kube.namespace;
+    }
     throw new Error('Model registry namespace not found in DSC status');
   }
   return registriesNamespace;

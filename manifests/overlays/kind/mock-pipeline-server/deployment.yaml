@@ -1,0 +1,754 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mock-pipeline-nginx-conf
+  namespace: sample-project
+data:
+  nginx.conf: |
+    worker_processes 1;
+    error_log /var/log/nginx/error.log warn;
+    pid       /tmp/nginx.pid;
+
+    events {
+        worker_connections 64;
+    }
+
+    http {
+        include       /etc/nginx/mime.types;
+        default_type  application/json;
+        access_log    /var/log/nginx/access.log;
+
+        server {
+            listen 8080;
+            server_name _;
+
+            root /usr/share/nginx/html;
+
+            # Health check
+            location = /healthz {
+                return 200 '{"status":"ok"}';
+            }
+
+            # --- Pipelines ---
+            location = /apis/v2beta1/pipelines {
+                try_files /responses/pipelines.json =404;
+            }
+            location = /apis/v2beta1/pipelines/7a9b1c2d-3e4f-5a6b-8c9d-0e1f2a3b4c5d {
+                try_files /responses/pipeline-iris.json =404;
+            }
+            location = /apis/v2beta1/pipelines/7a9b1c2d-3e4f-5a6b-8c9d-0e1f2a3b4c5d/versions {
+                try_files /responses/pipeline-iris-versions.json =404;
+            }
+            location = /apis/v2beta1/pipelines/1f2e3d4c-5b6a-7890-abcd-ef1234567890 {
+                try_files /responses/pipeline-preprocessing.json =404;
+            }
+            location = /apis/v2beta1/pipelines/1f2e3d4c-5b6a-7890-abcd-ef1234567890/versions {
+                try_files /responses/pipeline-preprocessing-versions.json =404;
+            }
+
+            # --- Experiments ---
+            location = /apis/v2beta1/experiments {
+                try_files /responses/experiments.json =404;
+            }
+
+            # --- Pipeline version by ID ---
+            location ~ ^/apis/v2beta1/pipelines/7a9b1c2d-3e4f-5a6b-8c9d-0e1f2a3b4c5d/versions/a1b2c3d4-e5f6-7890-abcd-111111111111$ {
+                try_files /responses/version-iris-v1.json =404;
+            }
+            location ~ ^/apis/v2beta1/pipelines/7a9b1c2d-3e4f-5a6b-8c9d-0e1f2a3b4c5d/versions/b2c3d4e5-f6a7-8901-bcde-222222222222$ {
+                try_files /responses/version-iris-v2.json =404;
+            }
+            location ~ ^/apis/v2beta1/pipelines/1f2e3d4c-5b6a-7890-abcd-ef1234567890/versions/c3d4e5f6-a7b8-9012-cdef-333333333333$ {
+                try_files /responses/version-preprocessing-v1.json =404;
+            }
+
+            # --- Runs ---
+            location = /apis/v2beta1/runs {
+                try_files /responses/runs.json =404;
+            }
+            location = /apis/v2beta1/runs/run-001-1111-2222-3333-444455550001 {
+                try_files /responses/run-001.json =404;
+            }
+            location = /apis/v2beta1/runs/run-002-1111-2222-3333-444455550002 {
+                try_files /responses/run-002.json =404;
+            }
+            location = /apis/v2beta1/runs/run-003-1111-2222-3333-444455550003 {
+                try_files /responses/run-003.json =404;
+            }
+
+            # --- Recurring Runs ---
+            location = /apis/v2beta1/recurringRuns {
+                try_files /responses/recurring-runs.json =404;
+            }
+            location = /apis/v2beta1/recurring_runs {
+                try_files /responses/recurring-runs.json =404;
+            }
+
+            # --- Executions ---
+            location = /apis/v2beta1/executions {
+                try_files /responses/executions.json =404;
+            }
+
+            # --- Artifacts ---
+            location = /apis/v2beta1/artifacts {
+                try_files /responses/artifacts.json =404;
+            }
+
+            # Catch-all: return empty JSON
+            location / {
+                return 200 '{}';
+            }
+        }
+    }
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mock-pipeline-responses
+  namespace: sample-project
+data:
+  pipelines.json: |
+    {
+      "pipelines": [
+        {
+          "pipeline_id": "7a9b1c2d-3e4f-5a6b-8c9d-0e1f2a3b4c5d",
+          "display_name": "Iris Training Pipeline",
+          "description": "A sample pipeline that trains a scikit-learn model on the Iris dataset, evaluates accuracy, and outputs the trained model artifact.",
+          "created_at": "2025-04-10T14:30:00Z",
+          "name": "namespace/sample-project/iris-training-pipeline"
+        },
+        {
+          "pipeline_id": "1f2e3d4c-5b6a-7890-abcd-ef1234567890",
+          "display_name": "Data Preprocessing Pipeline",
+          "description": "Ingests raw CSV data, performs cleaning, feature engineering, and outputs a transformed dataset ready for model training.",
+          "created_at": "2025-04-15T09:00:00Z",
+          "name": "namespace/sample-project/data-preprocessing-pipeline"
+        }
+      ],
+      "total_size": 2
+    }
+  pipeline-iris.json: |
+    {
+      "pipeline_id": "7a9b1c2d-3e4f-5a6b-8c9d-0e1f2a3b4c5d",
+      "display_name": "Iris Training Pipeline",
+      "description": "A sample pipeline that trains a scikit-learn model on the Iris dataset, evaluates accuracy, and outputs the trained model artifact.",
+      "created_at": "2025-04-10T14:30:00Z",
+      "name": "namespace/sample-project/iris-training-pipeline"
+    }
+  pipeline-preprocessing.json: |
+    {
+      "pipeline_id": "1f2e3d4c-5b6a-7890-abcd-ef1234567890",
+      "display_name": "Data Preprocessing Pipeline",
+      "description": "Ingests raw CSV data, performs cleaning, feature engineering, and outputs a transformed dataset ready for model training.",
+      "created_at": "2025-04-15T09:00:00Z",
+      "name": "namespace/sample-project/data-preprocessing-pipeline"
+    }
+  pipeline-iris-versions.json: |
+    {
+      "pipeline_versions": [
+        {
+          "pipeline_id": "7a9b1c2d-3e4f-5a6b-8c9d-0e1f2a3b4c5d",
+          "pipeline_version_id": "a1b2c3d4-e5f6-7890-abcd-111111111111",
+          "display_name": "v1.0",
+          "description": "Initial version with basic Iris classification using RandomForest.",
+          "created_at": "2025-04-10T14:30:00Z",
+          "pipeline_spec": {"pipeline_manifest": "{}"}
+        },
+        {
+          "pipeline_id": "7a9b1c2d-3e4f-5a6b-8c9d-0e1f2a3b4c5d",
+          "pipeline_version_id": "b2c3d4e5-f6a7-8901-bcde-222222222222",
+          "display_name": "v2.0",
+          "description": "Updated version with hyperparameter tuning and cross-validation.",
+          "created_at": "2025-04-18T10:15:00Z",
+          "pipeline_spec": {"pipeline_manifest": "{}"}
+        }
+      ],
+      "total_size": 2
+    }
+  pipeline-preprocessing-versions.json: |
+    {
+      "pipeline_versions": [
+        {
+          "pipeline_id": "1f2e3d4c-5b6a-7890-abcd-ef1234567890",
+          "pipeline_version_id": "c3d4e5f6-a7b8-9012-cdef-333333333333",
+          "display_name": "v1.0",
+          "description": "Initial preprocessing pipeline with null handling and normalization.",
+          "created_at": "2025-04-15T09:00:00Z",
+          "pipeline_spec": {"pipeline_manifest": "{}"}
+        }
+      ],
+      "total_size": 1
+    }
+  experiments.json: |
+    {
+      "experiments": [
+        {
+          "experiment_id": "exp-001-aaaa-bbbb-cccc-ddddeeee0001",
+          "display_name": "Default",
+          "description": "All runs are executed within the default experiment unless otherwise specified.",
+          "created_at": "2025-04-10T14:00:00Z",
+          "namespace": "sample-project",
+          "storage_state": "AVAILABLE",
+          "last_run_created_at": "2025-04-20T16:00:00Z"
+        },
+        {
+          "experiment_id": "exp-002-aaaa-bbbb-cccc-ddddeeee0002",
+          "display_name": "Iris Experiment",
+          "description": "Experiment for tracking Iris model training runs with different hyperparameters.",
+          "created_at": "2025-04-12T11:30:00Z",
+          "namespace": "sample-project",
+          "storage_state": "AVAILABLE",
+          "last_run_created_at": "2025-04-22T08:45:00Z"
+        }
+      ],
+      "total_size": 2
+    }
+  runs.json: |
+    {
+      "runs": [
+        {
+          "run_id": "run-001-1111-2222-3333-444455550001",
+          "display_name": "Iris Training - RandomForest",
+          "description": "Training run using RandomForest classifier with default parameters.",
+          "experiment_id": "exp-002-aaaa-bbbb-cccc-ddddeeee0002",
+          "created_at": "2025-04-20T16:00:00Z",
+          "scheduled_at": "2025-04-20T16:00:00Z",
+          "finished_at": "2025-04-20T16:12:34Z",
+          "storage_state": "AVAILABLE",
+          "pipeline_version_reference": {
+            "pipeline_id": "7a9b1c2d-3e4f-5a6b-8c9d-0e1f2a3b4c5d",
+            "pipeline_version_id": "a1b2c3d4-e5f6-7890-abcd-111111111111"
+          },
+          "runtime_config": {"parameters": {"n_estimators": 100, "max_depth": 10}},
+          "service_account": "pipeline-runner-dspa",
+          "state": "SUCCEEDED",
+          "run_details": {"task_details": []},
+          "state_history": [
+            {"state": "PENDING", "update_time": "2025-04-20T16:00:00Z"},
+            {"state": "RUNNING", "update_time": "2025-04-20T16:00:05Z"},
+            {"state": "SUCCEEDED", "update_time": "2025-04-20T16:12:34Z"}
+          ]
+        },
+        {
+          "run_id": "run-002-1111-2222-3333-444455550002",
+          "display_name": "Iris Training - v2 with Tuning",
+          "description": "Training run using pipeline v2.0 with hyperparameter tuning.",
+          "experiment_id": "exp-002-aaaa-bbbb-cccc-ddddeeee0002",
+          "created_at": "2025-04-22T08:45:00Z",
+          "scheduled_at": "2025-04-22T08:45:00Z",
+          "finished_at": "",
+          "storage_state": "AVAILABLE",
+          "pipeline_version_reference": {
+            "pipeline_id": "7a9b1c2d-3e4f-5a6b-8c9d-0e1f2a3b4c5d",
+            "pipeline_version_id": "b2c3d4e5-f6a7-8901-bcde-222222222222"
+          },
+          "runtime_config": {"parameters": {"n_estimators": 200, "max_depth": 15, "cv_folds": 5}},
+          "service_account": "pipeline-runner-dspa",
+          "state": "RUNNING",
+          "run_details": {"task_details": []},
+          "state_history": [
+            {"state": "PENDING", "update_time": "2025-04-22T08:45:00Z"},
+            {"state": "RUNNING", "update_time": "2025-04-22T08:45:10Z"}
+          ]
+        },
+        {
+          "run_id": "run-003-1111-2222-3333-444455550003",
+          "display_name": "Data Preprocessing - CSV Ingest",
+          "description": "Preprocessing run that failed due to malformed input CSV.",
+          "experiment_id": "exp-001-aaaa-bbbb-cccc-ddddeeee0001",
+          "created_at": "2025-04-18T13:20:00Z",
+          "scheduled_at": "2025-04-18T13:20:00Z",
+          "finished_at": "2025-04-18T13:22:15Z",
+          "storage_state": "AVAILABLE",
+          "pipeline_version_reference": {
+            "pipeline_id": "1f2e3d4c-5b6a-7890-abcd-ef1234567890",
+            "pipeline_version_id": "c3d4e5f6-a7b8-9012-cdef-333333333333"
+          },
+          "runtime_config": {"parameters": {"input_path": "s3://mock-bucket/raw-data/input.csv"}},
+          "service_account": "pipeline-runner-dspa",
+          "state": "FAILED",
+          "error": {
+            "code": 2,
+            "message": "Failed to parse input CSV: unexpected delimiter at row 42",
+            "details": []
+          },
+          "run_details": {"task_details": []},
+          "state_history": [
+            {"state": "PENDING", "update_time": "2025-04-18T13:20:00Z"},
+            {"state": "RUNNING", "update_time": "2025-04-18T13:20:08Z"},
+            {"state": "FAILED", "update_time": "2025-04-18T13:22:15Z"}
+          ]
+        }
+      ],
+      "total_size": 3
+    }
+  run-001.json: |
+    {
+      "run_id": "run-001-1111-2222-3333-444455550001",
+      "display_name": "Iris Training - RandomForest",
+      "description": "Training run using RandomForest classifier with default parameters.",
+      "experiment_id": "exp-002-aaaa-bbbb-cccc-ddddeeee0002",
+      "created_at": "2025-04-20T16:00:00Z",
+      "scheduled_at": "2025-04-20T16:00:00Z",
+      "finished_at": "2025-04-20T16:12:34Z",
+      "storage_state": "AVAILABLE",
+      "pipeline_version_reference": {
+        "pipeline_id": "7a9b1c2d-3e4f-5a6b-8c9d-0e1f2a3b4c5d",
+        "pipeline_version_id": "a1b2c3d4-e5f6-7890-abcd-111111111111"
+      },
+      "runtime_config": {"parameters": {"n_estimators": 100, "max_depth": 10}},
+      "service_account": "pipeline-runner-dspa",
+      "state": "SUCCEEDED",
+      "run_details": {
+        "task_details": [
+          {"run_id": "run-001-1111-2222-3333-444455550001", "task_id": "train-model", "display_name": "train-model", "create_time": "2025-04-20T16:00:05Z", "start_time": "2025-04-20T16:00:05Z", "end_time": "2025-04-20T16:10:00Z", "state": "SUCCEEDED", "child_tasks": []},
+          {"run_id": "run-001-1111-2222-3333-444455550001", "task_id": "evaluate-model", "display_name": "evaluate-model", "create_time": "2025-04-20T16:10:00Z", "start_time": "2025-04-20T16:10:01Z", "end_time": "2025-04-20T16:12:34Z", "state": "SUCCEEDED", "child_tasks": []}
+        ]
+      },
+      "state_history": [
+        {"state": "PENDING", "update_time": "2025-04-20T16:00:00Z"},
+        {"state": "RUNNING", "update_time": "2025-04-20T16:00:05Z"},
+        {"state": "SUCCEEDED", "update_time": "2025-04-20T16:12:34Z"}
+      ]
+    }
+  run-002.json: |
+    {
+      "run_id": "run-002-1111-2222-3333-444455550002",
+      "display_name": "Iris Training - v2 with Tuning",
+      "description": "Training run using pipeline v2.0 with hyperparameter tuning.",
+      "experiment_id": "exp-002-aaaa-bbbb-cccc-ddddeeee0002",
+      "created_at": "2025-04-22T08:45:00Z",
+      "scheduled_at": "2025-04-22T08:45:00Z",
+      "finished_at": "",
+      "storage_state": "AVAILABLE",
+      "pipeline_version_reference": {
+        "pipeline_id": "7a9b1c2d-3e4f-5a6b-8c9d-0e1f2a3b4c5d",
+        "pipeline_version_id": "b2c3d4e5-f6a7-8901-bcde-222222222222"
+      },
+      "runtime_config": {"parameters": {"n_estimators": 200, "max_depth": 15, "cv_folds": 5}},
+      "service_account": "pipeline-runner-dspa",
+      "state": "RUNNING",
+      "run_details": {
+        "task_details": [
+          {"run_id": "run-002-1111-2222-3333-444455550002", "task_id": "train-model", "display_name": "train-model", "create_time": "2025-04-22T08:45:10Z", "start_time": "2025-04-22T08:45:10Z", "end_time": "", "state": "RUNNING", "child_tasks": []}
+        ]
+      },
+      "state_history": [
+        {"state": "PENDING", "update_time": "2025-04-22T08:45:00Z"},
+        {"state": "RUNNING", "update_time": "2025-04-22T08:45:10Z"}
+      ]
+    }
+  run-003.json: |
+    {
+      "run_id": "run-003-1111-2222-3333-444455550003",
+      "display_name": "Data Preprocessing - CSV Ingest",
+      "description": "Preprocessing run that failed due to malformed input CSV.",
+      "experiment_id": "exp-001-aaaa-bbbb-cccc-ddddeeee0001",
+      "created_at": "2025-04-18T13:20:00Z",
+      "scheduled_at": "2025-04-18T13:20:00Z",
+      "finished_at": "2025-04-18T13:22:15Z",
+      "storage_state": "AVAILABLE",
+      "pipeline_version_reference": {
+        "pipeline_id": "1f2e3d4c-5b6a-7890-abcd-ef1234567890",
+        "pipeline_version_id": "c3d4e5f6-a7b8-9012-cdef-333333333333"
+      },
+      "runtime_config": {"parameters": {"input_path": "s3://mock-bucket/raw-data/input.csv"}},
+      "service_account": "pipeline-runner-dspa",
+      "state": "FAILED",
+      "error": {
+        "code": 2,
+        "message": "Failed to parse input CSV: unexpected delimiter at row 42",
+        "details": []
+      },
+      "run_details": {
+        "task_details": [
+          {"run_id": "run-003-1111-2222-3333-444455550003", "task_id": "ingest-data", "display_name": "ingest-data", "create_time": "2025-04-18T13:20:08Z", "start_time": "2025-04-18T13:20:08Z", "end_time": "2025-04-18T13:22:15Z", "state": "FAILED", "child_tasks": []}
+        ]
+      },
+      "state_history": [
+        {"state": "PENDING", "update_time": "2025-04-18T13:20:00Z"},
+        {"state": "RUNNING", "update_time": "2025-04-18T13:20:08Z"},
+        {"state": "FAILED", "update_time": "2025-04-18T13:22:15Z"}
+      ]
+    }
+  version-iris-v1.json: |
+    {
+      "pipeline_id": "7a9b1c2d-3e4f-5a6b-8c9d-0e1f2a3b4c5d",
+      "pipeline_version_id": "a1b2c3d4-e5f6-7890-abcd-111111111111",
+      "display_name": "v1.0",
+      "description": "Initial version with basic Iris classification using RandomForest.",
+      "created_at": "2025-04-10T14:30:00Z",
+      "pipeline_spec": {
+        "components": {
+          "comp-train-model": {
+            "executorLabel": "exec-train-model",
+            "inputDefinitions": {
+              "parameters": {
+                "n_estimators": {"parameterType": "NUMBER_INTEGER"},
+                "max_depth": {"parameterType": "NUMBER_INTEGER"}
+              }
+            },
+            "outputDefinitions": {
+              "artifacts": {
+                "model": {"artifactType": {"schemaTitle": "system.Model", "schemaVersion": "0.0.1"}}
+              }
+            }
+          },
+          "comp-evaluate-model": {
+            "executorLabel": "exec-evaluate-model",
+            "inputDefinitions": {
+              "artifacts": {
+                "model": {"artifactType": {"schemaTitle": "system.Model", "schemaVersion": "0.0.1"}}
+              }
+            },
+            "outputDefinitions": {
+              "artifacts": {
+                "metrics": {"artifactType": {"schemaTitle": "system.Metrics", "schemaVersion": "0.0.1"}}
+              }
+            }
+          }
+        },
+        "deploymentSpec": {
+          "executors": {
+            "exec-train-model": {
+              "container": {"image": "python:3.11-slim", "command": ["python", "-c", "print('Training...')"], "args": []}
+            },
+            "exec-evaluate-model": {
+              "container": {"image": "python:3.11-slim", "command": ["python", "-c", "print('Evaluating...')"], "args": []}
+            }
+          }
+        },
+        "root": {
+          "dag": {
+            "tasks": {
+              "train-model": {
+                "taskInfo": {"name": "train-model"},
+                "componentRef": {"name": "comp-train-model"},
+                "inputs": {
+                  "parameters": {
+                    "n_estimators": {"componentInputParameter": "n_estimators"},
+                    "max_depth": {"componentInputParameter": "max_depth"}
+                  }
+                }
+              },
+              "evaluate-model": {
+                "taskInfo": {"name": "evaluate-model"},
+                "componentRef": {"name": "comp-evaluate-model"},
+                "dependentTasks": ["train-model"],
+                "inputs": {
+                  "artifacts": {
+                    "model": {"taskOutputArtifact": {"producerTask": "train-model", "outputArtifactKey": "model"}}
+                  }
+                }
+              }
+            }
+          },
+          "inputDefinitions": {
+            "parameters": {
+              "n_estimators": {"parameterType": "NUMBER_INTEGER", "defaultValue": 100},
+              "max_depth": {"parameterType": "NUMBER_INTEGER", "defaultValue": 10}
+            }
+          }
+        },
+        "pipelineInfo": {"name": "iris-training-pipeline"},
+        "schemaVersion": "2.1.0",
+        "sdkVersion": "kfp-2.7.0"
+      }
+    }
+  version-iris-v2.json: |
+    {
+      "pipeline_id": "7a9b1c2d-3e4f-5a6b-8c9d-0e1f2a3b4c5d",
+      "pipeline_version_id": "b2c3d4e5-f6a7-8901-bcde-222222222222",
+      "display_name": "v2.0",
+      "description": "Updated version with hyperparameter tuning and cross-validation.",
+      "created_at": "2025-04-18T10:15:00Z",
+      "pipeline_spec": {
+        "components": {
+          "comp-train-model": {
+            "executorLabel": "exec-train-model",
+            "inputDefinitions": {
+              "parameters": {
+                "n_estimators": {"parameterType": "NUMBER_INTEGER"},
+                "max_depth": {"parameterType": "NUMBER_INTEGER"},
+                "cv_folds": {"parameterType": "NUMBER_INTEGER"}
+              }
+            },
+            "outputDefinitions": {
+              "artifacts": {
+                "model": {"artifactType": {"schemaTitle": "system.Model", "schemaVersion": "0.0.1"}}
+              }
+            }
+          },
+          "comp-evaluate-model": {
+            "executorLabel": "exec-evaluate-model",
+            "inputDefinitions": {
+              "artifacts": {
+                "model": {"artifactType": {"schemaTitle": "system.Model", "schemaVersion": "0.0.1"}}
+              }
+            },
+            "outputDefinitions": {
+              "artifacts": {
+                "metrics": {"artifactType": {"schemaTitle": "system.Metrics", "schemaVersion": "0.0.1"}}
+              }
+            }
+          }
+        },
+        "deploymentSpec": {
+          "executors": {
+            "exec-train-model": {
+              "container": {"image": "python:3.11-slim", "command": ["python", "-c", "print('Training with tuning...')"], "args": []}
+            },
+            "exec-evaluate-model": {
+              "container": {"image": "python:3.11-slim", "command": ["python", "-c", "print('Evaluating...')"], "args": []}
+            }
+          }
+        },
+        "root": {
+          "dag": {
+            "tasks": {
+              "train-model": {
+                "taskInfo": {"name": "train-model"},
+                "componentRef": {"name": "comp-train-model"},
+                "inputs": {
+                  "parameters": {
+                    "n_estimators": {"componentInputParameter": "n_estimators"},
+                    "max_depth": {"componentInputParameter": "max_depth"},
+                    "cv_folds": {"componentInputParameter": "cv_folds"}
+                  }
+                }
+              },
+              "evaluate-model": {
+                "taskInfo": {"name": "evaluate-model"},
+                "componentRef": {"name": "comp-evaluate-model"},
+                "dependentTasks": ["train-model"],
+                "inputs": {
+                  "artifacts": {
+                    "model": {"taskOutputArtifact": {"producerTask": "train-model", "outputArtifactKey": "model"}}
+                  }
+                }
+              }
+            }
+          },
+          "inputDefinitions": {
+            "parameters": {
+              "n_estimators": {"parameterType": "NUMBER_INTEGER", "defaultValue": 200},
+              "max_depth": {"parameterType": "NUMBER_INTEGER", "defaultValue": 15},
+              "cv_folds": {"parameterType": "NUMBER_INTEGER", "defaultValue": 5}
+            }
+          }
+        },
+        "pipelineInfo": {"name": "iris-training-pipeline"},
+        "schemaVersion": "2.1.0",
+        "sdkVersion": "kfp-2.7.0"
+      }
+    }
+  version-preprocessing-v1.json: |
+    {
+      "pipeline_id": "1f2e3d4c-5b6a-7890-abcd-ef1234567890",
+      "pipeline_version_id": "c3d4e5f6-a7b8-9012-cdef-333333333333",
+      "display_name": "v1.0",
+      "description": "Initial preprocessing pipeline with null handling and normalization.",
+      "created_at": "2025-04-15T09:00:00Z",
+      "pipeline_spec": {
+        "components": {
+          "comp-ingest-data": {
+            "executorLabel": "exec-ingest-data",
+            "inputDefinitions": {
+              "parameters": {
+                "input_path": {"parameterType": "STRING"}
+              }
+            },
+            "outputDefinitions": {
+              "artifacts": {
+                "raw_data": {"artifactType": {"schemaTitle": "system.Dataset", "schemaVersion": "0.0.1"}}
+              }
+            }
+          },
+          "comp-clean-data": {
+            "executorLabel": "exec-clean-data",
+            "inputDefinitions": {
+              "artifacts": {
+                "raw_data": {"artifactType": {"schemaTitle": "system.Dataset", "schemaVersion": "0.0.1"}}
+              }
+            },
+            "outputDefinitions": {
+              "artifacts": {
+                "cleaned_data": {"artifactType": {"schemaTitle": "system.Dataset", "schemaVersion": "0.0.1"}}
+              }
+            }
+          }
+        },
+        "deploymentSpec": {
+          "executors": {
+            "exec-ingest-data": {
+              "container": {"image": "python:3.11-slim", "command": ["python", "-c", "print('Ingesting...')"], "args": []}
+            },
+            "exec-clean-data": {
+              "container": {"image": "python:3.11-slim", "command": ["python", "-c", "print('Cleaning...')"], "args": []}
+            }
+          }
+        },
+        "root": {
+          "dag": {
+            "tasks": {
+              "ingest-data": {
+                "taskInfo": {"name": "ingest-data"},
+                "componentRef": {"name": "comp-ingest-data"},
+                "inputs": {
+                  "parameters": {
+                    "input_path": {"componentInputParameter": "input_path"}
+                  }
+                }
+              },
+              "clean-data": {
+                "taskInfo": {"name": "clean-data"},
+                "componentRef": {"name": "comp-clean-data"},
+                "dependentTasks": ["ingest-data"],
+                "inputs": {
+                  "artifacts": {
+                    "raw_data": {"taskOutputArtifact": {"producerTask": "ingest-data", "outputArtifactKey": "raw_data"}}
+                  }
+                }
+              }
+            }
+          },
+          "inputDefinitions": {
+            "parameters": {
+              "input_path": {"parameterType": "STRING"}
+            }
+          }
+        },
+        "pipelineInfo": {"name": "data-preprocessing-pipeline"},
+        "schemaVersion": "2.1.0",
+        "sdkVersion": "kfp-2.7.0"
+      }
+    }
+  executions.json: |
+    {
+      "executions": [],
+      "next_page_token": ""
+    }
+  recurring-runs.json: |
+    {
+      "total_size": 0
+    }
+  artifacts.json: |
+    {
+      "artifacts": [
+        {
+          "artifact_id": "1",
+          "artifact_type": "system.Dataset",
+          "uri": "s3://mock-bucket/artifacts/iris-dataset/data.csv",
+          "display_name": "iris-dataset",
+          "namespace": "sample-project",
+          "create_time": "2025-04-20T16:02:00Z",
+          "state": "LIVE",
+          "custom_properties": {
+            "display_name": {"string_value": "Iris Dataset"},
+            "store_session_info": {"string_value": "pipeline_run:run-001-1111-2222-3333-444455550001"}
+          }
+        },
+        {
+          "artifact_id": "2",
+          "artifact_type": "system.Model",
+          "uri": "s3://mock-bucket/artifacts/iris-model/model.pkl",
+          "display_name": "iris-trained-model",
+          "namespace": "sample-project",
+          "create_time": "2025-04-20T16:10:00Z",
+          "state": "LIVE",
+          "custom_properties": {
+            "display_name": {"string_value": "Iris Trained Model"},
+            "store_session_info": {"string_value": "pipeline_run:run-001-1111-2222-3333-444455550001"}
+          }
+        },
+        {
+          "artifact_id": "3",
+          "artifact_type": "system.Metrics",
+          "uri": "s3://mock-bucket/artifacts/iris-metrics/metrics.json",
+          "display_name": "iris-evaluation-metrics",
+          "namespace": "sample-project",
+          "create_time": "2025-04-20T16:11:00Z",
+          "state": "LIVE",
+          "custom_properties": {
+            "display_name": {"string_value": "Iris Evaluation Metrics"},
+            "store_session_info": {"string_value": "pipeline_run:run-001-1111-2222-3333-444455550001"}
+          }
+        }
+      ],
+      "total_size": 3
+    }
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mock-pipeline-server
+  namespace: sample-project
+  labels:
+    app: mock-pipeline-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mock-pipeline-server
+  template:
+    metadata:
+      labels:
+        app: mock-pipeline-server
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:1.27-alpine
+          ports:
+            - containerPort: 8080
+          volumeMounts:
+            - name: nginx-conf
+              mountPath: /etc/nginx/nginx.conf
+              subPath: nginx.conf
+              readOnly: true
+            - name: responses
+              mountPath: /usr/share/nginx/html/responses
+              readOnly: true
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 8080
+            initialDelaySeconds: 2
+            periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 8080
+            initialDelaySeconds: 2
+            periodSeconds: 10
+          resources:
+            requests:
+              cpu: 10m
+              memory: 16Mi
+            limits:
+              cpu: 50m
+              memory: 32Mi
+      volumes:
+        - name: nginx-conf
+          configMap:
+            name: mock-pipeline-nginx-conf
+        - name: responses
+          configMap:
+            name: mock-pipeline-responses
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ds-pipeline-dspa
+  namespace: sample-project
+  labels:
+    app: mock-pipeline-server
+spec:
+  selector:
+    app: mock-pipeline-server
+  ports:
+    - name: http
+      port: 8443
+      targetPort: 8080
+      protocol: TCP
+  type: ClusterIP

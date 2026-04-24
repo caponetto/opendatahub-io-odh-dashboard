@@ -18,6 +18,7 @@ export const getUserFulfilled = (response: StatusResponse): GetUserAction => ({
     clusterBranding: response.kube.clusterBranding,
     isAdmin: response.kube.isAdmin,
     isAllowed: response.kube.isAllowed,
+    platform: response.kube.platform,
     dashboardNamespace: response.kube.namespace,
     isImpersonating: response.kube.isImpersonating,
     serverURL: response.kube.serverURL,

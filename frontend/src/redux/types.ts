@@ -1,6 +1,11 @@
 import { AlertVariant } from '@patternfly/react-core';
 import * as React from 'react';
 
+export enum PlatformType {
+  OpenShift = 'OpenShift',
+  Kubernetes = 'Kubernetes',
+}
+
 export enum Actions {
   GET_USER_PENDING = 'GET_USER_PENDING',
   GET_USER_FULFILLED = 'GET_USER_FULFILLED',
@@ -39,6 +44,7 @@ export interface GetUserAction {
     dashboardNamespace?: string;
     isAdmin?: boolean;
     isAllowed?: boolean;
+    platform?: PlatformType;
     error?: Error | null;
     notification?: AppNotification;
     isImpersonating?: boolean;
@@ -58,6 +64,7 @@ export type AppState = {
   clusterID?: string;
   clusterBranding?: string;
   isAllowed?: boolean;
+  platform?: PlatformType;
   dashboardNamespace?: string;
   notifications: AppNotification[];
   forceComponentsUpdate: number;
@@ -77,6 +84,7 @@ export type StatusResponse = {
     clusterBranding: string;
     isAdmin: boolean;
     isAllowed: boolean;
+    platform: PlatformType;
     serverURL: string;
     isImpersonating?: boolean;
   };

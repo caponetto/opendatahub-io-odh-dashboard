@@ -7,18 +7,21 @@ import { ProjectObjectType } from '#~/concepts/design/utils';
 import TitleWithIcon from '#~/concepts/design/TitleWithIcon';
 import LaunchJupyterButton from '#~/pages/projects/screens/projects/LaunchJupyterButton';
 import { useAppContext } from '#~/app/AppContext';
+import { useAppSelector } from '#~/redux/hooks';
+import { PlatformType } from '#~/redux/types';
 import EmptyProjects from './EmptyProjects';
 import ProjectListView from './ProjectListView';
-
-const accessReviewResource: AccessReviewResourceAttributes = {
-  group: 'project.openshift.io',
-  resource: 'projectrequests',
-  verb: 'create',
-};
 
 const ProjectView: React.FC = () => {
   const { dashboardConfig } = useAppContext();
   const { projects } = React.useContext(ProjectsContext);
+  const platform = useAppSelector((state) => state.platform);
+  const isOpenShift = platform === PlatformType.OpenShift;
+  const accessReviewResource: AccessReviewResourceAttributes = {
+    group: isOpenShift ? 'project.openshift.io' : '',
+    resource: isOpenShift ? 'projectrequests' : 'namespaces',
+    verb: 'create',
+  };
   const [allowCreate, rbacLoaded] = useAccessReview(accessReviewResource);
 
   return (

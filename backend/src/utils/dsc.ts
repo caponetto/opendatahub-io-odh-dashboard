@@ -13,7 +13,7 @@ export const fetchClusterStatus = async (
     .listClusterCustomObject('datasciencecluster.opendatahub.io', 'v2', 'datascienceclusters')
     .then((res) => (res.body as DataScienceClusterList).items[0])
     .catch((e) => {
-      fastify.log.error(`Failure to fetch dsc: ${e.response.body}`);
+      fastify.log.debug(`DSC not available: ${e.response?.body ?? e.message}`);
       return null;
     });
 

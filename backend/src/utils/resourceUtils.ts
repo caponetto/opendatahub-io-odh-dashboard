@@ -19,6 +19,7 @@ import {
   KnownLabels,
   AuthKind,
   OdhPlatformType,
+  PlatformType,
 } from '../types';
 import {
   DEFAULT_ACTIVE_TIMEOUT,
@@ -500,17 +501,24 @@ const fetchAuthKind = (fastify: KubeFastifyInstance): Promise<AuthKind[]> => {
 
 export const initializeWatchedResources = (fastify: KubeFastifyInstance): void => {
   dashboardConfigWatcher = new ResourceWatcher<DashboardConfig>(fastify, fetchDashboardCR);
-  authWatcher = new ResourceWatcher<AuthKind>(fastify, fetchAuthKind);
-  clusterStatusWatcher = new ResourceWatcher<DataScienceClusterKindStatus>(
-    fastify,
-    fetchWatchedClusterStatus,
-  );
-  subscriptionWatcher = new ResourceWatcher<SubscriptionStatusData>(fastify, fetchSubscriptions);
   appWatcher = new ResourceWatcher<OdhApplication>(fastify, fetchApplications);
   docWatcher = new ResourceWatcher<OdhDocument>(fastify, fetchDocs);
-  quickStartWatcher = new ResourceWatcher<QuickStart>(fastify, fetchQuickStarts);
-  buildsWatcher = new ResourceWatcher<BuildStatus>(fastify, fetchBuilds, getRefreshTimeForBuilds);
-  consoleLinksWatcher = new ResourceWatcher<ConsoleLinkKind>(fastify, fetchConsoleLinks);
+  if (fastify.kube.platform === PlatformType.OpenShift) {
+    clusterStatusWatcher = new ResourceWatcher<DataScienceClusterKindStatus>(
+      fastify,
+      fetchWatchedClusterStatus,
+    );
+    authWatcher = new ResourceWatcher<AuthKind>(fastify, fetchAuthKind);
+    subscriptionWatcher = new ResourceWatcher<SubscriptionStatusData>(fastify, fetchSubscriptions);
+    quickStartWatcher = new ResourceWatcher<QuickStart>(fastify, fetchQuickStarts);
+    buildsWatcher = new ResourceWatcher<BuildStatus>(fastify, fetchBuilds, getRefreshTimeForBuilds);
+    consoleLinksWatcher = new ResourceWatcher<ConsoleLinkKind>(fastify, fetchConsoleLinks);
+  } else {
+    fastify.log.info(
+      'Vanilla Kubernetes detected -- skipping OpenShift-only resource watchers ' +
+        '(auth, subscriptions, quickstarts, builds, consolelinks)',
+    );
+  }
 };
 
 /**
@@ -572,6 +580,9 @@ export const getDashboardConfig = (request?: FastifyRequest): DashboardConfig =>
 export const getClusterStatus = (
   fastify: KubeFastifyInstance,
 ): DataScienceClusterKindStatus | undefined => {
+  if (!clusterStatusWatcher) {
+    return undefined;
+  }
   const clusterStatus = clusterStatusWatcher.getResources()?.[0];
   if (!clusterStatus) {
     fastify.log.error('Tried to use DSC before ResourceWatcher could successfully fetch it');
@@ -584,7 +595,7 @@ export const updateDashboardConfig = (): Promise<void> => {
 };
 
 export const getSubscriptions = (): SubscriptionStatusData[] => {
-  return subscriptionWatcher.getResources();
+  return subscriptionWatcher?.getResources() ?? [];
 };
 
 export const getApplications = (): OdhApplication[] => {
@@ -600,8 +611,8 @@ export const getApplication = (appName: string): OdhApplication => {
   return apps.find((app) => app.metadata.name === appName);
 };
 
-export const getAuth = (): AuthKind => {
-  return authWatcher.getResources()[0];
+export const getAuth = (): AuthKind | undefined => {
+  return authWatcher?.getResources()?.[0];
 };
 
 export const getDocs = (): OdhDocument[] => {
@@ -609,15 +620,15 @@ export const getDocs = (): OdhDocument[] => {
 };
 
 export const getQuickStarts = (): QuickStart[] => {
-  return quickStartWatcher.getResources();
+  return quickStartWatcher?.getResources() ?? [];
 };
 
 export const getBuildStatuses = (): BuildStatus[] => {
-  return buildsWatcher.getResources();
+  return buildsWatcher?.getResources() ?? [];
 };
 
 export const getConsoleLinks = (): ConsoleLinkKind[] => {
-  return consoleLinksWatcher.getResources();
+  return consoleLinksWatcher?.getResources() ?? [];
 };
 
 const getConsoleLinkRoute = (appDef: OdhApplication): string => {

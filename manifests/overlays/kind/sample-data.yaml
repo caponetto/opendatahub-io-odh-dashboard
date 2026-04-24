@@ -1,0 +1,1694 @@
+---
+apiVersion: services.platform.opendatahub.io/v1alpha1
+kind: Auth
+metadata:
+  name: auth
+spec:
+  adminGroups:
+    - odh-admins
+  allowedGroups:
+    - system:authenticated
+    - data-scientists
+    - ml-engineers
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: sample-project
+  annotations:
+    openshift.io/display-name: "Sample ML Project"
+    openshift.io/description: "A sample project for testing the dashboard on Kind"
+    openshift.io/requester: "alice"
+  labels:
+    opendatahub.io/dashboard: "true"
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: alice-admin
+  namespace: odh-dashboard
+  labels:
+    opendatahub.io/dashboard: "true"
+subjects:
+  - kind: User
+    name: alice
+    apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: ClusterRole
+  name: admin
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: bob-edit
+  namespace: odh-dashboard
+  labels:
+    opendatahub.io/dashboard: "true"
+subjects:
+  - kind: User
+    name: bob
+    apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: ClusterRole
+  name: edit
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: carol-view
+  namespace: odh-dashboard
+  labels:
+    opendatahub.io/dashboard: "true"
+subjects:
+  - kind: User
+    name: carol
+    apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: ClusterRole
+  name: view
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: alice-sample-admin
+  namespace: sample-project
+  labels:
+    opendatahub.io/dashboard: "true"
+subjects:
+  - kind: User
+    name: alice
+    apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: ClusterRole
+  name: admin
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: bob-sample-edit
+  namespace: sample-project
+  labels:
+    opendatahub.io/dashboard: "true"
+subjects:
+  - kind: User
+    name: bob
+    apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: ClusterRole
+  name: edit
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: data-scientists-sample-edit
+  namespace: sample-project
+  labels:
+    opendatahub.io/dashboard: "true"
+subjects:
+  - kind: Group
+    name: data-scientists
+    apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: ClusterRole
+  name: edit
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: infrastructure.opendatahub.io/v1
+kind: HardwareProfile
+metadata:
+  name: small
+  namespace: odh-dashboard
+  annotations:
+    opendatahub.io/display-name: "Small"
+    opendatahub.io/description: "Small profile for lightweight notebooks and experimentation."
+    opendatahub.io/dashboard-feature-visibility: "[]"
+    opendatahub.io/disabled: "false"
+  labels:
+    app.kubernetes.io/part-of: hardwareprofile
+    app.opendatahub.io/hardwareprofile: "true"
+spec:
+  identifiers:
+    - displayName: CPU
+      identifier: cpu
+      minCount: 1
+      maxCount: 2
+      defaultCount: 1
+      resourceType: CPU
+    - displayName: Memory
+      identifier: memory
+      minCount: 2Gi
+      maxCount: 4Gi
+      defaultCount: 2Gi
+      resourceType: Memory
+---
+apiVersion: infrastructure.opendatahub.io/v1
+kind: HardwareProfile
+metadata:
+  name: medium
+  namespace: odh-dashboard
+  annotations:
+    opendatahub.io/display-name: "Medium"
+    opendatahub.io/description: "Medium profile for general-purpose data science workloads."
+    opendatahub.io/dashboard-feature-visibility: "[]"
+    opendatahub.io/disabled: "false"
+  labels:
+    app.kubernetes.io/part-of: hardwareprofile
+    app.opendatahub.io/hardwareprofile: "true"
+spec:
+  identifiers:
+    - displayName: CPU
+      identifier: cpu
+      minCount: 2
+      maxCount: 4
+      defaultCount: 2
+      resourceType: CPU
+    - displayName: Memory
+      identifier: memory
+      minCount: 4Gi
+      maxCount: 8Gi
+      defaultCount: 4Gi
+      resourceType: Memory
+---
+apiVersion: infrastructure.opendatahub.io/v1
+kind: HardwareProfile
+metadata:
+  name: large-gpu
+  namespace: odh-dashboard
+  annotations:
+    opendatahub.io/display-name: "Large with GPU"
+    opendatahub.io/description: "Large profile for training and inference workloads with GPU acceleration."
+    opendatahub.io/dashboard-feature-visibility: "[]"
+    opendatahub.io/disabled: "false"
+  labels:
+    app.kubernetes.io/part-of: hardwareprofile
+    app.opendatahub.io/hardwareprofile: "true"
+spec:
+  identifiers:
+    - displayName: CPU
+      identifier: cpu
+      minCount: 4
+      maxCount: 8
+      defaultCount: 4
+      resourceType: CPU
+    - displayName: Memory
+      identifier: memory
+      minCount: 8Gi
+      maxCount: 16Gi
+      defaultCount: 8Gi
+      resourceType: Memory
+    - displayName: NVIDIA GPU
+      identifier: nvidia.com/gpu
+      minCount: 1
+      maxCount: 4
+      defaultCount: 1
+      resourceType: Accelerator
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: s3-compatible-storage
+  namespace: odh-dashboard
+  labels:
+    opendatahub.io/dashboard: "true"
+    opendatahub.io/connection-type: "true"
+  annotations:
+    openshift.io/display-name: "S3 Compatible Storage"
+    openshift.io/description: "Connect to an S3-compatible object storage bucket (AWS S3, MinIO, Ceph, etc.)"
+    opendatahub.io/disabled: "false"
+    opendatahub.io/username: "system"
+data:
+  category: '["Object storage"]'
+  fields: '[{"type":"section","name":"S3 Configuration","description":"Provide S3 endpoint and bucket details."},{"type":"short-text","name":"Endpoint URL","description":"The S3 endpoint URL","envVar":"AWS_S3_ENDPOINT","required":true,"properties":{}},{"type":"short-text","name":"Bucket","description":"The name of the S3 bucket","envVar":"AWS_S3_BUCKET","required":true,"properties":{}},{"type":"short-text","name":"Region","description":"The AWS region (e.g. us-east-1)","envVar":"AWS_DEFAULT_REGION","required":false,"properties":{}},{"type":"short-text","name":"Access Key ID","description":"Your AWS access key ID","envVar":"AWS_ACCESS_KEY_ID","required":true,"properties":{}},{"type":"hidden","name":"Secret Access Key","description":"Your AWS secret access key","envVar":"AWS_SECRET_ACCESS_KEY","required":true,"properties":{}}]'
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-database
+  namespace: odh-dashboard
+  labels:
+    opendatahub.io/dashboard: "true"
+    opendatahub.io/connection-type: "true"
+  annotations:
+    openshift.io/display-name: "PostgreSQL Database"
+    openshift.io/description: "Connect to a PostgreSQL database instance."
+    opendatahub.io/disabled: "false"
+    opendatahub.io/username: "system"
+data:
+  category: '["Database"]'
+  fields: '[{"type":"section","name":"Database Connection","description":"PostgreSQL connection details."},{"type":"short-text","name":"Host","description":"The database hostname or IP","envVar":"PGHOST","required":true,"properties":{}},{"type":"short-text","name":"Port","description":"The database port (default: 5432)","envVar":"PGPORT","required":false,"properties":{"defaultValue":"5432"}},{"type":"short-text","name":"Database","description":"The database name","envVar":"PGDATABASE","required":true,"properties":{}},{"type":"short-text","name":"Username","description":"The database username","envVar":"PGUSER","required":true,"properties":{}},{"type":"hidden","name":"Password","description":"The database password","envVar":"PGPASSWORD","required":true,"properties":{}}]'
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: generic-uri
+  namespace: odh-dashboard
+  labels:
+    opendatahub.io/dashboard: "true"
+    opendatahub.io/connection-type: "true"
+  annotations:
+    openshift.io/display-name: "URI Connection"
+    openshift.io/description: "A generic URI-based connection for any service endpoint."
+    opendatahub.io/disabled: "false"
+    opendatahub.io/username: "system"
+data:
+  category: '["General"]'
+  fields: '[{"type":"uri","name":"URI","description":"The URI for the service","envVar":"URI","required":true,"properties":{}}]'
+---
+apiVersion: image.openshift.io/v1
+kind: ImageStream
+metadata:
+  name: jupyter-minimal-notebook
+  namespace: odh-dashboard
+  labels:
+    component.opendatahub.io/name: notebooks
+    opendatahub.io/component: "true"
+    opendatahub.io/notebook-image: "true"
+  annotations:
+    opendatahub.io/notebook-image-desc: "Jupyter notebook image with minimal dependency set to start experimenting with Jupyter environment."
+    opendatahub.io/notebook-image-name: "Minimal Python"
+    opendatahub.io/notebook-image-url: "https://github.com/opendatahub-io/notebooks/tree/main/jupyter/minimal"
+    opendatahub.io/notebook-image-order: "1"
+spec:
+  lookupPolicy:
+    local: true
+  tags:
+    - name: "2024.1"
+      annotations:
+        opendatahub.io/notebook-python-dependencies: '[{"name":"JupyterLab","version":"4.0"},{"name":"Notebook","version":"7.0"}]'
+        opendatahub.io/notebook-software: '[{"name":"Python","version":"v3.11"}]'
+        opendatahub.io/workbench-image-recommended: "true"
+        opendatahub.io/default-image: "true"
+      from:
+        kind: DockerImage
+        name: quay.io/opendatahub/notebooks:jupyter-minimal-ubi9-python-3.11-2024.1
+    - name: "2024.2"
+      annotations:
+        opendatahub.io/notebook-python-dependencies: '[{"name":"JupyterLab","version":"4.1"},{"name":"Notebook","version":"7.1"}]'
+        opendatahub.io/notebook-software: '[{"name":"Python","version":"v3.11"}]'
+        opendatahub.io/workbench-image-recommended: "true"
+      from:
+        kind: DockerImage
+        name: quay.io/opendatahub/notebooks:jupyter-minimal-ubi9-python-3.11-2024.2
+status:
+  tags:
+    - tag: "2024.1"
+      items:
+        - created: "2024-01-15T10:00:00Z"
+          dockerImageReference: quay.io/opendatahub/notebooks:jupyter-minimal-ubi9-python-3.11-2024.1
+          image: quay.io/opendatahub/notebooks:jupyter-minimal-ubi9-python-3.11-2024.1
+          generation: 1
+    - tag: "2024.2"
+      items:
+        - created: "2024-06-15T10:00:00Z"
+          dockerImageReference: quay.io/opendatahub/notebooks:jupyter-minimal-ubi9-python-3.11-2024.2
+          image: quay.io/opendatahub/notebooks:jupyter-minimal-ubi9-python-3.11-2024.2
+          generation: 1
+---
+apiVersion: image.openshift.io/v1
+kind: ImageStream
+metadata:
+  name: jupyter-datascience-notebook
+  namespace: odh-dashboard
+  labels:
+    component.opendatahub.io/name: notebooks
+    opendatahub.io/component: "true"
+    opendatahub.io/notebook-image: "true"
+  annotations:
+    opendatahub.io/notebook-image-desc: "Jupyter notebook image with common data science libraries including Pandas, NumPy, SciPy, Matplotlib, and Scikit-learn."
+    opendatahub.io/notebook-image-name: "Standard Data Science"
+    opendatahub.io/notebook-image-url: "https://github.com/opendatahub-io/notebooks/tree/main/jupyter/datascience"
+    opendatahub.io/notebook-image-order: "2"
+spec:
+  lookupPolicy:
+    local: true
+  tags:
+    - name: "2024.1"
+      annotations:
+        opendatahub.io/notebook-python-dependencies: '[{"name":"JupyterLab","version":"4.0"},{"name":"Pandas","version":"2.1"},{"name":"NumPy","version":"1.26"},{"name":"Scikit-learn","version":"1.4"}]'
+        opendatahub.io/notebook-software: '[{"name":"Python","version":"v3.11"}]'
+        opendatahub.io/workbench-image-recommended: "true"
+        opendatahub.io/default-image: "true"
+      from:
+        kind: DockerImage
+        name: quay.io/opendatahub/notebooks:jupyter-datascience-ubi9-python-3.11-2024.1
+    - name: "2024.2"
+      annotations:
+        opendatahub.io/notebook-python-dependencies: '[{"name":"JupyterLab","version":"4.1"},{"name":"Pandas","version":"2.2"},{"name":"NumPy","version":"1.26"},{"name":"Scikit-learn","version":"1.4"}]'
+        opendatahub.io/notebook-software: '[{"name":"Python","version":"v3.11"}]'
+        opendatahub.io/workbench-image-recommended: "true"
+      from:
+        kind: DockerImage
+        name: quay.io/opendatahub/notebooks:jupyter-datascience-ubi9-python-3.11-2024.2
+status:
+  tags:
+    - tag: "2024.1"
+      items:
+        - created: "2024-01-15T10:00:00Z"
+          dockerImageReference: quay.io/opendatahub/notebooks:jupyter-datascience-ubi9-python-3.11-2024.1
+          image: quay.io/opendatahub/notebooks:jupyter-datascience-ubi9-python-3.11-2024.1
+          generation: 1
+    - tag: "2024.2"
+      items:
+        - created: "2024-06-15T10:00:00Z"
+          dockerImageReference: quay.io/opendatahub/notebooks:jupyter-datascience-ubi9-python-3.11-2024.2
+          image: quay.io/opendatahub/notebooks:jupyter-datascience-ubi9-python-3.11-2024.2
+          generation: 1
+---
+apiVersion: image.openshift.io/v1
+kind: ImageStream
+metadata:
+  name: pytorch-notebook
+  namespace: odh-dashboard
+  labels:
+    component.opendatahub.io/name: notebooks
+    opendatahub.io/component: "true"
+    opendatahub.io/notebook-image: "true"
+  annotations:
+    opendatahub.io/notebook-image-desc: "Jupyter notebook image with PyTorch and CUDA for GPU-accelerated deep learning."
+    opendatahub.io/notebook-image-name: "PyTorch"
+    opendatahub.io/notebook-image-url: "https://github.com/opendatahub-io/notebooks/tree/main/jupyter/pytorch"
+    opendatahub.io/notebook-image-order: "3"
+spec:
+  lookupPolicy:
+    local: true
+  tags:
+    - name: "2024.1"
+      annotations:
+        opendatahub.io/notebook-python-dependencies: '[{"name":"JupyterLab","version":"4.0"},{"name":"PyTorch","version":"2.2"},{"name":"CUDA","version":"12.1"}]'
+        opendatahub.io/notebook-software: '[{"name":"Python","version":"v3.11"}]'
+        opendatahub.io/workbench-image-recommended: "true"
+        opendatahub.io/default-image: "true"
+      from:
+        kind: DockerImage
+        name: quay.io/opendatahub/notebooks:cuda-jupyter-pytorch-ubi9-python-3.11-2024.1
+status:
+  tags:
+    - tag: "2024.1"
+      items:
+        - created: "2024-01-15T10:00:00Z"
+          dockerImageReference: quay.io/opendatahub/notebooks:cuda-jupyter-pytorch-ubi9-python-3.11-2024.1
+          image: quay.io/opendatahub/notebooks:cuda-jupyter-pytorch-ubi9-python-3.11-2024.1
+          generation: 1
+---
+apiVersion: image.openshift.io/v1
+kind: ImageStream
+metadata:
+  name: code-server-notebook
+  namespace: odh-dashboard
+  labels:
+    component.opendatahub.io/name: notebooks
+    opendatahub.io/component: "true"
+    opendatahub.io/notebook-image: "true"
+  annotations:
+    opendatahub.io/notebook-image-desc: "VS Code (code-server) workbench for coding, building, and collaborating on projects from the browser."
+    opendatahub.io/notebook-image-name: "Code Server"
+    opendatahub.io/notebook-image-url: "https://github.com/opendatahub-io/notebooks/tree/main/codeserver"
+    opendatahub.io/notebook-image-order: "4"
+spec:
+  lookupPolicy:
+    local: true
+  tags:
+    - name: "2024.1"
+      annotations:
+        opendatahub.io/notebook-python-dependencies: '[{"name":"code-server","version":"4.20"}]'
+        opendatahub.io/notebook-software: '[{"name":"Python","version":"v3.11"}]'
+        opendatahub.io/workbench-image-recommended: "true"
+        opendatahub.io/default-image: "true"
+      from:
+        kind: DockerImage
+        name: quay.io/opendatahub/notebooks:codeserver-ubi9-python-3.11-2024.1
+status:
+  tags:
+    - tag: "2024.1"
+      items:
+        - created: "2024-01-15T10:00:00Z"
+          dockerImageReference: quay.io/opendatahub/notebooks:codeserver-ubi9-python-3.11-2024.1
+          image: quay.io/opendatahub/notebooks:codeserver-ubi9-python-3.11-2024.1
+          generation: 1
+---
+# ── Enabled Applications (OdhApplication) ─────────────────────────────
+apiVersion: dashboard.opendatahub.io/v1
+kind: OdhApplication
+metadata:
+  name: jupyter
+  namespace: odh-dashboard
+  annotations:
+    opendatahub.io/categories: "Model development,Model training,Notebook environments"
+spec:
+  img: >-
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36"><path fill="#F37726" d="M18 0C8.059 0 0 3.577 0 8s8.059 8 18 8 18-3.577 18-8S27.941 0 18 0zm0 14c-8.284 0-15-2.686-15-6s6.716-6 15-6 15 2.686 15 6-6.716 6-15 6z"/><path fill="#989898" d="M18 16C8.059 16 0 19.577 0 24s8.059 8 18 8 18-3.577 18-8-8.059-8-18-8zm0 14c-8.284 0-15-2.686-15-6s6.716-6 15-6 15 2.686 15 6-6.716 6-15 6z"/><circle fill="#F37726" cx="25" cy="5" r="3"/><circle fill="#989898" cx="11" cy="31" r="3"/></svg>
+  displayName: Jupyter
+  description: >-
+    Create and manage Jupyter notebooks for interactive data science
+    and machine learning development.
+  provider: Project Jupyter
+  support: Open Data Hub community
+  docsLink: "https://jupyter.org/documentation"
+  getStartedLink: "https://opendatahub.io/docs/getting-started-with-jupyter-notebooks/"
+  getStartedMarkDown: >-
+    # Jupyter
+
+
+    Launch Jupyter and start a workbench to begin working with your notebooks.
+
+
+    ## Getting Started
+
+
+    1. Go to the **Projects** page and create or select a project.
+
+    2. Click **Create workbench** and choose a notebook image.
+
+    3. Select a hardware profile and click **Create**.
+
+    4. Once the workbench is running, click **Open** to launch JupyterLab.
+  category: Red Hat managed
+---
+apiVersion: dashboard.opendatahub.io/v1
+kind: OdhApplication
+metadata:
+  name: model-serving
+  namespace: odh-dashboard
+  annotations:
+    opendatahub.io/categories: "Model serving,AI/ML"
+spec:
+  img: >-
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36"><path fill="#009596" d="M18 2L2 10v16l16 8 16-8V10L18 2zm13 22.5L18 31.2 5 24.5V12l13-6.5L31 12v12.5z"/><path fill="#009596" d="M18 14l-8 4v8l8 4 8-4v-8l-8-4zm5 10.5L18 27.2l-5-2.7V18l5-2.5 5 2.5v6.5z"/></svg>
+  displayName: Model serving
+  description: >-
+    Deploy and manage machine learning models as scalable REST or
+    gRPC inference endpoints using KServe.
+  provider: Open Data Hub
+  support: Open Data Hub community
+  docsLink: "https://opendatahub.io/docs/serving-machine-learning-models/"
+  getStartedLink: "https://opendatahub.io/docs/serving-machine-learning-models/"
+  getStartedMarkDown: >-
+    # Model Serving
+
+
+    Deploy trained models as inference endpoints.
+
+
+    ## Getting Started
+
+
+    1. Navigate to a project that contains a trained model.
+
+    2. Click **Deploy model** and select the model framework.
+
+    3. Choose a serving runtime and configure resource limits.
+
+    4. Click **Deploy** and monitor the inference service status.
+  category: Red Hat managed
+---
+apiVersion: dashboard.opendatahub.io/v1
+kind: OdhApplication
+metadata:
+  name: data-science-pipelines
+  namespace: odh-dashboard
+  annotations:
+    opendatahub.io/categories: "Data science pipelines,AI/ML"
+spec:
+  img: >-
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36"><path fill="#009596" d="M4 8h28v4H4zM4 16h28v4H4zM4 24h28v4H4z"/><circle fill="#F0AB00" cx="10" cy="10" r="3"/><circle fill="#F0AB00" cx="22" cy="18" r="3"/><circle fill="#F0AB00" cx="14" cy="26" r="3"/><line x1="10" y1="10" x2="22" y2="18" stroke="#F0AB00" stroke-width="1.5"/><line x1="22" y1="18" x2="14" y2="26" stroke="#F0AB00" stroke-width="1.5"/></svg>
+  displayName: Data science pipelines
+  description: >-
+    Build, deploy, and manage end-to-end machine learning
+    workflows using Kubeflow Pipelines.
+  provider: Open Data Hub
+  support: Open Data Hub community
+  docsLink: "https://opendatahub.io/docs/working-with-data-science-pipelines/"
+  getStartedLink: "https://opendatahub.io/docs/working-with-data-science-pipelines/"
+  getStartedMarkDown: >-
+    # Data Science Pipelines
+
+
+    Build and manage ML workflows with Kubeflow Pipelines.
+
+
+    ## Getting Started
+
+
+    1. Navigate to **Data science pipelines** from the left navigation.
+
+    2. Create a pipeline server in your project.
+
+    3. Import or create a pipeline from a notebook or YAML definition.
+
+    4. Create a run to execute the pipeline and monitor results.
+  category: Red Hat managed
+---
+apiVersion: dashboard.opendatahub.io/v1
+kind: OdhApplication
+metadata:
+  name: model-registry
+  namespace: odh-dashboard
+  annotations:
+    opendatahub.io/categories: "Model serving,AI/ML"
+spec:
+  img: >-
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36"><rect fill="#009596" x="4" y="4" width="28" height="8" rx="2"/><rect fill="#009596" x="4" y="14" width="28" height="8" rx="2"/><rect fill="#009596" x="4" y="24" width="28" height="8" rx="2"/><circle fill="#fff" cx="28" cy="8" r="2"/><circle fill="#fff" cx="28" cy="18" r="2"/><circle fill="#fff" cx="28" cy="28" r="2"/></svg>
+  displayName: Model registry
+  description: >-
+    Register, version, and manage machine learning models and their
+    metadata across the full model lifecycle.
+  provider: Open Data Hub
+  support: Open Data Hub community
+  docsLink: "https://opendatahub.io/docs/model-registry/"
+  getStartedLink: "https://opendatahub.io/docs/model-registry/"
+  getStartedMarkDown: >-
+    # Model Registry
+
+
+    Track and manage your ML models in a central registry.
+
+
+    ## Getting Started
+
+
+    1. Navigate to **Model registry** from the left navigation.
+
+    2. Register a new model by providing its name, version, and artifact location.
+
+    3. View model versions, metadata, and deployment history.
+
+    4. Deploy a registered model directly to a serving runtime.
+  category: Third party support
+---
+apiVersion: dashboard.opendatahub.io/v1
+kind: OdhApplication
+metadata:
+  name: trustyai
+  namespace: odh-dashboard
+  annotations:
+    opendatahub.io/categories: "Model serving,AI/ML,Model monitoring"
+spec:
+  img: >-
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36"><path fill="#009596" d="M18 2C9.163 2 2 9.163 2 18s7.163 16 16 16 16-7.163 16-16S26.837 2 18 2zm0 29C10.82 31 5 25.18 5 18S10.82 5 18 5s13 5.82 13 13-5.82 13-13 13z"/><path fill="#009596" d="M18 8c-5.523 0-10 4.477-10 10s4.477 10 10 10 10-4.477 10-10S23.523 8 18 8zm0 17c-3.866 0-7-3.134-7-7s3.134-7 7-7 7 3.134 7 7-3.134 7-7 7z"/><circle fill="#F0AB00" cx="18" cy="18" r="4"/></svg>
+  displayName: TrustyAI
+  description: >-
+    Monitor deployed models for fairness, bias, and explainability
+    with AI/ML model trustworthiness tooling.
+  provider: Open Data Hub
+  support: Open Data Hub community
+  docsLink: "https://opendatahub.io/docs/trustyai/"
+  getStartedLink: "https://opendatahub.io/docs/trustyai/"
+  getStartedMarkDown: >-
+    # TrustyAI
+
+
+    Monitor your ML models for fairness and explainability.
+
+
+    ## Getting Started
+
+
+    1. Deploy a TrustyAI service instance in your project.
+
+    2. Connect it to your model serving endpoints.
+
+    3. Configure fairness metrics and drift detection thresholds.
+
+    4. View dashboards for bias monitoring and model explanations.
+  category: Third party support
+---
+apiVersion: dashboard.opendatahub.io/v1
+kind: OdhApplication
+metadata:
+  name: distributed-workloads
+  namespace: odh-dashboard
+  annotations:
+    opendatahub.io/categories: "Model training,AI/ML"
+spec:
+  img: >-
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36"><rect fill="#009596" x="2" y="2" width="14" height="14" rx="2"/><rect fill="#F0AB00" x="20" y="2" width="14" height="14" rx="2"/><rect fill="#F0AB00" x="2" y="20" width="14" height="14" rx="2"/><rect fill="#009596" x="20" y="20" width="14" height="14" rx="2"/><line x1="16" y1="9" x2="20" y2="9" stroke="#333" stroke-width="1.5"/><line x1="9" y1="16" x2="9" y2="20" stroke="#333" stroke-width="1.5"/><line x1="27" y1="16" x2="27" y2="20" stroke="#333" stroke-width="1.5"/><line x1="16" y1="27" x2="20" y2="27" stroke="#333" stroke-width="1.5"/></svg>
+  displayName: Distributed workloads
+  description: >-
+    Run distributed training jobs using Ray, Kueue, and other
+    frameworks for large-scale model training.
+  provider: Open Data Hub
+  support: Open Data Hub community
+  docsLink: "https://opendatahub.io/docs/distributed-workloads/"
+  getStartedLink: "https://opendatahub.io/docs/distributed-workloads/"
+  getStartedMarkDown: >-
+    # Distributed Workloads
+
+
+    Scale your training jobs across multiple nodes.
+
+
+    ## Getting Started
+
+
+    1. Navigate to your project and select **Distributed workloads**.
+
+    2. Create a workload using Ray, PyTorchJob, or other supported frameworks.
+
+    3. Configure resource quotas and queue priorities with Kueue.
+
+    4. Monitor job progress and resource utilization from the dashboard.
+  category: Third party support
+---
+apiVersion: dashboard.opendatahub.io/v1
+kind: OdhApplication
+metadata:
+  name: habana-ai
+  namespace: odh-dashboard
+  annotations:
+    opendatahub.io/categories: "Hardware,AI/ML,Model training"
+spec:
+  img: >-
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36"><rect fill="#0066CC" x="4" y="4" width="28" height="28" rx="4"/><text x="18" y="23" font-family="Arial" font-weight="bold" font-size="14" fill="#fff" text-anchor="middle">AI</text></svg>
+  displayName: Intel Gaudi AI accelerator
+  description: >-
+    Enable Intel Gaudi (Habana) AI accelerators for high-performance
+    model training and inference workloads.
+  provider: Intel
+  support: Third party support
+  docsLink: "https://docs.habana.ai/"
+  getStartedLink: "https://docs.habana.ai/en/latest/index.html"
+  getStartedMarkDown: >-
+    # Intel Gaudi AI Accelerator
+
+
+    Accelerate your AI workloads with Intel Gaudi hardware.
+
+
+    ## Getting Started
+
+
+    1. Ensure Intel Gaudi hardware is available on your cluster nodes.
+
+    2. Install the Gaudi device plugin and runtime components.
+
+    3. Select an Intel Gaudi accelerator profile when creating a workbench.
+
+    4. Run your training or inference workloads with hardware acceleration.
+  category: Third party support
+---
+apiVersion: dashboard.opendatahub.io/v1
+kind: OdhApplication
+metadata:
+  name: nvidia-gpu
+  namespace: odh-dashboard
+  annotations:
+    opendatahub.io/categories: "Hardware,AI/ML,Model training"
+spec:
+  img: >-
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36"><rect fill="#76B900" x="4" y="4" width="28" height="28" rx="4"/><text x="18" y="23" font-family="Arial" font-weight="bold" font-size="10" fill="#fff" text-anchor="middle">GPU</text></svg>
+  displayName: NVIDIA GPU
+  description: >-
+    Enable NVIDIA GPU acceleration for model training, inference,
+    and data processing workloads.
+  provider: NVIDIA
+  support: Third party support
+  docsLink: "https://docs.nvidia.com/datacenter/cloud-native/"
+  getStartedLink: "https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/overview.html"
+  getStartedMarkDown: >-
+    # NVIDIA GPU
+
+
+    Accelerate your AI/ML workloads with NVIDIA GPUs.
+
+
+    ## Getting Started
+
+
+    1. Ensure NVIDIA GPU Operator is installed on your cluster.
+
+    2. Verify GPU nodes are available and drivers are loaded.
+
+    3. Select an NVIDIA GPU hardware profile when creating a workbench.
+
+    4. Use CUDA-enabled notebook images for GPU-accelerated computation.
+  category: Third party support
+---
+# ── Learning Resources (OdhDocument) ──────────────────────────────────
+apiVersion: dashboard.opendatahub.io/v1
+kind: OdhDocument
+metadata:
+  name: getting-started-with-jupyter
+  namespace: odh-dashboard
+  annotations:
+    opendatahub.io/categories: "Getting started,Notebook environments"
+spec:
+  displayName: Getting started with Jupyter notebooks
+  type: how-to
+  provider: Open Data Hub
+  img: >-
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36"><path fill="#F37726" d="M18 0C8.059 0 0 3.577 0 8s8.059 8 18 8 18-3.577 18-8S27.941 0 18 0zm0 14c-8.284 0-15-2.686-15-6s6.716-6 15-6 15 2.686 15 6-6.716 6-15 6z"/><path fill="#989898" d="M18 16C8.059 16 0 19.577 0 24s8.059 8 18 8 18-3.577 18-8-8.059-8-18-8zm0 14c-8.284 0-15-2.686-15-6s6.716-6 15-6 15 2.686 15 6-6.716 6-15 6z"/><circle fill="#F37726" cx="25" cy="5" r="3"/><circle fill="#989898" cx="11" cy="31" r="3"/></svg>
+  description: >-
+    Learn how to create and use Jupyter notebooks for data science
+    and machine learning workflows in Open Data Hub.
+  url: https://opendatahub.io/docs/getting-started-with-jupyter-notebooks/
+  durationMinutes: 15
+---
+apiVersion: dashboard.opendatahub.io/v1
+kind: OdhDocument
+metadata:
+  name: intro-to-data-science-pipelines
+  namespace: odh-dashboard
+  annotations:
+    opendatahub.io/categories: "Data science pipelines,Getting started"
+spec:
+  displayName: Introduction to data science pipelines
+  type: tutorial
+  provider: Open Data Hub
+  img: >-
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36"><path fill="#009596" d="M4 8h28v4H4zM4 16h28v4H4zM4 24h28v4H4z"/><circle fill="#F0AB00" cx="10" cy="10" r="3"/><circle fill="#F0AB00" cx="22" cy="18" r="3"/><circle fill="#F0AB00" cx="14" cy="26" r="3"/><line x1="10" y1="10" x2="22" y2="18" stroke="#F0AB00" stroke-width="1.5"/><line x1="22" y1="18" x2="14" y2="26" stroke="#F0AB00" stroke-width="1.5"/></svg>
+  description: >-
+    Build, deploy, and manage end-to-end machine learning workflows
+    using data science pipelines with Kubeflow integration.
+  url: https://opendatahub.io/docs/working-with-data-science-pipelines/
+  durationMinutes: 30
+---
+apiVersion: dashboard.opendatahub.io/v1
+kind: OdhDocument
+metadata:
+  name: deploying-models-with-model-serving
+  namespace: odh-dashboard
+  annotations:
+    opendatahub.io/categories: "Model serving,AI/ML"
+spec:
+  displayName: Deploying models with model serving
+  type: tutorial
+  provider: Open Data Hub
+  img: >-
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36"><path fill="#009596" d="M18 2L2 10v16l16 8 16-8V10L18 2zm13 22.5L18 31.2 5 24.5V12l13-6.5L31 12v12.5z"/><path fill="#009596" d="M18 14l-8 4v8l8 4 8-4v-8l-8-4zm5 10.5L18 27.2l-5-2.7V18l5-2.5 5 2.5v6.5z"/></svg>
+  description: >-
+    Deploy trained machine learning models as scalable inference
+    endpoints using KServe and model serving in Open Data Hub.
+  url: https://opendatahub.io/docs/serving-machine-learning-models/
+  durationMinutes: 25
+---
+apiVersion: dashboard.opendatahub.io/v1
+kind: OdhDocument
+metadata:
+  name: working-with-s3-data
+  namespace: odh-dashboard
+  annotations:
+    opendatahub.io/categories: "Data management,Notebook environments"
+spec:
+  displayName: Working with data from S3-compatible object storage
+  type: how-to
+  provider: Open Data Hub
+  img: >-
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36"><ellipse fill="#009596" cx="18" cy="8" rx="14" ry="5"/><path fill="#009596" d="M4 8v8c0 2.761 6.268 5 14 5s14-2.239 14-5V8c0 2.761-6.268 5-14 5S4 10.761 4 8z"/><path fill="#009596" d="M4 16v8c0 2.761 6.268 5 14 5s14-2.239 14-5v-8c0 2.761-6.268 5-14 5S4 18.761 4 16z"/></svg>
+  description: >-
+    Connect to and use data stored in S3-compatible object storage
+    from your workbenches and pipelines.
+  url: https://opendatahub.io/docs/working-with-data/
+  durationMinutes: 15
+---
+apiVersion: dashboard.opendatahub.io/v1
+kind: OdhDocument
+metadata:
+  name: odh-documentation
+  namespace: odh-dashboard
+  annotations:
+    opendatahub.io/categories: "Getting started"
+spec:
+  displayName: Open Data Hub documentation
+  type: documentation
+  provider: Open Data Hub
+  img: >-
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36"><path fill="#009596" d="M28 4H8C6.343 4 5 5.343 5 7v22c0 1.657 1.343 3 3 3h20c1.657 0 3-1.343 3-3V7c0-1.657-1.343-3-3-3zm0 24H8V7h20v21z"/><rect fill="#009596" x="11" y="11" width="14" height="2"/><rect fill="#009596" x="11" y="16" width="14" height="2"/><rect fill="#009596" x="11" y="21" width="8" height="2"/></svg>
+  description: >-
+    The official documentation for Open Data Hub, including
+    installation guides, architecture, and component references.
+  url: https://opendatahub.io/docs/
+  durationMinutes: 0
+---
+apiVersion: trainer.kubeflow.org/v1alpha1
+kind: TrainJob
+metadata:
+  name: pytorch-distributed-training
+  namespace: sample-project
+  labels:
+    kueue.x-k8s.io/queue-name: default-queue
+    app.kubernetes.io/name: train-job
+    app.kubernetes.io/component: training
+  annotations:
+    opendatahub.io/display-name: PyTorch Distributed Training
+    trainer.opendatahub.io/trainerStatus: >-
+      {"progressPercentage":72,"estimatedRemainingSeconds":1200,"currentStep":3600,"totalSteps":5000,"currentEpoch":4,"totalEpochs":5,"trainMetrics":{"loss":0.1823,"accuracy":0.9124,"total_batches":900,"total_samples":4500},"evalMetrics":null,"lastUpdatedTime":"2025-04-23T14:30:00Z"}
+spec:
+  runtimeRef:
+    apiGroup: kubeflow.org
+    kind: PyTorchRuntime
+    name: pytorch-runtime
+  trainer:
+    numNodes: 3
+    numProcPerNode: 1
+    resourcesPerNode:
+      limits:
+        nvidia.com/gpu: 1
+        cpu: "2"
+        memory: 4Gi
+      requests:
+        cpu: "1"
+        memory: 2Gi
+status:
+  conditions:
+    - type: Created
+      status: "True"
+      lastTransitionTime: "2025-04-23T12:00:00Z"
+      reason: TrainJobCreated
+      message: TrainJob pytorch-distributed-training is created.
+    - type: Running
+      status: "True"
+      lastTransitionTime: "2025-04-23T12:02:00Z"
+      reason: TrainJobRunning
+      message: TrainJob pytorch-distributed-training is running.
+  jobsStatus:
+    - name: node
+      active: 3
+      succeeded: 0
+      failed: 0
+      ready: 3
+      suspended: 0
+---
+apiVersion: trainer.kubeflow.org/v1alpha1
+kind: TrainJob
+metadata:
+  name: llm-finetuning-job
+  namespace: sample-project
+  labels:
+    kueue.x-k8s.io/queue-name: default-queue
+    app.kubernetes.io/name: train-job
+    app.kubernetes.io/component: training
+  annotations:
+    opendatahub.io/display-name: LLM Fine-tuning Job
+spec:
+  runtimeRef:
+    apiGroup: kubeflow.org
+    kind: PyTorchRuntime
+    name: pytorch-runtime
+  trainer:
+    numNodes: 2
+    numProcPerNode: 1
+    resourcesPerNode:
+      limits:
+        nvidia.com/gpu: 2
+        cpu: "4"
+        memory: 8Gi
+      requests:
+        cpu: "2"
+        memory: 4Gi
+status:
+  conditions:
+    - type: Created
+      status: "True"
+      lastTransitionTime: "2025-04-22T08:00:00Z"
+      reason: TrainJobCreated
+      message: TrainJob llm-finetuning-job is created.
+    - type: Succeeded
+      status: "True"
+      lastTransitionTime: "2025-04-22T14:30:00Z"
+      reason: TrainJobSucceeded
+      message: TrainJob llm-finetuning-job has succeeded.
+  jobsStatus:
+    - name: node
+      active: 0
+      succeeded: 2
+      failed: 0
+      ready: 0
+      suspended: 0
+---
+apiVersion: ray.io/v1
+kind: RayJob
+metadata:
+  name: hyperparameter-tuning
+  namespace: sample-project
+  labels:
+    app.kubernetes.io/name: ray-job
+spec:
+  entrypoint: python tune.py --num-samples 100 --max-concurrent 4
+  runtimeEnvYAML: |
+    pip:
+      - torch
+      - ray[tune]
+      - optuna
+  suspend: false
+  submissionMode: K8sJobMode
+  shutdownAfterJobFinishes: true
+  ttlSecondsAfterFinished: 300
+  rayClusterSpec:
+    rayVersion: "2.9.0"
+    headGroupSpec:
+      template:
+        spec:
+          containers:
+            - name: ray-head
+              resources:
+                requests:
+                  cpu: "1"
+                  memory: 2Gi
+                limits:
+                  cpu: "2"
+                  memory: 4Gi
+    workerGroupSpecs:
+      - groupName: worker-group-1
+        replicas: 2
+        minReplicas: 0
+        maxReplicas: 4
+        template:
+          spec:
+            containers:
+              - name: ray-worker
+                resources:
+                  requests:
+                    cpu: "1"
+                    memory: 2Gi
+                  limits:
+                    cpu: "2"
+                    memory: 2Gi
+status:
+  jobId: raysubmit_hyperparameter-tuning
+  jobStatus: RUNNING
+  jobDeploymentStatus: Running
+  rayClusterName: hyperparameter-tuning-raycluster
+  dashboardURL: http://hyperparameter-tuning-head-svc.sample-project:8265
+  startTime: "2025-04-23T13:00:00Z"
+  succeeded: 0
+  failed: 0
+---
+apiVersion: ray.io/v1
+kind: RayJob
+metadata:
+  name: data-preprocessing-pipeline
+  namespace: sample-project
+  labels:
+    app.kubernetes.io/name: ray-job
+spec:
+  entrypoint: python preprocess.py --input /data/raw --output /data/processed
+  runtimeEnvYAML: |
+    pip:
+      - pandas
+      - pyarrow
+      - ray[data]
+  suspend: false
+  submissionMode: K8sJobMode
+  shutdownAfterJobFinishes: true
+  ttlSecondsAfterFinished: 300
+  rayClusterSpec:
+    rayVersion: "2.9.0"
+    headGroupSpec:
+      template:
+        spec:
+          containers:
+            - name: ray-head
+              resources:
+                requests:
+                  cpu: "1"
+                  memory: 2Gi
+                limits:
+                  cpu: "2"
+                  memory: 4Gi
+    workerGroupSpecs:
+      - groupName: worker-group-1
+        replicas: 3
+        minReplicas: 0
+        maxReplicas: 6
+        template:
+          spec:
+            containers:
+              - name: ray-worker
+                resources:
+                  requests:
+                    cpu: "2"
+                    memory: 4Gi
+                  limits:
+                    cpu: "4"
+                    memory: 8Gi
+status:
+  jobId: raysubmit_data-preprocessing-pipeline
+  jobStatus: SUCCEEDED
+  jobDeploymentStatus: Complete
+  rayClusterName: data-preprocessing-pipeline-raycluster
+  dashboardURL: http://data-preprocessing-pipeline-head-svc.sample-project:8265
+  startTime: "2025-04-22T10:00:00Z"
+  endTime: "2025-04-22T11:30:00Z"
+  succeeded: 1
+  failed: 0
+---
+apiVersion: kueue.x-k8s.io/v1beta2
+kind: ClusterQueue
+metadata:
+  name: default-cluster-queue
+spec:
+  namespaceSelector: {}
+  queueingStrategy: BestEffortFIFO
+  resourceGroups:
+    - coveredResources:
+        - cpu
+        - memory
+      flavors:
+        - name: default-flavor
+          resources:
+            - name: cpu
+              nominalQuota: "16"
+            - name: memory
+              nominalQuota: 64Gi
+status:
+  flavorsReservation:
+    - name: default-flavor
+      resources:
+        - name: cpu
+          total: "4"
+        - name: memory
+          total: 16Gi
+  flavorsUsage:
+    - name: default-flavor
+      resources:
+        - name: cpu
+          total: "3"
+        - name: memory
+          total: 12Gi
+  pendingWorkloads: 0
+  reservingWorkloads: 1
+  admittedWorkloads: 1
+  conditions:
+    - type: Active
+      status: "True"
+      lastTransitionTime: "2025-04-22T08:00:00Z"
+      reason: Ready
+      message: ClusterQueue is active and ready to admit workloads.
+---
+apiVersion: kueue.x-k8s.io/v1beta2
+kind: LocalQueue
+metadata:
+  name: default-queue
+  namespace: sample-project
+spec:
+  clusterQueue: default-cluster-queue
+status:
+  flavorsReservation:
+    - name: default-flavor
+      resources:
+        - name: cpu
+          total: "4"
+        - name: memory
+          total: 16Gi
+  flavorsUsage:
+    - name: default-flavor
+      resources:
+        - name: cpu
+          total: "3"
+        - name: memory
+          total: 12Gi
+  pendingWorkloads: 0
+  reservingWorkloads: 1
+  admittedWorkloads: 1
+  conditions:
+    - type: Active
+      status: "True"
+      lastTransitionTime: "2025-04-22T08:00:00Z"
+      reason: Ready
+      message: LocalQueue is active and connected to ClusterQueue default-cluster-queue.
+---
+apiVersion: kueue.x-k8s.io/v1beta2
+kind: Workload
+metadata:
+  name: trainjob-pytorch-distributed-training
+  namespace: sample-project
+  labels:
+    kueue.x-k8s.io/queue-name: default-queue
+spec:
+  active: true
+  queueName: default-queue
+  podSets:
+    - name: node
+      count: 3
+      template:
+        spec:
+          containers:
+            - name: trainer
+              resources:
+                requests:
+                  cpu: "1"
+                  memory: 2Gi
+                limits:
+                  nvidia.com/gpu: "1"
+                  cpu: "2"
+                  memory: 4Gi
+status:
+  admission:
+    clusterQueue: default-cluster-queue
+    podSetAssignments:
+      - name: node
+        count: 3
+        flavors:
+          cpu: default-flavor
+          memory: default-flavor
+        resourceUsage:
+          cpu: "3"
+          memory: 6Gi
+  conditions:
+    - type: Admitted
+      status: "True"
+      lastTransitionTime: "2025-04-23T12:01:00Z"
+      reason: Admitted
+      message: Workload admitted to ClusterQueue default-cluster-queue.
+---
+apiVersion: image.openshift.io/v1
+kind: ImageStream
+metadata:
+  name: custom-pytorch-cuda
+  namespace: odh-dashboard
+  labels:
+    opendatahub.io/notebook-image: "true"
+    app.kubernetes.io/created-by: byon
+  annotations:
+    opendatahub.io/notebook-image-name: "Custom PyTorch CUDA"
+    opendatahub.io/notebook-image-desc: "Custom workbench image with PyTorch 2.2 and CUDA 12.1 for GPU-accelerated deep learning workloads."
+    opendatahub.io/notebook-image-url: "https://quay.io/repository/my-org/pytorch-cuda-notebook"
+    opendatahub.io/notebook-image-creator: "admin"
+    opendatahub.io/recommended-accelerators: '["nvidia.com/gpu"]'
+spec:
+  lookupPolicy:
+    local: true
+  tags:
+    - name: "2024.1"
+      annotations:
+        opendatahub.io/notebook-python-dependencies: '[{"name":"PyTorch","version":"2.2.0"},{"name":"CUDA Toolkit","version":"12.1"},{"name":"cuDNN","version":"8.9"},{"name":"Transformers","version":"4.38"}]'
+        opendatahub.io/notebook-software: '[{"name":"Python","version":"v3.11"},{"name":"CUDA","version":"12.1"}]'
+        opendatahub.io/workbench-image-recommended: "true"
+        openshift.io/imported-from: quay.io/my-org/pytorch-cuda-notebook:2024.1
+      from:
+        kind: DockerImage
+        name: quay.io/my-org/pytorch-cuda-notebook:2024.1
+status:
+  tags:
+    - tag: "2024.1"
+      items:
+        - created: "2025-03-10T09:00:00Z"
+          dockerImageReference: quay.io/my-org/pytorch-cuda-notebook:2024.1
+          image: quay.io/my-org/pytorch-cuda-notebook:2024.1
+          generation: 1
+---
+apiVersion: image.openshift.io/v1
+kind: ImageStream
+metadata:
+  name: custom-r-studio
+  namespace: odh-dashboard
+  labels:
+    opendatahub.io/notebook-image: "true"
+    app.kubernetes.io/created-by: byon
+  annotations:
+    opendatahub.io/notebook-image-name: "Custom R Studio"
+    opendatahub.io/notebook-image-desc: "Custom workbench image with R Studio Server and common R packages for statistical analysis."
+    opendatahub.io/notebook-image-url: "https://quay.io/repository/my-org/rstudio-notebook"
+    opendatahub.io/notebook-image-creator: "data-science-team"
+spec:
+  lookupPolicy:
+    local: true
+  tags:
+    - name: "latest"
+      annotations:
+        opendatahub.io/notebook-python-dependencies: '[{"name":"R","version":"4.3.2"},{"name":"tidyverse","version":"2.0"},{"name":"ggplot2","version":"3.4"},{"name":"shiny","version":"1.8"}]'
+        opendatahub.io/notebook-software: '[{"name":"R","version":"4.3.2"},{"name":"Python","version":"v3.11"}]'
+        opendatahub.io/workbench-image-recommended: "true"
+        openshift.io/imported-from: quay.io/my-org/rstudio-notebook:latest
+      from:
+        kind: DockerImage
+        name: quay.io/my-org/rstudio-notebook:latest
+status:
+  tags:
+    - tag: "latest"
+      items:
+        - created: "2025-02-20T14:00:00Z"
+          dockerImageReference: quay.io/my-org/rstudio-notebook:latest
+          image: quay.io/my-org/rstudio-notebook:latest
+          generation: 1
+---
+# Mock S3 credentials secret for the DSPA CR
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mock-s3-credentials
+  namespace: sample-project
+type: Opaque
+stringData:
+  accesskey: "minio-access-key"
+  secretkey: "minio-secret-key"
+---
+# DataSciencePipelinesApplication CR pointing to the mock pipeline server
+apiVersion: datasciencepipelinesapplications.opendatahub.io/v1
+kind: DataSciencePipelinesApplication
+metadata:
+  name: dspa
+  namespace: sample-project
+spec:
+  dspVersion: v2
+  objectStorage:
+    externalStorage:
+      host: mock-s3.sample-project.svc.cluster.local
+      bucket: mock-bucket
+      scheme: http
+      region: us-east-1
+      s3CredentialsSecret:
+        accessKey: accesskey
+        secretKey: secretkey
+        secretName: mock-s3-credentials
+status:
+  conditions:
+    - type: Ready
+      status: "True"
+      reason: MinimumReplicasAvailable
+      message: All components ready
+      lastTransitionTime: "2025-04-20T12:00:00Z"
+    - type: APIServerReady
+      status: "True"
+      reason: Ready
+      message: API server is running
+      lastTransitionTime: "2025-04-20T12:00:00Z"
+    - type: PersistenceAgentReady
+      status: "True"
+      reason: Ready
+      message: Persistence agent is running
+      lastTransitionTime: "2025-04-20T12:00:00Z"
+    - type: ScheduledWorkflowReady
+      status: "True"
+      reason: Ready
+      message: Scheduled workflow is running
+      lastTransitionTime: "2025-04-20T12:00:00Z"
+  components:
+    apiServer:
+      externalUrl: "http://ds-pipeline-dspa.sample-project.svc.cluster.local:8443"
+      url: "http://ds-pipeline-dspa.sample-project.svc.cluster.local:8443"
+    mlmdProxy:
+      externalUrl: "http://ds-pipeline-dspa.sample-project.svc.cluster.local:8443"
+      url: "http://ds-pipeline-dspa.sample-project.svc.cluster.local:8443"
+---
+# DataScienceCluster CR (cluster-scoped, needed for MaaS and other component status checks)
+apiVersion: datasciencecluster.opendatahub.io/v2
+kind: DataScienceCluster
+metadata:
+  name: default-dsc
+spec:
+  components:
+    modelregistry:
+      managementState: Managed
+      registriesNamespace: odh-dashboard
+---
+# Sample S3 connection in sample-project
+apiVersion: v1
+kind: Secret
+metadata:
+  name: my-s3-bucket
+  namespace: sample-project
+  labels:
+    opendatahub.io/dashboard: "true"
+    opendatahub.io/managed: "true"
+  annotations:
+    opendatahub.io/connection-type: s3
+    openshift.io/display-name: "My S3 Bucket"
+    openshift.io/description: "Sample S3 connection for model storage"
+type: Opaque
+data:
+  AWS_ACCESS_KEY_ID: bW9jay1hY2Nlc3Mta2V5
+  AWS_SECRET_ACCESS_KEY: bW9jay1zZWNyZXQta2V5
+  AWS_S3_BUCKET: bW9kZWxz
+  AWS_S3_ENDPOINT: aHR0cHM6Ly9zMy5hbWF6b25hd3MuY29t
+  AWS_DEFAULT_REGION: dXMtZWFzdC0x
+---
+# Sample Notebook (workbench) – appears as a stopped workbench in the project detail page
+apiVersion: kubeflow.org/v1
+kind: Notebook
+metadata:
+  name: my-data-science-workbench
+  namespace: sample-project
+  labels:
+    app: my-data-science-workbench
+    opendatahub.io/dashboard: "true"
+    opendatahub.io/odh-managed: "true"
+  annotations:
+    openshift.io/display-name: "My Data Science Workbench"
+    openshift.io/description: "A Jupyter notebook for exploratory data analysis"
+    opendatahub.io/image-display-name: "Standard Data Science"
+    notebooks.opendatahub.io/last-image-selection: "jupyter-datascience-notebook:2024.1"
+    notebooks.opendatahub.io/last-size-selection: "Small"
+    opendatahub.io/username: "admin"
+    notebooks.opendatahub.io/inject-auth: "true"
+    kubeflow-resource-stopped: "2025-04-20T12:00:00Z"
+    notebooks.kubeflow.org/last-activity: "2025-04-20T11:55:00Z"
+  creationTimestamp: "2025-04-18T09:00:00Z"
+spec:
+  template:
+    spec:
+      containers:
+        - name: my-data-science-workbench
+          image: jupyter-datascience-notebook:2024.1
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8888
+              name: notebook-port
+              protocol: TCP
+          resources:
+            requests:
+              cpu: "1"
+              memory: 2Gi
+            limits:
+              cpu: "2"
+              memory: 4Gi
+          volumeMounts:
+            - mountPath: /opt/app-root/src
+              name: my-data-science-workbench
+          workingDir: /opt/app-root/src
+      volumes:
+        - name: my-data-science-workbench
+          persistentVolumeClaim:
+            claimName: my-data-science-workbench
+---
+# PVC for the sample workbench
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: my-data-science-workbench
+  namespace: sample-project
+  labels:
+    opendatahub.io/dashboard: "true"
+  annotations:
+    openshift.io/display-name: "My Data Science Workbench Storage"
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+---
+# Sample ServingRuntime for KServe single-model serving
+apiVersion: serving.kserve.io/v1alpha1
+kind: ServingRuntime
+metadata:
+  name: kserve-vllm
+  namespace: sample-project
+  labels:
+    opendatahub.io/dashboard: "true"
+  annotations:
+    openshift.io/display-name: "vLLM ServingRuntime for KServe"
+    opendatahub.io/template-display-name: "vLLM"
+    opendatahub.io/apiProtocol: REST
+spec:
+  supportedModelFormats:
+    - name: vLLM
+      version: "1"
+      autoSelect: true
+  multiModel: false
+  containers:
+    - name: kserve-container
+      image: quay.io/opendatahub/vllm:latest
+      ports:
+        - containerPort: 8080
+          protocol: TCP
+---
+# Sample deployed InferenceService (shows as "Ready" in Model Deployments)
+apiVersion: serving.kserve.io/v1beta1
+kind: InferenceService
+metadata:
+  name: llama-3-8b
+  namespace: sample-project
+  labels:
+    opendatahub.io/dashboard: "true"
+  annotations:
+    openshift.io/display-name: "Llama 3 8B"
+    serving.kserve.io/deploymentMode: RawDeployment
+    opendatahub.io/apiProtocol: REST
+  creationTimestamp: "2025-04-20T10:00:00Z"
+spec:
+  predictor:
+    model:
+      modelFormat:
+        name: vLLM
+      runtime: kserve-vllm
+      storageUri: s3://models/llama-3-8b
+      resources:
+        requests:
+          cpu: "4"
+          memory: 16Gi
+        limits:
+          cpu: "8"
+          memory: 32Gi
+status:
+  conditions:
+    - type: Ready
+      status: "True"
+      lastTransitionTime: "2025-04-20T10:05:00Z"
+    - type: PredictorReady
+      status: "True"
+      lastTransitionTime: "2025-04-20T10:05:00Z"
+  modelStatus:
+    states:
+      activeModelState: Loaded
+      targetModelState: Loaded
+    transitionStatus: UpToDate
+  url: http://llama-3-8b.sample-project.svc.cluster.local
+  address:
+    url: http://llama-3-8b.sample-project.svc.cluster.local
+---
+# Second deployed model (shows as "Starting" state)
+apiVersion: serving.kserve.io/v1beta1
+kind: InferenceService
+metadata:
+  name: mistral-7b
+  namespace: sample-project
+  labels:
+    opendatahub.io/dashboard: "true"
+  annotations:
+    openshift.io/display-name: "Mistral 7B Instruct"
+    serving.kserve.io/deploymentMode: RawDeployment
+    opendatahub.io/apiProtocol: REST
+  creationTimestamp: "2025-04-22T14:30:00Z"
+spec:
+  predictor:
+    model:
+      modelFormat:
+        name: vLLM
+      runtime: kserve-vllm
+      storageUri: s3://models/mistral-7b-instruct
+      resources:
+        requests:
+          cpu: "2"
+          memory: 8Gi
+        limits:
+          cpu: "4"
+          memory: 16Gi
+status:
+  conditions:
+    - type: Ready
+      status: "False"
+      lastTransitionTime: "2025-04-22T14:30:00Z"
+      reason: RevisionMissing
+      message: "Waiting for model to load"
+  modelStatus:
+    states:
+      targetModelState: Pending
+    transitionStatus: InProgress
+---
+# Stub Service for the model-catalog (BFF discovers catalog via component=model-catalog label)
+apiVersion: v1
+kind: Service
+metadata:
+  name: model-catalog
+  namespace: odh-dashboard
+  labels:
+    component: model-catalog
+    app.kubernetes.io/component: model-catalog
+    app.kubernetes.io/name: model-catalog
+    app.kubernetes.io/part-of: model-catalog
+  annotations:
+    displayName: "Model Catalog"
+    description: "Stub model catalog service for Kind"
+spec:
+  type: ClusterIP
+  clusterIP: None
+  ports:
+    - name: http-api
+      port: 8081
+      protocol: TCP
+---
+# Stub Service for a model registry instance (BFF discovers registries via component=model-registry label)
+apiVersion: v1
+kind: Service
+metadata:
+  name: model-registry
+  namespace: odh-dashboard
+  labels:
+    component: model-registry
+  annotations:
+    displayName: "Default Model Registry"
+    description: "Sample model registry for Kind development"
+spec:
+  type: ClusterIP
+  clusterIP: None
+  ports:
+    - name: http-api
+      port: 8080
+      protocol: TCP
+---
+# Sample ModelRegistry instances (shown in Model Registry Settings)
+apiVersion: modelregistry.opendatahub.io/v1beta1
+kind: ModelRegistry
+metadata:
+  name: default-registry
+  namespace: odh-dashboard
+  annotations:
+    openshift.io/display-name: "Default Model Registry"
+    openshift.io/description: "Central model registry for tracking ML models"
+spec:
+  grpc:
+    port: 9090
+  rest:
+    port: 8080
+    serviceRoute: "http://default-registry.odh-dashboard.svc.cluster.local:8080"
+  postgres:
+    database: model_registry
+    host: postgres.odh-dashboard.svc.cluster.local
+    port: 5432
+    skipDBCreation: false
+    username: mlmduser
+    passwordSecret:
+      name: default-registry-db-credentials
+      key: password
+---
+apiVersion: modelregistry.opendatahub.io/v1beta1
+kind: ModelRegistry
+metadata:
+  name: team-nlp-registry
+  namespace: odh-dashboard
+  annotations:
+    openshift.io/display-name: "NLP Team Registry"
+    openshift.io/description: "Model registry for the NLP team"
+spec:
+  grpc:
+    port: 9090
+  rest:
+    port: 8080
+    serviceRoute: "http://team-nlp-registry.odh-dashboard.svc.cluster.local:8080"
+  postgres:
+    database: nlp_model_registry
+    host: postgres.odh-dashboard.svc.cluster.local
+    port: 5432
+    skipDBCreation: false
+    username: mlmduser
+    passwordSecret:
+      name: team-nlp-registry-db-credentials
+      key: password
+---
+# Default catalog sources ConfigMap (BFF reads from "default-catalog-sources" with key "sources.yaml")
+# The BFF parser expects root key "catalogs:" and nested "properties:" for type-specific fields
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: default-catalog-sources
+  namespace: odh-dashboard
+data:
+  sources.yaml: |
+    catalogs:
+      - id: red_hat_models
+        name: Red Hat Models
+        type: yaml
+        enabled: true
+        properties:
+          yamlCatalogPath: red_hat_models.yaml
+        labels:
+          - validated
+          - production-ready
+      - id: community_models
+        name: Community Models
+        type: hf
+        enabled: true
+        properties:
+          allowedOrganization: instructlab
+        labels:
+          - community
+          - experimental
+  red_hat_models.yaml: |
+    models:
+      - name: granite-8b-code-instruct
+        description: "IBM Granite 8B model fine-tuned for code generation"
+        labels:
+          - Code Generation
+          - Validated
+      - name: llama-3-8b-instruct
+        description: "Meta Llama 3 8B model fine-tuned for instruction following"
+        labels:
+          - NLP
+          - Validated
+---
+# User-managed catalog sources ConfigMap (BFF reads from "model-catalog-sources" with key "sources.yaml")
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: model-catalog-sources
+  namespace: odh-dashboard
+data:
+  sources.yaml: ""
+---
+# Grant the model-registry BFF's kubeflow-userid identity cluster-admin access
+# so SubjectAccessReview checks pass for the injected admin@kind.local user
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: kind-admin-local
+subjects:
+  - kind: User
+    name: admin@kind.local
+    apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: ClusterRole
+  name: cluster-admin
+  apiGroup: rbac.authorization.k8s.io
+---
+# Template wrapping a vLLM ServingRuntime for the settings/serving-runtimes page
+apiVersion: template.openshift.io/v1
+kind: Template
+metadata:
+  name: vllm-runtime-template
+  namespace: odh-dashboard
+  labels:
+    opendatahub.io/dashboard: "true"
+  annotations:
+    opendatahub.io/modelServingSupport: '["single"]'
+    opendatahub.io/apiProtocol: REST
+    opendatahub.io/model-type: '["generative_ai"]'
+objects:
+  - apiVersion: serving.kserve.io/v1alpha1
+    kind: ServingRuntime
+    metadata:
+      name: vllm-runtime
+      annotations:
+        openshift.io/display-name: vLLM ServingRuntime for KServe
+        opendatahub.io/runtime-version: "1.0.0"
+      labels:
+        opendatahub.io/dashboard: "true"
+    spec:
+      containers:
+        - name: kserve-container
+          image: quay.io/modh/vllm:latest
+          args:
+            - "--port=8080"
+            - "--model=/mnt/models"
+          resources:
+            limits:
+              cpu: "2"
+              memory: 8Gi
+            requests:
+              cpu: "1"
+              memory: 4Gi
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+      supportedModelFormats:
+        - name: vLLM
+          autoSelect: true
+      protocolVersions:
+        - v2
+        - grpc-v2
+parameters: []

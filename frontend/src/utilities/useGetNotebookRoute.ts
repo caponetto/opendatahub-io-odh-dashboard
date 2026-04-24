@@ -21,25 +21,37 @@ export const useGetNotebookRoute = (
     if (injectAuth) {
       setRoute(getRoutePathForWorkbench(workbenchNamespace, workbenchName));
     } else if (isNotebookController) {
-      getRoute(workbenchNamespace, workbenchName).then((fetchedRoute) => {
-        if (!cancelled) {
-          setRoute(
-            `https://${fetchedRoute.spec.host}/notebook/${workbenchNamespace}/${workbenchName}`,
-          );
-        }
-      });
-    } else {
-      listRoutes(workbenchNamespace, `notebook-name=${workbenchName}`).then((routes) => {
-        if (!cancelled) {
-          if (routes.length > 0) {
+      getRoute(workbenchNamespace, workbenchName)
+        .then((fetchedRoute) => {
+          if (!cancelled) {
             setRoute(
-              `https://${routes[0].spec.host}/notebook/${workbenchNamespace}/${workbenchName}`,
+              `https://${fetchedRoute.spec.host}/notebook/${workbenchNamespace}/${workbenchName}`,
             );
-          } else {
+          }
+        })
+        .catch(() => {
+          if (!cancelled) {
             setRoute(undefined);
           }
-        }
-      });
+        });
+    } else {
+      listRoutes(workbenchNamespace, `notebook-name=${workbenchName}`)
+        .then((routes) => {
+          if (!cancelled) {
+            if (routes.length > 0) {
+              setRoute(
+                `https://${routes[0].spec.host}/notebook/${workbenchNamespace}/${workbenchName}`,
+              );
+            } else {
+              setRoute(undefined);
+            }
+          }
+        })
+        .catch(() => {
+          if (!cancelled) {
+            setRoute(undefined);
+          }
+        });
     }
 
     return () => {

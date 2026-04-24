@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { ProjectKind } from '#~/k8sTypes';
 import { deleteProject } from '#~/api';
+import { useAppSelector } from '#~/redux/hooks';
 import DeleteModal from '#~/pages/projects/components/DeleteModal';
 import { getDisplayNameFromK8sResource } from '#~/concepts/k8s/utils';
 import { TrackingOutcome } from '#~/concepts/analyticsTracking/trackingProperties';
@@ -15,6 +16,7 @@ const deleteProjectEventType = 'Project Deleted';
 const DeleteProjectModal: React.FC<DeleteProjectModalProps> = ({ deleteData, onClose }) => {
   const [deleting, setDeleting] = React.useState(false);
   const [error, setError] = React.useState<Error | undefined>();
+  const platform = useAppSelector((state) => state.platform);
 
   const onBeforeClose = (deleted: boolean) => {
     if (!deleted) {
@@ -40,7 +42,7 @@ const DeleteProjectModal: React.FC<DeleteProjectModalProps> = ({ deleteData, onC
       submitButtonLabel="Delete project"
       onDelete={() => {
         setDeleting(true);
-        deleteProject(deleteData.metadata.name)
+        deleteProject(deleteData.metadata.name, platform)
           .then(() => onBeforeClose(true))
           .catch((e) => {
             fireFormTrackingEvent(deleteProjectEventType, {

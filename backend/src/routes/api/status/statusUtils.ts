@@ -11,7 +11,7 @@ export const status = async (
   request: FastifyRequest,
 ): Promise<{ kube: KubeStatus }> => {
   const kubeContext = fastify.kube.currentContext;
-  const { config, currentContext, namespace, currentUser, clusterID, clusterBranding } =
+  const { config, currentContext, namespace, currentUser, clusterID, clusterBranding, platform } =
     fastify.kube;
   const currentCluster = config.getCurrentCluster();
   if (currentCluster === null) {
@@ -46,6 +46,7 @@ export const status = async (
       clusterBranding,
       isAdmin,
       isAllowed,
+      platform,
       serverURL: server,
     };
     if (impersonating) {

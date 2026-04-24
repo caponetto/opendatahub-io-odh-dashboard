@@ -1,0 +1,7 @@
+{
+  "pipeline_id": "7a9b1c2d-3e4f-5a6b-8c9d-0e1f2a3b4c5d",
+  "display_name": "Iris Training Pipeline",
+  "description": "A sample pipeline that trains a scikit-learn model on the Iris dataset, evaluates accuracy, and outputs the trained model artifact.",
+  "created_at": "2025-04-10T14:30:00Z",
+  "name": "namespace/sample-project/iris-training-pipeline"
+}

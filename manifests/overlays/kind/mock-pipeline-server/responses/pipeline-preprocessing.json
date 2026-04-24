@@ -1,0 +1,7 @@
+{
+  "pipeline_id": "1f2e3d4c-5b6a-7890-abcd-ef1234567890",
+  "display_name": "Data Preprocessing Pipeline",
+  "description": "Ingests raw CSV data, performs cleaning, feature engineering, and outputs a transformed dataset ready for model training.",
+  "created_at": "2025-04-15T09:00:00Z",
+  "name": "namespace/sample-project/data-preprocessing-pipeline"
+}

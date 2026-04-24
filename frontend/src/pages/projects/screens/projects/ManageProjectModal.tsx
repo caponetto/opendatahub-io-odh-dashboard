@@ -12,6 +12,7 @@ import {
 } from '@patternfly/react-core';
 import { createProject, updateProject } from '#~/api';
 import { useUser } from '#~/redux/selectors';
+import { useAppSelector } from '#~/redux/hooks';
 import { ProjectKind } from '#~/k8sTypes';
 import { ProjectsContext } from '#~/concepts/projects/ProjectsContext';
 import { fireFormTrackingEvent } from '#~/concepts/analyticsTracking/segmentIOUtils';
@@ -39,6 +40,7 @@ const ManageProjectModal: React.FC<ManageProjectModalProps> = ({ editProjectData
     limitNameResourceType: LimitNameResourceType.PROJECT,
   });
   const { username } = useUser();
+  const platform = useAppSelector((state) => state.platform);
 
   const canSubmit = !fetching && isK8sNameDescriptionDataValid(k8sNameDescriptionData.data);
 
@@ -71,11 +73,11 @@ const ManageProjectModal: React.FC<ManageProjectModalProps> = ({ editProjectData
       k8sName: { value: k8sName },
     } = k8sNameDescriptionData.data;
     if (editProjectData) {
-      updateProject(editProjectData, name, description)
+      updateProject(editProjectData, name, description, platform)
         .then(() => onBeforeClose())
         .catch(handleError);
     } else {
-      createProject(username, name, description, k8sName)
+      createProject(username, name, description, k8sName, platform)
         .then((projectName) => waitForProject(projectName).then(() => onBeforeClose(projectName)))
         .catch(handleError);
     }

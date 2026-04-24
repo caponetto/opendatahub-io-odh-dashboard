@@ -8,7 +8,7 @@ import {
 } from './constants';
 import { createCustomError } from './requestUtils';
 import { errorHandler, isHttpError } from '../utils';
-import { KubeFastifyInstance } from '../types';
+import { KubeFastifyInstance, PlatformType } from '../types';
 import { isImpersonating } from '../devFlags';
 import { getUsernameFromToken } from './jwtUtils';
 
@@ -150,7 +150,16 @@ export const getUserInfo = async (
     }
   }
 
-  // Strategy 5: Dev mode fallback
+  // Strategy 5: Vanilla Kubernetes without auth proxy -- use the service account identity
+  if (fastify.kube.platform !== PlatformType.OpenShift) {
+    const saUsername = (currentUser.username || currentUser.name).split('/')[0];
+    fastify.log.debug(
+      `Vanilla Kubernetes: no auth proxy headers found, using service account identity: ${saUsername}`,
+    );
+    return { userName: saUsername, userID: undefined };
+  }
+
+  // Strategy 6: Dev mode fallback
   if (DEV_MODE) {
     if (isImpersonating()) {
       fastify.log.debug(`Using impersonated user: ${DEV_IMPERSONATE_USER}`);

@@ -1,0 +1,23 @@
+{
+  "experiments": [
+    {
+      "experiment_id": "exp-001-aaaa-bbbb-cccc-ddddeeee0001",
+      "display_name": "Default",
+      "description": "All runs are executed within the default experiment unless otherwise specified.",
+      "created_at": "2025-04-10T14:00:00Z",
+      "namespace": "sample-project",
+      "storage_state": "AVAILABLE",
+      "last_run_created_at": "2025-04-20T16:00:00Z"
+    },
+    {
+      "experiment_id": "exp-002-aaaa-bbbb-cccc-ddddeeee0002",
+      "display_name": "Iris Experiment",
+      "description": "Experiment for tracking Iris model training runs with different hyperparameters.",
+      "created_at": "2025-04-12T11:30:00Z",
+      "namespace": "sample-project",
+      "storage_state": "AVAILABLE",
+      "last_run_created_at": "2025-04-22T08:45:00Z"
+    }
+  ],
+  "total_size": 2
+}

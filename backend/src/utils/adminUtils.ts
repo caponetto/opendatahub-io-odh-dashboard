@@ -3,6 +3,7 @@ import {
   K8sStatus,
   KubeFastifyInstance,
   OauthFastifyRequest,
+  PlatformType,
   ResourceAccessReviewResponse,
 } from '../types';
 import { getGroup } from './groupsUtils';
@@ -31,17 +32,19 @@ const getGroupUserList = async (
 /** @deprecated -- don't rely on groups (legacy usage only) */
 export const getAdminUserList = async (fastify: KubeFastifyInstance): Promise<string[]> => {
   const auth = getAuth();
+  if (!auth) {
+    return [];
+  }
   return getGroupUserList(fastify, auth.spec.adminGroups);
 };
 
 /** @deprecated -- don't rely on groups (legacy usage only) */
 export const getClusterAdminUserList = async (fastify: KubeFastifyInstance): Promise<string[]> => {
-  // fetch all the users and groups who have cluster-admin role and put them into the admin user list
+  if (fastify.kube.platform !== PlatformType.OpenShift) {
+    return [];
+  }
   const { workbenchNamespace } = getNamespaces(fastify);
   const clusterAdminUsersAndGroups = await fastify.kube.customObjectsApi
-    // This is not actually fetching all the groups who have admin access to the notebook resources
-    // But only the cluster admins
-    // The "*" in the verb field is more like a placeholder
     .createClusterCustomObject('authorization.openshift.io', 'v1', 'resourceaccessreviews', {
       resource: 'notebooks',
       resourceAPIGroup: 'kubeflow.org',
@@ -66,9 +69,12 @@ export const getClusterAdminUserList = async (fastify: KubeFastifyInstance): Pro
 /** @deprecated -- don't rely on groups (legacy usage only) */
 export const getAllowedUserList = async (fastify: KubeFastifyInstance): Promise<string[]> => {
   const auth = getAuth();
+  if (!auth) {
+    return [];
+  }
   return getGroupUserList(
     fastify,
-    auth.spec.allowedGroups.filter((groupName) => groupName && !groupName.startsWith('system:')), // Handle edge-cases and ignore k8s defaults
+    auth.spec.allowedGroups.filter((groupName) => groupName && !groupName.startsWith('system:')),
   );
 };
 
@@ -84,21 +90,40 @@ const handleSSARCheck = (v: V1SelfSubjectAccessReview | K8sStatus): boolean =>
 export const isUserAdmin = async (
   fastify: KubeFastifyInstance,
   request: OauthFastifyRequest,
-): Promise<boolean> =>
-  createSelfSubjectAccessReview(fastify, request, {
+): Promise<boolean> => {
+  if (fastify.kube.platform !== PlatformType.OpenShift) {
+    const adminUsers = process.env.ADMIN_USERS?.split(',').map((u) => u.trim()) ?? [];
+    if (adminUsers.length > 0) {
+      const userName = String(
+        request.headers['x-auth-request-user'] ??
+          (request.headers['x-forwarded-access-token'] ? 'unknown' : ''),
+      );
+      return adminUsers.includes(userName);
+    }
+    return true;
+  }
+
+  return createSelfSubjectAccessReview(fastify, request, {
     ...SingletonAuthResource,
     verb: 'patch',
   })
     .then(handleSSARCheck)
     .catch(() => false);
+};
 
 export const isUserAllowed = async (
   fastify: KubeFastifyInstance,
   request: OauthFastifyRequest,
 ): Promise<boolean> => {
+  if (fastify.kube.platform !== PlatformType.OpenShift) {
+    return true;
+  }
+
   const auth = getAuth();
+  if (!auth) {
+    return true;
+  }
   if (auth.spec.allowedGroups.includes(SYSTEM_AUTHENTICATED)) {
-    // Escape hatch -- if everyone is authenticated, we don't need to check
     return true;
   }
 

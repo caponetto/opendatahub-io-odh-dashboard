@@ -1,0 +1,309 @@
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: odh-dashboard
+rules:
+  - verbs:
+      - get
+      - list
+      - update
+      - patch
+    apiGroups:
+      - storage.k8s.io
+    resources:
+      - storageclasses
+  - verbs:
+      - get
+      - list
+    apiGroups:
+      - ''
+    resources:
+      - nodes
+  - apiGroups:
+      - ''
+    verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+      - update
+      - watch
+    resources:
+      - configmaps
+      - persistentvolumeclaims
+      - secrets
+  - verbs:
+      - get
+      - list
+      - watch
+    apiGroups:
+      - ''
+    resources:
+      - pods
+      - serviceaccounts
+      - services
+  - apiGroups:
+      - ''
+    verbs:
+      - get
+      - list
+      - watch
+      - patch
+      - create
+      - delete
+    resources:
+      - namespaces
+  - apiGroups:
+      - rbac.authorization.k8s.io
+    verbs:
+      - list
+      - get
+      - create
+      - patch
+      - delete
+    resources:
+      - rolebindings
+      - clusterrolebindings
+      - roles
+  - apiGroups:
+      - ''
+      - events.k8s.io
+    resources:
+      - events
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - kubeflow.org
+    verbs:
+      - get
+      - list
+      - watch
+      - create
+      - update
+      - patch
+      - delete
+    resources:
+      - notebooks
+  - apiGroups:
+      - datasciencecluster.opendatahub.io
+    verbs:
+      - list
+      - watch
+      - get
+    resources:
+      - datascienceclusters
+  - apiGroups:
+      - dscinitialization.opendatahub.io
+    verbs:
+      - list
+      - watch
+      - get
+    resources:
+      - dscinitializations
+  - apiGroups:
+      - serving.kserve.io
+    resources:
+      - inferenceservices
+      - servingruntimes
+      - llminferenceservices
+      - llminferenceserviceconfigs
+    verbs:
+      - get
+      - list
+      - watch
+      - create
+      - update
+      - patch
+      - delete
+  - apiGroups:
+      - modelregistry.opendatahub.io
+    verbs:
+      - get
+      - list
+      - watch
+      - create
+      - update
+      - patch
+      - delete
+    resources:
+      - modelregistries
+  - verbs:
+      - get
+    apiGroups:
+      - ''
+    resources:
+      - endpoints
+  - verbs:
+      - get
+    apiGroups:
+      - services.platform.opendatahub.io
+    resources:
+      - auths
+  - apiGroups:
+      - llamastack.io
+    verbs:
+      - get
+      - list
+      - watch
+    resources:
+      - llamastackdistributions
+  - apiGroups:
+      - trustyai.opendatahub.io
+    verbs:
+      - get
+      - list
+      - watch
+    resources:
+      - guardrailsorchestrators
+      - evalhubs
+      - trustyaiservices
+  - apiGroups:
+      - feast.dev
+    verbs:
+      - get
+      - list
+      - watch
+    resources:
+      - featurestores
+  - apiGroups:
+      - mlflow.opendatahub.io
+    verbs:
+      - get
+      - list
+      - watch
+    resources:
+      - mlflows
+  - verbs:
+      - create
+    apiGroups:
+      - authentication.k8s.io
+    resources:
+      - tokenreviews
+  - verbs:
+      - create
+    apiGroups:
+      - authorization.k8s.io
+    resources:
+      - subjectaccessreviews
+  - apiGroups:
+      - networking.k8s.io
+    verbs:
+      - get
+      - list
+      - watch
+    resources:
+      - ingresses
+  - apiGroups:
+      - datasciencepipelinesapplications.opendatahub.io
+    verbs:
+      - get
+      - list
+      - watch
+      - create
+      - update
+      - patch
+      - delete
+    resources:
+      - datasciencepipelinesapplications
+  - apiGroups:
+      - infrastructure.opendatahub.io
+    verbs:
+      - get
+      - list
+      - watch
+      - create
+      - update
+      - patch
+      - delete
+    resources:
+      - hardwareprofiles
+  - apiGroups:
+      - image.openshift.io
+    verbs:
+      - get
+      - list
+      - watch
+    resources:
+      - imagestreams
+  - apiGroups:
+      - route.openshift.io
+    verbs:
+      - get
+      - list
+      - watch
+      - create
+      - update
+      - patch
+      - delete
+    resources:
+      - routes
+  - apiGroups:
+      - template.openshift.io
+    verbs:
+      - get
+      - list
+      - watch
+      - create
+      - update
+      - patch
+      - delete
+    resources:
+      - templates
+  - apiGroups:
+      - ray.io
+    verbs:
+      - get
+      - list
+      - watch
+    resources:
+      - rayjobs
+  - apiGroups:
+      - trainer.kubeflow.org
+    verbs:
+      - get
+      - list
+      - watch
+    resources:
+      - trainjobs
+  - apiGroups:
+      - kueue.x-k8s.io
+    verbs:
+      - get
+      - list
+      - watch
+    resources:
+      - clusterqueues
+      - localqueues
+      - workloads
+  - apiGroups:
+      - dashboard.opendatahub.io
+    verbs:
+      - get
+      - list
+      - watch
+      - create
+      - update
+      - patch
+      - delete
+    resources:
+      - odhapplications
+      - odhdocuments
+  - apiGroups:
+      - console.openshift.io
+    verbs:
+      - get
+      - list
+      - watch
+    resources:
+      - odhquickstarts
+  - apiGroups:
+      - datasciencecluster.opendatahub.io
+    verbs:
+      - get
+      - list
+      - watch
+    resources:
+      - datascienceclusters

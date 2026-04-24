@@ -3,6 +3,11 @@ import { User } from '@kubernetes/client-node/dist/config_types';
 import type { FastifyInstance, FastifyRequest, RouteGenericInterface } from 'fastify';
 import { EitherNotBoth } from './typeHelpers';
 
+export enum PlatformType {
+  OpenShift = 'OpenShift',
+  Kubernetes = 'Kubernetes',
+}
+
 export type OperatorStatus = {
   /** Operator is installed and will be cloned to the namespace on creation */
   available: boolean;
@@ -281,6 +286,7 @@ export type KubeStatus = {
   clusterBranding: string;
   isAdmin: boolean;
   isAllowed: boolean;
+  platform: PlatformType;
   serverURL: string;
   isImpersonating?: boolean;
 };

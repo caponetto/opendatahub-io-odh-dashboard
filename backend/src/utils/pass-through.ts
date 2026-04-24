@@ -37,7 +37,16 @@ const passThroughCatch = (fastify: KubeFastifyInstance) => (error: Error) => {
     errorMessage = JSON.stringify(error);
   }
 
-  fastify.log.error(`Unhandled error during Kube call: ${errorMessage}`);
+  const errorCode =
+    typeof error === 'object' && error !== null && 'code' in error
+      ? (error as { code: number }).code
+      : undefined;
+
+  if (errorCode === 404) {
+    fastify.log.debug(`API resource not found during Kube call: ${errorMessage}`);
+  } else {
+    fastify.log.error(`Unhandled error during Kube call: ${errorMessage}`);
+  }
   throw error;
 };
 

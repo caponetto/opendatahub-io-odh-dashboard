@@ -1,0 +1,44 @@
+{
+  "artifacts": [
+    {
+      "artifact_id": "1",
+      "artifact_type": "system.Dataset",
+      "uri": "s3://mock-bucket/artifacts/iris-dataset/data.csv",
+      "display_name": "iris-dataset",
+      "namespace": "sample-project",
+      "create_time": "2025-04-20T16:02:00Z",
+      "state": "LIVE",
+      "custom_properties": {
+        "display_name": {"string_value": "Iris Dataset"},
+        "store_session_info": {"string_value": "pipeline_run:run-001-1111-2222-3333-444455550001"}
+      }
+    },
+    {
+      "artifact_id": "2",
+      "artifact_type": "system.Model",
+      "uri": "s3://mock-bucket/artifacts/iris-model/model.pkl",
+      "display_name": "iris-trained-model",
+      "namespace": "sample-project",
+      "create_time": "2025-04-20T16:10:00Z",
+      "state": "LIVE",
+      "custom_properties": {
+        "display_name": {"string_value": "Iris Trained Model"},
+        "store_session_info": {"string_value": "pipeline_run:run-001-1111-2222-3333-444455550001"}
+      }
+    },
+    {
+      "artifact_id": "3",
+      "artifact_type": "system.Metrics",
+      "uri": "s3://mock-bucket/artifacts/iris-metrics/metrics.json",
+      "display_name": "iris-evaluation-metrics",
+      "namespace": "sample-project",
+      "create_time": "2025-04-20T16:11:00Z",
+      "state": "LIVE",
+      "custom_properties": {
+        "display_name": {"string_value": "Iris Evaluation Metrics"},
+        "store_session_info": {"string_value": "pipeline_run:run-001-1111-2222-3333-444455550001"}
+      }
+    }
+  ],
+  "total_size": 3
+}

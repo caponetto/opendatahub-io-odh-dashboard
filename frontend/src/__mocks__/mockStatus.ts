@@ -1,4 +1,4 @@
-import { StatusResponse } from '#~/redux/types';
+import { PlatformType, StatusResponse } from '#~/redux/types';
 
 export const mockStatus = (options?: {
   isAdmin?: boolean;
@@ -17,6 +17,7 @@ export const mockStatus = (options?: {
     clusterBranding: 'ocp',
     isAdmin: options?.isAdmin ?? false,
     isAllowed: options?.isAllowed ?? true,
+    platform: PlatformType.OpenShift,
     serverURL: 'https://api.test-user.dev.datahub.redhat.com:6443',
   },
 });

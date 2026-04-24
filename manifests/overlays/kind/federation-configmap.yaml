@@ -1,0 +1,84 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: federation-config
+data:
+  module-federation-config.json: |
+    [
+      {
+        "name": "modelRegistry",
+        "backend": {
+          "remoteEntry": "/remoteEntry.js",
+          "authorize": false,
+          "tls": false,
+          "service": {
+            "name": "model-registry-ui",
+            "namespace": "odh-dashboard",
+            "port": 8043
+          },
+          "headers": {
+            "kubeflow-userid": "admin@kind.local",
+            "kubeflow-groups": "system:cluster-admins"
+          }
+        },
+        "proxyService": [
+          {
+            "path": "/model-registry/api",
+            "pathRewrite": "/api",
+            "authorize": false,
+            "tls": false,
+            "service": {
+              "name": "model-registry-ui",
+              "namespace": "odh-dashboard",
+              "port": 8043
+            },
+            "headers": {
+              "kubeflow-userid": "admin@kind.local",
+              "kubeflow-groups": "system:cluster-admins"
+            }
+          }
+        ]
+      },
+      {
+        "name": "maas",
+        "backend": {
+          "remoteEntry": "/remoteEntry.js",
+          "authorize": false,
+          "tls": false,
+          "service": {
+            "name": "maas-ui",
+            "namespace": "odh-dashboard",
+            "port": 8243
+          }
+        },
+        "proxyService": [
+          {
+            "path": "/maas/api",
+            "pathRewrite": "/api",
+            "authorize": false,
+            "tls": false,
+            "service": {
+              "name": "maas-ui",
+              "namespace": "odh-dashboard",
+              "port": 8243
+            }
+          }
+        ]
+      },
+      {
+        "name": "perses",
+        "proxyService": [
+          {
+            "authorize": false,
+            "path": "/perses/api",
+            "pathRewrite": "",
+            "tls": false,
+            "service": {
+              "name": "data-science-perses",
+              "namespace": "odh-dashboard",
+              "port": 8080
+            }
+          }
+        ]
+      }
+    ]

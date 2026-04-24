@@ -1,0 +1,161 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+- ../../common/crd
+- ../../core-bases/base
+- ingress.yaml
+- odhdashboardconfig.yaml
+- federation-configmap.yaml
+
+  # Remove kube-rbac-proxy sidecar, set a real image, reduce replicas, tune resources
+
+  # Replace Service: remove OCP serving-cert annotation, target port 8080
+
+  # Strip the OpenShift oauth-redirect annotation from the ServiceAccount
+
+  # Replace Role with vanilla-K8s-only rules
+  # Replace ClusterRole with vanilla-K8s-only rules
+
+  # Neuter the OCP-only builds-and-images ClusterRole
+
+  # Remove the kube-rbac-proxy ConfigMap (not needed without the sidecar)
+
+  # Strip template.openshift.io from model-serving role
+
+  # ClusterRoleBindings: add namespace to SA subjects (required on vanilla K8s)
+
+  # Remove the HTTPRoute (references OpenShift ingress Gateway)
+patches:
+- patch: |-
+    - op: remove
+      path: /spec/template/spec/containers/1
+    - op: replace
+      path: /spec/replicas
+      value: 1
+    - op: replace
+      path: /spec/template/spec/containers/0/image
+      value: odh-dashboard:latest
+    - op: replace
+      path: /spec/template/spec/containers/0/imagePullPolicy
+      value: IfNotPresent
+    - op: replace
+      path: /spec/template/spec/containers/0/resources
+      value:
+        requests:
+          cpu: 250m
+          memory: 512Mi
+        limits:
+          cpu: 500m
+          memory: 1Gi
+    - op: remove
+      path: /spec/template/spec/volumes/0
+    - op: remove
+      path: /spec/template/spec/volumes/0
+  target:
+    kind: Deployment
+    name: odh-dashboard
+- patch: |-
+    - op: remove
+      path: /metadata/annotations
+    - op: replace
+      path: /spec/ports/0
+      value:
+        name: dashboard-ui
+        protocol: TCP
+        port: 8080
+        targetPort: 8080
+  target:
+    kind: Service
+    name: odh-dashboard
+- patch: |-
+    - op: remove
+      path: /metadata/annotations
+  target:
+    kind: ServiceAccount
+    name: odh-dashboard
+- path: role-patch.yaml
+- path: cluster-role-patch.yaml
+- patch: |-
+    - op: replace
+      path: /rules
+      value:
+        - apiGroups: [""]
+          resources: ["configmaps"]
+          verbs: ["get"]
+  target:
+    kind: ClusterRole
+    name: dsg-cluster-roles
+- patch: |-
+    $patch: delete
+    apiVersion: v1
+    kind: ConfigMap
+    metadata:
+      name: kube-rbac-proxy-config
+  target:
+    kind: ConfigMap
+    name: kube-rbac-proxy-config
+- patch: |-
+    - op: replace
+      path: /rules/0/apiGroups
+      value: [""]
+    - op: replace
+      path: /rules/0/resources
+      value: ["configmaps"]
+  target:
+    kind: Role
+    name: servingruntimes-config-updater
+- patch: |-
+    - op: add
+      path: /subjects/0/namespace
+      value: odh-dashboard
+  target:
+    kind: ClusterRoleBinding
+    name: odh-dashboard
+- patch: |-
+    - op: add
+      path: /subjects/0/namespace
+      value: odh-dashboard
+  target:
+    kind: ClusterRoleBinding
+    name: odh-dashboard-auth-delegator
+- patch: |-
+    $patch: delete
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: ClusterRoleBinding
+    metadata:
+      name: odh-dashboard-monitoring
+  target:
+    kind: ClusterRoleBinding
+    name: odh-dashboard-monitoring
+- patch: |-
+    $patch: delete
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: RoleBinding
+    metadata:
+      name: cluster-image-pullers
+  target:
+    kind: RoleBinding
+    name: cluster-image-pullers
+- patch: |-
+    $patch: delete
+    apiVersion: gateway.networking.k8s.io/v1
+    kind: HTTPRoute
+    metadata:
+      name: odh-dashboard
+  target:
+    kind: HTTPRoute
+    name: odh-dashboard
+- patch: |-
+    - op: add
+      path: /spec/template/spec/containers/0/env/-
+      value:
+        name: MODULE_FEDERATION_CONFIG
+        valueFrom:
+          configMapKeyRef:
+            key: module-federation-config.json
+            name: federation-config
+  target:
+    kind: Deployment
+    name: odh-dashboard
+namespace: odh-dashboard

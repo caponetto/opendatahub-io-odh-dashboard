@@ -117,7 +117,10 @@ const AreaContextProvider: React.FC<AreaContextProps> = ({ flags, children }) =>
   const error = errorDsc || errorDsci;
   const loaded = loadedDsc && loadedDsci;
 
-  if (error || (loaded && (!dscStatus || Object.keys(dscStatus).length === 0))) {
+  // dscStatus === null means the DSC CRD is not installed (e.g. vanilla Kubernetes).
+  // Only show the error page when we have an actual error or the DSC status is an empty
+  // object (CRD exists but returned no data), not when it's null.
+  if (error || (loaded && dscStatus !== null && Object.keys(dscStatus).length === 0)) {
     return (
       <Page>
         <ApplicationsPage loaded empty={false}>
