@@ -1,0 +1,44 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: {{ include "odh-dashboard.fullname" . }}
+  labels:
+    {{- include "odh-dashboard.labels" . | nindent 4 }}
+subjects:
+  - kind: ServiceAccount
+    name: {{ include "odh-dashboard.serviceAccountName" . }}
+    namespace: {{ .Release.Namespace }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: {{ include "odh-dashboard.fullname" . }}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: {{ include "odh-dashboard.fullname" . }}-auth-delegator
+  labels:
+    {{- include "odh-dashboard.labels" . | nindent 4 }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: system:auth-delegator
+subjects:
+  - kind: ServiceAccount
+    name: {{ include "odh-dashboard.serviceAccountName" . }}
+    namespace: {{ .Release.Namespace }}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: {{ include "odh-dashboard.fullname" . }}-dsg
+  labels:
+    {{- include "odh-dashboard.labels" . | nindent 4 }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: {{ include "odh-dashboard.fullname" . }}-dsg
+subjects:
+  - kind: ServiceAccount
+    name: {{ include "odh-dashboard.serviceAccountName" . }}
+    namespace: {{ .Release.Namespace }}

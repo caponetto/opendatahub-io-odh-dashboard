@@ -11,6 +11,7 @@ IMAGE="${IMAGE:-odh-dashboard:latest}"
 KIND_CLUSTER_NAME="${KIND_CLUSTER_NAME:-odh-dashboard}"
 SKIP_BUILD="${SKIP_BUILD:-false}"
 BUILD_PLUGINS="${BUILD_PLUGINS:-false}"
+CONTAINER_ENGINE="${CONTAINER_ENGINE:-$(command -v docker &>/dev/null && echo docker || echo podman)}"
 
 echo "=== ODH Dashboard Kind Deployment ==="
 echo "  Namespace:       ${NAMESPACE}"
@@ -19,44 +20,21 @@ echo "  Kind cluster:    ${KIND_CLUSTER_NAME}"
 echo "  Build plugins:   ${BUILD_PLUGINS}"
 echo ""
 
-# --- 1. Create Kind cluster if it doesn't exist ---
-if ! kind get clusters 2>/dev/null | grep -q "^${KIND_CLUSTER_NAME}$"; then
-  echo ">>> Creating Kind cluster '${KIND_CLUSTER_NAME}'..."
-  kind create cluster \
-    --name "${KIND_CLUSTER_NAME}" \
-    --config "${KUSTOMIZE_DIR}/kind-cluster-config.yaml" \
-    --wait 60s
-else
-  echo ">>> Kind cluster '${KIND_CLUSTER_NAME}' already exists, reusing."
-fi
-
-kubectl config use-context "kind-${KIND_CLUSTER_NAME}"
-
-# --- 2. Install NGINX Ingress Controller ---
-if ! kubectl get namespace ingress-nginx &>/dev/null; then
-  echo ">>> Installing NGINX Ingress Controller..."
-  kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/kind/deploy.yaml
-  echo ">>> Waiting for ingress controller to be ready..."
-  kubectl wait --namespace ingress-nginx \
-    --for=condition=ready pod \
-    --selector=app.kubernetes.io/component=controller \
-    --timeout=120s
-else
-  echo ">>> NGINX Ingress Controller already installed."
-fi
+# --- 1. Create Kind cluster + NGINX Ingress ---
+"${SCRIPT_DIR}/create-kind-cluster.sh"
 
 # --- 3. Build and load the dashboard image ---
 FORCE_BUILD="${FORCE_BUILD:-false}"
 if [ "${SKIP_BUILD}" = "true" ]; then
   echo ">>> Skipping image build (SKIP_BUILD=true)."
 elif [ "${FORCE_BUILD}" != "true" ] && \
-     docker exec "${KIND_CLUSTER_NAME}-control-plane" crictl images -o json 2>/dev/null \
+     ${CONTAINER_ENGINE} exec "${KIND_CLUSTER_NAME}-control-plane" crictl images -o json 2>/dev/null \
      | grep -q "$(echo "${IMAGE}" | cut -d: -f1)"; then
   echo ">>> Image '${IMAGE}' already present in Kind node, skipping build."
   echo "    (set FORCE_BUILD=true to force a rebuild)"
 else
   echo ">>> Building dashboard container image '${IMAGE}'..."
-  docker build -t "${IMAGE}" -f "${REPO_ROOT}/Dockerfile" "${REPO_ROOT}"
+  ${CONTAINER_ENGINE} build -t "${IMAGE}" -f "${REPO_ROOT}/Dockerfile" "${REPO_ROOT}"
   echo ">>> Loading image into Kind cluster..."
   kind load docker-image "${IMAGE}" --name "${KIND_CLUSTER_NAME}"
   IMAGE_REBUILT=true
@@ -68,13 +46,13 @@ if [ "${BUILD_PLUGINS}" = "true" ] || [ "${FORCE_BUILD}" = "true" ]; then
   MAAS_IMAGE="maas-ui:latest"
 
   echo ">>> Building model-registry-ui image..."
-  docker build \
+  ${CONTAINER_ENGINE} build \
     --file "${REPO_ROOT}/packages/model-registry/Dockerfile.workspace" \
     --build-arg DEPLOYMENT_MODE=federated \
     -t "${MR_IMAGE}" "${REPO_ROOT}"
 
   echo ">>> Building maas-ui image..."
-  docker build \
+  ${CONTAINER_ENGINE} build \
     --file "${REPO_ROOT}/packages/maas/Dockerfile.workspace" \
     --build-arg DEPLOYMENT_MODE=federated \
     -t "${MAAS_IMAGE}" "${REPO_ROOT}"
@@ -139,7 +117,7 @@ kubectl rollout status deployment/mock-perses-server -n "${NAMESPACE}" --timeout
 
 # --- 6c. Deploy plugin UI services (if images are available) ---
 if [ "${PLUGINS_REBUILT:-false}" = "true" ] || \
-   docker exec "${KIND_CLUSTER_NAME}-control-plane" crictl images -o json 2>/dev/null | grep -q "model-registry-ui"; then
+   ${CONTAINER_ENGINE} exec "${KIND_CLUSTER_NAME}-control-plane" crictl images -o json 2>/dev/null | grep -q "model-registry-ui"; then
   echo ">>> Deploying model-registry-ui..."
   kubectl apply -f "${KUSTOMIZE_DIR}/model-registry-ui-deployment.yaml"
   kubectl rollout status deployment/model-registry-ui -n "${NAMESPACE}" --timeout=120s

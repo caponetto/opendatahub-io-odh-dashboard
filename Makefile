@@ -84,9 +84,30 @@ undeploy:
 
 ##################################
 
+.PHONY: create-kind-cluster
+create-kind-cluster:
+	./install/create-kind-cluster.sh
+
 .PHONY: deploy-kind
 deploy-kind:
 	./install/deploy-kind.sh
+
+.PHONY: deploy-kind-helm
+deploy-kind-helm:
+	./install/deploy-kind-helm.sh
+
+# Deploy on standalone OpenShift (no ODH/RHOAI operator).
+# Usage: REGISTRY=quay.io/my-org make deploy-openshift-helm
+.PHONY: deploy-openshift-helm
+deploy-openshift-helm:
+	./install/deploy-openshift-helm.sh
+
+# Build and push all images to a container registry.
+# Usage: REGISTRY=quay.io/my-org make push-images
+#        REGISTRY=quay.io/my-org IMAGE_TAG=v1.0 make push-images
+.PHONY: push-images
+push-images:
+	./install/push-images.sh $(REGISTRY) $(IMAGE_TAG)
 
 ##################################
 

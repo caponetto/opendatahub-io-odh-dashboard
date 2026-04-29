@@ -1,0 +1,48 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: odh-dashboard
+  labels:
+    {{- include "odh-dashboard.labels" . | nindent 4 }}
+rules:
+  - apiGroups: ["dashboard.opendatahub.io"]
+    resources: ["acceleratorprofiles"]
+    verbs: ["create", "get", "list", "update", "patch", "delete"]
+  - apiGroups: ["batch"]
+    resources: ["cronjobs"]
+    verbs: ["get", "update", "delete"]
+  - apiGroups: ["apps"]
+    resources: ["deployments"]
+    verbs: ["patch", "update"]
+  - apiGroups: ["opendatahub.io"]
+    resources: ["odhdashboardconfigs"]
+    verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+  - apiGroups: ["kubeflow.org"]
+    resources: ["notebooks"]
+    verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+  - apiGroups: ["dashboard.opendatahub.io"]
+    resources: ["odhapplications"]
+    verbs: ["get", "list"]
+  - apiGroups: ["dashboard.opendatahub.io"]
+    resources: ["odhdocuments"]
+    verbs: ["get", "list"]
+  - apiGroups: ["serving.kserve.io"]
+    resources: ["servingruntimes"]
+    verbs: ["*"]
+  - apiGroups: ["nim.opendatahub.io"]
+    resources: ["accounts"]
+    verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+  - apiGroups: ["networking.k8s.io"]
+    resources: ["ingresses"]
+    verbs: ["get", "list", "watch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: servingruntimes-config-updater
+  labels:
+    {{- include "odh-dashboard.labels" . | nindent 4 }}
+rules:
+  - apiGroups: [""]
+    resources: ["configmaps"]
+    verbs: ["get", "list", "watch", "create", "update", "patch"]

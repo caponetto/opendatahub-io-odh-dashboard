@@ -1,0 +1,298 @@
+{{- if and .Values.plugins.modelRegistry.enabled .Values.plugins.modelRegistry.server.enabled }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: model-registry-db-init
+data:
+  pginit.sql: |
+    CREATE DATABASE model_catalog;
+    GRANT ALL PRIVILEGES ON DATABASE model_catalog TO postgres;
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: model-catalog-config
+data:
+  catalog-sources.yaml: |
+    catalogs:
+      - id: red_hat_models
+        name: Red Hat Models
+        type: yaml
+        enabled: true
+        properties:
+          yamlCatalogPath: red_hat_models.yaml
+        labels:
+          - validated
+          - production-ready
+      - id: community_models
+        name: Community Models
+        type: hf
+        enabled: true
+        properties:
+          allowedOrganization: instructlab
+        labels:
+          - community
+  red_hat_models.yaml: |
+    models:
+      - name: granite-8b-code-instruct
+        description: "IBM Granite 8B model fine-tuned for code generation"
+        labels:
+          - Code Generation
+          - Validated
+      - name: llama-3-8b-instruct
+        description: "Meta Llama 3 8B model fine-tuned for instruction following"
+        labels:
+          - NLP
+          - Validated
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: model-registry-db
+  labels:
+    app: model-registry-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: model-registry-db
+  template:
+    metadata:
+      labels:
+        app: model-registry-db
+    spec:
+      {{- if .Values.plugins.modelRegistry.server.postgres.fsGroup }}
+      securityContext:
+        fsGroup: {{ .Values.plugins.modelRegistry.server.postgres.fsGroup }}
+      {{- end }}
+      containers:
+        - name: postgres
+          image: {{ .Values.plugins.modelRegistry.server.postgres.image }}
+          imagePullPolicy: Always
+          env:
+            - name: POSTGRES_DB
+              value: model_registry
+            - name: POSTGRES_USER
+              value: postgres
+            - name: POSTGRES_PASSWORD
+              value: demo
+            - name: PGDATA
+              value: /var/lib/postgresql/data/pgdata
+          ports:
+            - containerPort: 5432
+          volumeMounts:
+            - name: init-scripts
+              mountPath: /docker-entrypoint-initdb.d
+              readOnly: true
+            - name: pgdata
+              mountPath: /var/lib/postgresql/data
+          readinessProbe:
+            exec:
+              command: ["pg_isready", "-U", "postgres", "-d", "model_registry"]
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            exec:
+              command: ["pg_isready", "-U", "postgres", "-d", "model_registry"]
+            initialDelaySeconds: 10
+            periodSeconds: 15
+          resources:
+            requests:
+              cpu: 50m
+              memory: 128Mi
+            limits:
+              cpu: 200m
+              memory: 256Mi
+      volumes:
+        - name: pgdata
+          emptyDir: {}
+        - name: init-scripts
+          configMap:
+            name: model-registry-db-init
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: model-registry-db
+  labels:
+    app: model-registry-db
+spec:
+  selector:
+    app: model-registry-db
+  ports:
+    - name: postgres
+      port: 5432
+      targetPort: 5432
+      protocol: TCP
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: model-registry-server
+  labels:
+    app: model-registry-server
+    component: model-registry-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: model-registry-server
+  template:
+    metadata:
+      labels:
+        app: model-registry-server
+        component: model-registry-server
+    spec:
+      initContainers:
+        - name: wait-for-db
+          image: {{ .Values.plugins.modelRegistry.server.initImage }}
+          command: ["sh", "-c", "until echo | nc -w 1 model-registry-db 5432; do echo 'Waiting for DB...'; sleep 2; done"]
+      containers:
+        - name: model-registry
+          image: "{{ .Values.plugins.modelRegistry.server.image.repository }}:{{ .Values.plugins.modelRegistry.server.image.tag }}"
+          command:
+            - /model-registry
+          args:
+            - proxy
+            - --hostname=0.0.0.0
+            - --port=8080
+            - --datastore-type=embedmd
+            - --embedmd-database-type=postgres
+            - --embedmd-database-dsn=host=model-registry-db port=5432 user=postgres password=demo dbname=model_registry sslmode=disable
+          ports:
+            - name: http-api
+              containerPort: 8080
+          readinessProbe:
+            httpGet:
+              path: /readyz/health
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /readyz/health
+              port: 8080
+            initialDelaySeconds: 15
+            periodSeconds: 30
+          startupProbe:
+            httpGet:
+              path: /readyz/health
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            failureThreshold: 12
+          resources:
+            requests:
+              cpu: 50m
+              memory: 128Mi
+            limits:
+              cpu: 300m
+              memory: 512Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: model-registry
+  labels:
+    app: model-registry-server
+    component: model-registry
+spec:
+  selector:
+    app: model-registry-server
+  ports:
+    - name: http-api
+      port: 8080
+      targetPort: 8080
+      protocol: TCP
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: model-catalog-server
+  labels:
+    app: model-catalog-server
+    component: model-catalog
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: model-catalog-server
+  template:
+    metadata:
+      labels:
+        app: model-catalog-server
+        component: model-catalog
+    spec:
+      initContainers:
+        - name: wait-for-db
+          image: {{ .Values.plugins.modelRegistry.server.initImage }}
+          command: ["sh", "-c", "until echo | nc -w 1 model-registry-db 5432; do echo 'Waiting for DB...'; sleep 2; done"]
+      containers:
+        - name: model-catalog
+          image: "{{ .Values.plugins.modelRegistry.server.image.repository }}:{{ .Values.plugins.modelRegistry.server.image.tag }}"
+          command:
+            - /model-registry
+          args:
+            - catalog
+            - --listen=0.0.0.0:8081
+            - --catalogs-path=/etc/catalog/catalog-sources.yaml
+          env:
+            - name: PGHOST
+              value: model-registry-db
+            - name: PGDATABASE
+              value: model_catalog
+            - name: PGUSER
+              value: postgres
+            - name: PGPASSWORD
+              value: demo
+          ports:
+            - name: http-api
+              containerPort: 8081
+          volumeMounts:
+            - name: catalog-config
+              mountPath: /etc/catalog
+              readOnly: true
+          readinessProbe:
+            tcpSocket:
+              port: 8081
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          livenessProbe:
+            tcpSocket:
+              port: 8081
+            initialDelaySeconds: 15
+            periodSeconds: 30
+          resources:
+            requests:
+              cpu: 50m
+              memory: 128Mi
+            limits:
+              cpu: 300m
+              memory: 512Mi
+      volumes:
+        - name: catalog-config
+          configMap:
+            name: model-catalog-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: model-catalog
+  labels:
+    app: model-catalog-server
+    component: model-catalog
+    app.kubernetes.io/component: model-catalog
+    app.kubernetes.io/name: model-catalog
+spec:
+  selector:
+    app: model-catalog-server
+  ports:
+    - name: http-api
+      port: 8081
+      targetPort: 8081
+      protocol: TCP
+  type: ClusterIP
+{{- end }}

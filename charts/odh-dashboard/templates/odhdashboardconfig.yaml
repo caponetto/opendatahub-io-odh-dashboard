@@ -1,0 +1,12 @@
+apiVersion: opendatahub.io/v1alpha
+kind: OdhDashboardConfig
+metadata:
+  name: odh-dashboard-config
+  labels:
+    {{- include "odh-dashboard.labels" . | nindent 4 }}
+spec:
+  dashboardConfig:
+    {{- toYaml .Values.dashboardConfig | nindent 4 }}
+  groupsConfig:
+    adminGroups: {{ .Values.auth.adminGroups }}
+    allowedGroups: {{ .Values.auth.allowedGroups }}

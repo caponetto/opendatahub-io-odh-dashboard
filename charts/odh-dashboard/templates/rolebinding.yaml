@@ -1,0 +1,29 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: odh-dashboard
+  labels:
+    {{- include "odh-dashboard.labels" . | nindent 4 }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: odh-dashboard
+subjects:
+  - kind: ServiceAccount
+    name: {{ include "odh-dashboard.serviceAccountName" . }}
+    namespace: {{ .Release.Namespace }}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: servingruntimes-config-updater
+  labels:
+    {{- include "odh-dashboard.labels" . | nindent 4 }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: servingruntimes-config-updater
+subjects:
+  - kind: ServiceAccount
+    name: {{ include "odh-dashboard.serviceAccountName" . }}
+    namespace: {{ .Release.Namespace }}

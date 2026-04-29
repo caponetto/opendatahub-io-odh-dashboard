@@ -503,11 +503,11 @@ export const initializeWatchedResources = (fastify: KubeFastifyInstance): void =
   dashboardConfigWatcher = new ResourceWatcher<DashboardConfig>(fastify, fetchDashboardCR);
   appWatcher = new ResourceWatcher<OdhApplication>(fastify, fetchApplications);
   docWatcher = new ResourceWatcher<OdhDocument>(fastify, fetchDocs);
+  clusterStatusWatcher = new ResourceWatcher<DataScienceClusterKindStatus>(
+    fastify,
+    fetchWatchedClusterStatus,
+  );
   if (fastify.kube.platform === PlatformType.OpenShift) {
-    clusterStatusWatcher = new ResourceWatcher<DataScienceClusterKindStatus>(
-      fastify,
-      fetchWatchedClusterStatus,
-    );
     authWatcher = new ResourceWatcher<AuthKind>(fastify, fetchAuthKind);
     subscriptionWatcher = new ResourceWatcher<SubscriptionStatusData>(fastify, fetchSubscriptions);
     quickStartWatcher = new ResourceWatcher<QuickStart>(fastify, fetchQuickStarts);

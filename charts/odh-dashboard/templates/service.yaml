@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: odh-dashboard
+  labels:
+    {{- include "odh-dashboard.labels" . | nindent 4 }}
+spec:
+  selector:
+    {{- include "odh-dashboard.selectorLabels" . | nindent 4 }}
+  ports:
+    - name: dashboard-ui
+      protocol: TCP
+      port: 8080
+      targetPort: 8080

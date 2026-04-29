@@ -1,0 +1,32 @@
+ODH Dashboard has been deployed to namespace {{ .Release.Namespace }}.
+
+{{- if .Values.ingress.enabled }}
+
+Access the dashboard at:
+  http{{ if .Values.ingress.tls.enabled }}s{{ end }}://{{ .Values.ingress.host }}
+
+{{- else if .Values.route.enabled }}
+
+Access the dashboard via OpenShift Route:
+  oc get route odh-dashboard -n {{ .Release.Namespace }} -o jsonpath='{.spec.host}'
+
+{{- else }}
+
+Use port-forward to access the dashboard:
+  kubectl port-forward -n {{ .Release.Namespace }} svc/odh-dashboard 8080:8080
+  Open http://localhost:8080
+
+{{- end }}
+
+{{- if .Values.sampleData.install }}
+
+Sample data has been installed for development/demo purposes.
+{{- end }}
+
+{{- if .Values.plugins.modelRegistry.enabled }}
+Model Registry UI plugin is enabled.
+{{- end }}
+
+{{- if .Values.plugins.maas.enabled }}
+MaaS UI plugin is enabled.
+{{- end }}

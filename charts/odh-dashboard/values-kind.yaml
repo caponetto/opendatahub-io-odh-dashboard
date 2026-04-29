@@ -1,0 +1,65 @@
+# Values for Kind (local development) deployment.
+# Usage: helm install odh-dashboard charts/odh-dashboard -f charts/odh-dashboard/values-kind.yaml -n odh-dashboard --create-namespace
+
+image:
+  repository: odh-dashboard
+  tag: latest
+  pullPolicy: IfNotPresent
+
+ingress:
+  enabled: true
+  className: nginx
+  host: odh-dashboard.127.0.0.1.nip.io
+  tls:
+    enabled: false
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: "32m"
+
+auth:
+  adminUsers: ""
+  adminGroups: "system:cluster-admins"
+  allowedGroups: "system:authenticated"
+
+dashboardConfig:
+  disableSupport: true
+  disableTracking: true
+  disableISVBadges: true
+  disablePerformanceMetrics: false
+  disableTrustyBiasMetrics: false
+  disableKServeMetrics: false
+  disableKServeAuth: true
+  disableNIMModelServing: true
+  disableDistributedWorkloads: true
+  observabilityDashboard: true
+  modelAsService: true
+
+# Plugins are off by default for Kind (require BUILD_PLUGINS=true image builds)
+plugins:
+  modelRegistry:
+    enabled: false
+    server:
+      enabled: false
+  maas:
+    enabled: false
+
+federation:
+  kubeflowUserId: "admin@kind.local"
+  kubeflowGroups: "system:cluster-admins"
+  perses:
+    enabled: true
+    serviceName: "data-science-perses"
+    servicePort: 8080
+
+sampleNamespace: sample-project
+
+mocks:
+  perses:
+    enabled: true
+  pipeline:
+    enabled: true
+
+crdStubs:
+  install: true
+
+sampleData:
+  install: true

@@ -1,0 +1,726 @@
+{{- if .Values.mocks.perses.enabled }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: perses-config
+data:
+  config.yaml: |
+    provisioning:
+      folders:
+        - /etc/perses/provisioning
+      interval: 1h
+    database:
+      file:
+        folder: /tmp/perses/data
+        extension: yaml
+    schemas:
+      panels_path: /etc/perses/schemas/panels
+      queries_path: /etc/perses/schemas/queries
+      datasources_path: /etc/perses/schemas/datasources
+      variables_path: /etc/perses/schemas/variables
+      interval: 5m
+    security:
+      readonly: false
+      enable_auth: false
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: perses-provisioning
+data:
+  globaldatasource-prometheus.json: |
+    {
+      "kind": "GlobalDatasource",
+      "metadata": {
+        "name": "PrometheusDemo",
+        "createdAt": "2025-01-15T10:00:00Z",
+        "updatedAt": "2025-01-15T10:00:00Z",
+        "version": 1
+      },
+      "spec": {
+        "default": true,
+        "plugin": {
+          "kind": "PrometheusDatasource",
+          "spec": {
+            "proxy": {
+              "kind": "HTTPProxy",
+              "spec": {
+                "url": "http://prometheus.{{ .Release.Namespace }}.svc.cluster.local:9090"
+              }
+            }
+          }
+        }
+      }
+    }
+  project-odh-monitoring.json: |
+    {
+      "kind": "Project",
+      "metadata": {
+        "name": "odh-monitoring",
+        "createdAt": "2025-01-15T10:00:00Z",
+        "updatedAt": "2025-01-15T10:00:00Z",
+        "version": 1
+      },
+      "spec": {}
+    }
+  dashboard-0-cluster-admin.json: |
+    {
+      "kind": "Dashboard",
+      "metadata": {
+        "name": "dashboard-0-cluster-admin",
+        "project": "odh-monitoring",
+        "createdAt": "2025-01-15T10:00:00Z",
+        "updatedAt": "2025-01-15T10:00:00Z",
+        "version": 1
+      },
+      "spec": {
+        "display": { "name": "Cluster Overview (Admin)" },
+        "duration": "30m",
+        "variables": [],
+        "panels": {
+          "cpuByNs": {
+            "kind": "Panel",
+            "spec": {
+              "display": { "name": "CPU Usage by Namespace", "description": "CPU cores consumed per namespace" },
+              "plugin": {
+                "kind": "TimeSeriesChart",
+                "spec": {
+                  "yAxis": { "show": true, "label": "CPU cores" }
+                }
+              },
+              "queries": [
+                {
+                  "kind": "TimeSeriesQuery",
+                  "spec": {
+                    "plugin": {
+                      "kind": "PrometheusTimeSeriesQuery",
+                      "spec": { "query": "sum(rate(container_cpu_usage_seconds_total{container!=\"\",image!=\"\"}[5m])) by (namespace)" }
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "memByNs": {
+            "kind": "Panel",
+            "spec": {
+              "display": { "name": "Memory Usage by Namespace", "description": "Working-set memory per namespace" },
+              "plugin": {
+                "kind": "TimeSeriesChart",
+                "spec": {
+                  "yAxis": { "show": true, "label": "Memory", "format": { "unit": "bytes" } }
+                }
+              },
+              "queries": [
+                {
+                  "kind": "TimeSeriesQuery",
+                  "spec": {
+                    "plugin": {
+                      "kind": "PrometheusTimeSeriesQuery",
+                      "spec": { "query": "sum(container_memory_working_set_bytes{container!=\"\",image!=\"\"}) by (namespace)" }
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "runningContainers": {
+            "kind": "Panel",
+            "spec": {
+              "display": { "name": "Running Containers", "description": "Total running containers by namespace" },
+              "plugin": {
+                "kind": "StatChart",
+                "spec": { "format": { "unit": "decimal" } }
+              },
+              "queries": [
+                {
+                  "kind": "TimeSeriesQuery",
+                  "spec": {
+                    "plugin": {
+                      "kind": "PrometheusTimeSeriesQuery",
+                      "spec": { "query": "count(container_last_seen{container!=\"\",image!=\"\"}) by (namespace)" }
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "networkReceive": {
+            "kind": "Panel",
+            "spec": {
+              "display": { "name": "Network Receive Rate", "description": "Bytes received per second by namespace" },
+              "plugin": {
+                "kind": "TimeSeriesChart",
+                "spec": {
+                  "yAxis": { "show": true, "label": "bytes/s", "format": { "unit": "bytes" } }
+                }
+              },
+              "queries": [
+                {
+                  "kind": "TimeSeriesQuery",
+                  "spec": {
+                    "plugin": {
+                      "kind": "PrometheusTimeSeriesQuery",
+                      "spec": { "query": "sum(rate(container_network_receive_bytes_total[5m])) by (namespace)" }
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        "layouts": [
+          {
+            "kind": "Grid",
+            "spec": {
+              "display": { "title": "Resource Usage", "collapse": { "open": true } },
+              "items": [
+                { "x": 0, "y": 0, "width": 8, "height": 6, "content": { "$ref": "#/spec/panels/cpuByNs" } },
+                { "x": 8, "y": 0, "width": 8, "height": 6, "content": { "$ref": "#/spec/panels/memByNs" } },
+                { "x": 16, "y": 0, "width": 8, "height": 6, "content": { "$ref": "#/spec/panels/runningContainers" } }
+              ]
+            }
+          },
+          {
+            "kind": "Grid",
+            "spec": {
+              "display": { "title": "Network", "collapse": { "open": true } },
+              "items": [
+                { "x": 0, "y": 0, "width": 24, "height": 8, "content": { "$ref": "#/spec/panels/networkReceive" } }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  dashboard-1-model.json: |
+    {
+      "kind": "Dashboard",
+      "metadata": {
+        "name": "dashboard-1-model",
+        "project": "odh-monitoring",
+        "createdAt": "2025-01-15T10:00:00Z",
+        "updatedAt": "2025-01-15T10:00:00Z",
+        "version": 1
+      },
+      "spec": {
+        "display": { "name": "Model Serving Resources" },
+        "duration": "30m",
+        "variables": [],
+        "panels": {
+          "cpuByContainer": {
+            "kind": "Panel",
+            "spec": {
+              "display": { "name": "CPU by Container", "description": "CPU usage per container in odh-dashboard namespace" },
+              "plugin": {
+                "kind": "TimeSeriesChart",
+                "spec": {
+                  "yAxis": { "show": true, "label": "CPU cores" }
+                }
+              },
+              "queries": [
+                {
+                  "kind": "TimeSeriesQuery",
+                  "spec": {
+                    "plugin": {
+                      "kind": "PrometheusTimeSeriesQuery",
+                      "spec": { "query": "sum(rate(container_cpu_usage_seconds_total{namespace=\"{{ .Release.Namespace }}\",container!=\"\",image!=\"\"}[5m])) by (container)" }
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "memByContainer": {
+            "kind": "Panel",
+            "spec": {
+              "display": { "name": "Memory by Container", "description": "Memory working set per container in odh-dashboard namespace" },
+              "plugin": {
+                "kind": "TimeSeriesChart",
+                "spec": {
+                  "yAxis": { "show": true, "label": "Memory", "format": { "unit": "bytes" } }
+                }
+              },
+              "queries": [
+                {
+                  "kind": "TimeSeriesQuery",
+                  "spec": {
+                    "plugin": {
+                      "kind": "PrometheusTimeSeriesQuery",
+                      "spec": { "query": "sum(container_memory_working_set_bytes{namespace=\"{{ .Release.Namespace }}\",container!=\"\",image!=\"\"}) by (container)" }
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "cpuThrottling": {
+            "kind": "Panel",
+            "spec": {
+              "display": { "name": "CPU Throttling", "description": "Percentage of throttled CPU periods per container" },
+              "plugin": {
+                "kind": "TimeSeriesChart",
+                "spec": {
+                  "yAxis": { "show": true, "label": "Throttled %", "format": { "unit": "percent" } }
+                }
+              },
+              "queries": [
+                {
+                  "kind": "TimeSeriesQuery",
+                  "spec": {
+                    "plugin": {
+                      "kind": "PrometheusTimeSeriesQuery",
+                      "spec": { "query": "sum(rate(container_cpu_cfs_throttled_periods_total{namespace=\"{{ .Release.Namespace }}\",container!=\"\"}[5m])) by (container) / sum(rate(container_cpu_cfs_periods_total{namespace=\"{{ .Release.Namespace }}\",container!=\"\"}[5m])) by (container) * 100" }
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "fsUsage": {
+            "kind": "Panel",
+            "spec": {
+              "display": { "name": "Filesystem Usage", "description": "Container filesystem usage in odh-dashboard namespace" },
+              "plugin": {
+                "kind": "TimeSeriesChart",
+                "spec": {
+                  "yAxis": { "show": true, "label": "Usage", "format": { "unit": "bytes" } }
+                }
+              },
+              "queries": [
+                {
+                  "kind": "TimeSeriesQuery",
+                  "spec": {
+                    "plugin": {
+                      "kind": "PrometheusTimeSeriesQuery",
+                      "spec": { "query": "sum(container_fs_usage_bytes{namespace=\"{{ .Release.Namespace }}\",container!=\"\",image!=\"\"}) by (container)" }
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        "layouts": [
+          {
+            "kind": "Grid",
+            "spec": {
+              "display": { "title": "Compute", "collapse": { "open": true } },
+              "items": [
+                { "x": 0, "y": 0, "width": 12, "height": 8, "content": { "$ref": "#/spec/panels/cpuByContainer" } },
+                { "x": 12, "y": 0, "width": 12, "height": 8, "content": { "$ref": "#/spec/panels/memByContainer" } }
+              ]
+            }
+          },
+          {
+            "kind": "Grid",
+            "spec": {
+              "display": { "title": "Health", "collapse": { "open": true } },
+              "items": [
+                { "x": 0, "y": 0, "width": 12, "height": 8, "content": { "$ref": "#/spec/panels/cpuThrottling" } },
+                { "x": 12, "y": 0, "width": 12, "height": 8, "content": { "$ref": "#/spec/panels/fsUsage" } }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  dashboard-2-workloads.json: |
+    {
+      "kind": "Dashboard",
+      "metadata": {
+        "name": "dashboard-2-workloads",
+        "project": "odh-monitoring",
+        "createdAt": "2025-01-15T10:00:00Z",
+        "updatedAt": "2025-01-15T10:00:00Z",
+        "version": 1
+      },
+      "spec": {
+        "display": { "name": "Workload Metrics" },
+        "duration": "30m",
+        "variables": [],
+        "panels": {
+          "containerCount": {
+            "kind": "Panel",
+            "spec": {
+              "display": { "name": "Active Containers", "description": "Running containers by namespace" },
+              "plugin": {
+                "kind": "TimeSeriesChart",
+                "spec": {
+                  "yAxis": { "show": true, "label": "Containers" }
+                }
+              },
+              "queries": [
+                {
+                  "kind": "TimeSeriesQuery",
+                  "spec": {
+                    "plugin": {
+                      "kind": "PrometheusTimeSeriesQuery",
+                      "spec": { "query": "count(container_last_seen{container!=\"\",image!=\"\"}) by (namespace)" }
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "cpuUsage": {
+            "kind": "Panel",
+            "spec": {
+              "display": { "name": "CPU Usage", "description": "Total CPU cores consumed by namespace" },
+              "plugin": {
+                "kind": "TimeSeriesChart",
+                "spec": {
+                  "yAxis": { "show": true, "label": "CPU cores" }
+                }
+              },
+              "queries": [
+                {
+                  "kind": "TimeSeriesQuery",
+                  "spec": {
+                    "plugin": {
+                      "kind": "PrometheusTimeSeriesQuery",
+                      "spec": { "query": "sum(rate(container_cpu_usage_seconds_total{container!=\"\",image!=\"\"}[5m])) by (namespace)" }
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "memoryUsage": {
+            "kind": "Panel",
+            "spec": {
+              "display": { "name": "Memory Usage", "description": "Total memory working set by namespace" },
+              "plugin": {
+                "kind": "TimeSeriesChart",
+                "spec": {
+                  "yAxis": { "show": true, "label": "Memory", "format": { "unit": "bytes" } }
+                }
+              },
+              "queries": [
+                {
+                  "kind": "TimeSeriesQuery",
+                  "spec": {
+                    "plugin": {
+                      "kind": "PrometheusTimeSeriesQuery",
+                      "spec": { "query": "sum(container_memory_working_set_bytes{container!=\"\",image!=\"\"}) by (namespace)" }
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "networkTraffic": {
+            "kind": "Panel",
+            "spec": {
+              "display": { "name": "Network I/O", "description": "Network bytes received and transmitted by namespace" },
+              "plugin": {
+                "kind": "TimeSeriesChart",
+                "spec": {
+                  "yAxis": { "show": true, "label": "bytes/s", "format": { "unit": "bytes" } }
+                }
+              },
+              "queries": [
+                {
+                  "kind": "TimeSeriesQuery",
+                  "spec": {
+                    "plugin": {
+                      "kind": "PrometheusTimeSeriesQuery",
+                      "spec": { "query": "sum(rate(container_network_receive_bytes_total[5m])) by (namespace)" }
+                    }
+                  }
+                },
+                {
+                  "kind": "TimeSeriesQuery",
+                  "spec": {
+                    "plugin": {
+                      "kind": "PrometheusTimeSeriesQuery",
+                      "spec": { "query": "-sum(rate(container_network_transmit_bytes_total[5m])) by (namespace)" }
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        "layouts": [
+          {
+            "kind": "Grid",
+            "spec": {
+              "display": { "title": "Workload Overview", "collapse": { "open": true } },
+              "items": [
+                { "x": 0, "y": 0, "width": 8, "height": 6, "content": { "$ref": "#/spec/panels/containerCount" } },
+                { "x": 8, "y": 0, "width": 8, "height": 6, "content": { "$ref": "#/spec/panels/cpuUsage" } },
+                { "x": 16, "y": 0, "width": 8, "height": 6, "content": { "$ref": "#/spec/panels/memoryUsage" } }
+              ]
+            }
+          },
+          {
+            "kind": "Grid",
+            "spec": {
+              "display": { "title": "Network", "collapse": { "open": true } },
+              "items": [
+                { "x": 0, "y": 0, "width": 24, "height": 8, "content": { "$ref": "#/spec/panels/networkTraffic" } }
+              ]
+            }
+          }
+        ]
+      }
+    }
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mock-perses-server
+  labels:
+    app: mock-perses-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mock-perses-server
+  template:
+    metadata:
+      labels:
+        app: mock-perses-server
+    spec:
+      securityContext:
+        runAsNonRoot: true
+      containers:
+        - name: perses
+          image: {{ .Values.mocks.perses.image }}
+          args:
+            - "--config=/etc/perses/config.yaml"
+          securityContext:
+            {{- if not .Values.route.enabled }}
+            runAsUser: 65534
+            {{- end }}
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: ["ALL"]
+          ports:
+            - containerPort: 8080
+          volumeMounts:
+            - name: config
+              mountPath: /etc/perses/config.yaml
+              subPath: config.yaml
+              readOnly: true
+            - name: provisioning
+              mountPath: /etc/perses/provisioning
+              readOnly: true
+            - name: data
+              mountPath: /tmp/perses/data
+          readinessProbe:
+            httpGet:
+              path: /api/v1/health
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /api/v1/health
+              port: 8080
+            initialDelaySeconds: 30
+            periodSeconds: 15
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 200m
+              memory: 256Mi
+      volumes:
+        - name: config
+          configMap:
+            name: perses-config
+        - name: provisioning
+          configMap:
+            name: perses-provisioning
+        - name: data
+          emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: data-science-perses
+  labels:
+    app: mock-perses-server
+spec:
+  selector:
+    app: mock-perses-server
+  ports:
+    - name: http
+      port: 8080
+      targetPort: 8080
+      protocol: TCP
+  type: ClusterIP
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: prometheus
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: prometheus
+rules:
+  - apiGroups: [""]
+    resources: [nodes, nodes/proxy, nodes/metrics, services, endpoints, pods]
+    verbs: [get, list, watch]
+  - apiGroups: [extensions, networking.k8s.io]
+    resources: [ingresses]
+    verbs: [get, list, watch]
+  - nonResourceURLs: [/metrics, /metrics/cadvisor]
+    verbs: [get]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: prometheus
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: prometheus
+subjects:
+  - kind: ServiceAccount
+    name: prometheus
+    namespace: {{ .Release.Namespace }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: prometheus-config
+data:
+  prometheus.yml: |
+    global:
+      scrape_interval: 30s
+      evaluation_interval: 30s
+    scrape_configs:
+      - job_name: kubernetes-cadvisor
+        scheme: https
+        tls_config:
+          ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+          insecure_skip_verify: true
+        bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
+        kubernetes_sd_configs:
+          - role: node
+        relabel_configs:
+          - action: labelmap
+            regex: __meta_kubernetes_node_label_(.+)
+          - target_label: __address__
+            replacement: kubernetes.default.svc:443
+          - source_labels: [__meta_kubernetes_node_name]
+            regex: (.+)
+            target_label: __metrics_path__
+            replacement: /api/v1/nodes/${1}/proxy/metrics/cadvisor
+      - job_name: kubernetes-pods
+        kubernetes_sd_configs:
+          - role: pod
+        relabel_configs:
+          - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_scrape]
+            action: keep
+            regex: "true"
+          - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_path]
+            action: replace
+            target_label: __metrics_path__
+            regex: (.+)
+          - source_labels: [__address__, __meta_kubernetes_pod_annotation_prometheus_io_port]
+            action: replace
+            regex: ([^:]+)(?::\d+)?;(\d+)
+            replacement: $1:$2
+            target_label: __address__
+          - action: labelmap
+            regex: __meta_kubernetes_pod_label_(.+)
+          - source_labels: [__meta_kubernetes_namespace]
+            action: replace
+            target_label: namespace
+          - source_labels: [__meta_kubernetes_pod_name]
+            action: replace
+            target_label: pod
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prometheus
+  labels:
+    app: prometheus
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: prometheus
+  template:
+    metadata:
+      labels:
+        app: prometheus
+    spec:
+      serviceAccountName: prometheus
+      securityContext:
+        runAsNonRoot: true
+      containers:
+        - name: prometheus
+          image: {{ .Values.mocks.perses.prometheusImage }}
+          args:
+            - "--config.file=/etc/prometheus/prometheus.yml"
+            - "--storage.tsdb.path=/prometheus"
+            - "--storage.tsdb.retention.time=1h"
+            - "--web.enable-lifecycle"
+          ports:
+            - containerPort: 9090
+          securityContext:
+            {{- if not .Values.route.enabled }}
+            runAsUser: 65534
+            {{- end }}
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: ["ALL"]
+          volumeMounts:
+            - name: config
+              mountPath: /etc/prometheus/prometheus.yml
+              subPath: prometheus.yml
+              readOnly: true
+            - name: data
+              mountPath: /prometheus
+          readinessProbe:
+            httpGet:
+              path: /-/ready
+              port: 9090
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /-/healthy
+              port: 9090
+            initialDelaySeconds: 10
+            periodSeconds: 15
+          resources:
+            requests:
+              cpu: 50m
+              memory: 256Mi
+            limits:
+              cpu: 500m
+              memory: 1Gi
+      volumes:
+        - name: config
+          configMap:
+            name: prometheus-config
+        - name: data
+          emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: prometheus
+  labels:
+    app: prometheus
+spec:
+  selector:
+    app: prometheus
+  ports:
+    - name: http
+      port: 9090
+      targetPort: 9090
+      protocol: TCP
+  type: ClusterIP
+{{- end }}

@@ -1,0 +1,65 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: federation-config
+  labels:
+    {{- include "odh-dashboard.labels" . | nindent 4 }}
+data:
+  module-federation-config.json: |
+    {{- $entries := list }}
+    {{- if .Values.plugins.modelRegistry.enabled }}
+    {{- $mr := dict
+      "name" "modelRegistry"
+      "backend" (dict
+        "remoteEntry" "/remoteEntry.js"
+        "authorize" false
+        "tls" false
+        "service" (dict "name" "model-registry-ui" "namespace" .Release.Namespace "port" 8043)
+        "headers" (dict "kubeflow-userid" .Values.federation.kubeflowUserId "kubeflow-groups" .Values.federation.kubeflowGroups)
+      )
+      "proxyService" (list (dict
+        "path" "/model-registry/api"
+        "pathRewrite" "/api"
+        "authorize" false
+        "tls" false
+        "service" (dict "name" "model-registry-ui" "namespace" .Release.Namespace "port" 8043)
+        "headers" (dict "kubeflow-userid" .Values.federation.kubeflowUserId "kubeflow-groups" .Values.federation.kubeflowGroups)
+      ))
+    }}
+    {{- $entries = append $entries $mr }}
+    {{- end }}
+    {{- if .Values.plugins.maas.enabled }}
+    {{- $maas := dict
+      "name" "maas"
+      "backend" (dict
+        "remoteEntry" "/remoteEntry.js"
+        "authorize" false
+        "tls" false
+        "service" (dict "name" "maas-ui" "namespace" .Release.Namespace "port" 8243)
+        "headers" (dict "kubeflow-userid" .Values.federation.kubeflowUserId "kubeflow-groups" .Values.federation.kubeflowGroups)
+      )
+      "proxyService" (list (dict
+        "path" "/maas/api"
+        "pathRewrite" "/api"
+        "authorize" true
+        "tls" false
+        "service" (dict "name" "maas-ui" "namespace" .Release.Namespace "port" 8243)
+        "headers" (dict "kubeflow-userid" .Values.federation.kubeflowUserId "kubeflow-groups" .Values.federation.kubeflowGroups)
+      ))
+    }}
+    {{- $entries = append $entries $maas }}
+    {{- end }}
+    {{- if .Values.federation.perses.enabled }}
+    {{- $perses := dict
+      "name" "perses"
+      "proxyService" (list (dict
+        "authorize" false
+        "path" "/perses/api"
+        "pathRewrite" ""
+        "tls" false
+        "service" (dict "name" .Values.federation.perses.serviceName "namespace" .Release.Namespace "port" (.Values.federation.perses.servicePort | int))
+      ))
+    }}
+    {{- $entries = append $entries $perses }}
+    {{- end }}
+    {{ $entries | toJson | nindent 4 }}

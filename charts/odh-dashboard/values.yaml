@@ -1,0 +1,118 @@
+nameOverride: ""
+fullnameOverride: ""
+
+image:
+  repository: odh-dashboard
+  tag: latest
+  pullPolicy: IfNotPresent
+  pullSecrets: []
+
+replicaCount: 1
+
+resources:
+  requests:
+    cpu: 250m
+    memory: 512Mi
+  limits:
+    cpu: 500m
+    memory: 1Gi
+
+ingress:
+  enabled: true
+  className: nginx
+  host: odh-dashboard.127.0.0.1.nip.io
+  tls:
+    enabled: false
+    secretName: ""
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: "32m"
+
+route:
+  enabled: false
+  host: ""
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect
+  annotations: {}
+
+auth:
+  adminUsers: ""
+  adminGroups: "system:cluster-admins"
+  allowedGroups: "system:authenticated"
+
+dashboardConfig:
+  disableSupport: true
+  disableTracking: true
+  disableISVBadges: true
+  disablePerformanceMetrics: false
+  disableTrustyBiasMetrics: false
+  disableKServeMetrics: false
+  disableKServeAuth: true
+  disableNIMModelServing: true
+  disableDistributedWorkloads: true
+  observabilityDashboard: true
+  modelAsService: true
+
+plugins:
+  modelRegistry:
+    enabled: false
+    image:
+      repository: model-registry-ui
+      tag: latest
+      pullPolicy: IfNotPresent
+    server:
+      enabled: false
+      image:
+        repository: ghcr.io/kubeflow/model-registry/server
+        tag: v0.3.8
+      postgres:
+        image: postgres:16
+        fsGroup: 999
+      initImage: busybox:1.37
+    resources:
+      requests:
+        cpu: 100m
+        memory: 256Mi
+      limits:
+        cpu: 300m
+        memory: 512Mi
+  maas:
+    enabled: false
+    mockHttpClient: true
+    image:
+      repository: maas-ui
+      tag: latest
+      pullPolicy: IfNotPresent
+    env: {}
+    resources:
+      requests:
+        cpu: 100m
+        memory: 256Mi
+      limits:
+        cpu: 300m
+        memory: 512Mi
+
+federation:
+  kubeflowUserId: "admin@kind.local"
+  kubeflowGroups: "system:cluster-admins"
+  perses:
+    enabled: true
+    serviceName: "data-science-perses"
+    servicePort: 8080
+
+mocks:
+  perses:
+    enabled: true
+    image: persesdev/perses:v0.42.1
+    prometheusImage: prom/prometheus:v2.53.0
+  pipeline:
+    enabled: true
+    image: nginxinc/nginx-unprivileged:1.27-alpine
+
+sampleNamespace: ""  # defaults to .Release.Namespace if empty
+
+crdStubs:
+  install: true
+
+sampleData:
+  install: true

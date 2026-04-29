@@ -1,0 +1,13 @@
+apiVersion: v2
+name: odh-dashboard
+description: ODH Dashboard for vanilla Kubernetes and OpenShift
+type: application
+version: 0.1.0
+appVersion: "0.1.0"
+keywords:
+  - odh
+  - dashboard
+  - ai
+  - ml
+  - inference
+home: https://github.com/opendatahub-io/odh-dashboard

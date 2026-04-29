@@ -9,15 +9,106 @@ Install the following tools:
 - **Docker** (or Podman with Docker CLI compatibility)
 - **Kind** >= 0.20.0: `brew install kind` / `go install sigs.k8s.io/kind@latest`
 - **kubectl**: `brew install kubectl`
-- **kustomize** >= 5.0: `brew install kustomize`
+- **Helm** >= 3.12: `brew install helm` (for Helm-based deployment)
+- **kustomize** >= 5.0: `brew install kustomize` (for legacy Kustomize-based deployment)
 - **Node.js** >= 22 and **npm** >= 10 (for local builds)
 
-## Quick Start (Automated)
+## Kind Cluster Setup
 
-The fastest path uses the deploy script:
+Create a Kind cluster with NGINX Ingress (idempotent -- safe to re-run):
 
 ```bash
-# Build image and deploy everything in one command
+make create-kind-cluster
+
+# Or with a custom cluster name
+KIND_CLUSTER_NAME=my-cluster make create-kind-cluster
+```
+
+This creates the cluster with ingress-ready port mappings and installs the NGINX Ingress Controller. The nginx manifest is always re-applied to ensure hostPort bindings survive node restarts.
+
+You can then deploy the dashboard using either the Helm or Kustomize method below.
+
+## Quick Start (Helm -- Recommended)
+
+The Helm chart is the recommended deployment method. It packages all resources (CRDs, RBAC, deployment, ingress, mocks, sample data) into a single parameterized install:
+
+```bash
+# Build image and deploy everything via Helm
+make deploy-kind-helm
+
+# Or with custom settings
+IMAGE=my-dashboard:dev NAMESPACE=my-ns ./install/deploy-kind-helm.sh
+
+# Force a rebuild even if the image is already loaded
+FORCE_BUILD=true make deploy-kind-helm
+
+# Build and deploy with model-registry and MaaS plugins
+BUILD_PLUGINS=true make deploy-kind-helm
+```
+
+The script will:
+1. Create/reuse the Kind cluster and NGINX Ingress (via `create-kind-cluster.sh`)
+2. Build the dashboard image (and optionally plugin images) and load them into Kind
+3. Pull and load third-party images (Perses, Prometheus, and optionally PostgreSQL + Model Registry server)
+4. Pre-install CRDs, then render and apply the Helm chart via `helm template | kubectl apply --server-side`
+5. Patch CR status subresources and seed sample data (Model Registry models)
+
+Access the dashboard at: **http://odh-dashboard.127.0.0.1.nip.io**
+
+### Helm Chart Structure
+
+The chart lives in `charts/odh-dashboard/` and supports multiple value files:
+
+| File | Purpose |
+|------|---------|
+| `values.yaml` | Base defaults |
+| `values-kind.yaml` | Kind-specific overrides (nip.io host, mocks on, sample data on) |
+| `values-openshift.yaml` | OpenShift-specific overrides (Route, no CRD stubs, registry mirrors) |
+
+Key values for controlling what gets deployed:
+
+```yaml
+plugins:
+  modelRegistry:
+    enabled: false      # set true when plugin images are built
+    server:
+      enabled: false    # deploy real Model Registry + PostgreSQL + Model Catalog
+  maas:
+    enabled: false      # set true when plugin images are built
+
+mocks:
+  perses:
+    enabled: true       # real Perses server + Prometheus for observability
+  pipeline:
+    enabled: true       # mock pipeline server (KFP v2 API stub)
+
+crdStubs:
+  install: true         # OpenShift API CRD stubs (needed on vanilla K8s)
+
+sampleData:
+  install: true         # demo data (users, hardware profiles, models, etc.)
+```
+
+### Direct Helm Commands
+
+> **Note:** Due to Helm 4's server-side apply (SSA) schema validation issues with CRD stubs, `helm install` / `helm upgrade` may fail. The deploy script works around this by using `helm template | kubectl apply --server-side --force-conflicts`. For manual use:
+
+```bash
+# Render and apply (recommended)
+helm template odh-dashboard charts/odh-dashboard \
+  -f charts/odh-dashboard/values-kind.yaml \
+  -n odh-dashboard | kubectl apply -f - --server-side --force-conflicts
+
+# Uninstall (clean up resources manually since we bypass Helm tracking)
+kubectl delete deployment,service,configmap,ingress -n odh-dashboard --all
+```
+
+## Quick Start (Kustomize -- Legacy)
+
+The Kustomize-based deployment is still available:
+
+```bash
+# Build image and deploy everything
 make deploy-kind
 
 # Or with custom settings
@@ -26,17 +117,16 @@ IMAGE=my-dashboard:dev NAMESPACE=my-ns ./install/deploy-kind.sh
 # Skip the image build entirely (useful with local dev workflow)
 SKIP_BUILD=true ./install/deploy-kind.sh
 
-# Force a rebuild even if the image is already loaded in Kind
+# Force a rebuild
 FORCE_BUILD=true make deploy-kind
 
-# Build and deploy with model-registry and MaaS plugins (requires Go toolchain)
+# Build and deploy with plugins
 BUILD_PLUGINS=true make deploy-kind
 ```
 
 The script will:
-1. Create a Kind cluster with ingress-ready port mappings
-2. Install the NGINX Ingress Controller
-3. Build the dashboard image and load it into Kind
+1. Create/reuse the Kind cluster and NGINX Ingress (via `create-kind-cluster.sh`)
+2. Build the dashboard image and load it into Kind
 4. (Optional) Build and load plugin UI images (model-registry-ui, maas-ui)
 5. Install ODH CRDs and OpenShift API CRD stubs (Routes, Templates, ImageStreams, DSC, etc.)
 6. Deploy mock servers (Perses for observability, pipeline server)
@@ -50,13 +140,26 @@ Access the dashboard at: **http://odh-dashboard.127.0.0.1.nip.io**
 
 ### 1. Create the Kind Cluster
 
-The Kind cluster needs extra port mappings for the ingress controller:
+Use the dedicated script which creates the cluster with ingress-ready port mappings and installs NGINX:
+
+```bash
+make create-kind-cluster
+```
+
+Or manually:
 
 ```bash
 kind create cluster \
   --name odh-dashboard \
   --config manifests/overlays/kind/kind-cluster-config.yaml \
   --wait 60s
+
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/kind/deploy.yaml
+
+kubectl wait --namespace ingress-nginx \
+  --for=condition=ready pod \
+  --selector=app.kubernetes.io/component=controller \
+  --timeout=120s
 ```
 
 Verify the cluster is running:
@@ -65,24 +168,7 @@ Verify the cluster is running:
 kubectl cluster-info --context kind-odh-dashboard
 ```
 
-### 2. Install NGINX Ingress Controller
-
-Kind requires the NGINX ingress controller variant designed for Kind clusters:
-
-```bash
-kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/kind/deploy.yaml
-```
-
-Wait for the controller to be ready:
-
-```bash
-kubectl wait --namespace ingress-nginx \
-  --for=condition=ready pod \
-  --selector=app.kubernetes.io/component=controller \
-  --timeout=120s
-```
-
-### 3. Build the Dashboard Image
+### 2. Build the Dashboard Image
 
 From the repository root:
 
@@ -195,10 +281,10 @@ The Kind overlay deploys an `OdhDashboardConfig` CR with sensible defaults for l
 - `disableSupport: true` -- No Red Hat support integration
 - `disableTracking: true` -- No telemetry
 - `disableISVBadges: true` -- No ISV badges
-- `disablePerformanceMetrics: true` -- No Prometheus/Thanos (not available on Kind)
+- `disablePerformanceMetrics: true` -- No Thanos/OpenShift monitoring stack
 - `disableTrustyBiasMetrics: true` -- No TrustyAI metrics
-- `disableKServeMetrics: true` -- No KServe metrics
-- `observabilityDashboard: true` -- Enables the Observe & Monitor > Dashboard nav item (served by the mock Perses server)
+- `disableKServeMetrics: true` -- No KServe-specific metrics endpoint
+- `observabilityDashboard: true` -- Enables the Observe & Monitor > Dashboard nav item (served by real Perses + Prometheus)
 - `modelAsService: true` -- Enables the Gen AI Studio nav items (requires the MaaS plugin)
 
 BYON image streams, cluster settings, and serving runtime templates are **enabled** since the necessary CRD stubs (ImageStream, Template) are installed on Kind.
@@ -219,9 +305,9 @@ The Kind deployment supports three modular architecture plugins via module feder
 
 The observability plugin is **statically bundled** into the host webpack build. It only requires:
 - The `observabilityDashboard: true` feature flag (set in `odhdashboardconfig.yaml`)
-- A Perses API backend at `/perses/api` (provided by the mock Perses server)
+- A Perses API backend at `/perses/api` (provided by the real Perses server)
 
-The mock Perses server deploys automatically and serves sample dashboard metadata. The nav item appears under **Observe & Monitor > Dashboard** for admin users.
+The Helm chart deploys a **real Perses server** (`persesdev/perses:v0.42.1`) with a file-based database and pre-provisioned dashboards (Cluster Overview, Model Serving Resources, Workload Metrics). A **real Prometheus instance** (`prom/prometheus`) is also deployed alongside Perses, scraping cadvisor metrics from the Kind node. This provides live container CPU, memory, network, and filesystem data in the dashboards. The nav item appears under **Observe & Monitor > Dashboard** for admin users.
 
 ### Model Registry and MaaS (optional, requires `BUILD_PLUGINS=true`)
 
@@ -231,10 +317,10 @@ To enable:
 
 ```bash
 # Build dashboard + plugin images and deploy everything
-BUILD_PLUGINS=true make deploy-kind
+BUILD_PLUGINS=true make deploy-kind-helm
 
 # Or force rebuild of everything
-FORCE_BUILD=true make deploy-kind
+FORCE_BUILD=true BUILD_PLUGINS=true make deploy-kind-helm
 ```
 
 The plugin images are built from `Dockerfile.workspace` files:
@@ -243,9 +329,21 @@ The plugin images are built from `Dockerfile.workspace` files:
 
 **Requirements**: Building plugin images requires a Go toolchain (Go >= 1.24) in addition to the standard Node.js prerequisites.
 
+#### Real Model Registry Server
+
+When `BUILD_PLUGINS=true`, the deploy script also sets `plugins.modelRegistry.server.enabled=true`, which deploys the **real Model Registry stack**:
+
+- **PostgreSQL** (`postgres:16`) -- backing database for the Model Registry and Model Catalog
+- **Model Registry server** (`ghcr.io/kubeflow/model-registry/server:v0.3.8` in `proxy` mode) -- serves the Model Registry REST API, discovered by the BFF via `component: model-registry` label
+- **Model Catalog server** (`ghcr.io/kubeflow/model-registry/server:v0.3.8` in `catalog` mode) -- serves the Model Catalog API, discovered via `component: model-catalog` label
+
+With the real server enabled, the BFF's `--mock-mr-client` and `--mock-mr-catalog-client` flags are automatically removed. The deploy script seeds the registry with sample models (granite-8b-code-instruct, llama-3-8b-instruct, mistral-7b-instruct) on first deploy.
+
+#### MaaS Plugin
+
 The MaaS BFF runs in mock mode (`MOCK_K8S_CLIENT=true`, `MOCK_HTTP_CLIENT=true`) on Kind, so it returns sample data without needing real backend services.
 
-A `DataScienceCluster` CRD stub and sample CR are installed automatically. The DSC status is patched with a `ModelsAsServiceReady: True` condition, which the MaaS plugin requires to activate.
+A `DataScienceCluster` CRD stub and sample CR are installed automatically. The DSC status is patched with component statuses (`kserve: Managed`, `modelregistry: Managed`, etc.) and a `ModelsAsServiceReady: True` condition, which the MaaS plugin requires to activate.
 
 ### Module Federation Configuration
 
@@ -325,20 +423,62 @@ You only need a full image rebuild (`FORCE_BUILD=true make deploy-kind`) when:
 - Validating the Dockerfile or production build
 - Testing ingress/networking behavior through the in-cluster pod
 
+### Post-Deploy Seed Data
+
+The deploy script calls `install/seed-data.sh` after the Helm install to perform operations that require admin-level access:
+
+- **Status patches**: Sets `.status` on CRs that have no real controller (DSPA, InferenceService, DataScienceCluster)
+- **Model Registry seeding**: Populates the real Model Registry with sample models if it's empty
+
+You can re-run the seed script standalone to reset sample data without a full redeploy:
+
+```bash
+./install/seed-data.sh
+```
+
 ## Teardown
 
+### Helm-based deployment (recommended)
+
+The Helm deploy script (`deploy-kind-helm.sh`) automatically cleans up previous
+resources on every run, so re-running `make deploy-kind-helm` is a clean redeploy.
+
 Remove dashboard resources while keeping the cluster:
+
+```bash
+kubectl delete namespace odh-dashboard sample-project --ignore-not-found
+kubectl delete clusterrole odh-dashboard odh-dashboard-dsg --ignore-not-found
+kubectl delete clusterrolebinding odh-dashboard odh-dashboard-auth-delegator odh-dashboard-dsg --ignore-not-found
+```
+
+### Kustomize-based deployment (legacy)
 
 ```bash
 make undeploy-kind
 ```
 
-Delete the entire Kind cluster:
+### Delete the entire Kind cluster
 
 ```bash
-DELETE_CLUSTER=true ./install/undeploy-kind.sh
-# or simply:
 kind delete cluster --name odh-dashboard
+```
+
+### Full Clean Start
+
+To wipe everything (cluster, images, build cache) and start from scratch:
+
+```bash
+# Delete the Kind cluster
+kind delete cluster --name odh-dashboard
+
+# Remove dashboard Docker images
+docker rmi -f odh-dashboard:latest model-registry-ui:latest maas-ui:latest 2>/dev/null
+
+# (Optional) Reclaim disk space from Docker build cache
+docker builder prune -f
+
+# Redeploy from scratch
+FORCE_BUILD=true BUILD_PLUGINS=true make deploy-kind-helm
 ```
 
 ## Troubleshooting
@@ -384,3 +524,14 @@ The backend gracefully handles missing OpenShift APIs. If you see warnings like:
 - `Failed to retrieve cluster id` -- Expected on vanilla K8s (clusterID will be undefined)
 
 These are informational and do not prevent the dashboard from functioning.
+
+## Multi-Cloud Deployment
+
+The Helm chart is designed for multi-cloud portability. For deploying on standalone OpenShift (without RHOAI/ODH operator), see [OpenShift Deployment](openshift-deployment.md).
+
+For other cloud providers (AKS, EKS, GKE), the Kind Helm chart works with minimal adjustments:
+- Set `ingress.className` and `ingress.host` for your provider's ingress controller
+- Push images to your cloud registry via `REGISTRY=<your-registry> make push-images`
+- Use `helm template ... | kubectl apply` with your registry overrides
+
+The CRD stubs (`crdStubs.install: true`) are still needed on all vanilla Kubernetes providers since OpenShift APIs are not available natively.

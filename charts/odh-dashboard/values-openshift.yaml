@@ -1,0 +1,76 @@
+# Values for standalone OpenShift deployment (no RHOAI/ODH operator).
+# Usage:
+#   REGISTRY=quay.io/my-org BUILD_PLUGINS=true make deploy-openshift-helm
+#   # or manually:
+#   helm template odh-dashboard charts/odh-dashboard \
+#     -f charts/odh-dashboard/values-openshift.yaml \
+#     -n odh-dashboard | kubectl apply -f - --server-side --force-conflicts
+
+image:
+  repository: odh-dashboard
+  tag: latest
+  pullPolicy: Always
+
+# Use OpenShift Route instead of Ingress
+ingress:
+  enabled: false
+
+route:
+  enabled: true
+  host: ""                                  # auto-assigned by OpenShift router
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect
+
+auth:
+  adminUsers: ""
+  adminGroups: "system:cluster-admins"
+  allowedGroups: "system:authenticated"
+
+dashboardConfig:
+  disableSupport: true
+  disableTracking: true
+  disableISVBadges: true
+  disablePerformanceMetrics: false
+  disableTrustyBiasMetrics: false
+  disableKServeMetrics: false
+  disableKServeAuth: true
+  disableNIMModelServing: true
+  disableDistributedWorkloads: true
+  observabilityDashboard: true
+  modelAsService: true
+
+plugins:
+  modelRegistry:
+    enabled: true
+    server:
+      enabled: true
+      postgres:
+        fsGroup: null
+  maas:
+    enabled: false
+
+federation:
+  kubeflowUserId: "admin@openshift.local"
+  kubeflowGroups: "system:cluster-admins"
+  perses:
+    enabled: true
+    serviceName: "data-science-perses"
+    servicePort: 8080
+
+sampleNamespace: sample-project
+
+mocks:
+  perses:
+    enabled: true
+    image: persesdev/perses:v0.42.1
+    prometheusImage: quay.io/prometheus/prometheus:v2.53.0
+  pipeline:
+    enabled: true
+    image: ghcr.io/nginx/nginx-unprivileged:1.27-alpine
+
+crdStubs:
+  install: false                            # real OpenShift APIs are available
+
+sampleData:
+  install: true

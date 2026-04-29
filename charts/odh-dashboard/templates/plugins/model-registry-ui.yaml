@@ -1,0 +1,65 @@
+{{- if .Values.plugins.modelRegistry.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: model-registry-ui
+  labels:
+    app: model-registry-ui
+    {{- include "odh-dashboard.labels" . | nindent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: model-registry-ui
+  template:
+    metadata:
+      labels:
+        app: model-registry-ui
+    spec:
+      serviceAccount: {{ include "odh-dashboard.serviceAccountName" . }}
+      containers:
+        - name: model-registry-ui
+          image: "{{ .Values.plugins.modelRegistry.image.repository }}:{{ .Values.plugins.modelRegistry.image.tag }}"
+          imagePullPolicy: {{ .Values.plugins.modelRegistry.image.pullPolicy }}
+          ports:
+            - containerPort: 8043
+              name: http
+          args:
+            - "--deployment-mode=federated"
+            - "--port=8043"
+            {{- if not .Values.plugins.modelRegistry.server.enabled }}
+            - "--mock-mr-client=true"
+            - "--mock-mr-catalog-client=true"
+            {{- end }}
+          readinessProbe:
+            httpGet:
+              path: /healthcheck
+              port: 8043
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /healthcheck
+              port: 8043
+            initialDelaySeconds: 15
+            periodSeconds: 30
+          resources:
+            {{- toYaml .Values.plugins.modelRegistry.resources | nindent 12 }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: model-registry-ui
+  labels:
+    app: model-registry-ui
+    {{- include "odh-dashboard.labels" . | nindent 4 }}
+spec:
+  selector:
+    app: model-registry-ui
+  ports:
+    - name: http
+      port: 8043
+      targetPort: 8043
+      protocol: TCP
+  type: ClusterIP
+{{- end }}
