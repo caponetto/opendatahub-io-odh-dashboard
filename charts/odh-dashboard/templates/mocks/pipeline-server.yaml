@@ -759,5 +759,25 @@ spec:
       targetPort: 8080
       protocol: TCP
   type: ClusterIP
+{{- if .Values.route.enabled }}
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: ds-pipeline-dspa
+  namespace: {{ include "odh-dashboard.sampleNamespace" $ }}
+  labels:
+    app: mock-pipeline-server
+spec:
+  to:
+    kind: Service
+    name: ds-pipeline-dspa
+    weight: 100
+  port:
+    targetPort: http
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect
+{{- end }}
 
 {{- end }}

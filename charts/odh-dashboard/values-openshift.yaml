@@ -69,6 +69,8 @@ mocks:
   pipeline:
     enabled: true
     image: ghcr.io/nginx/nginx-unprivileged:1.27-alpine
+    mlmdImage: quay.io/opendatahub/mlmd-grpc-server:main-d96d393
+    envoyImage: envoyproxy/envoy:v1.31.6
 
 crdStubs:
   install: false                            # real OpenShift APIs are available

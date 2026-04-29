@@ -84,6 +84,7 @@ THIRD_PARTY=(
   "${BUSYBOX_IMAGE}|${BUSYBOX_IMAGE}"
   "${PERSES_IMAGE}|perses:${PERSES_IMAGE##*:}"
   "${PROM_IMAGE}|prometheus:${PROM_IMAGE##*:}"
+  "${ENVOY_IMAGE}|envoy:${ENVOY_IMAGE##*:}"
 )
 
 if [ "${MIRROR_IMAGES}" = "true" ]; then

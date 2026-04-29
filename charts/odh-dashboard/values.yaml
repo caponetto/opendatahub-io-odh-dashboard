@@ -109,6 +109,8 @@ mocks:
   pipeline:
     enabled: true
     image: nginxinc/nginx-unprivileged:1.27-alpine
+    mlmdImage: quay.io/opendatahub/mlmd-grpc-server:main-d96d393
+    envoyImage: envoyproxy/envoy:v1.31.6
 
 sampleNamespace: ""  # defaults to .Release.Namespace if empty
 

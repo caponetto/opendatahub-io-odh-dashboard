@@ -31,7 +31,7 @@ kubectl patch datasciencepipelinesapplication dspa -n "${SAMPLE_NS}" \
       ],
       "components":{
         "apiServer":{"url":"http://ds-pipeline-dspa.'"${SAMPLE_NS}"'.svc.cluster.local:8443"},
-        "mlmdProxy":{"url":"http://ds-pipeline-dspa.'"${SAMPLE_NS}"'.svc.cluster.local:8443"}
+        "mlmdProxy":{"url":"http://ds-pipeline-mlmd.'"${SAMPLE_NS}"'.svc.cluster.local:8443"}
       }
     }
   }' 2>/dev/null || true

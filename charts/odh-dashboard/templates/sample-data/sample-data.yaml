@@ -1245,8 +1245,8 @@ status:
       externalUrl: "http://ds-pipeline-dspa.{{ include "odh-dashboard.sampleNamespace" $ }}.svc.cluster.local:8443"
       url: "http://ds-pipeline-dspa.{{ include "odh-dashboard.sampleNamespace" $ }}.svc.cluster.local:8443"
     mlmdProxy:
-      externalUrl: "http://ds-pipeline-dspa.{{ include "odh-dashboard.sampleNamespace" $ }}.svc.cluster.local:8443"
-      url: "http://ds-pipeline-dspa.{{ include "odh-dashboard.sampleNamespace" $ }}.svc.cluster.local:8443"
+      externalUrl: "http://ds-pipeline-mlmd.{{ include "odh-dashboard.sampleNamespace" $ }}.svc.cluster.local:8443"
+      url: "http://ds-pipeline-mlmd.{{ include "odh-dashboard.sampleNamespace" $ }}.svc.cluster.local:8443"
 ---
 # DataScienceCluster CR (cluster-scoped, needed for MaaS and other component status checks)
 apiVersion: datasciencecluster.opendatahub.io/v2
