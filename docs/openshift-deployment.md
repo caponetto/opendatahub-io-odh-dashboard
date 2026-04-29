@@ -199,7 +199,7 @@ podman pull --platform linux/amd64 <image>
 
 ### Observability dashboards show "No dashboards found"
 
-- Verify `mock-perses-server` pod is running and logs do not show schema errors
+- Verify `data-science-perses` pod is running and logs do not show schema errors
 - Check that Prometheus is running (not OOMKilled; it needs 1Gi memory limit)
 - Ensure the Perses config includes `schemas` paths pointing to `/etc/perses/schemas/`
 

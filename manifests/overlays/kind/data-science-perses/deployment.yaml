@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: mock-perses-nginx-conf
+  name: perses-nginx-conf
   namespace: odh-dashboard
 data:
   nginx.conf: |
@@ -39,7 +39,7 @@ data:
                 return 200 '[]';
             }
 
-            # Global datasources -- return a mock Prometheus datasource so panels can resolve it
+            # Global datasources -- Prometheus datasource used by dashboard panels
             location = /api/v1/globaldatasources {
                 try_files /responses/globaldatasources.json =404;
             }
@@ -62,7 +62,7 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: mock-perses-responses
+  name: perses-responses
   namespace: odh-dashboard
 data:
   globaldatasources.json: |
@@ -487,19 +487,19 @@ data:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mock-perses-server
+  name: data-science-perses
   namespace: odh-dashboard
   labels:
-    app: mock-perses-server
+    app: data-science-perses
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: mock-perses-server
+      app: data-science-perses
   template:
     metadata:
       labels:
-        app: mock-perses-server
+        app: data-science-perses
     spec:
       containers:
         - name: nginx
@@ -536,10 +536,10 @@ spec:
       volumes:
         - name: nginx-conf
           configMap:
-            name: mock-perses-nginx-conf
+            name: perses-nginx-conf
         - name: responses
           configMap:
-            name: mock-perses-responses
+            name: perses-responses
 ---
 apiVersion: v1
 kind: Service
@@ -547,10 +547,10 @@ metadata:
   name: data-science-perses
   namespace: odh-dashboard
   labels:
-    app: mock-perses-server
+    app: data-science-perses
 spec:
   selector:
-    app: mock-perses-server
+    app: data-science-perses
   ports:
     - name: http
       port: 8080

@@ -110,10 +110,10 @@ kubectl rollout status deployment/mock-pipeline-server -n sample-project --timeo
 
 # --- 6b. Deploy mock Perses server ---
 echo ">>> Deploying mock Perses server..."
-kubectl apply -f "${KUSTOMIZE_DIR}/mock-perses-server/deployment.yaml"
+kubectl apply -f "${KUSTOMIZE_DIR}/data-science-perses/deployment.yaml"
 
 echo ">>> Waiting for mock Perses server to be ready..."
-kubectl rollout status deployment/mock-perses-server -n "${NAMESPACE}" --timeout=120s
+kubectl rollout status deployment/data-science-perses -n "${NAMESPACE}" --timeout=120s
 
 # --- 6c. Deploy plugin UI services (if images are available) ---
 if [ "${PLUGINS_REBUILT:-false}" = "true" ] || \

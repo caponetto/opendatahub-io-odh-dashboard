@@ -471,18 +471,18 @@ data:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mock-perses-server
+  name: data-science-perses
   labels:
-    app: mock-perses-server
+    app: data-science-perses
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: mock-perses-server
+      app: data-science-perses
   template:
     metadata:
       labels:
-        app: mock-perses-server
+        app: data-science-perses
     spec:
       securityContext:
         runAsNonRoot: true
@@ -544,10 +544,10 @@ kind: Service
 metadata:
   name: data-science-perses
   labels:
-    app: mock-perses-server
+    app: data-science-perses
 spec:
   selector:
-    app: mock-perses-server
+    app: data-science-perses
   ports:
     - name: http
       port: 8080
