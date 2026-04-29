@@ -65,6 +65,7 @@ mocks:
     enabled: true
     image: persesdev/perses:v0.42.1
     prometheusImage: quay.io/prometheus/prometheus:v2.53.0
+    thanosImage: quay.io/thanos/thanos:v0.36.1
   pipeline:
     enabled: true
     image: ghcr.io/nginx/nginx-unprivileged:1.27-alpine

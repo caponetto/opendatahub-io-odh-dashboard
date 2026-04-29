@@ -46,7 +46,7 @@ data:
             "proxy": {
               "kind": "HTTPProxy",
               "spec": {
-                "url": "http://prometheus.{{ .Release.Namespace }}.svc.cluster.local:9090"
+                "url": "http://thanos-querier.{{ .Release.Namespace }}.svc.cluster.local:9090"
               }
             }
           }
@@ -596,6 +596,8 @@ data:
     global:
       scrape_interval: 30s
       evaluation_interval: 30s
+      external_labels:
+        cluster: standalone
     scrape_configs:
       - job_name: kubernetes-cadvisor
         scheme: https
@@ -701,6 +703,33 @@ spec:
             limits:
               cpu: 500m
               memory: 1Gi
+        - name: thanos-sidecar
+          image: {{ .Values.mocks.perses.thanosImage }}
+          args:
+            - "sidecar"
+            - "--tsdb.path=/prometheus"
+            - "--prometheus.url=http://localhost:9090"
+            - "--grpc-address=0.0.0.0:10901"
+          ports:
+            - containerPort: 10901
+              name: grpc
+          securityContext:
+            {{- if not .Values.route.enabled }}
+            runAsUser: 65534
+            {{- end }}
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: ["ALL"]
+          volumeMounts:
+            - name: data
+              mountPath: /prometheus
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 200m
+              memory: 256Mi
       volumes:
         - name: config
           configMap:
@@ -717,6 +746,93 @@ metadata:
 spec:
   selector:
     app: prometheus
+  ports:
+    - name: http
+      port: 9090
+      targetPort: 9090
+      protocol: TCP
+  type: ClusterIP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: thanos-sidecar
+  labels:
+    app: prometheus
+spec:
+  clusterIP: None
+  selector:
+    app: prometheus
+  ports:
+    - name: grpc
+      port: 10901
+      targetPort: 10901
+      protocol: TCP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: thanos-querier
+  labels:
+    app: thanos-querier
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: thanos-querier
+  template:
+    metadata:
+      labels:
+        app: thanos-querier
+    spec:
+      securityContext:
+        runAsNonRoot: true
+      containers:
+        - name: thanos-querier
+          image: {{ .Values.mocks.perses.thanosImage }}
+          args:
+            - "query"
+            - "--endpoint=dnssrv+_grpc._tcp.thanos-sidecar.{{ .Release.Namespace }}.svc.cluster.local"
+            - "--http-address=0.0.0.0:9090"
+          ports:
+            - containerPort: 9090
+              name: http
+          securityContext:
+            {{- if not .Values.route.enabled }}
+            runAsUser: 65534
+            {{- end }}
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: ["ALL"]
+          readinessProbe:
+            httpGet:
+              path: /-/ready
+              port: 9090
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /-/healthy
+              port: 9090
+            initialDelaySeconds: 10
+            periodSeconds: 15
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 200m
+              memory: 256Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: thanos-querier
+  labels:
+    app: thanos-querier
+spec:
+  selector:
+    app: thanos-querier
   ports:
     - name: http
       port: 9090

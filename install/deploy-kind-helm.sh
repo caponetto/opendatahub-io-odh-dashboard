@@ -136,8 +136,8 @@ if [ "${PLUGINS_AVAILABLE}" = "true" ]; then
     --set "federation.maas.enabled=true"
   )
 
-  # Pull and load third-party images (pins from lib/helm-utils.sh)
-  for img in "${MR_SERVER_IMAGE}" "${PG_IMAGE}" "${BUSYBOX_IMAGE}" "${PERSES_IMAGE}" "${PROM_IMAGE}"; do
+  # Pull and load third-party images (pins from lib/helm-utils.sh, Thanos from quay.io)
+  for img in "${MR_SERVER_IMAGE}" "${PG_IMAGE}" "${BUSYBOX_IMAGE}" "${PERSES_IMAGE}" "${PROM_IMAGE}" "${THANOS_IMAGE}"; do
     if ! ${CONTAINER_ENGINE} exec "${KIND_CLUSTER_NAME}-control-plane" crictl images -o json 2>/dev/null | grep -q "$(echo "${img}" | cut -d: -f1)"; then
       echo ">>> Pulling ${img}..."
       ${CONTAINER_ENGINE} pull "${img}"
@@ -148,8 +148,8 @@ if [ "${PLUGINS_AVAILABLE}" = "true" ]; then
     fi
   done
 else
-  # Even without plugins, ensure Perses + Prometheus images are available
-  for img in "${PERSES_IMAGE}" "${PROM_IMAGE}"; do
+  # Even without plugins, ensure Perses + Prometheus + Thanos images are available
+  for img in "${PERSES_IMAGE}" "${PROM_IMAGE}" "${THANOS_IMAGE}"; do
     if ! ${CONTAINER_ENGINE} exec "${KIND_CLUSTER_NAME}-control-plane" crictl images -o json 2>/dev/null | grep -q "$(echo "${img}" | cut -d: -f1)"; then
       echo ">>> Pulling ${img}..."
       ${CONTAINER_ENGINE} pull "${img}"
