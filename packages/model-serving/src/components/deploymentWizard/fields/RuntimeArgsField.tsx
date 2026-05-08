@@ -14,6 +14,12 @@ import {
 } from '@patternfly/react-core';
 import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons';
 import { z } from 'zod';
+import type {
+  RuntimeArgsFieldData,
+  RuntimeArgsFieldHook,
+} from '@odh-dashboard/model-serving-shared/types/form-data';
+
+export type { RuntimeArgsFieldData, RuntimeArgsFieldHook };
 
 // Schema
 export const runtimeArgsFieldSchema = z.object({
@@ -21,18 +27,11 @@ export const runtimeArgsFieldSchema = z.object({
   args: z.array(z.string()),
 });
 
-export type RuntimeArgsFieldData = z.infer<typeof runtimeArgsFieldSchema>;
-
 export const isValidRuntimeArgs = (value: unknown): value is RuntimeArgsFieldData => {
   return runtimeArgsFieldSchema.safeParse(value).success;
 };
 
 // Hook
-export type RuntimeArgsFieldHook = {
-  data: RuntimeArgsFieldData | undefined;
-  setData: (data: RuntimeArgsFieldData) => void;
-};
-
 export const useRuntimeArgsField = (existingData?: RuntimeArgsFieldData): RuntimeArgsFieldHook => {
   const [runtimeArgsData, setRuntimeArgsData] = React.useState<RuntimeArgsFieldData | undefined>(
     existingData || { enabled: false, args: [] },

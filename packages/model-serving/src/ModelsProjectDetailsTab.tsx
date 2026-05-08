@@ -1,8 +1,8 @@
 import React from 'react';
-import { ProjectDetailsContext } from '@odh-dashboard/internal/pages/projects/ProjectDetailsContext';
+import { ProjectDetailsContext } from '@odh-dashboard/projects-shared/concepts/projects/ProjectDetailsContext';
 import { LazyCodeRefComponent } from '@odh-dashboard/plugin-core';
-import DetailsSection from '@odh-dashboard/internal/pages/projects/screens/detail/DetailsSection';
-import { ProjectSectionID } from '@odh-dashboard/internal/pages/projects/screens/detail/types';
+import DetailsSection from '@odh-dashboard/dashboard-foundation-frontend/components/DetailsSection';
+import { ProjectSectionID } from '@odh-dashboard/dashboard-foundation-frontend/concepts/projects/projectSectionId';
 import { useProjectServingPlatform } from './concepts/useProjectServingPlatform';
 import { ModelDeploymentsProvider } from './concepts/ModelDeploymentsContext';
 import ModelsProjectDetailsView from './components/projectDetails/ModelsProjectDetailsView';

@@ -1,0 +1,49 @@
+import * as React from 'react';
+import { Navigate, Route } from 'react-router-dom';
+import ProjectsRoutes from '@odh-dashboard/dashboard-foundation-frontend/concepts/projects/ProjectsRoutes';
+import {
+  SupportedArea,
+  useIsAreaAvailable,
+} from '@odh-dashboard/dashboard-foundation-frontend/concepts/areas';
+import ModelServingExplainabilityWrapper from './screens/metrics/ModelServingExplainabilityWrapper';
+import GlobalModelServingCoreLoader from './screens/global/GlobalModelServingCoreLoader';
+import BiasConfigurationBreadcrumbPage from './screens/metrics/bias/BiasConfigurationPage/BiasConfigurationBreadcrumbPage';
+import GlobalModelMetricsPage from './screens/metrics/GlobalModelMetricsPage';
+import GlobalModelMetricsWrapper from './screens/metrics/GlobalModelMetricsWrapper';
+import ModelServingGlobal from './screens/global/ModelServingGlobal';
+import useModelMetricsEnabled from './useModelMetricsEnabled';
+
+const ModelServingRoutes: React.FC = () => {
+  const [modelMetricsEnabled] = useModelMetricsEnabled();
+  const biasMetricsAreaAvailable = useIsAreaAvailable(SupportedArea.BIAS_METRICS).status;
+
+  return (
+    <ProjectsRoutes>
+      <Route
+        path="/:namespace?/*"
+        element={
+          <GlobalModelServingCoreLoader
+            getInvalidRedirectPath={(namespace) => `/ai-hub/deployments/${namespace}`}
+          />
+        }
+      >
+        <Route index element={<ModelServingGlobal />} />
+        {modelMetricsEnabled && (
+          <Route path="metrics" element={<ModelServingExplainabilityWrapper />}>
+            <Route index element={<Navigate to=".." />} />
+            <Route path=":inferenceService" element={<GlobalModelMetricsWrapper />}>
+              <Route path=":tab?" element={<GlobalModelMetricsPage />} />
+              {biasMetricsAreaAvailable && (
+                <Route path="configure" element={<BiasConfigurationBreadcrumbPage />} />
+              )}
+            </Route>
+            <Route path="*" element={<Navigate to="." />} />
+          </Route>
+        )}
+        <Route path="*" element={<Navigate to="." />} />
+      </Route>
+    </ProjectsRoutes>
+  );
+};
+
+export default ModelServingRoutes;

@@ -1,8 +1,8 @@
-import { mockDashboardConfig } from '@odh-dashboard/internal/__mocks__';
+import { mockDashboardConfig } from '@odh-dashboard/test-mocks';
 import {
   mockConnectionTypeConfigMap,
   mockModelServingFields,
-} from '@odh-dashboard/internal/__mocks__/mockConnectionType';
+} from '@odh-dashboard/test-mocks/mockConnectionType';
 import { pageNotfound } from '../../../pages/pageNotFound';
 import { asProductAdminUser, asProjectAdminUser } from '../../../utils/mockUsers';
 import { connectionTypePreviewModal, connectionTypesPage } from '../../../pages/connectionTypes';

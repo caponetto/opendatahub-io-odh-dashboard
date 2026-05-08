@@ -1,0 +1,77 @@
+{
+  "private": true,
+  "name": "@odh-dashboard/dashboard-shell-frontend",
+  "description": "App shell: DI-based bootstrap factory, error boundaries, and ReduxContext for ODH Dashboard variants",
+  "version": "0.0.0",
+  "main": "src/createDashboardApp.tsx",
+  "exports": {
+    ".": "./src/createDashboardApp.tsx",
+    "./extensions": "./src/plugins/extensions/index.ts",
+    "./types": "./src/types.ts",
+    "./redux/context": "./src/redux/context.ts",
+    "./components/ErrorBoundary": "./src/components/error/ErrorBoundary.tsx",
+    "./components/RouteErrorElement": "./src/components/error/RouteErrorElement.tsx",
+    "./providers/BrowserStorageContext": "./src/providers/BrowserStorageContext.tsx",
+    "./providers/ThemeContext": "./src/providers/ThemeContext.tsx",
+    "./providers/SDKInitialize": "./src/providers/SDKInitialize.tsx",
+    "./redux/configureStores": "./src/redux/configureStores.ts",
+    "./entry": "./src/entry.ts",
+    "./config/webpack": "./config/webpack.js",
+    "./config/moduleFederation": "./config/moduleFederation.js",
+    "./*": [
+      "./src/*",
+      "./src/*.ts",
+      "./src/*.d.ts",
+      "./src/*.tsx",
+      "./src/*/index.ts",
+      "./src/*/index.tsx"
+    ]
+  },
+  "sideEffects": [
+    "*.css",
+    "*.scss"
+  ],
+  "topology": {
+    "tier": "shell"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "type-check": "tsc --noEmit",
+    "test-unit": "jest --silent",
+    "test-unit-coverage": "jest --silent --coverage"
+  },
+  "dependencies": {
+    "@odh-dashboard/dashboard-foundation-frontend": "*",
+    "@odh-dashboard/k8s-browser": "*",
+    "@odh-dashboard/plugin-core": "*",
+    "@odh-dashboard/storage-classes-shared": "*",
+    "@patternfly/patternfly": "^6.4.0",
+    "@patternfly/quickstarts": "*",
+    "@patternfly/react-core": "*",
+    "@patternfly/react-icons": "*",
+    "@patternfly/react-table": "^6.4.1",
+    "axios": "*",
+    "lodash-es": "*",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-redux": "^8.0.4",
+    "react-router-dom": "^7.6.2",
+    "redux": "^4.2.0",
+    "redux-thunk": "^2.4.2"
+  },
+  "devDependencies": {
+    "@module-federation/enhanced": "*",
+    "@module-federation/runtime": "^0.15.0",
+    "@odh-dashboard/eslint-config": "*",
+    "@odh-dashboard/jest-config": "*",
+    "@odh-dashboard/test-mocks": "*",
+    "@odh-dashboard/tsconfig": "*",
+    "@testing-library/jest-dom": "*",
+    "@testing-library/react": "*",
+    "@testing-library/user-event": "*",
+    "@types/lodash-es": "^4.17.8",
+    "@types/react-dom": "^18.0.8",
+    "html-webpack-plugin": "*"
+  }
+}

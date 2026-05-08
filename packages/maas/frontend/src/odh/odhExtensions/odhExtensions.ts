@@ -9,6 +9,7 @@ export const MODEL_AS_SERVICE_ID = 'modelAsService';
 export const MAAS_AUTH_POLICIES = 'maasAuthPolicies';
 
 export type ODHExtensions = NavExtension | RouteExtension | AreaExtension | TaskItemExtension;
+/** @deprecated Migrate to RBAC. See ADMIN_USER in @odh-dashboard/plugin-core */
 const ADMIN_USER = 'ADMIN_USER';
 const MODELS_AS_SERVICE_READY = 'ModelsAsServiceReady';
 

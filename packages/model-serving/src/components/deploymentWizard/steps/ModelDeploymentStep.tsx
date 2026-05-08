@@ -1,12 +1,12 @@
 import React from 'react';
 import { Form, FormSection, Spinner } from '@patternfly/react-core';
-import K8sNameDescriptionField from '@odh-dashboard/internal/concepts/k8s/K8sNameDescriptionField/K8sNameDescriptionField';
+import K8sNameDescriptionField from '@odh-dashboard/dashboard-foundation-frontend/concepts/k8s/K8sNameDescriptionField/K8sNameDescriptionField';
+import ModelServerTemplateSelectField from '@odh-dashboard/model-serving-shared/concepts/modelServing/ModelServerTemplateSelectField';
 import { UseModelDeploymentWizardState } from '../useDeploymentWizard';
 import ProjectSection from '../fields/ProjectSection';
 import { ModelServingHardwareProfileSection } from '../fields/ModelServingHardwareProfileSection';
 import { ModelFormatField } from '../fields/ModelFormatField';
 import { NumReplicasField } from '../fields/NumReplicasField';
-import ModelServerTemplateSelectField from '../fields/ModelServerTemplateSelectField';
 import { GenericFieldRenderer } from '../fields/GenericFieldRenderer';
 import { ExternalDataMap } from '../ExternalDataLoader';
 

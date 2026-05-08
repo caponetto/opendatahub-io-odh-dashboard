@@ -5,8 +5,8 @@ import {
   RuntimeStateKF,
   runtimeStateLabels,
   StorageStateKF,
-} from '@odh-dashboard/internal/concepts/pipelines/kfTypes';
-import { DSPAMlflowIntegrationMode } from '@odh-dashboard/internal/k8sTypes';
+} from '@odh-dashboard/pipelines/concepts/kfTypes';
+import { DSPAMlflowIntegrationMode } from '@odh-dashboard/dashboard-foundation-frontend/k8sTypes';
 import {
   mockK8sResourceList,
   mockProjectK8sResource,
@@ -19,11 +19,12 @@ import {
   buildMockExperimentKF,
   buildMockRecurringRunKF,
   buildMockExperiments,
-} from '@odh-dashboard/internal/__mocks__';
+} from '@odh-dashboard/test-mocks';
 import {
   mockedArtifactsResponse,
   mockGetArtifactsResponse,
-} from '@odh-dashboard/internal/__mocks__/mlmd/mockGetArtifacts';
+} from '@odh-dashboard/test-mocks/mlmd/mockGetArtifacts';
+import { ProjectModel } from '@odh-dashboard/dashboard-foundation-frontend/api/models';
 import {
   activeRunsTable,
   pipelineRunsGlobal,
@@ -41,7 +42,6 @@ import {
 } from '../../../../pages/pipelines';
 import { verifyRelativeURL } from '../../../../utils/url';
 import { be } from '../../../../utils/should';
-import { ProjectModel } from '../../../../utils/models';
 import { tablePagination } from '../../../../pages/components/Pagination';
 import { dspaIntercepts } from '../intercepts';
 import {

@@ -1,6 +1,5 @@
-import type { Extension } from '@openshift/dynamic-plugin-sdk';
-import type { AccessReviewResourceAttributes } from '@odh-dashboard/internal/k8sTypes';
-import type { ComponentCodeRef } from '../core/types';
+import type { AccessReviewResourceAttributes } from '@odh-dashboard/dashboard-foundation-frontend/k8sTypes';
+import type { Extension, ComponentCodeRef } from '../core/types';
 
 /**
  * Adds a navigation item to the host application.

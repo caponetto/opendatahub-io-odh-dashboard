@@ -1,8 +1,11 @@
 import * as React from 'react';
 import { FormGroup, HelperText, HelperTextItem, TextInput } from '@patternfly/react-core';
-import ProjectSelector from '@odh-dashboard/internal/concepts/projects/ProjectSelector';
-import { ProjectsContext, byName } from '@odh-dashboard/internal/concepts/projects/ProjectsContext';
-import { ODH_PRODUCT_NAME } from '@odh-dashboard/internal/utilities/const';
+import ProjectSelector from '@odh-dashboard/dashboard-foundation-frontend/concepts/projects/ProjectSelector';
+import {
+  ProjectsContext,
+  byName,
+} from '@odh-dashboard/dashboard-foundation-frontend/concepts/projects/ProjectsContext';
+import { ODH_PRODUCT_NAME } from '@odh-dashboard/dashboard-foundation-frontend/utilities/const';
 
 export type ProjectSectionType = {
   initialProjectName?: string;

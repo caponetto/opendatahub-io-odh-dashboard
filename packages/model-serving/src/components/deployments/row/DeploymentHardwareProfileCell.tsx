@@ -1,11 +1,11 @@
 import React from 'react';
 import { Td } from '@patternfly/react-table';
-import HardwareProfileTableColumn from '@odh-dashboard/internal/concepts/hardwareProfiles/HardwareProfileTableColumn';
-import { useHardwareProfileBindingState } from '@odh-dashboard/internal/concepts/hardwareProfiles/useHardwareProfileBindingState';
-import { useAssignHardwareProfile } from '@odh-dashboard/internal/concepts/hardwareProfiles/useAssignHardwareProfile';
-import { MODEL_SERVING_VISIBILITY } from '@odh-dashboard/internal/concepts/hardwareProfiles/const';
-import type { CrPathConfig } from '@odh-dashboard/internal/concepts/hardwareProfiles/types';
-import { type Deployment } from '../../../../extension-points';
+import HardwareProfileTableColumn from '@odh-dashboard/hardware-profiles-shared/concepts/hardwareProfiles/HardwareProfileTableColumn';
+import { useHardwareProfileBindingState } from '@odh-dashboard/hardware-profiles-shared/concepts/hardwareProfiles/useHardwareProfileBindingState';
+import { useAssignHardwareProfile } from '@odh-dashboard/hardware-profiles-shared/concepts/hardwareProfiles/useAssignHardwareProfile';
+import { MODEL_SERVING_VISIBILITY } from '@odh-dashboard/hardware-profiles-shared/concepts/hardwareProfiles/const';
+import type { CrPathConfig } from '@odh-dashboard/hardware-profiles-shared/concepts/hardwareProfiles/types';
+import { type Deployment } from '@odh-dashboard/model-serving-shared/extension-points';
 
 type DeploymentHardwareProfileCellProps = {
   deployment: Deployment;

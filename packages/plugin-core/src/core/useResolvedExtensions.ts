@@ -1,11 +1,6 @@
 import * as React from 'react';
-import type {
-  Extension,
-  LoadedExtension,
-  ResolvedExtension,
-  ExtensionPredicate,
-} from '@openshift/dynamic-plugin-sdk';
-import { allSettledPromises } from '@odh-dashboard/internal/utilities/allSettledPromises';
+import { allSettledPromises } from '@odh-dashboard/dashboard-foundation-frontend/utilities/allSettledPromises';
+import type { Extension, LoadedExtension, ResolvedExtension, ExtensionPredicate } from './types';
 import { resolveCodeRefValues } from './internal/coderefs';
 import { useExtensions } from './useExtensions';
 

@@ -2,7 +2,7 @@ import type {
   PipelineKF,
   PipelineRecurringRunKF,
   PipelineVersionKF,
-} from '@odh-dashboard/internal/concepts/pipelines/kfTypes';
+} from '@odh-dashboard/pipelines/concepts/kfTypes';
 import { Contextual } from '../components/Contextual';
 import { DashboardCodeEditor } from '../components/DashboardCodeEditor';
 import { SearchSelector } from '../components/subComponents/SearchSelector';

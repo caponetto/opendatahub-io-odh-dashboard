@@ -7,25 +7,29 @@ import {
   RayJobDeploymentStatus,
   RayJobStatusValue,
 } from '@odh-dashboard/model-training/types';
-import { mockDashboardConfig } from '@odh-dashboard/internal/__mocks__/mockDashboardConfig';
-import { mockK8sResourceList } from '@odh-dashboard/internal/__mocks__/mockK8sResourceList';
-import { mockPodK8sResource } from '@odh-dashboard/internal/__mocks__/mockPodK8sResource';
-import { mockProjectK8sResource } from '@odh-dashboard/internal/__mocks__/mockProjectK8sResource';
-import { mockLocalQueueK8sResource } from '@odh-dashboard/internal/__mocks__/mockLocalQueueK8sResource';
-import { mockClusterQueueK8sResource } from '@odh-dashboard/internal/__mocks__/mockClusterQueueK8sResource';
-import { mockWorkloadK8sResource } from '@odh-dashboard/internal/__mocks__/mockWorkloadK8sResource';
-import { WorkloadStatusType } from '@odh-dashboard/internal/concepts/distributedWorkloads/utils';
+import { mockDashboardConfig } from '@odh-dashboard/test-mocks/mockDashboardConfig';
+import { mockK8sResourceList } from '@odh-dashboard/test-mocks/mockK8sResourceList';
+import { mockPodK8sResource } from '@odh-dashboard/test-mocks/mockPodK8sResource';
+import { mockProjectK8sResource } from '@odh-dashboard/test-mocks/mockProjectK8sResource';
+import { mockLocalQueueK8sResource } from '@odh-dashboard/test-mocks/mockLocalQueueK8sResource';
+import { mockClusterQueueK8sResource } from '@odh-dashboard/test-mocks/mockClusterQueueK8sResource';
+import { mockWorkloadK8sResource } from '@odh-dashboard/test-mocks/mockWorkloadK8sResource';
+import { WorkloadStatusType } from '@odh-dashboard/distributed-workloads-shared/concepts/distributedWorkloads/types';
 import {
-  ClusterQueueModel,
   GatewayModel,
   HTTPRouteModel,
-  LocalQueueModel,
+  PodModel,
+  ProjectModel,
   RayClusterModel,
   RayJobModel,
   TrainJobModel,
+} from '@odh-dashboard/dashboard-foundation-frontend/api/models';
+import {
+  ClusterQueueModel,
+  LocalQueueModel,
   WorkloadModel,
-} from '@odh-dashboard/internal/api/models';
-import { mock404Error } from '@odh-dashboard/internal/__mocks__/mockK8sStatus';
+} from '@odh-dashboard/distributed-workloads-shared/api/models/kueue';
+import { mock404Error } from '@odh-dashboard/test-mocks/mockK8sStatus';
 import { asClusterAdminUser } from '../../../utils/mockUsers';
 import {
   modelTrainingGlobal,
@@ -42,7 +46,6 @@ import {
 } from '../../../pages/modelTraining';
 import { tablePagination } from '../../../pages/components/Pagination';
 import { deleteModal } from '../../../pages/components/DeleteModal';
-import { ProjectModel, PodModel } from '../../../utils/models';
 
 const projectName = 'test-rayjobs-project';
 const projectDisplayName = 'Test RayJobs Project';

@@ -3,9 +3,10 @@ import type {
   WizardFieldApplyExtension,
   WizardFieldExtractorExtension,
   WizardFieldDeploymentFunctionsExtension,
-} from '@odh-dashboard/model-serving/extension-points';
+} from '@odh-dashboard/model-serving-shared/extension-points';
 import type { LLMdDeployment } from '@odh-dashboard/llmd-serving/types';
-import { LLMD_SERVING_ID } from '@odh-dashboard/llmd-serving/extensions';
+
+const LLMD_SERVING_ID = 'llmd-serving';
 import { MODEL_AS_SERVICE_ID } from '~/odh/odhExtensions/odhExtensions';
 import type { MaaSFieldType, MaaSFieldValue } from './modelDeploymentWizard/MaaSEndpointCheckbox';
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen, renderHook, fireEvent, act } from '@testing-library/react';
-import { ProjectsContext } from '@odh-dashboard/internal/concepts/projects/ProjectsContext';
-import { mockProjectK8sResource } from '@odh-dashboard/internal/__mocks__/mockProjectK8sResource';
+import { ProjectsContext } from '@odh-dashboard/dashboard-foundation-frontend/concepts/projects/ProjectsContext';
+import { mockProjectK8sResource } from '@odh-dashboard/test-mocks/mockProjectK8sResource';
 import ProjectSection, { isValidProjectName, useProjectSection } from '../ProjectSection';
 
 const mockProject = mockProjectK8sResource({

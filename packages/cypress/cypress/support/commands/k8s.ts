@@ -4,7 +4,7 @@ import type {
   K8sResourceListResult,
   K8sStatus,
   Patch,
-} from '@openshift/dynamic-plugin-sdk-utils';
+} from '@odh-dashboard/k8s-browser';
 import type {
   GenericStaticResponse,
   RouteHandlerController,

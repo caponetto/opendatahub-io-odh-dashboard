@@ -1,0 +1,50 @@
+import * as React from 'react';
+import { Bullseye, EmptyState, PageSection, PageSectionVariants } from '@patternfly/react-core';
+import { HomeIcon } from '@patternfly/react-icons';
+import { ODH_PRODUCT_NAME } from '@odh-dashboard/dashboard-foundation-frontend/utilities/const';
+import {
+  useIsAreaAvailable,
+  SupportedArea,
+} from '@odh-dashboard/dashboard-foundation-frontend/concepts/areas';
+import ProjectsSection from './projects/ProjectsSection';
+import './Home.scss';
+import TaskAssistantSection from './taskAssistant/TaskAssistantSection';
+import { useResourcesSection } from './resources/useResourcesSection';
+import { useEnableTeamSection } from './useEnableTeamSection';
+
+const Home: React.FC = () => {
+  const { status: projectsAvailable } = useIsAreaAvailable(SupportedArea.DS_PROJECTS_VIEW);
+  const { status: taskAssistantAvailable } = useIsAreaAvailable('task-assistant');
+  const resourcesSection = useResourcesSection();
+  const enableTeamSection = useEnableTeamSection();
+
+  return (
+    <div data-testid="home-page" className="odh-home-page">
+      {!projectsAvailable && !resourcesSection && !enableTeamSection ? (
+        <PageSection
+          hasBodyWrapper={false}
+          data-testid="home-page-empty"
+          variant={PageSectionVariants.default}
+        >
+          <Bullseye>
+            <EmptyState
+              headingLevel="h4"
+              icon={HomeIcon}
+              titleText={`Welcome to ${ODH_PRODUCT_NAME}`}
+              variant="full"
+            />
+          </Bullseye>
+        </PageSection>
+      ) : (
+        <>
+          <ProjectsSection />
+          {taskAssistantAvailable ? <TaskAssistantSection /> : null}
+          {resourcesSection}
+          {enableTeamSection}
+        </>
+      )}
+    </div>
+  );
+};
+
+export default Home;

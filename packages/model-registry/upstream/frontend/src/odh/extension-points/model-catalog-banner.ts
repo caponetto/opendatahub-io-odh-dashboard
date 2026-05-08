@@ -1,4 +1,4 @@
-import type { Extension, CodeRef } from '@openshift/dynamic-plugin-sdk';
+import type { Extension, CodeRef } from '@odh-dashboard/plugin-core';
 
 export type ModelCatalogBannerExtension = Extension<
   'model-catalog.page/banner',

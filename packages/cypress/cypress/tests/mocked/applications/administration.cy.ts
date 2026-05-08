@@ -1,11 +1,15 @@
-import { mockHardwareProfile } from '@odh-dashboard/internal/__mocks__/mockHardwareProfile';
-import { mockRoleBindingK8sResource } from '@odh-dashboard/internal/__mocks__/mockRoleBindingK8sResource';
-import { mockK8sResourceList, mockNotebookK8sResource } from '@odh-dashboard/internal/__mocks__';
-import type { RoleBindingSubject } from '@odh-dashboard/internal/k8sTypes';
-import { mockAllowedUsers } from '@odh-dashboard/internal/__mocks__/mockAllowedUsers';
-import type { AllowedUser } from '@odh-dashboard/internal/pages/notebookController/screens/admin/types';
-import { mockStartNotebookData } from '@odh-dashboard/internal/__mocks__/mockStartNotebookData';
-import { mockImageStreamK8sResourceList } from '@odh-dashboard/internal/__mocks__/mockImageStreamK8sResource';
+import { mockHardwareProfile } from '@odh-dashboard/test-mocks/mockHardwareProfile';
+import { mockRoleBindingK8sResource } from '@odh-dashboard/test-mocks/mockRoleBindingK8sResource';
+import { mockK8sResourceList, mockNotebookK8sResource } from '@odh-dashboard/test-mocks';
+import type { RoleBindingSubject } from '@odh-dashboard/dashboard-foundation-frontend/k8sTypes';
+import { mockAllowedUsers } from '@odh-dashboard/test-mocks/mockAllowedUsers';
+import type { AllowedUser } from '@odh-dashboard/dashboard-foundation-frontend/types/allowedUser';
+import { mockStartNotebookData } from '@odh-dashboard/test-mocks/mockStartNotebookData';
+import { mockImageStreamK8sResourceList } from '@odh-dashboard/test-mocks/mockImageStreamK8sResource';
+import {
+  ImageStreamModel,
+  HardwareProfileModel,
+} from '@odh-dashboard/dashboard-foundation-frontend/api/models';
 import {
   administration,
   notebookController,
@@ -14,7 +18,6 @@ import {
 import { be } from '../../../utils/should';
 import { asProductAdminUser, asProjectEditUser } from '../../../utils/mockUsers';
 import { testPagination } from '../../../utils/pagination';
-import { ImageStreamModel, HardwareProfileModel } from '../../../utils/models';
 
 const groupSubjects: RoleBindingSubject[] = [
   {

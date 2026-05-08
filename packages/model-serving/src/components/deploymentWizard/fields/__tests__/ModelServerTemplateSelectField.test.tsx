@@ -1,10 +1,10 @@
 import React, { act } from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import type { K8sResourceIdentifier } from '@openshift/dynamic-plugin-sdk-utils';
+import type { K8sResourceIdentifier } from '@odh-dashboard/k8s-browser';
 import ModelServerTemplateSelectField, {
   type ModelServerOption,
   type ModelServerSelectField,
-} from '../ModelServerTemplateSelectField';
+} from '@odh-dashboard/model-serving-shared/concepts/modelServing/ModelServerTemplateSelectField';
 
 const minimalTemplate: K8sResourceIdentifier = { apiVersion: 'v1', kind: 'Template' };
 

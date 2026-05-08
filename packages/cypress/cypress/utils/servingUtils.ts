@@ -6,26 +6,26 @@ import {
   mockProjectK8sResource,
   mockSecretK8sResource,
   mockServingRuntimeK8sResource,
-} from '@odh-dashboard/internal/__mocks__';
+} from '@odh-dashboard/test-mocks';
 import {
   mockConnectionTypeConfigMap,
   mockModelServingFields,
-} from '@odh-dashboard/internal/__mocks__/mockConnectionType';
-import { mockNimAccount } from '@odh-dashboard/internal/__mocks__/mockNimAccount';
+} from '@odh-dashboard/test-mocks/mockConnectionType';
+import { mockNimAccount } from '@odh-dashboard/test-mocks/mockNimAccount';
 import {
   mockNimInferenceService,
   mockNimProject,
   mockNimServingRuntime,
-} from '@odh-dashboard/internal/__mocks__/mockNimResource';
-import { mockOdhApplication } from '@odh-dashboard/internal/__mocks__/mockOdhApplication';
-import { DataScienceStackComponent } from '@odh-dashboard/internal/concepts/areas/types';
+} from '@odh-dashboard/test-mocks/mockNimResource';
+import { mockOdhApplication } from '@odh-dashboard/test-mocks/mockOdhApplication';
+import { DataScienceStackComponent } from '@odh-dashboard/dashboard-foundation-frontend/concepts/areas';
+import { SecretModel } from '@odh-dashboard/dashboard-foundation-frontend/api/models/k8s';
 import {
   InferenceServiceModel,
-  NIMAccountModel,
-  ProjectModel,
-  SecretModel,
   ServingRuntimeModel,
-} from './models';
+} from '@odh-dashboard/dashboard-foundation-frontend/api/models/kserve';
+import { NIMAccountModel } from '@odh-dashboard/dashboard-foundation-frontend/api/models/odh';
+import { ProjectModel } from '@odh-dashboard/dashboard-foundation-frontend/api/models/openShift';
 
 export const initInterceptsForAllProjects = (): void => {
   cy.interceptOdh(

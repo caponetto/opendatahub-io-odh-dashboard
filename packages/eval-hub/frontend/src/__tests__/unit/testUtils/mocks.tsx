@@ -39,6 +39,6 @@ export const mockProjectIconWithSizeModule = () => ({
 });
 
 export const mockIconSizeModule = () => ({
-  ...jest.requireActual('@odh-dashboard/internal/types'),
+  ...jest.requireActual('@odh-dashboard/dashboard-foundation-frontend/types'),
   IconSize: { LG: 'lg' },
 });

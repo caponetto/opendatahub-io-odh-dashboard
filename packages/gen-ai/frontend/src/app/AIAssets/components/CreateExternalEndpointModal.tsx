@@ -21,7 +21,7 @@ import {
   Button,
 } from '@patternfly/react-core';
 import { FieldGroupHelpLabelIcon } from 'mod-arch-shared';
-import { fireMiscTrackingEvent } from '@odh-dashboard/internal/concepts/analyticsTracking/segmentIOUtils';
+import { fireMiscTrackingEvent } from '@odh-dashboard/dashboard-foundation-frontend/concepts/analyticsTracking/segmentIOUtils';
 import {
   AIModel,
   ExternalModelRequest,

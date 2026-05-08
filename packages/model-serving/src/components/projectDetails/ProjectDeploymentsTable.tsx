@@ -1,10 +1,10 @@
 import React from 'react';
-import { useResolvedPlatformExtension } from '../../concepts/extensionUtils';
-import DeploymentsTable from '../deployments/DeploymentsTable';
 import {
   isModelServingDeploymentsTableExtension,
   type Deployment,
-} from '../../../extension-points';
+} from '@odh-dashboard/model-serving-shared/extension-points';
+import { useResolvedPlatformExtension } from '../../concepts/extensionUtils';
+import DeploymentsTable from '../deployments/DeploymentsTable';
 import type { ModelServingPlatform } from '../../concepts/useProjectServingPlatform';
 
 export const ProjectDeploymentsTable: React.FC<{

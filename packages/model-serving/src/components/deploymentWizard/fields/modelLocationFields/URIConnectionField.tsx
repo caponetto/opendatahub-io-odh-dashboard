@@ -10,10 +10,13 @@ import { ExclamationCircleIcon } from '@patternfly/react-icons';
 import {
   ConnectionTypeDataField,
   UriField,
-} from '@odh-dashboard/internal/concepts/connectionTypes/types';
-import DefaultValueTextRenderer from '@odh-dashboard/internal/concepts/connectionTypes/fields/DefaultValueTextRenderer';
-import { trimInputOnBlur, trimInputOnPaste } from '@odh-dashboard/internal/utilities/trimInput';
-import { FieldMode } from '@odh-dashboard/internal/concepts/connectionTypes/fields/types';
+} from '@odh-dashboard/connection-types-shared/concepts/connectionTypes/types';
+import DefaultValueTextRenderer from '@odh-dashboard/connection-types-shared/concepts/connectionTypes/fields/DefaultValueTextRenderer';
+import {
+  trimInputOnBlur,
+  trimInputOnPaste,
+} from '@odh-dashboard/dashboard-foundation-frontend/utilities/trimInput';
+import { FieldMode } from '@odh-dashboard/connection-types-shared/concepts/connectionTypes/fields/types';
 
 const validateUrl = (url?: string) => {
   if (!url) {

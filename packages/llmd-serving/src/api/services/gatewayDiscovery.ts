@@ -1,10 +1,10 @@
 import React from 'react';
-import { proxyGET } from '@odh-dashboard/internal/api/proxyUtils';
-import { K8sAPIOptions } from '@odh-dashboard/internal/k8sTypes';
+import { proxyGET } from '@odh-dashboard/dashboard-foundation-frontend/api/proxyUtils';
+import { K8sAPIOptions } from '@odh-dashboard/dashboard-foundation-frontend/k8sTypes';
 import useFetch, {
   NotReadyError,
   type FetchStateObject,
-} from '@odh-dashboard/internal/utilities/useFetch';
+} from '@odh-dashboard/dashboard-foundation-frontend/utilities/useFetch';
 
 export type GatewayOption = {
   name: string;

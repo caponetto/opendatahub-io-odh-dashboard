@@ -1,13 +1,16 @@
-import { InferenceServiceKind, PodKind } from '@odh-dashboard/internal/k8sTypes';
+import {
+  InferenceServiceKind,
+  PodKind,
+} from '@odh-dashboard/dashboard-foundation-frontend/k8sTypes';
 import {
   checkModelPodStatus,
   getInferenceServiceModelState,
   getInferenceServiceStatusMessage,
-} from '@odh-dashboard/internal/concepts/modelServingKServe/kserveStatusUtils';
-import { DeploymentStatus } from '@odh-dashboard/model-serving/extension-points';
-import { k8sPatchResource } from '@openshift/dynamic-plugin-sdk-utils';
-import { InferenceServiceModel } from '@odh-dashboard/internal/api/models/kserve';
-import { getModelDeploymentStoppedStates } from '@odh-dashboard/model-serving/utils';
+} from '@odh-dashboard/model-serving-shared/concepts/modelServing/kserveStatusUtils';
+import type { DeploymentStatus } from '@odh-dashboard/model-serving-shared/extension-points';
+import { k8sPatchResource } from '@odh-dashboard/k8s-browser';
+import { InferenceServiceModel } from '@odh-dashboard/dashboard-foundation-frontend/api/models/kserve';
+import { getModelDeploymentStoppedStates } from '@odh-dashboard/model-serving-shared/concepts/modelServing/utils';
 import { KServeDeployment } from './deployments';
 
 export const patchDeploymentStoppedStatus = (
@@ -33,6 +36,13 @@ export const getKServeDeploymentStatus = (
   inferenceService: InferenceServiceKind,
   deploymentPods: PodKind[],
 ): DeploymentStatus => {
+  const annotations = inferenceService.metadata.annotations
+    ? Object.fromEntries(
+        Object.entries(inferenceService.metadata.annotations).filter(
+          (entry): entry is [string, string] => entry[1] !== undefined,
+        ),
+      )
+    : undefined;
   const deploymentPod = deploymentPods.find(
     (pod) =>
       pod.metadata.labels?.['serving.kserve.io/inferenceservice'] ===
@@ -43,11 +53,7 @@ export const getKServeDeploymentStatus = (
   const state = getInferenceServiceModelState(inferenceService, modelPodStatus);
   const message = getInferenceServiceStatusMessage(inferenceService, modelPodStatus);
 
-  const stoppedStates = getModelDeploymentStoppedStates(
-    state,
-    inferenceService.metadata.annotations,
-    deploymentPod,
-  );
+  const stoppedStates = getModelDeploymentStoppedStates(state, annotations, deploymentPod);
 
   return { state, message, stoppedStates };
 };

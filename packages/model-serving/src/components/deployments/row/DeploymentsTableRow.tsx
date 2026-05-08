@@ -1,21 +1,12 @@
 import React from 'react';
 import { Td, Tbody } from '@patternfly/react-table';
-import ResourceActionsColumn from '@odh-dashboard/internal/components/ResourceActionsColumn';
-import ResourceTr from '@odh-dashboard/internal/components/ResourceTr';
-import { ModelStatusIcon } from '@odh-dashboard/internal/concepts/modelServing/ModelStatusIcon';
-import { ModelDeploymentState } from '@odh-dashboard/internal/pages/modelServing/screens/types';
-import { getDisplayNameFromK8sResource } from '@odh-dashboard/internal/concepts/k8s/utils';
-import ResourceNameTooltip from '@odh-dashboard/internal/components/ResourceNameTooltip';
-import StateActionToggle from '@odh-dashboard/internal/components/StateActionToggle';
+import ResourceActionsColumn from '@odh-dashboard/dashboard-foundation-frontend/components/ResourceActionsColumn';
+import ResourceTr from '@odh-dashboard/dashboard-foundation-frontend/components/ResourceTr';
+import { getDisplayNameFromK8sResource } from '@odh-dashboard/dashboard-foundation-frontend/concepts/k8s/utils';
+import ResourceNameTooltip from '@odh-dashboard/dashboard-foundation-frontend/components/ResourceNameTooltip';
+import StateActionToggle from '@odh-dashboard/dashboard-foundation-frontend/components/StateActionToggle';
 import { useResolvedExtensions } from '@odh-dashboard/plugin-core';
-import { DeploymentHardwareProfileCell } from './DeploymentHardwareProfileCell';
-import { DeploymentRowExpandedSection } from './DeploymentsTableRowExpandedSection';
-import { useNavigateToDeploymentWizard } from '../../deploymentWizard/useNavigateToDeploymentWizard';
-import DeploymentLastDeployed from '../DeploymentLastDeployed';
-import DeploymentStatus from '../DeploymentStatus';
-import DeployedModelsVersion from '../DeployedModelsVersion';
-import ModelServingStopModal from '../ModelServingStopModal';
-import { useDeploymentExtension } from '../../../concepts/extensionUtils';
+import { ModelDeploymentState } from '@odh-dashboard/model-serving-shared/concepts/modelServing/deploymentState';
 import {
   Deployment,
   DeploymentsTableColumn,
@@ -23,7 +14,16 @@ import {
   isModelServingMetricsExtension,
   isModelServingStartStopAction,
   type DeployedModelServingDetails,
-} from '../../../../extension-points';
+} from '@odh-dashboard/model-serving-shared/extension-points';
+import { DeploymentHardwareProfileCell } from './DeploymentHardwareProfileCell';
+import { DeploymentRowExpandedSection } from './DeploymentsTableRowExpandedSection';
+import { ModelStatusIcon } from '../../../concepts/ModelStatusIcon';
+import { useNavigateToDeploymentWizard } from '../../deploymentWizard/useNavigateToDeploymentWizard';
+import DeploymentLastDeployed from '../DeploymentLastDeployed';
+import DeploymentStatus from '../DeploymentStatus';
+import DeployedModelsVersion from '../DeployedModelsVersion';
+import ModelServingStopModal from '../ModelServingStopModal';
+import { useDeploymentExtension } from '../../../concepts/extensionUtils';
 import { useModelDeploymentNotification } from '../../../concepts/useModelDeploymentNotification';
 import { DeploymentMetricsLink } from '../../metrics/DeploymentMetricsLink';
 import useStopModalPreference from '../../../concepts/useStopModalPreference';

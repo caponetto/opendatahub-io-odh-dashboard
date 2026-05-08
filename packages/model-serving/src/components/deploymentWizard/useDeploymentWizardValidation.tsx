@@ -1,17 +1,21 @@
 import React from 'react';
 import { z } from 'zod';
-import { useZodFormValidation } from '@odh-dashboard/internal/hooks/useZodFormValidation';
-import { isK8sNameDescriptionDataValid } from '@odh-dashboard/internal/concepts/k8s/K8sNameDescriptionField/utils';
-import { useValidation } from '@odh-dashboard/internal/utilities/useValidation';
-import { hardwareProfileValidationSchema } from '@odh-dashboard/internal/concepts/hardwareProfiles/validationUtils';
-import { resolveFieldValue, type WizardField, type WizardFormData } from './types';
+import { useZodFormValidation } from '@odh-dashboard/dashboard-foundation-frontend/hooks/useZodFormValidation';
+import { isK8sNameDescriptionDataValid } from '@odh-dashboard/dashboard-foundation-frontend/concepts/k8s/K8sNameDescriptionField/utils';
+import { useValidation } from '@odh-dashboard/dashboard-foundation-frontend/utilities/useValidation';
+import { hardwareProfileValidationSchema } from '@odh-dashboard/hardware-profiles-shared/concepts/hardwareProfiles/validationUtils';
+import type {
+  WizardField,
+  WizardFormData,
+} from '@odh-dashboard/model-serving-shared/types/form-data';
+import { modelServerSelectFieldSchema } from '@odh-dashboard/model-serving-shared/concepts/modelServing/ModelServerTemplateSelectField';
+import { resolveFieldValue } from './types';
 import { modelSourceStepSchema, type ModelSourceStepData } from './steps/ModelSourceStep';
 import { externalRouteFieldSchema } from './fields/ExternalRouteField';
 import { tokenAuthenticationFieldSchema } from './fields/TokenAuthenticationField';
 import { numReplicasFieldSchema } from './fields/NumReplicasField';
 import { runtimeArgsFieldSchema } from './fields/RuntimeArgsField';
 import { environmentVariablesFieldSchema } from './fields/EnvironmentVariablesField';
-import { modelServerSelectFieldSchema } from './fields/ModelServerTemplateSelectField';
 import { modelFormatFieldSchema } from './fields/ModelFormatField';
 import { isValidProjectName } from './fields/ProjectSection';
 

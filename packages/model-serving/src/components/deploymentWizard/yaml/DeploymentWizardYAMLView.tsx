@@ -14,7 +14,7 @@ import {
   AlertVariant,
 } from '@patternfly/react-core';
 import { CodeIcon } from '@patternfly/react-icons';
-import { useThemeContext } from '@odh-dashboard/internal/app/ThemeContext';
+import { useThemeContext } from '@odh-dashboard/dashboard-foundation-frontend/app/ThemeContext';
 import { EnterYAMLEditModal } from './EnterYAMLEditModal';
 import { ModelDeploymentWizardViewMode } from '../ModelDeploymentWizard';
 

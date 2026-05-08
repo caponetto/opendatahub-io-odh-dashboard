@@ -1,10 +1,10 @@
 import React from 'react';
 import { useExtensions } from '@odh-dashboard/plugin-core';
-import { IntegrationsStatusContext } from '@odh-dashboard/internal/concepts/integrations/IntegrationsStatusContext';
-import { isEnabled } from '@odh-dashboard/internal/concepts/integrations/useIsComponentIntegrationEnabled';
-import type { IntegrationAppStatus } from '@odh-dashboard/internal/types';
+import { IntegrationsStatusContext } from '@odh-dashboard/dashboard-foundation-frontend/concepts/integrations/IntegrationsStatusContext';
+import { isEnabled } from '@odh-dashboard/dashboard-foundation-frontend/concepts/integrations/useIsComponentIntegrationEnabled';
+import type { IntegrationAppStatus } from '@odh-dashboard/dashboard-foundation-frontend/types';
+import { isModelServingPlatformExtension } from '@odh-dashboard/model-serving-shared/extension-points';
 import type { ModelServingPlatform } from './useProjectServingPlatform';
-import { isModelServingPlatformExtension } from '../../extension-points';
 
 // If a platform has an integration app name, we need to check if it is available on the cluster
 const isPlatformAvailable = (

@@ -2,7 +2,7 @@
 
 import React, { useState, useCallback, useEffect, useRef, useMemo } from 'react';
 import { Timestamp, TimestampTooltipVariant } from '@patternfly/react-core';
-import { relativeTime } from '@odh-dashboard/internal/utilities/time';
+import { relativeTime } from '@odh-dashboard/dashboard-foundation-frontend/utilities/time';
 import { debounce } from 'es-toolkit';
 import FileExplorer, { isFolder } from '~/app/components/common/FileExplorer/FileExplorer.tsx';
 import type {

@@ -1,5 +1,7 @@
 import * as React from 'react';
-import useFetch, { NotReadyError } from '@odh-dashboard/internal/utilities/useFetch';
+import useFetch, {
+  NotReadyError,
+} from '@odh-dashboard/dashboard-foundation-frontend/utilities/useFetch';
 
 import { getClusterTrainingRuntime } from '../api';
 import { ClusterTrainingRuntimeKind } from '../k8sTypes';

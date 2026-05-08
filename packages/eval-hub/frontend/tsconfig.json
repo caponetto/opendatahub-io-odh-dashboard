@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    "rootDir": ".",
     "outDir": "dist",
     "module": "esnext",
     "target": "es2021",
@@ -25,9 +24,6 @@
     "paths": {
       "~/*": [
         "./*"
-      ],
-      "@odh-dashboard/internal/*": [
-        "../../../frontend/src/*"
       ]
     },
     "importHelpers": true,

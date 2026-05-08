@@ -1,4 +1,4 @@
-import { genUID } from '@odh-dashboard/internal/__mocks__/mockUtils';
+import { genUID } from '@odh-dashboard/test-mocks/mockUtils';
 import { RayClusterKind } from '@odh-dashboard/model-training/k8sTypes';
 
 type MockRayClusterConfigType = {

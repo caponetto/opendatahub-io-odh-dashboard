@@ -7,14 +7,14 @@ import type {
   PipelineRecurringRunKF,
   PipelineRunKF,
   PipelineVersionKF,
-} from '@odh-dashboard/internal/concepts/pipelines/kfTypes';
-import { buildMockRunKF } from '@odh-dashboard/internal/__mocks__';
-import { buildMockPipelines } from '@odh-dashboard/internal/__mocks__/mockPipelinesProxy';
+} from '@odh-dashboard/pipelines/concepts/kfTypes';
+import { buildMockRunKF } from '@odh-dashboard/test-mocks';
+import { buildMockPipelines } from '@odh-dashboard/test-mocks/mockPipelinesProxy';
 import {
   buildMockPipelineVersion,
   buildMockPipelineVersions,
-} from '@odh-dashboard/internal/__mocks__/mockPipelineVersionsProxy';
-import { buildMockRecurringRunKF } from '@odh-dashboard/internal/__mocks__/mockRecurringRunKF';
+} from '@odh-dashboard/test-mocks/mockPipelineVersionsProxy';
+import { buildMockRecurringRunKF } from '@odh-dashboard/test-mocks/mockRecurringRunKF';
 import { Contextual } from '../components/Contextual';
 import { SearchSelector } from '../components/subComponents/SearchSelector';
 

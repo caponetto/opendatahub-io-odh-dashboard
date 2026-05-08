@@ -1,5 +1,5 @@
 import * as React from 'react';
-import EmptyStateErrorMessage from '@odh-dashboard/internal/components/EmptyStateErrorMessage';
+import EmptyStateErrorMessage from '@odh-dashboard/dashboard-foundation-frontend/components/EmptyStateErrorMessage';
 import FeatureStoreProjectSelectorNavigator from './FeatureStoreProjectSelectorNavigator';
 import { FeatureStoreObject } from '../../const';
 

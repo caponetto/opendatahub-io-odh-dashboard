@@ -10,52 +10,52 @@ alwaysApply: false
 
 ODH Dashboard is a monorepo managed with npm workspaces and Turbo. It provides the web UI for Red Hat OpenShift AI (RHOAI) and Open Data Hub (ODH).
 
-### Main Applications
+All packages live under `packages/`. Two **assembler** packages (`dashboard-dist-full`, `dashboard-dist-slim`) compose extensions into runnable applications. The **shell** packages (`dashboard-shell-frontend`, `dashboard-shell-backend`) provide the app framework and server. **Extension** packages are independent features loaded via Module Federation.
 
-- `frontend/` — Main React 18 dashboard application (PatternFly v6, Webpack, Module Federation host)
-- `backend/` — Fastify server with Kubernetes client integration, proxying requests to OpenShift APIs
+## Package Tier Model
 
-### Feature Plugin Packages (`packages/`)
+Every package declares its tier in `package.json` under `"topology": { "tier": "<name>" }`. The five tiers enforce a one-way dependency flow:
 
-Each feature package is a **Module Federation remote** that gets dynamically loaded into the main frontend:
+```
+infrastructure │  dashboard-foundation, dashboard-config, plugin-core, dashboard-build,
+               │  dashboard-foundation-backend, eslint-config, eslint-plugin, jest-config,
+               │  tsconfig, test-mocks, contract-tests, cypress, plugin-template
+───────────────┼──────────────────────────────────────────────────────────────────────────
+shared         │  connection-types-shared, storage-classes-shared, hardware-profiles-shared,
+               │  distributed-workloads-shared, model-serving-shared, pipelines-shared,
+               │  mlflow-shared
+───────────────┼──────────────────────────────────────────────────────────────────────────
+shell          │  dashboard-shell-frontend, dashboard-shell-backend
+───────────────┼──────────────────────────────────────────────────────────────────────────
+extension      │  admin, home, pipelines, model-serving, model-registry, notebook-controller,
+               │  workbench, connection-types, storage-classes, hardware-profiles,
+               │  distributed-workloads, gen-ai, kserve, notebooks, maas, automl, autorag,
+               │  eval-hub, mlflow, mlflow-embedded, model-training, feature-store,
+               │  llmd-serving, explore-applications, learning-center, observability,
+               │  trustyai, model-serving-backport
+───────────────┼──────────────────────────────────────────────────────────────────────────
+assembler      │  dashboard-dist-full, dashboard-dist-slim
+```
 
-- `gen-ai` — Gen AI / LLM features (has Go BFF)
-- `model-registry` — Model Registry UI (has Go BFF)
-- `model-serving` — Model Serving UI
-- `model-serving-backport` — Model serving backport compatibility
-- `model-training` — Model training UI
-- `maas` — Model-as-a-Service (has Go BFF)
-- `notebooks` — Notebooks management
-- `kserve` — KServe integration
-- `automl` — AutoML features (has Go BFF)
-- `autorag` — AutoRAG features (has Go BFF)
-- `eval-hub` — Evaluation Hub (has Go BFF)
-- `feature-store` — Feature Store
-- `llmd-serving` — LLM serving
-- `mlflow` — MLflow integration (has Go BFF)
-- `mlflow-embedded` — Embedded MLflow integration
-- `observability` — Observability features
-- `plugin-core` — Core plugin utilities shared across plugins
-- `plugin-template` — Scaffold for new plugins
+**Dependency rules:**
 
-### Infrastructure Packages
+- **Infrastructure:** Foundation, config, build tooling, and shared utilities. May import from other infrastructure packages. No feature dependencies.
+- **Shared:** Domain-specific types, hooks, and UI components (the `*-shared` packages) consumed by multiple extensions. May import from infrastructure and other shared packages.
+- **Shell:** App framework (`dashboard-shell-frontend`) and server (`dashboard-shell-backend`). May import from infrastructure and shared. Must not import extensions.
+- **Extension:** Independent features. **MUST NOT import from other extensions.** May import from infrastructure, shared, and shell.
+- **Assembler:** Composes extensions into a runnable application. May depend on anything.
 
-- `eslint-config` — Centralized ESLint configuration (base, typescript, react, node, markdown, yaml, prettier)
-- `eslint-plugin` — Custom ESLint rules for the project
-- `jest-config` — Shared Jest test configuration and custom matchers
-- `tsconfig` — Shared TypeScript configuration
-- `app-config` — Shared application configuration and utilities
-- `contract-tests` — Central contract testing framework for BFF validation
+Type-only imports (`import type`) across tiers are always allowed since they create no runtime dependency.
 
-### Testing Package
-
-- `cypress` — Shared Cypress E2E and mock test framework, page objects, and utilities
+These rules are enforced at two levels:
+- **Import-level:** `@odh-dashboard/eslint-config/tier-restrictions.js` via the `@odh-dashboard/no-restricted-imports` ESLint rule (error severity). Each package's `.eslintrc.js` should include `tierRestrictions('<package-name>')`.
+- **Dependency-level:** `packages/eslint-config/validate-tiers.js` validates `package.json` dependency graphs.
 
 ## Package Boundaries (Critical)
 
-- Feature packages MUST NOT import directly from other feature packages' internal modules.
-- Feature packages MUST use exported APIs from `plugin-core` or `app-config` for shared functionality.
-- Changes to infrastructure packages (`eslint-config`, `jest-config`, `tsconfig`) affect ALL packages — review with extra care.
+- Extension packages MUST NOT import directly from other extension packages' internal modules.
+- Extension packages MUST use exported APIs from `plugin-core` or `dashboard-foundation` for shared functionality, or use extension points for cross-feature integration.
+- Changes to infrastructure packages (`eslint-config`, `jest-config`, `tsconfig`, `dashboard-foundation`) affect ALL packages — review with extra care.
 
 ## BFF (Backend-for-Frontend) Architecture
 

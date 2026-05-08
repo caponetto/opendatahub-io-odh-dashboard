@@ -1,6 +1,5 @@
 import * as React from 'react';
-import { PluginStoreProvider } from '@openshift/dynamic-plugin-sdk';
-import { PluginStore } from '@odh-dashboard/plugin-core';
+import { PluginStore, PluginStoreProvider } from '@odh-dashboard/plugin-core';
 import extensions, {
   AI_ASSET_CUSTOM_ENDPOINTS,
   EXTERNAL_VECTOR_STORES,

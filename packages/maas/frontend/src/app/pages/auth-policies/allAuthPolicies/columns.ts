@@ -1,4 +1,4 @@
-import { SortableData } from '@odh-dashboard/internal/components/table/types';
+import { SortableData } from '@odh-dashboard/dashboard-foundation-frontend/components/table/types';
 import { MaaSAuthPolicy } from '~/app/types/subscriptions';
 
 export const authPoliciesColumns: SortableData<MaaSAuthPolicy>[] = [

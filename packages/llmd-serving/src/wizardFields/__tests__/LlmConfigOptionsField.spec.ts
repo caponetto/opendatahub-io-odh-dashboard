@@ -1,12 +1,14 @@
 import { testHook } from '@odh-dashboard/jest-config/hooks';
-import { mockLLMInferenceServiceConfigK8sResource } from '@odh-dashboard/internal/__mocks__/mockLLMInferenceServiceConfigK8sResource';
-import * as clusterSettingsModule from '@odh-dashboard/model-serving/concepts/useModelServingClusterSettings';
-import * as projectSelectors from '@odh-dashboard/internal/redux/selectors/project';
+import { mockLLMInferenceServiceConfigK8sResource } from '@odh-dashboard/test-mocks/mockLLMInferenceServiceConfigK8sResource';
+import * as clusterSettingsModule from '@odh-dashboard/model-serving-shared/concepts/modelServing/useModelServingClusterSettings';
+import * as projectSelectors from '@odh-dashboard/dashboard-foundation-frontend/redux/selectors/project';
 import * as llmConfigsApi from '../../api/LLMInferenceServiceConfigs';
 import { useLLMConfigOptions } from '../LlmConfigOptionsField';
 
-jest.mock('@odh-dashboard/model-serving/concepts/useModelServingClusterSettings');
-jest.mock('@odh-dashboard/internal/redux/selectors/project');
+jest.mock(
+  '@odh-dashboard/model-serving-shared/concepts/modelServing/useModelServingClusterSettings',
+);
+jest.mock('@odh-dashboard/dashboard-foundation-frontend/redux/selectors/project');
 jest.mock('../../api/LLMInferenceServiceConfigs');
 
 const mockUseModelServingClusterSettings = jest.mocked(

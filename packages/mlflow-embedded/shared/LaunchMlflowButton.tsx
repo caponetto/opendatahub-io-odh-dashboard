@@ -1,8 +1,8 @@
 import React from 'react';
 import { Button } from '@patternfly/react-core';
 import { ExternalLinkAltIcon } from '@patternfly/react-icons';
-import { fireLinkTrackingEvent } from '@odh-dashboard/internal/concepts/analyticsTracking/segmentIOUtils';
-import { MLFLOW_PROXY_BASE_PATH } from '@odh-dashboard/internal/routes/pipelines/mlflow';
+import { fireLinkTrackingEvent } from '@odh-dashboard/dashboard-foundation-frontend/concepts/analyticsTracking/segmentIOUtils';
+import { MLFLOW_PROXY_BASE_PATH } from '#~/routes';
 
 const LaunchMlflowButton: React.FC<{
   testId: string;

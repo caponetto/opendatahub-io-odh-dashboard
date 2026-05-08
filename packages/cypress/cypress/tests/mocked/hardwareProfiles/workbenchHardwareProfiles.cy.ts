@@ -2,8 +2,8 @@ import {
   mockGlobalScopedHardwareProfiles,
   mockHardwareProfile,
   mockProjectScopedHardwareProfiles,
-} from '@odh-dashboard/internal/__mocks__/mockHardwareProfile';
-import { mockDashboardConfig } from '@odh-dashboard/internal/__mocks__/mockDashboardConfig';
+} from '@odh-dashboard/test-mocks/mockHardwareProfile';
+import { mockDashboardConfig } from '@odh-dashboard/test-mocks/mockDashboardConfig';
 import {
   mock403ErrorWithDetails,
   mockK8sResourceList,
@@ -12,23 +12,21 @@ import {
   mockRouteK8sResource,
   mockSecretK8sResource,
   mockStorageClassList,
-} from '@odh-dashboard/internal/__mocks__';
-import { mockLocalQueueK8sResource } from '@odh-dashboard/internal/__mocks__/mockLocalQueueK8sResource';
-import { mockPVCK8sResource } from '@odh-dashboard/internal/__mocks__/mockPVCK8sResource';
-import { mockPodK8sResource } from '@odh-dashboard/internal/__mocks__/mockPodK8sResource';
-import { mockImageStreamK8sResource } from '@odh-dashboard/internal/__mocks__/mockImageStreamK8sResource';
-import { mockDscStatus } from '@odh-dashboard/internal/__mocks__/mockDscStatus';
-import type { PodKind } from '@odh-dashboard/internal/k8sTypes';
-import { DataScienceStackComponent } from '@odh-dashboard/internal/concepts/areas/types';
-import { IdentifierResourceType, SchedulingType } from '@odh-dashboard/internal/types';
-import { asProductAdminUser } from '../../../utils/mockUsers';
-import { projectDetails } from '../../../pages/projects';
-import { workbenchPage, editSpawnerPage } from '../../../pages/workbench';
-import { hardwareProfileSection } from '../../../pages/components/HardwareProfileSection';
+} from '@odh-dashboard/test-mocks';
+import { mockLocalQueueK8sResource } from '@odh-dashboard/test-mocks/mockLocalQueueK8sResource';
+import { mockPVCK8sResource } from '@odh-dashboard/test-mocks/mockPVCK8sResource';
+import { mockPodK8sResource } from '@odh-dashboard/test-mocks/mockPodK8sResource';
+import { mockImageStreamK8sResource } from '@odh-dashboard/test-mocks/mockImageStreamK8sResource';
+import { mockDscStatus } from '@odh-dashboard/test-mocks/mockDscStatus';
+import type { PodKind } from '@odh-dashboard/dashboard-foundation-frontend/k8sTypes';
+import { DataScienceStackComponent } from '@odh-dashboard/dashboard-foundation-frontend/concepts/areas';
+import {
+  IdentifierResourceType,
+  SchedulingType,
+} from '@odh-dashboard/dashboard-foundation-frontend/types';
 import {
   HardwareProfileModel,
   ImageStreamModel,
-  LocalQueueModel,
   NotebookModel,
   PVCModel,
   PodModel,
@@ -36,7 +34,12 @@ import {
   RouteModel,
   SecretModel,
   StorageClassModel,
-} from '../../../utils/models';
+} from '@odh-dashboard/dashboard-foundation-frontend/api/models';
+import { LocalQueueModel } from '@odh-dashboard/distributed-workloads-shared/api/models/kueue';
+import { asProductAdminUser } from '../../../utils/mockUsers';
+import { projectDetails } from '../../../pages/projects';
+import { workbenchPage, editSpawnerPage } from '../../../pages/workbench';
+import { hardwareProfileSection } from '../../../pages/components/HardwareProfileSection';
 
 type HandlersProps = {
   isEmpty?: boolean;

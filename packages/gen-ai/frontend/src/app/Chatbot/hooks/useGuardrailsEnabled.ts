@@ -1,4 +1,4 @@
-import { useFeatureFlag } from '@openshift/dynamic-plugin-sdk';
+import { useFeatureFlag } from '@odh-dashboard/plugin-core';
 import { GUARDRAILS } from '~/odh/extensions';
 
 const useGuardrailsEnabled = (): boolean => {

@@ -2,13 +2,13 @@ import {
   mockDashboardConfig,
   mockK8sResourceList,
   mockProjectK8sResource,
-} from '@odh-dashboard/internal/__mocks__';
+} from '@odh-dashboard/test-mocks';
 import {
   mockMcpDeployment,
   mockMcpDeploymentList,
 } from '@odh-dashboard/model-registry/mocks/mockMcpDeployment';
+import { ProjectModel } from '@odh-dashboard/dashboard-foundation-frontend/api/models';
 import { mcpDeploymentsPage } from '../../../pages/mcpDeployments';
-import { ProjectModel } from '../../../utils/models';
 
 const MCP_DEPLOYMENTS_BFF = '**/model-registry/api/v1/mcp_deployments';
 const MR_API_VERSION = 'v1';

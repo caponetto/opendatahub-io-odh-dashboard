@@ -3,6 +3,9 @@
   "name": "@odh-dashboard/llmd-serving",
   "description": "Support for LLM-d model serving deployments via kserve",
   "version": "0.0.0",
+  "topology": {
+    "tier": "extension"
+  },
   "scripts": {
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
@@ -12,18 +15,28 @@
     "test:fix": "eslint --ext .js,.ts,.jsx,.tsx . --fix"
   },
   "exports": {
-    "./extensions": "./extensions/extensions.ts",
+    "./extensions": "./src/extensions/extensions.ts",
     "./types": "./src/types.ts",
     "./formUtils": "./src/formUtils.ts",
     "./__tests__/utils": "./src/__tests__/utils.ts"
   },
   "dependencies": {
-    "@odh-dashboard/internal": "*",
-    "@odh-dashboard/model-serving": "*",
-    "@odh-dashboard/kserve": "*"
+    "@odh-dashboard/connection-types-shared": "*",
+    "@odh-dashboard/dashboard-foundation-frontend": "*",
+    "@odh-dashboard/hardware-profiles-shared": "*",
+    "@odh-dashboard/k8s-browser": "*",
+    "@odh-dashboard/model-serving-shared": "*",
+    "@patternfly/react-core": "*",
+    "zod": "*"
   },
   "devDependencies": {
     "@odh-dashboard/eslint-config": "*",
-    "@odh-dashboard/tsconfig": "*"
+    "@odh-dashboard/jest-config": "*",
+    "@odh-dashboard/test-mocks": "*",
+    "@odh-dashboard/tsconfig": "*",
+    "@testing-library/jest-dom": "*",
+    "@testing-library/react": "16.3.0",
+    "@types/react": "*",
+    "react-dom": "^18.2.0"
   }
 }

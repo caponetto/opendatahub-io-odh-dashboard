@@ -1,9 +1,12 @@
 import React from 'react';
-import type { K8sAPIOptions, ProjectKind } from '@odh-dashboard/internal/k8sTypes';
+import type {
+  K8sAPIOptions,
+  ProjectKind,
+} from '@odh-dashboard/dashboard-foundation-frontend/k8sTypes';
 import { getLLMdDeploymentEndpoints } from './endpoints';
 import { getLLMdDeploymentStatus, useLLMInferenceServicePods } from './status';
 import { type LLMdDeployment, type LLMInferenceServiceKind } from '../types';
-import { LLMD_SERVING_ID } from '../../extensions/extensions';
+import { LLMD_SERVING_ID } from '../extensions/extensions';
 import { useWatchLLMInferenceService } from '../api/LLMInferenceService';
 import { useWatchLLMInferenceServiceConfigs } from '../api/LLMInferenceServiceConfigs';
 
@@ -15,10 +18,14 @@ export const useWatchDeployments = (
 ): [LLMdDeployment[] | undefined, boolean, Error[] | undefined] => {
   const [llmInferenceServices, llmInferenceServiceLoaded, llmInferenceServiceError] =
     useWatchLLMInferenceService(project.metadata.name, opts, labelSelectors);
+  const safeLLMInferenceServices = React.useMemo(
+    () => llmInferenceServices ?? [],
+    [llmInferenceServices],
+  );
 
   const filteredLLMInferenceServices = React.useMemo(
-    () => (filterFn ? llmInferenceServices.filter(filterFn) : llmInferenceServices),
-    [llmInferenceServices, filterFn],
+    () => (filterFn ? safeLLMInferenceServices.filter(filterFn) : safeLLMInferenceServices),
+    [safeLLMInferenceServices, filterFn],
   );
 
   const [
@@ -31,10 +38,15 @@ export const useWatchDeployments = (
     project.metadata.name,
     opts,
   );
+  const safeDeploymentPods = React.useMemo(() => deploymentPods ?? [], [deploymentPods]);
+  const safeLLMInferenceServiceConfigs = React.useMemo(
+    () => llmInferenceServiceConfigs ?? [],
+    [llmInferenceServiceConfigs],
+  );
 
   const deployments = React.useMemo(() => {
     return filteredLLMInferenceServices.map((llmInferenceService) => {
-      const pods = deploymentPods.filter(
+      const pods = safeDeploymentPods.filter(
         (pod) =>
           pod.metadata.labels?.['app.kubernetes.io/name'] === llmInferenceService.metadata.name &&
           pod.metadata.labels['app.kubernetes.io/component'] === 'llminferenceservice-workload',
@@ -48,7 +60,7 @@ export const useWatchDeployments = (
         modelServingPlatformId: LLMD_SERVING_ID,
         model: llmInferenceService,
         server: matchingBaseRefConfig
-          ? llmInferenceServiceConfigs.find(
+          ? safeLLMInferenceServiceConfigs.find(
               (config) => config.metadata.name === matchingBaseRefConfig.name,
             )
           : undefined,
@@ -57,7 +69,7 @@ export const useWatchDeployments = (
         status: getLLMdDeploymentStatus(llmInferenceService, pods),
       };
     });
-  }, [filteredLLMInferenceServices, deploymentPods, llmInferenceServiceConfigs]);
+  }, [filteredLLMInferenceServices, safeDeploymentPods, safeLLMInferenceServiceConfigs]);
 
   const effectivelyLoaded = Boolean(
     (llmInferenceServiceLoaded || llmInferenceServiceError) &&

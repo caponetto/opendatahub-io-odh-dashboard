@@ -1,4 +1,4 @@
-import type { Extension } from '@openshift/dynamic-plugin-sdk';
+import type { Extension } from '@odh-dashboard/plugin-core';
 
 /**
  * Extension point for providing the Model catalog settings URL.

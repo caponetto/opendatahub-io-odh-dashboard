@@ -1,7 +1,7 @@
-import { ClusterQueueKind, PodKind } from '@odh-dashboard/internal/k8sTypes';
-import { ContainerResourceAttributes } from '@odh-dashboard/internal/types';
-import { mockClusterQueueK8sResource } from '@odh-dashboard/internal/__mocks__/mockClusterQueueK8sResource';
-import { mockPodK8sResource } from '@odh-dashboard/internal/__mocks__/mockPodK8sResource';
+import { ClusterQueueKind, PodKind } from '@odh-dashboard/dashboard-foundation-frontend/k8sTypes';
+import { ContainerResourceAttributes } from '@odh-dashboard/dashboard-foundation-frontend/types';
+import { mockClusterQueueK8sResource } from '@odh-dashboard/test-mocks/mockClusterQueueK8sResource';
+import { mockPodK8sResource } from '@odh-dashboard/test-mocks/mockPodK8sResource';
 import {
   getAllConsumedResources,
   convertToBaseUnit,

@@ -4,10 +4,10 @@ import type {
   ProjectKind,
   ServingRuntimeKind,
   PodKind,
-} from '@odh-dashboard/internal/k8sTypes';
-import { mockInferenceServiceK8sResource } from '@odh-dashboard/internal/__mocks__/mockInferenceServiceK8sResource';
-import { mockServingRuntimeK8sResource } from '@odh-dashboard/internal/__mocks__/mockServingRuntimeK8sResource';
-import { mockProjectK8sResource } from '@odh-dashboard/internal/__mocks__/mockProjectK8sResource';
+} from '@odh-dashboard/dashboard-foundation-frontend/k8sTypes';
+import { mockInferenceServiceK8sResource } from '@odh-dashboard/test-mocks/mockInferenceServiceK8sResource';
+import { mockServingRuntimeK8sResource } from '@odh-dashboard/test-mocks/mockServingRuntimeK8sResource';
+import { mockProjectK8sResource } from '@odh-dashboard/test-mocks/mockProjectK8sResource';
 import type { KServeDeployment } from '../deployments';
 import { useWatchDeployments } from '../deployments';
 import * as watchModule from '../api/watch';

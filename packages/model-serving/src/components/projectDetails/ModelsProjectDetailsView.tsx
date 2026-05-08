@@ -1,11 +1,11 @@
 import React from 'react';
-import DetailsSection from '@odh-dashboard/internal/pages/projects/screens/detail/DetailsSection';
-import { ProjectSectionID } from '@odh-dashboard/internal/pages/projects/screens/detail/types';
+import DetailsSection from '@odh-dashboard/dashboard-foundation-frontend/components/DetailsSection';
+import { ProjectSectionID } from '@odh-dashboard/dashboard-foundation-frontend/concepts/projects/projectSectionId';
 import { Flex, Label, Popover } from '@patternfly/react-core';
-import DashboardPopupIconButton from '@odh-dashboard/internal/concepts/dashboard/DashboardPopupIconButton';
+import DashboardPopupIconButton from '@odh-dashboard/dashboard-foundation-frontend/concepts/dashboard/DashboardPopupIconButton';
 import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons';
-import { ProjectObjectType } from '@odh-dashboard/internal/concepts/design/utils';
-import type { ProjectKind } from '@odh-dashboard/internal/k8sTypes';
+import { ProjectObjectType } from '@odh-dashboard/dashboard-foundation-frontend/concepts/design/utils';
+import type { ProjectKind } from '@odh-dashboard/dashboard-foundation-frontend/k8sTypes';
 import { SelectPlatformView } from './SelectPlatformView';
 import { NoModelsView } from './NoModelsView';
 import { ProjectDeploymentsTable } from './ProjectDeploymentsTable';

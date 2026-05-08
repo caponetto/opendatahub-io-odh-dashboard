@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 
-import { type ExperimentKF } from '@odh-dashboard/internal/concepts/pipelines/kfTypes';
+import { type ExperimentKF } from '@odh-dashboard/pipelines/concepts/kfTypes';
 import { TableRow } from '../components/table';
 
 class ExperimentsTabs {

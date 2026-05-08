@@ -12,10 +12,6 @@ const moduleFederationConfig = {
     'react-router': { singleton: true, requiredVersion: deps['react-router'] },
     'react-router-dom': { singleton: true, requiredVersion: deps['react-router-dom'] },
     '@patternfly/react-core': { singleton: true, requiredVersion: deps['@patternfly/react-core'] },
-    '@openshift/dynamic-plugin-sdk': {
-      singleton: true,
-      requiredVersion: '*',
-    },
     '@odh-dashboard/plugin-core': {
       singleton: true,
       requiredVersion: '0.0.0',

@@ -1,10 +1,13 @@
 import {
   mockNimInferenceService,
   mockNimServingRuntime,
-} from '@odh-dashboard/internal/__mocks__/mockNimResource';
-import { mockK8sResourceList } from '@odh-dashboard/internal/__mocks__';
+} from '@odh-dashboard/test-mocks/mockNimResource';
+import { mockK8sResourceList } from '@odh-dashboard/test-mocks';
+import {
+  InferenceServiceModel,
+  ServingRuntimeModel,
+} from '@odh-dashboard/dashboard-foundation-frontend/api/models';
 import { initInterceptsToEnableNim } from '../../../utils/nimUtils';
-import { InferenceServiceModel, ServingRuntimeModel } from '../../../utils/models';
 import { modelServingGlobal, modelServingSection } from '../../../pages/modelServing';
 
 describe('NIM Models Deployments', () => {

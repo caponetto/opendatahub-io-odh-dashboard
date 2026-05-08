@@ -61,12 +61,12 @@ RUN mkdir /usr/src/app/logs && chmod 775 /usr/src/app/logs
 
 USER 1001:0
 
-COPY --chown=default:root --from=builder /usr/src/app/frontend/public /usr/src/app/frontend/public
-COPY --chown=default:root --from=builder /usr/src/app/backend/package.json /usr/src/app/backend/package.json
-COPY --chown=default:root --from=builder /usr/src/app/backend/node_modules /usr/src/app/backend/node_modules
-COPY --chown=default:root --from=builder /usr/src/app/backend/dist /usr/src/app/backend/dist
-COPY --chown=default:root --from=builder /usr/src/app/packages/app-config/package.json /usr/src/app/packages/app-config/package.json
-COPY --chown=default:root --from=builder /usr/src/app/packages/app-config/dist /usr/src/app/packages/app-config/dist
+COPY --chown=default:root --from=builder /usr/src/app/packages/dashboard-dist-full/public /usr/src/app/packages/dashboard-dist-full/public
+COPY --chown=default:root --from=builder /usr/src/app/packages/dashboard-shell-backend/package.json /usr/src/app/packages/dashboard-shell-backend/package.json
+COPY --chown=default:root --from=builder /usr/src/app/packages/dashboard-shell-backend/dist /usr/src/app/packages/dashboard-shell-backend/dist
+COPY --chown=default:root --from=builder /usr/src/app/packages/dashboard-config/package.json /usr/src/app/packages/dashboard-config/package.json
+COPY --chown=default:root --from=builder /usr/src/app/packages/dashboard-config/dist /usr/src/app/packages/dashboard-config/dist
+COPY --chown=default:root --from=builder /usr/src/app/packages/dashboard-build/.plugin-manifest.json /usr/src/app/packages/dashboard-build/.plugin-manifest.json
 COPY --chown=default:root --from=builder /usr/src/app/package.json /usr/src/app/package.json
 COPY --chown=default:root --from=builder /usr/src/app/package-lock.json /usr/src/app/package-lock.json
 COPY --chown=default:root --from=builder /usr/src/app/node_modules /usr/src/app/node_modules
@@ -74,7 +74,7 @@ COPY --chown=default:root --from=builder /usr/src/app/.npmrc /usr/src/app/.npmrc
 COPY --chown=default:root --from=builder /usr/src/app/.env /usr/src/app/.env
 COPY --chown=default:root --from=builder /usr/src/app/data /usr/src/app/data
 
-WORKDIR /usr/src/app/backend
+WORKDIR /usr/src/app/packages/dashboard-shell-backend
 
 CMD ["npm", "run", "start"]
 

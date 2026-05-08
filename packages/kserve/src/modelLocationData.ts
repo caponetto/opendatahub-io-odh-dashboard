@@ -1,10 +1,14 @@
 import {
   getPVCNameFromURI,
   isPVCUri,
-} from '@odh-dashboard/internal/pages/modelServing/screens/projects/utils';
-import { MetadataAnnotation, InferenceServiceKind } from '@odh-dashboard/internal/k8sTypes';
-import { ModelServingCompatibleTypes } from '@odh-dashboard/internal/concepts/connectionTypes/utils';
-import { ModelLocationData, ModelLocationType } from '@odh-dashboard/model-serving/types/form-data';
+} from '@odh-dashboard/model-serving-shared/concepts/modelServing/utils';
+import {
+  MetadataAnnotation,
+  InferenceServiceKind,
+} from '@odh-dashboard/dashboard-foundation-frontend/k8sTypes';
+import { ModelServingCompatibleTypes } from '@odh-dashboard/connection-types-shared/concepts/connectionTypes/utils';
+import type { ModelLocationData } from '@odh-dashboard/model-serving-shared/types/form-data';
+import { ModelLocationType } from '@odh-dashboard/model-serving-shared/concepts/modelServing/modelLocationTypes';
 
 export const getModelLocationUri = (deployment: InferenceServiceKind): string | undefined => {
   return deployment.spec.predictor.model?.storageUri;

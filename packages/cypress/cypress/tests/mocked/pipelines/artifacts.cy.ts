@@ -3,15 +3,15 @@ import {
   mockGetArtifactsById,
   mockGetArtifactsResponse,
   mockedArtifactsResponse,
-} from '@odh-dashboard/internal/__mocks__/mlmd/mockGetArtifacts';
+} from '@odh-dashboard/test-mocks/mlmd/mockGetArtifacts';
 import {
   buildMockPipeline,
   buildMockRunKF,
   mockMetricsVisualizationRun,
   mockMetricsVisualizationVersion,
-} from '@odh-dashboard/internal/__mocks__';
-import { mockArtifactStorage } from '@odh-dashboard/internal/__mocks__/mockArtifactStorage';
-import { RuntimeStateKF } from '@odh-dashboard/internal/concepts/pipelines/kfTypes';
+} from '@odh-dashboard/test-mocks';
+import { mockArtifactStorage } from '@odh-dashboard/test-mocks/mockArtifactStorage';
+import { RuntimeStateKF } from '@odh-dashboard/pipelines/concepts/kfTypes';
 import { configIntercept, dspaIntercepts, projectsIntercept } from './intercepts';
 import { initMlmdIntercepts } from './mlmdUtils';
 import { verifyRelativeURL } from '../../../utils/url';

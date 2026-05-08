@@ -1,13 +1,13 @@
 import * as React from 'react';
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
-import { mockHardwareProfile } from '@odh-dashboard/internal/__mocks__/mockHardwareProfile';
-import { mockUseAssignHardwareProfileResult } from '@odh-dashboard/internal/__mocks__/mockUseAssignHardwareProfileResult';
+import { mockHardwareProfile } from '@odh-dashboard/test-mocks/mockHardwareProfile';
+import { mockUseAssignHardwareProfileResult } from '@odh-dashboard/test-mocks/mockUseAssignHardwareProfileResult';
 import { mockExtensions } from '../../../__tests__/mockUtils';
 import { DeploymentRowExpandedSection } from '../row/DeploymentsTableRowExpandedSection';
 
 jest.mock('@odh-dashboard/plugin-core');
-jest.mock('@odh-dashboard/internal/app/AppContext', () => ({
+jest.mock('@odh-dashboard/dashboard-foundation-frontend/app/AppContext', () => ({
   useAppContext: () => ({
     dashboardConfig: {
       spec: {
@@ -37,14 +37,17 @@ jest.mock('../../../../src/concepts/extensionUtils', () => ({
   ],
 }));
 
-jest.mock('@odh-dashboard/internal/redux/hooks', () => ({
+jest.mock('@odh-dashboard/dashboard-foundation-frontend/redux/hooks', () => ({
   useAppSelector: jest.fn((selector) => selector({ dashboardNamespace: 'test-namespace' })),
 }));
 
 const mockUseAssignHardwareProfile = jest.fn();
-jest.mock('@odh-dashboard/internal/concepts/hardwareProfiles/useAssignHardwareProfile', () => ({
-  useAssignHardwareProfile: (...args: unknown[]) => mockUseAssignHardwareProfile(...args),
-}));
+jest.mock(
+  '@odh-dashboard/hardware-profiles-shared/concepts/hardwareProfiles/useAssignHardwareProfile',
+  () => ({
+    useAssignHardwareProfile: (...args: unknown[]) => mockUseAssignHardwareProfile(...args),
+  }),
+);
 
 const mockUseWizardFieldExtractors = jest.fn();
 jest.mock('../../deploymentWizard/useWizardFieldExtractors', () => ({

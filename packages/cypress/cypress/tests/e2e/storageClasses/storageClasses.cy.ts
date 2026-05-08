@@ -1,7 +1,5 @@
-import {
-  AccessMode,
-  StorageProvisioner,
-} from '@odh-dashboard/internal/pages/storageClasses/storageEnums';
+import { StorageProvisioner } from '@odh-dashboard/storage-classes-shared/concepts/storageClasses/storageEnums';
+import { AccessMode } from '@odh-dashboard/dashboard-foundation-frontend/k8sTypes';
 import { HTPASSWD_CLUSTER_ADMIN_USER } from '../../../utils/e2eUsers';
 import {
   verifyStorageClassConfig,

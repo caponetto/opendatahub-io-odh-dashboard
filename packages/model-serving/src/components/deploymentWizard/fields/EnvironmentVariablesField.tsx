@@ -22,6 +22,12 @@ import {
   PlusCircleIcon,
 } from '@patternfly/react-icons';
 import { z } from 'zod';
+import type {
+  EnvironmentVariablesFieldData,
+  EnvironmentVariablesFieldHook,
+} from '@odh-dashboard/model-serving-shared/types/form-data';
+
+export type { EnvironmentVariablesFieldData, EnvironmentVariablesFieldHook };
 
 // Schema
 const envVarSchema = z.object({
@@ -41,8 +47,6 @@ export const environmentVariablesFieldSchema = z.discriminatedUnion('enabled', [
     variables: z.array(z.object({ name: z.string(), value: z.string() })),
   }),
 ]);
-
-export type EnvironmentVariablesFieldData = z.infer<typeof environmentVariablesFieldSchema>;
 
 export const isValidEnvironmentVariables = (name: string): string => {
   if (name.length === 0) {
@@ -69,11 +73,6 @@ export const hasInvalidEnvironmentVariableNames = (
 };
 
 // Hook
-export type EnvironmentVariablesFieldHook = {
-  data: EnvironmentVariablesFieldData | undefined;
-  setData: (data: EnvironmentVariablesFieldData) => void;
-};
-
 export const useEnvironmentVariablesField = (
   existingData?: EnvironmentVariablesFieldData,
 ): EnvironmentVariablesFieldHook => {

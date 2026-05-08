@@ -1,4 +1,4 @@
-import { useFeatureFlag } from '@openshift/dynamic-plugin-sdk';
+import { useFeatureFlag } from '@odh-dashboard/plugin-core';
 import { AI_ASSET_CUSTOM_ENDPOINTS } from '~/odh/extensions';
 
 const useAiAssetCustomEndpointsEnabled = (): boolean => {

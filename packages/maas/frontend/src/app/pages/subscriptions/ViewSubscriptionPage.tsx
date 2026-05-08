@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import ApplicationsPage from '@odh-dashboard/internal/pages/ApplicationsPage';
+import ApplicationsPage from '@odh-dashboard/dashboard-foundation-frontend/components/ApplicationsPage';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -9,7 +9,7 @@ import {
   Tabs,
   TabTitleText,
 } from '@patternfly/react-core';
-import SimpleMenuActions from '@odh-dashboard/internal/components/SimpleMenuActions';
+import SimpleMenuActions from '@odh-dashboard/dashboard-foundation-frontend/components/SimpleMenuActions';
 import { useGetSubscriptionInfo } from '~/app/hooks/useGetSubscriptionInfo';
 import {
   MaaSModelRefSummary,

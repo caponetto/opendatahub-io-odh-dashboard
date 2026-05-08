@@ -1,14 +1,14 @@
 import React from 'react';
-import { useDashboardNamespace } from '@odh-dashboard/internal/redux/selectors/project';
-import { useTemplates } from '@odh-dashboard/internal/api/index';
-import useTemplateOrder from '@odh-dashboard/internal/pages/modelServing/customServingRuntimes/useTemplateOrder';
-import useTemplateDisablement from '@odh-dashboard/internal/pages/modelServing/customServingRuntimes/useTemplateDisablement';
-import { ServingRuntimePlatform, type CustomWatchK8sResult } from '@odh-dashboard/internal/types';
-import type { TemplateKind } from '@odh-dashboard/internal/k8sTypes';
+import { useDashboardNamespace } from '@odh-dashboard/dashboard-foundation-frontend/redux/selectors/project';
 import {
-  getSortedTemplates,
-  getTemplateEnabled,
-} from '@odh-dashboard/internal/pages/modelServing/customServingRuntimes/utils';
+  ServingRuntimePlatform,
+  type CustomWatchK8sResult,
+} from '@odh-dashboard/dashboard-foundation-frontend/types';
+import type { TemplateKind } from '@odh-dashboard/dashboard-foundation-frontend/k8sTypes';
+import { useTemplates } from '../../api/k8s/templates';
+import useTemplateOrder from '../../pages/customServingRuntimes/useTemplateOrder';
+import useTemplateDisablement from '../../pages/customServingRuntimes/useTemplateDisablement';
+import { getSortedTemplates, getTemplateEnabled } from '../../pages/customServingRuntimes/utils';
 
 /**
  * Custom hook that retrieves, sorts, and filters serving runtime templates for model serving.
@@ -59,12 +59,13 @@ export const useServingRuntimeTemplates = (
     loaded: disablementLoaded,
     error: disablementError,
   } = useTemplateDisablement(dashboardNamespace);
+  const safeTemplates = React.useMemo(() => templates ?? [], [templates]);
 
   const result = React.useMemo(() => {
-    if (templates.length === 0 || !orderLoaded || !disablementLoaded) {
+    if (safeTemplates.length === 0 || !orderLoaded || !disablementLoaded) {
       return [];
     }
-    const sortedTemplates = getSortedTemplates(templates, order);
+    const sortedTemplates = getSortedTemplates(safeTemplates, order);
     const filteredTemplates = sortedTemplates.filter(
       (template) =>
         getTemplateEnabled(template, disablement) &&
@@ -74,7 +75,7 @@ export const useServingRuntimeTemplates = (
     );
 
     return filteredTemplates;
-  }, [templates, order, disablement, orderLoaded, disablementLoaded]);
+  }, [safeTemplates, order, disablement, orderLoaded, disablementLoaded]);
 
   return [
     result,

@@ -84,7 +84,7 @@ The Dockerfile supports several build arguments for customization:
 This package uses Module Federation and depends on workspace packages like:
 
 - `@odh-dashboard/plugin-core`
-- `@odh-dashboard/internal`
+- `@odh-dashboard/dashboard-foundation-frontend`
 - `@openshift/dynamic-plugin-sdk`
 
 The workspace-aware Dockerfile ensures these dependencies are available during the build process by:

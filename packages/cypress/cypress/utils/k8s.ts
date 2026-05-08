@@ -1,8 +1,4 @@
-import {
-  type K8sModelCommon,
-  type K8sResourceCommon,
-  type QueryParams,
-} from '@openshift/dynamic-plugin-sdk-utils';
+import type { K8sModelCommon, K8sResourceCommon, QueryParams } from '@odh-dashboard/k8s-browser';
 import { isEmpty } from 'lodash-es';
 
 export type QueryOptions = {
@@ -31,7 +27,7 @@ export const getK8sAPIResourceURL = (
 ): string => `/api/k8s${getK8sResourceURL(model, resource, queryOptions, isCreate)}`;
 
 // ------------------------------------------------------------------------------------------
-// FIXME copying from the dynamic-plugin-sdk-utils
+// FIXME copied from the legacy SDK utils implementation
 // this is a work around for cypress webpack failing when import code that imports patternfly
 
 const getK8sAPIPath = ({ apiGroup = 'core', apiVersion }: K8sModelCommon) => {
@@ -43,7 +39,7 @@ const getK8sAPIPath = ({ apiGroup = 'core', apiVersion }: K8sModelCommon) => {
 
 const getQueryString = (queryParams: QueryParams) =>
   Object.entries(queryParams)
-    .map(([key, value = '']) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
+    .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value ?? '')}`)
     .join('&');
 
 const getK8sResourceURL = (

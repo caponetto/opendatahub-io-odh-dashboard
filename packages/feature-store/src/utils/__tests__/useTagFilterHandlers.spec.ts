@@ -214,8 +214,13 @@ describe('useTagFilterHandlers', () => {
 
     it('should return new function references when dependencies change', () => {
       const { result, rerender } = renderHook(
-        ({ setTagFilters, setCurrentFilterType }) =>
-          useTagFilterHandlers(setTagFilters, setCurrentFilterType),
+        ({
+          setTagFilters,
+          setCurrentFilterType,
+        }: {
+          setTagFilters: jest.Mock;
+          setCurrentFilterType: jest.Mock;
+        }) => useTagFilterHandlers(setTagFilters, setCurrentFilterType),
         {
           initialProps: {
             setTagFilters: mockSetTagFilters,

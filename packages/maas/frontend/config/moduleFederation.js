@@ -13,7 +13,7 @@ const moduleFederationConfig = {
       singleton: true,
       requiredVersion: deps['@patternfly/react-core'],
     },
-    '@odh-dashboard/internal': { singleton: true, requiredVersion: '*' },
+    '@odh-dashboard/dashboard-foundation-frontend': { singleton: true, requiredVersion: '*' },
     '@odh-dashboard/plugin-core': { singleton: true, requiredVersion: '*' },
     '@odh-dashboard/model-serving': { singleton: true, requiredVersion: '*' },
     '@odh-dashboard/llmd-serving': { singleton: true, requiredVersion: '*' },

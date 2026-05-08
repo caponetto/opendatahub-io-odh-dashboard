@@ -18,11 +18,18 @@ import {
 import { ExclamationCircleIcon, MinusCircleIcon, PlusCircleIcon } from '@patternfly/react-icons';
 import * as _ from 'lodash-es';
 import { z } from 'zod';
-import type { ModelServerSelectField } from './ModelServerTemplateSelectField';
+import type {
+  TokenAuthenticationFieldData,
+  TokenAuthenticationFieldHook,
+  TokenAuthenticationRow,
+} from '@odh-dashboard/model-serving-shared/types/form-data';
+import type { ModelServerSelectField } from '@odh-dashboard/model-serving-shared/concepts/modelServing/ModelServerTemplateSelectField';
 import type { ModelTypeField } from './ModelTypeSelectField';
 import { isTokenAuthField } from '../types';
 import { useWizardFieldFromExtension } from '../dynamicFormUtils';
 import { showAuthWarning } from '../hooks/useAuthWarning';
+
+export type { TokenAuthenticationFieldData, TokenAuthenticationFieldHook };
 
 // Schema
 const tokenSchema = z.object({
@@ -34,8 +41,7 @@ const tokenSchema = z.object({
 
 export const tokenAuthenticationFieldSchema = z.array(tokenSchema);
 
-type TokenSchemaType = z.infer<typeof tokenSchema>;
-export type TokenAuthenticationFieldData = z.infer<typeof tokenAuthenticationFieldSchema>;
+type TokenSchemaType = TokenAuthenticationRow;
 
 export const isValidTokenAuthentication = (
   value: unknown,
@@ -44,13 +50,6 @@ export const isValidTokenAuthentication = (
 };
 
 // Hook
-export type TokenAuthenticationFieldHook = {
-  data: TokenAuthenticationFieldData | undefined;
-  setData: (data: TokenAuthenticationFieldData) => void;
-  shouldAutoCheck: boolean;
-  isDisabled: boolean;
-};
-
 export const useTokenAuthenticationField = (
   existingData?: TokenAuthenticationFieldData,
   modelType?: ModelTypeField,

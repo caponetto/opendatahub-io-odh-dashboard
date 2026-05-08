@@ -33,7 +33,7 @@
 |-----------|------|---------|
 | `@odh-dashboard/model-serving` | Package | Extension-point interfaces this package implements |
 | `@odh-dashboard/kserve` | Package | Shared KServe utilities and types |
-| `@odh-dashboard/internal` | Package | Hardware profiles, k8s types, flags / areas |
+| `@odh-dashboard/dashboard-foundation-frontend` | Package | Hardware profiles, k8s types, flags / areas |
 | `LLMInferenceService` CRD | Kubernetes API | Group `serving.kserve.io`, `v1alpha1` |
 | `packages/maas` | Package | MaaS tier annotation when model-as-service flag is on |
 | Main ODH Dashboard | Host application | Loads extensions; model-serving wizard and table |

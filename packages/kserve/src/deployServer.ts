@@ -1,9 +1,12 @@
-import { applyK8sAPIOptions } from '@odh-dashboard/internal/api/apiMergeUtils';
-import { ServingRuntimeModel } from '@odh-dashboard/internal/api/index';
-import { getDisplayNameFromK8sResource } from '@odh-dashboard/internal/concepts/k8s/utils';
-import { ServingRuntimeKind, type InferenceServiceKind } from '@odh-dashboard/internal/k8sTypes';
-import type { ModelServerSelectFieldData } from '@odh-dashboard/model-serving/components/deploymentWizard/fields/ModelServerTemplateSelectField';
-import { k8sCreateResource } from '@openshift/dynamic-plugin-sdk-utils';
+import { applyK8sAPIOptions } from '@odh-dashboard/dashboard-foundation-frontend/api/apiMergeUtils';
+import { ServingRuntimeModel } from '@odh-dashboard/dashboard-foundation-frontend/api/models/kserve';
+import { getDisplayNameFromK8sResource } from '@odh-dashboard/dashboard-foundation-frontend/concepts/k8s/utils';
+import {
+  ServingRuntimeKind,
+  type InferenceServiceKind,
+} from '@odh-dashboard/dashboard-foundation-frontend/k8sTypes';
+import type { ModelServerSelectFieldData } from '@odh-dashboard/model-serving-shared/concepts/modelServing/ModelServerTemplateSelectField';
+import { k8sCreateResource } from '@odh-dashboard/k8s-browser';
 import type { KServeDeployment } from './deployments';
 
 type CreatingServingRuntimeObject = {

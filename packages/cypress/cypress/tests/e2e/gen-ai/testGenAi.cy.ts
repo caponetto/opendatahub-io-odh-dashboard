@@ -1,7 +1,7 @@
 import * as yaml from 'js-yaml';
 import { ModelLocationSelectOption } from '@odh-dashboard/model-serving/components/deploymentWizard/types';
 // eslint-disable-next-line @odh-dashboard/no-restricted-imports
-import { ServingRuntimeAPIProtocol } from '@odh-dashboard/internal/types';
+import { ServingRuntimeAPIProtocol } from '@odh-dashboard/dashboard-foundation-frontend/types';
 import { HTPASSWD_CLUSTER_ADMIN_USER } from '../../../utils/e2eUsers';
 import { deleteOpenShiftProject } from '../../../utils/oc_commands/project';
 import { checkInferenceServiceState } from '../../../utils/oc_commands/modelServing';

@@ -9,11 +9,11 @@ import {
 } from '@patternfly/react-core';
 import { SearchIcon } from '@patternfly/react-icons';
 import { useNavigate } from 'react-router-dom';
-import { ProjectObjectType } from '@odh-dashboard/internal/concepts/design/utils';
-import TitleWithIcon from '@odh-dashboard/internal/concepts/design/TitleWithIcon';
-import { getDisplayNameFromK8sResource } from '@odh-dashboard/internal/concepts/k8s/utils';
+import { ProjectObjectType } from '@odh-dashboard/dashboard-foundation-frontend/concepts/design/utils';
+import TitleWithIcon from '@odh-dashboard/dashboard-foundation-frontend/concepts/design/TitleWithIcon';
+import { getDisplayNameFromK8sResource } from '@odh-dashboard/dashboard-foundation-frontend/concepts/k8s/utils';
 // eslint-disable-next-line @odh-dashboard/no-restricted-imports
-import ApplicationsPage from '@odh-dashboard/internal/pages/ApplicationsPage';
+import ApplicationsPage from '@odh-dashboard/dashboard-foundation-frontend/components/ApplicationsPage';
 import { ModelTrainingContext } from './ModelTrainingContext';
 import ModelTrainingLoading from './ModelTrainingLoading';
 import TrainingJobDetailsDrawer from './trainingJobDetailsDrawer/TrainingJobDetailsDrawer';
@@ -37,34 +37,37 @@ const ModelTraining = (): React.ReactElement => {
     React.useContext(ModelTrainingContext);
   const [trainJobData, trainJobLoaded, trainJobLoadError] = trainJobs;
   const [rayJobData, rayJobLoaded, rayJobLoadError] = rayJobs;
+  const safeTrainJobData = React.useMemo(() => trainJobData ?? [], [trainJobData]);
+  const safeRayJobData = React.useMemo(() => rayJobData ?? [], [rayJobData]);
   const [selectedJob, setSelectedJob] = React.useState<UnifiedJobKind | undefined>(undefined);
   const [jobToDelete, setJobToDelete] = useState<UnifiedJobKind | undefined>(undefined);
   const [togglingJobId, setTogglingJobId] = useState<string | undefined>(undefined);
   const drawerRef = useRef<HTMLDivElement>(undefined);
 
   const allJobs: UnifiedJobKind[] = React.useMemo(
-    () => [...trainJobData, ...rayJobData],
-    [trainJobData, rayJobData],
+    () => [...safeTrainJobData, ...safeRayJobData],
+    [safeTrainJobData, safeRayJobData],
   );
   const allJobsLoaded = trainJobLoaded && rayJobLoaded;
   const allJobsLoadError = trainJobLoadError || rayJobLoadError;
 
   const hasWorkspaceRayJobs = React.useMemo(
     () =>
-      rayJobData.some(
+      safeRayJobData.some(
         (job) => !job.spec.rayClusterSpec && job.spec.clusterSelector?.['ray.io/cluster'],
       ),
-    [rayJobData],
+    [safeRayJobData],
   );
 
   const [rayClusterData] = useRayClusters(
     hasWorkspaceRayJobs ? project?.metadata.name ?? '' : null,
   );
+  const safeRayClusterData = React.useMemo(() => rayClusterData ?? [], [rayClusterData]);
 
   const nodeCountMap = React.useMemo(() => {
     const rayClustersMap = hasWorkspaceRayJobs
       ? new Map<string, RayClusterKind>(
-          rayClusterData.map((cluster) => [cluster.metadata.name, cluster]),
+          safeRayClusterData.map((cluster) => [cluster.metadata.name, cluster]),
         )
       : undefined;
 
@@ -74,7 +77,7 @@ const ModelTraining = (): React.ReactElement => {
       map.set(jobId, getUnifiedJobNodeCount(job, rayClustersMap));
     }
     return map;
-  }, [allJobs, hasWorkspaceRayJobs, rayClusterData]);
+  }, [allJobs, hasWorkspaceRayJobs, safeRayClusterData]);
 
   const { jobStatuses, isLoading: isLoadingStatus, updateJobStatus } = useJobStatuses(allJobs);
 
@@ -102,7 +105,7 @@ const ModelTraining = (): React.ReactElement => {
 
   React.useEffect(() => {
     if (selectedJob) {
-      const dataSource = isTrainJob(selectedJob) ? trainJobData : rayJobData;
+      const dataSource = isTrainJob(selectedJob) ? safeTrainJobData : safeRayJobData;
       const selectedId = selectedJob.metadata.uid || selectedJob.metadata.name;
       const updatedJob = dataSource.find(
         (job) => (job.metadata.uid || job.metadata.name) === selectedId,
@@ -113,7 +116,7 @@ const ModelTraining = (): React.ReactElement => {
         setSelectedJob(updatedJob);
       }
     }
-  }, [trainJobData, rayJobData, selectedJob]);
+  }, [safeTrainJobData, safeRayJobData, selectedJob]);
 
   const isDrawerExpanded = !!selectedJob;
   const selectedJobDisplayName = selectedJob ? getDisplayNameFromK8sResource(selectedJob) : '';

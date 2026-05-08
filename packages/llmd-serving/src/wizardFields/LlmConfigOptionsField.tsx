@@ -1,16 +1,18 @@
 import React from 'react';
 import { z } from 'zod';
-import type { WizardField } from '@odh-dashboard/model-serving/types/form-data';
+import type { WizardField } from '@odh-dashboard/model-serving-shared/types/form-data';
 import ModelServerTemplateSelectField, {
+  modelServerSelectFieldSchema,
+} from '@odh-dashboard/model-serving-shared/concepts/modelServing/ModelServerTemplateSelectField';
+import type {
   ModelServerOption,
   ModelServerSelectFieldData,
-  modelServerSelectFieldSchema,
-} from '@odh-dashboard/model-serving/components/deploymentWizard/fields/ModelServerTemplateSelectField';
-import { useDashboardNamespace } from '@odh-dashboard/internal/redux/selectors/project';
-import { getDisplayNameFromK8sResource } from '@odh-dashboard/internal/concepts/k8s/utils';
-import { HardwareProfileKind } from '@odh-dashboard/internal/k8sTypes';
-import { isCompatibleWithIdentifier } from '@odh-dashboard/internal/pages/projects/screens/spawner/spawnerUtils';
-import { useModelServingClusterSettings } from '@odh-dashboard/model-serving/concepts/useModelServingClusterSettings';
+} from '@odh-dashboard/model-serving-shared/concepts/modelServing/ModelServerTemplateSelectField';
+import { useDashboardNamespace } from '@odh-dashboard/dashboard-foundation-frontend/redux/selectors/project';
+import { getDisplayNameFromK8sResource } from '@odh-dashboard/dashboard-foundation-frontend/concepts/k8s/utils';
+import { HardwareProfileKind } from '@odh-dashboard/dashboard-foundation-frontend/k8sTypes';
+import { isCompatibleWithIdentifier } from '@odh-dashboard/dashboard-foundation-frontend/utilities/imageStreamUtils';
+import { useModelServingClusterSettings } from '@odh-dashboard/model-serving-shared/concepts/modelServing/useModelServingClusterSettings';
 import { useFetchLLMInferenceServiceConfigs } from '../api/LLMInferenceServiceConfigs';
 import { LLMInferenceServiceConfigKind } from '../types';
 import { LLMD_OPTION } from '../deployments/server';

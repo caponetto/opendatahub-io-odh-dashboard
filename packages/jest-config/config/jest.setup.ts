@@ -18,12 +18,9 @@ if (typeof global.structuredClone === 'undefined') {
   global.structuredClone = (obj: unknown) => JSON.parse(JSON.stringify(obj));
 }
 
-// Mock webpack-injected global variables
-declare global {
-  // eslint-disable-next-line no-var, @typescript-eslint/naming-convention
-  var __COMMIT_HASH__: string;
-}
-globalThis.__COMMIT_HASH__ = 'test-commit-hash';
+// Mock webpack-injected global variables (declared as `const` in tsconfig/typings.d.ts)
+// eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+(globalThis as Record<string, unknown>).__COMMIT_HASH__ = 'test-commit-hash';
 
 const tryExpect = (expectFn: () => void) => {
   try {

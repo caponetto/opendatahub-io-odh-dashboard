@@ -1,4 +1,4 @@
-import type { ModelServerTemplateField } from '@odh-dashboard/model-serving/types/form-data';
+import type { ModelServerTemplateField } from '@odh-dashboard/model-serving-shared/types/form-data';
 import { LLMD_OPTION } from '../deployments/server';
 import { isGenerativeNonLegacy } from '../formUtils';
 

@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { Content, Flex, FlexItem, Title } from '@patternfly/react-core';
 import { useParams } from 'react-router-dom';
-import { ProjectIconWithSize } from '@odh-dashboard/internal/concepts/projects/ProjectIconWithSize';
-import { IconSize } from '@odh-dashboard/internal/types';
+import { ProjectIconWithSize } from '@odh-dashboard/dashboard-foundation-frontend/concepts/projects/ProjectIconWithSize';
+import { IconSize } from '@odh-dashboard/dashboard-foundation-frontend/types';
 import GenAiCoreProjectSelector from '~/app/GenAiCoreProjectSelector';
 import HeaderIcon from '~/app/HeaderIcon';
 import { IconType } from '~/app/types';

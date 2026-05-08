@@ -1,43 +1,42 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { type LLMInferenceServiceKind } from '@odh-dashboard/llmd-serving/types';
-import { mockLLMInferenceServiceK8sResource } from '@odh-dashboard/internal/__mocks__/mockLLMInferenceServiceK8sResource';
-import { mockLLMInferenceServiceConfigK8sResource } from '@odh-dashboard/internal/__mocks__/mockLLMInferenceServiceConfigK8sResource';
-import { mockDashboardConfig } from '@odh-dashboard/internal/__mocks__/mockDashboardConfig';
-import { mockDscStatus } from '@odh-dashboard/internal/__mocks__/mockDscStatus';
-import { mockInferenceServiceK8sResource } from '@odh-dashboard/internal/__mocks__/mockInferenceServiceK8sResource';
-import { mockK8sResourceList } from '@odh-dashboard/internal/__mocks__/mockK8sResourceList';
-import { mock200Status } from '@odh-dashboard/internal/__mocks__/mockK8sStatus';
-import { mockProjectK8sResource } from '@odh-dashboard/internal/__mocks__/mockProjectK8sResource';
-import { mockServingRuntimeK8sResource } from '@odh-dashboard/internal/__mocks__/mockServingRuntimeK8sResource';
-import type { InferenceServiceKind, ServingRuntimeKind } from '@odh-dashboard/internal/k8sTypes';
+import { mockLLMInferenceServiceK8sResource } from '@odh-dashboard/test-mocks/mockLLMInferenceServiceK8sResource';
+import { mockLLMInferenceServiceConfigK8sResource } from '@odh-dashboard/test-mocks/mockLLMInferenceServiceConfigK8sResource';
+import { mockDashboardConfig } from '@odh-dashboard/test-mocks/mockDashboardConfig';
+import { mockDscStatus } from '@odh-dashboard/test-mocks/mockDscStatus';
+import { mockInferenceServiceK8sResource } from '@odh-dashboard/test-mocks/mockInferenceServiceK8sResource';
+import { mockK8sResourceList } from '@odh-dashboard/test-mocks/mockK8sResourceList';
+import { mock200Status } from '@odh-dashboard/test-mocks/mockK8sStatus';
+import { mockProjectK8sResource } from '@odh-dashboard/test-mocks/mockProjectK8sResource';
+import { mockServingRuntimeK8sResource } from '@odh-dashboard/test-mocks/mockServingRuntimeK8sResource';
+import type {
+  InferenceServiceKind,
+  ServingRuntimeKind,
+} from '@odh-dashboard/dashboard-foundation-frontend/k8sTypes';
 import {
   mockGlobalScopedHardwareProfiles,
   mockHardwareProfile,
-} from '@odh-dashboard/internal/__mocks__/mockHardwareProfile';
+} from '@odh-dashboard/test-mocks/mockHardwareProfile';
 import {
   mockServingRuntimeTemplateK8sResource,
   mockStandardModelServingTemplateK8sResources,
-} from '@odh-dashboard/internal/__mocks__/mockServingRuntimeTemplateK8sResource';
-import { IdentifierResourceType, ServingRuntimeModelType } from '@odh-dashboard/internal/types';
+} from '@odh-dashboard/test-mocks/mockServingRuntimeTemplateK8sResource';
+import {
+  IdentifierResourceType,
+  ServingRuntimeModelType,
+} from '@odh-dashboard/dashboard-foundation-frontend/types';
 import {
   mockConnectionTypeConfigMap,
   mockModelServingFields,
-} from '@odh-dashboard/internal/__mocks__/mockConnectionType';
+} from '@odh-dashboard/test-mocks/mockConnectionType';
 import {
   mockCustomSecretK8sResource,
   mockSecretK8sResource,
-} from '@odh-dashboard/internal/__mocks__/mockSecretK8sResource';
-import { DataScienceStackComponent } from '@odh-dashboard/internal/concepts/areas/types';
+} from '@odh-dashboard/test-mocks/mockSecretK8sResource';
+import { DataScienceStackComponent } from '@odh-dashboard/dashboard-foundation-frontend/concepts/areas';
 import {
   ModelLocationSelectOption,
   ModelTypeLabel,
 } from '@odh-dashboard/model-serving/components/deploymentWizard/types';
-import { deleteModal } from '../../../pages/components/DeleteModal';
-import { hardwareProfileSection } from '../../../pages/components/HardwareProfileSection';
-import {
-  initMockGatewayIntercepts,
-  initMockModelAuthIntercepts,
-} from '../../../utils/modelServingUtils';
 import {
   HardwareProfileModel,
   InferenceServiceModel,
@@ -47,7 +46,13 @@ import {
   TemplateModel,
   SecretModel,
   LLMInferenceServiceModel,
-} from '../../../utils/models';
+} from '@odh-dashboard/dashboard-foundation-frontend/api/models';
+import { deleteModal } from '../../../pages/components/DeleteModal';
+import { hardwareProfileSection } from '../../../pages/components/HardwareProfileSection';
+import {
+  initMockGatewayIntercepts,
+  initMockModelAuthIntercepts,
+} from '../../../utils/modelServingUtils';
 import {
   modelServingGlobal,
   modelServingSection,

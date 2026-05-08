@@ -1,12 +1,12 @@
 import React, { useMemo, useState, useEffect } from 'react';
 import { EmptyStateVariant, EmptyStateBody, EmptyState, PageSection } from '@patternfly/react-core';
 import { PlusCircleIcon } from '@patternfly/react-icons';
-import { Lineage } from '@odh-dashboard/internal/components/lineage/Lineage';
-import { createLineageComponentFactory } from '@odh-dashboard/internal/components/lineage/factories';
-import { useLineageCenter } from '@odh-dashboard/internal/components/lineage/context/LineageCenterContext';
 import FeatureStoreLineageNode from './node/FeatureStoreLineageNode';
 import FeatureStoreLineageNodePopover from './node/FeatureStoreLineageNodePopover';
 import { applyLineageFilters } from './utils';
+import { Lineage } from '../../components/lineage/Lineage';
+import { createLineageComponentFactory } from '../../components/lineage/factories';
+import { useLineageCenter } from '../../components/lineage/context/LineageCenterContext';
 import FeatureStoreLineageToolbar from '../../components/FeatureStoreLineageToolbar';
 import useFeatureStoreLineage from '../../apiHooks/useFeatureStoreLineage';
 import useFeatureViewLineage from '../../apiHooks/useFeatureViewLineage';

@@ -1,12 +1,11 @@
-import type { InferenceServiceKind, K8sAPIOptions } from '@odh-dashboard/internal/k8sTypes';
-import {
-  k8sCreateResource,
-  k8sPatchResource,
-  k8sUpdateResource,
-} from '@openshift/dynamic-plugin-sdk-utils';
-import { applyK8sAPIOptions } from '@odh-dashboard/internal/api/apiMergeUtils';
-import { InferenceServiceModel } from '@odh-dashboard/internal/api/models/index';
-import { createPatchesFromDiff } from '@odh-dashboard/internal/api/k8sUtils';
+import type {
+  InferenceServiceKind,
+  K8sAPIOptions,
+} from '@odh-dashboard/dashboard-foundation-frontend/k8sTypes';
+import { k8sCreateResource, k8sPatchResource, k8sUpdateResource } from '@odh-dashboard/k8s-browser';
+import { applyK8sAPIOptions } from '@odh-dashboard/dashboard-foundation-frontend/api/apiMergeUtils';
+import { InferenceServiceModel } from '@odh-dashboard/dashboard-foundation-frontend/api/models/kserve';
+import { createPatchesFromDiff } from '@odh-dashboard/dashboard-foundation-frontend/api/k8sUtils';
 
 export const createInferenceService = (
   inferenceService: InferenceServiceKind,

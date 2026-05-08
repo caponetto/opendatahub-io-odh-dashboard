@@ -1,7 +1,9 @@
 import * as React from 'react';
 import { useParams } from 'react-router-dom';
-import { SupportedArea } from '@odh-dashboard/internal/concepts/areas/types';
-import { conditionalArea } from '@odh-dashboard/internal/concepts/areas/AreaComponent';
+import {
+  SupportedArea,
+  conditionalArea,
+} from '@odh-dashboard/dashboard-foundation-frontend/concepts/areas';
 import { useRegistryFeatureStores, RegistryFeatureStore } from './hooks/useRegistryFeatureStores';
 import { FeatureStoreAPIs } from './types/global';
 import { ProjectList } from './types/featureStoreProjects';

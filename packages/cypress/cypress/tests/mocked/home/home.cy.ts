@@ -1,4 +1,4 @@
-import { mockComponents } from '@odh-dashboard/internal/__mocks__/mockComponents';
+import { mockComponents } from '@odh-dashboard/test-mocks/mockComponents';
 import { enabledPage } from '../../../pages/enabled';
 import { homePage } from '../../../pages/home/home';
 

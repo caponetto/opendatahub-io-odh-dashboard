@@ -11,7 +11,7 @@ import { mockTrainJobK8sResource } from '../../__mocks__/mockTrainJobK8sResource
 jest.mock('../../api');
 jest.mock('../../global/trainingJobList/utils');
 jest.mock('../useClusterTrainingRuntime');
-jest.mock('@odh-dashboard/internal/utilities/useNotification');
+jest.mock('@odh-dashboard/dashboard-foundation-frontend/utilities/useNotification');
 
 const mockScaleNodes = jest.mocked(scaleNodes);
 const mockGetStatusFlags = jest.mocked(getStatusFlags);
@@ -29,9 +29,9 @@ describe('useTrainingJobNodeScaling', () => {
     jest.clearAllMocks();
 
     // Mock useNotification
-    jest.requireMock('@odh-dashboard/internal/utilities/useNotification').default = jest.fn(
-      () => mockNotification,
-    );
+    jest.requireMock(
+      '@odh-dashboard/dashboard-foundation-frontend/utilities/useNotification',
+    ).default = jest.fn(() => mockNotification);
 
     // Default mock implementations
     mockGetStatusFlags.mockReturnValue({

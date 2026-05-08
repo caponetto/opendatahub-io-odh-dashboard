@@ -1,37 +1,40 @@
-import { MetadataAnnotation, type SecretKind } from '@odh-dashboard/internal/k8sTypes';
-import { getGeneratedSecretName } from '@odh-dashboard/internal/api/index';
+import {
+  MetadataAnnotation,
+  type SecretKind,
+} from '@odh-dashboard/dashboard-foundation-frontend/k8sTypes';
+import { getGeneratedSecretName } from '@odh-dashboard/dashboard-foundation-frontend/api';
 import {
   getDisplayNameFromK8sResource,
   getResourceNameFromK8sResource,
-} from '@odh-dashboard/internal/concepts/k8s/utils';
+} from '@odh-dashboard/dashboard-foundation-frontend/concepts/k8s/utils';
 import {
   getConnectionTypeRef,
   getModelServingCompatibility,
   getModelServingConnectionTypeName,
   ModelServingCompatibleTypes,
-} from '@odh-dashboard/internal/concepts/connectionTypes/utils';
+} from '@odh-dashboard/connection-types-shared/concepts/connectionTypes/utils';
 import {
   Connection,
   ConnectionTypeConfigMapObj,
-} from '@odh-dashboard/internal/concepts/connectionTypes/types';
-import { type TokenAuthenticationFieldData } from './fields/TokenAuthenticationField';
-import {
-  ModelLocationType,
+} from '@odh-dashboard/connection-types-shared/concepts/connectionTypes/types';
+import type {
   ModelLocationData,
   WizardFormData,
-  type InitialWizardFormData,
-  WizardStepTitle,
-} from './types';
+  InitialWizardFormData,
+} from '@odh-dashboard/model-serving-shared/types/form-data';
+import { ModelLocationType } from '@odh-dashboard/model-serving-shared/concepts/modelServing/modelLocationTypes';
+import type {
+  Deployment,
+  DeploymentEndpoint,
+  DeploymentAssemblyFn,
+} from '@odh-dashboard/model-serving-shared/extension-points';
+import { type TokenAuthenticationFieldData } from './fields/TokenAuthenticationField';
+import { WizardStepTitle } from './types';
 import { DeployExtension } from './deploying/useDeployMethod';
 import {
   handleConnectionCreation,
   handleSecretOwnerReferencePatch,
 } from '../../concepts/connectionUtils';
-import type {
-  Deployment,
-  DeploymentEndpoint,
-  DeploymentAssemblyFn,
-} from '../../../extension-points';
 import { isDeploymentAuthEnabled } from '../../concepts/auth';
 
 export const getDeploymentWizardRoute = (): string => {

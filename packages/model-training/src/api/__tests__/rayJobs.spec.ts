@@ -1,9 +1,9 @@
-import { k8sDeleteResource, k8sPatchResource } from '@openshift/dynamic-plugin-sdk-utils';
-import { RayJobModel } from '@odh-dashboard/internal/api/models/kubeflow';
+import { k8sDeleteResource, k8sPatchResource } from '@odh-dashboard/k8s-browser';
+import { RayJobModel } from '@odh-dashboard/dashboard-foundation-frontend/api/models/kubeflow';
 import { deleteRayJob, updateRayJobNumNodes } from '../rayJobs';
 import { mockRayJobK8sResource } from '../../__mocks__/mockRayJobK8sResource';
 
-jest.mock('@openshift/dynamic-plugin-sdk-utils');
+jest.mock('@odh-dashboard/k8s-browser');
 
 const mockK8sDeleteResource = jest.mocked(k8sDeleteResource);
 const mockK8sPatchResource = jest.mocked(k8sPatchResource);

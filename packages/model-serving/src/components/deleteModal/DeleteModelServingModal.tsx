@@ -1,10 +1,10 @@
 import * as React from 'react';
-import { getDisplayNameFromK8sResource } from '@odh-dashboard/internal/concepts/k8s/utils';
-import DeleteModal from '@odh-dashboard/internal/pages/projects/components/DeleteModal';
+import { getDisplayNameFromK8sResource } from '@odh-dashboard/dashboard-foundation-frontend/concepts/k8s/utils';
+import DeleteModal from '@odh-dashboard/dashboard-foundation-frontend/components/DeleteModal';
 import {
   isModelServingDeleteModal,
   Deployment,
-} from '@odh-dashboard/model-serving/extension-points';
+} from '@odh-dashboard/model-serving-shared/extension-points';
 import { useResolvedDeploymentExtension } from '../../concepts/extensionUtils';
 
 type DeleteModelServingModalProps = {

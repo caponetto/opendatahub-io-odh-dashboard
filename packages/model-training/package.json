@@ -3,13 +3,16 @@
   "name": "@odh-dashboard/model-training",
   "description": "Model training plugin for managing training jobs and experiments.",
   "version": "0.0.0",
+  "topology": {
+    "tier": "extension"
+  },
   "scripts": {
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "type-check": "tsc --noEmit"
   },
   "exports": {
-    "./extensions": "./extensions.ts",
+    "./extensions": "./src/extensions.ts",
     "./types": "./src/types.ts",
     "./k8sTypes": "./src/k8sTypes.ts",
     "./__mocks__/*": [
@@ -18,11 +21,25 @@
     ]
   },
   "dependencies": {
-    "@odh-dashboard/internal": "*",
-    "@odh-dashboard/plugin-core": "*"
+    "@odh-dashboard/dashboard-foundation-frontend": "*",
+    "@odh-dashboard/distributed-workloads-shared": "*",
+    "@odh-dashboard/k8s-browser": "*",
+    "@odh-dashboard/plugin-core": "*",
+    "@patternfly/react-core": "*",
+    "@patternfly/react-icons": "*",
+    "@patternfly/react-log-viewer": "^6.4.0-prerelease.1",
+    "@patternfly/react-table": "*",
+    "@patternfly/react-tokens": "*",
+    "react-router-dom": "^7.6.2"
   },
   "devDependencies": {
     "@odh-dashboard/eslint-config": "*",
-    "@odh-dashboard/tsconfig": "*"
+    "@odh-dashboard/jest-config": "*",
+    "@odh-dashboard/test-mocks": "*",
+    "@odh-dashboard/tsconfig": "*",
+    "@testing-library/react": "16.3.0",
+    "@types/lodash-es": "*",
+    "@types/react": "*",
+    "react-dom": "^18.2.0"
   }
 }

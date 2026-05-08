@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Td, Tr } from '@patternfly/react-table';
 import { Link } from 'react-router';
-import Table from '@odh-dashboard/internal/components/table/Table';
+import Table from '@odh-dashboard/dashboard-foundation-frontend/components/table/Table';
 import { FeatureView } from '../../../types/featureView';
 import { FeatureStoreToolbar } from '../../../components/FeatureStoreToolbar';
 import { useFeatureStoreProject } from '../../../FeatureStoreContext';

@@ -194,7 +194,7 @@ const { data: notebookLink, error } = useRouteForNotebook(
 **After (v3.0)**:
 
 ```typescript
-import { getRoutePathForWorkbench } from '#~/utilities/notebookControllerUtils';
+import { getRoutePathForWorkbench } from '@odh-dashboard/notebook-controller/concepts/utils';
 
 const notebookLink = getRoutePathForWorkbench(namespace, notebookName);
 

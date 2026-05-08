@@ -1,8 +1,8 @@
 import React from 'react';
 import { useExtensions } from '@odh-dashboard/plugin-core';
-import type { ExtensionPredicate, LoadedExtension } from '@openshift/dynamic-plugin-sdk';
+import type { ExtensionPredicate, LoadedExtension } from '@odh-dashboard/plugin-core';
+import { Deployment } from '@odh-dashboard/model-serving-shared/extension-points';
 import type { PlatformExtension } from '../extensionUtils';
-import { Deployment } from '../../../extension-points';
 
 export type ExtensionDataEntry<TExtension extends PlatformExtension> = {
   data: unknown;

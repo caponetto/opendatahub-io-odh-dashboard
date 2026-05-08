@@ -1,0 +1,59 @@
+{
+  "private": true,
+  "name": "@odh-dashboard/model-serving-shared",
+  "description": "Shared model serving types, hooks, and components consumed by multiple extensions",
+  "version": "0.0.0",
+  "sideEffects": false,
+  "topology": {
+    "tier": "shared"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "type-check": "tsc --noEmit",
+    "test-unit": "jest --silent --passWithNoTests"
+  },
+  "imports": {
+    "#~/*": [
+      "./src/*",
+      "./src/*.ts",
+      "./src/*.d.ts",
+      "./src/*.tsx",
+      "./src/*/index.ts",
+      "./src/*/index.tsx"
+    ]
+  },
+  "exports": {
+    "./types/form-data": "./src/types/form-data.ts",
+    "./*": [
+      "./src/*",
+      "./src/*.ts",
+      "./src/*.d.ts",
+      "./src/*.tsx",
+      "./src/*/index.ts",
+      "./src/*/index.tsx"
+    ]
+  },
+  "dependencies": {
+    "@odh-dashboard/connection-types-shared": "*",
+    "@odh-dashboard/dashboard-foundation-frontend": "*",
+    "@odh-dashboard/hardware-profiles-shared": "*",
+    "@odh-dashboard/k8s-browser": "*",
+    "@odh-dashboard/plugin-types": "*",
+    "@odh-dashboard/projects-shared": "*",
+    "lodash-es": "*",
+    "@patternfly/react-core": "*",
+    "@patternfly/react-icons": "*",
+    "@patternfly/react-styles": "*",
+    "react": "^18.2.0",
+    "react-router-dom": "^7.6.2",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@odh-dashboard/eslint-config": "*",
+    "@odh-dashboard/jest-config": "*",
+    "@odh-dashboard/test-mocks": "*",
+    "@odh-dashboard/tsconfig": "*",
+    "@types/react": "*"
+  }
+}

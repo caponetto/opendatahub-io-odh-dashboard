@@ -7,34 +7,38 @@ import {
   mockRoleBindingK8sResource,
   mockRoleK8sResource,
   mockSecretK8sResource,
-} from '@odh-dashboard/internal/__mocks__';
+} from '@odh-dashboard/test-mocks';
 import {
   mockConnectionTypeConfigMap,
   mockModelServingFields,
-} from '@odh-dashboard/internal/__mocks__/mockConnectionType';
+} from '@odh-dashboard/test-mocks/mockConnectionType';
 import {
   mockGlobalScopedHardwareProfiles,
   mockProjectScopedHardwareProfiles,
-} from '@odh-dashboard/internal/__mocks__/mockHardwareProfile';
-import { mockNimAccount } from '@odh-dashboard/internal/__mocks__/mockNimAccount';
+} from '@odh-dashboard/test-mocks/mockHardwareProfile';
+import { mockNimAccount } from '@odh-dashboard/test-mocks/mockNimAccount';
 import {
   mockServingRuntimeTemplateK8sResource,
   mockInvalidTemplateK8sResource,
-} from '@odh-dashboard/internal/__mocks__/mockServingRuntimeTemplateK8sResource';
-import { ConnectionTypeFieldType } from '@odh-dashboard/internal/concepts/connectionTypes/types';
-import { ServingRuntimePlatform } from '@odh-dashboard/internal/types';
-import { DataScienceStackComponent } from '@odh-dashboard/internal/concepts/areas/types';
-import { mockServiceAccountK8sResource } from '@odh-dashboard/internal/__mocks__/mockServiceAccountK8sResource';
+} from '@odh-dashboard/test-mocks/mockServingRuntimeTemplateK8sResource';
+import { ConnectionTypeFieldType } from '@odh-dashboard/connection-types-shared/concepts/connectionTypes/types';
+import { ServingRuntimePlatform } from '@odh-dashboard/dashboard-foundation-frontend/types';
+import { DataScienceStackComponent } from '@odh-dashboard/dashboard-foundation-frontend/concepts/areas';
+import { mockServiceAccountK8sResource } from '@odh-dashboard/test-mocks/mockServiceAccountK8sResource';
 import {
-  HardwareProfileModel,
-  NIMAccountModel,
-  ProjectModel,
   RoleBindingModel,
   RoleModel,
   SecretModel,
   ServiceAccountModel,
+} from '@odh-dashboard/dashboard-foundation-frontend/api/models/k8s';
+import {
+  HardwareProfileModel,
+  NIMAccountModel,
+} from '@odh-dashboard/dashboard-foundation-frontend/api/models/odh';
+import {
+  ProjectModel,
   TemplateModel,
-} from './models';
+} from '@odh-dashboard/dashboard-foundation-frontend/api/models/openShift';
 
 export const initDeployPrefilledModelIntercepts = ({
   disableKServe = false,

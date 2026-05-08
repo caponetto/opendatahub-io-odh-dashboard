@@ -1,112 +1,56 @@
-import { K8sStatus } from '@openshift/dynamic-plugin-sdk-utils';
+import { K8sStatus } from '@odh-dashboard/k8s-browser';
 import {
   assembleSecretSA,
   createSecret,
   deleteSecret,
   replaceSecret,
-} from '@odh-dashboard/internal/api/k8s/secrets';
-import {
-  assembleServiceAccount,
-  createServiceAccount,
-  getServiceAccount,
-} from '@odh-dashboard/internal/api/k8s/serviceAccounts';
-import {
-  generateRoleInferenceService,
-  getRole,
-  createRole,
-} from '@odh-dashboard/internal/api/k8s/roles';
-import {
-  generateRoleBindingServiceAccount,
-  getRoleBinding,
-  createRoleBinding,
-} from '@odh-dashboard/internal/api/k8s/roleBindings';
-import { addOwnerReference } from '@odh-dashboard/internal/api/k8sUtils';
-import { getGenericErrorCode } from '@odh-dashboard/internal/api/errorUtils';
+} from '@odh-dashboard/dashboard-foundation-frontend/api/k8s/secrets';
+import { assembleServiceAccount } from '@odh-dashboard/dashboard-foundation-frontend/api/k8s/serviceAccounts';
+import { generateRoleInferenceService } from '@odh-dashboard/dashboard-foundation-frontend/api/k8s/roles';
+import { generateRoleBindingServiceAccount } from '@odh-dashboard/dashboard-foundation-frontend/api/k8s/roleBindings';
+import { addOwnerReference } from '@odh-dashboard/dashboard-foundation-frontend/api/k8sUtils';
 import {
   SecretKind,
   K8sAPIOptions,
-  RoleBindingKind,
   InferenceServiceKind,
-  ServiceAccountKind,
-  RoleKind,
   SupportedModelFormats,
   MetadataAnnotation,
   KnownLabels,
-} from '@odh-dashboard/internal/k8sTypes';
-import { getTokenNames } from '@odh-dashboard/model-serving/concepts/auth';
+} from '@odh-dashboard/dashboard-foundation-frontend/k8sTypes';
+import { getTokenNames } from '@odh-dashboard/model-serving-shared/concepts/modelServing/utils';
 import {
   isModelServingCompatible,
   ModelServingCompatibleTypes,
-} from '@odh-dashboard/internal/concepts/connectionTypes/utils';
-import { ModelLocationData } from '@odh-dashboard/model-serving/types/form-data';
-import { ServingRuntimeModelType } from '@odh-dashboard/internal/types';
+} from '@odh-dashboard/connection-types-shared/concepts/connectionTypes/utils';
+import type {
+  ModelLocationData,
+  ModelTypeFieldData,
+  ModelAvailabilityFieldsData,
+  RuntimeArgsFieldData,
+  EnvironmentVariablesFieldData,
+  CreateConnectionData,
+  DeploymentStrategyFieldData,
+} from '@odh-dashboard/model-serving-shared/types/form-data';
+import { ServingRuntimeModelType } from '@odh-dashboard/dashboard-foundation-frontend/types';
 import {
   isValidModelType,
-  type ModelTypeFieldData,
-} from '@odh-dashboard/model-serving/components/deploymentWizard/fields/ModelTypeSelectField';
-import type { ModelAvailabilityFieldsData } from '@odh-dashboard/model-serving/components/deploymentWizard/fields/ModelAvailabilityFields';
-import type { RuntimeArgsFieldData } from '@odh-dashboard/model-serving/components/deploymentWizard/fields/RuntimeArgsField';
-import type { EnvironmentVariablesFieldData } from '@odh-dashboard/model-serving/components/deploymentWizard/fields/EnvironmentVariablesField';
-import { CreateConnectionData } from '@odh-dashboard/model-serving/components/deploymentWizard/fields/CreateConnectionInputFields';
-import type { DeploymentStrategyFieldData } from '@odh-dashboard/model-serving/components/deploymentWizard/fields/DeploymentStrategyField';
-import {
   deploymentStrategyRolling,
   deploymentStrategyRecreate,
-} from '@odh-dashboard/model-serving/components/deploymentWizard/fields/DeploymentStrategyField';
+} from '@odh-dashboard/model-serving-shared/concepts/modelServing/deploymentWizardConstants';
+import {
+  createServiceAccountIfMissing,
+  createRoleIfMissing,
+  createRoleBindingIfMissing,
+} from '@odh-dashboard/dashboard-foundation-frontend/api/k8s/createIfMissing';
 import type { CreatingInferenceServiceObject } from './deployModel';
 import type { KServeDeployment } from './deployments';
 
-const is404 = (error: unknown): boolean => {
-  return getGenericErrorCode(error) === 404;
-};
+export { createServiceAccountIfMissing, createRoleIfMissing, createRoleBindingIfMissing };
 
 export const getModelServiceAccountName = (name: string): string => `${name}-sa`;
 
 export const getModelRole = (name: string): string => `${name}-view-role`;
 export const getModelRoleBinding = (name: string): string => `${name}-view`;
-
-export const createServiceAccountIfMissing = async (
-  serviceAccount: ServiceAccountKind,
-  namespace: string,
-  opts?: K8sAPIOptions,
-): Promise<ServiceAccountKind> =>
-  getServiceAccount(serviceAccount.metadata.name, namespace).catch((e: unknown) => {
-    if (is404(e)) {
-      return createServiceAccount(serviceAccount, opts);
-    }
-    return Promise.reject(e);
-  });
-
-export const createRoleIfMissing = async (
-  role: RoleKind,
-  namespace: string,
-  opts?: K8sAPIOptions,
-): Promise<RoleKind> =>
-  getRole(namespace, role.metadata.name).catch((e: unknown) => {
-    if (is404(e)) {
-      return createRole(role, opts);
-    }
-    return Promise.reject(e);
-  });
-
-export const createRoleBindingIfMissing = async (
-  rolebinding: RoleBindingKind,
-  namespace: string,
-  opts?: K8sAPIOptions,
-): Promise<RoleBindingKind> =>
-  getRoleBinding(namespace, rolebinding.metadata.name).catch((e: unknown) => {
-    if (is404(e)) {
-      return createRoleBinding(rolebinding, opts).catch((error: unknown) => {
-        if (is404(error) && opts?.dryRun) {
-          // If dryRun is enabled and the user is not Cluster Admin it seems that there's a k8s error
-          // that raises a 404 trying to find the role, which is missing since it's a dryRun.
-          return Promise.resolve(rolebinding);
-        }
-        return Promise.reject(error);
-      });
-    }
-    return Promise.reject(e);
-  });
 
 export const createSecrets = async (
   fillData: CreatingInferenceServiceObject,

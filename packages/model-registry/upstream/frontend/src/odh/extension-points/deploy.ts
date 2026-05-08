@@ -1,4 +1,4 @@
-import type { Extension, CodeRef } from '@openshift/dynamic-plugin-sdk';
+import type { Extension, CodeRef } from '@odh-dashboard/plugin-core';
 import type { ModelDeployPrefillInfo } from '~/odh/hooks/useRegisteredModelDeployPrefillInfo';
 import type { ModelRegistryDeploymentListItem } from '~/odh/k8sTypes';
 

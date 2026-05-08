@@ -13,13 +13,13 @@ import {
 } from '@patternfly/react-topology';
 import { CubeIcon } from '@patternfly/react-icons';
 import { chart_color_black_500 as chartColorBlack } from '@patternfly/react-tokens';
-import { useEdgeHighlighting } from '@odh-dashboard/internal/components/lineage/edge/edgeStateUtils';
-import { useLineageClick } from '@odh-dashboard/internal/components/lineage/LineageClickContext';
-import LineageTaskPill from '@odh-dashboard/internal/components/lineage/node/LineageTaskPill';
+import { useEdgeHighlighting } from '../../../components/lineage/edge/edgeStateUtils';
+import { useLineageClick } from '../../../components/lineage/LineageClickContext';
+import LineageTaskPill from '../../../components/lineage/node/LineageTaskPill';
 import {
   LineageSourceAnchor,
   LineageTargetAnchor,
-} from '@odh-dashboard/internal/components/lineage/anchors/customAnchors';
+} from '../../../components/lineage/anchors/customAnchors';
 import { getEntityTypeIcon } from '../../../utils/featureStoreObjects.tsx';
 
 type LineageNodeProps = {

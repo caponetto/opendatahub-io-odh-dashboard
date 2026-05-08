@@ -4,9 +4,8 @@ import {
   K8sDSGResource,
   ServingContainer,
   ServingRuntimeKind,
-} from '@odh-dashboard/internal/k8sTypes';
+} from '@odh-dashboard/dashboard-foundation-frontend/k8sTypes';
 // eslint-disable-next-line @odh-dashboard/no-restricted-imports
-import { isServingRuntimeKind } from '@odh-dashboard/internal/pages/modelServing/customServingRuntimes/utils';
 import {
   Form,
   Stack,
@@ -18,6 +17,7 @@ import {
   HelperTextItem,
   Spinner,
 } from '@patternfly/react-core';
+import { isServingRuntimeKind } from '../../../pages/customServingRuntimes/utils';
 import { ExternalRouteField } from '../fields/ExternalRouteField';
 import { TokenAuthenticationField } from '../fields/TokenAuthenticationField';
 import { RuntimeArgsField } from '../fields/RuntimeArgsField';

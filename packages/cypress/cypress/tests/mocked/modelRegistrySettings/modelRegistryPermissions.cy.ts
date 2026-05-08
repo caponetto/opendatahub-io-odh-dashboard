@@ -2,14 +2,18 @@ import {
   mockDscStatus,
   mockK8sResourceList,
   mockProjectK8sResource,
-} from '@odh-dashboard/internal/__mocks__';
-import { mock200Status } from '@odh-dashboard/internal/__mocks__/mockK8sStatus';
-import { mockRoleBindingK8sResource } from '@odh-dashboard/internal/__mocks__/mockRoleBindingK8sResource';
-import type { RoleBindingSubject } from '@odh-dashboard/internal/k8sTypes';
-import { mockModelRegistry } from '@odh-dashboard/internal/__mocks__/mockModelRegistry';
-import { mockGroup } from '@odh-dashboard/internal/__mocks__/mockGroup';
+} from '@odh-dashboard/test-mocks';
+import { mock200Status } from '@odh-dashboard/test-mocks/mockK8sStatus';
+import { mockRoleBindingK8sResource } from '@odh-dashboard/test-mocks/mockRoleBindingK8sResource';
+import type { RoleBindingSubject } from '@odh-dashboard/dashboard-foundation-frontend/k8sTypes';
+import { mockModelRegistry } from '@odh-dashboard/test-mocks/mockModelRegistry';
+import { mockGroup } from '@odh-dashboard/test-mocks/mockGroup';
+import {
+  GroupModel,
+  ModelRegistryModel,
+  ProjectModel,
+} from '@odh-dashboard/dashboard-foundation-frontend/api/models';
 import { be } from '../../../utils/should';
-import { GroupModel, ModelRegistryModel, ProjectModel } from '../../../utils/models';
 import { asProductAdminUser, asProjectEditUser } from '../../../utils/mockUsers';
 import { modelRegistryPermissions } from '../../../pages/modelRegistryPermissions';
 

@@ -1,19 +1,19 @@
 import {
   mockProjectK8sResource,
   mockProjectsK8sList,
-} from '@odh-dashboard/internal/__mocks__/mockProjectK8sResource';
-import { mockK8sResourceList } from '@odh-dashboard/internal/__mocks__/mockK8sResourceList';
-import type { ProjectKind } from '@odh-dashboard/internal/k8sTypes';
-import { incrementResourceVersion } from '@odh-dashboard/internal/__mocks__/mockUtils';
-import { mock200Status } from '@odh-dashboard/internal/__mocks__/mockK8sStatus';
-import { mockSelfSubjectAccessReview } from '@odh-dashboard/internal/__mocks__/mockSelfSubjectAccessReview';
-import { asProjectAdminUser } from '../../../utils/mockUsers';
-import { testPagination } from '../../../utils/pagination';
+} from '@odh-dashboard/test-mocks/mockProjectK8sResource';
+import { mockK8sResourceList } from '@odh-dashboard/test-mocks/mockK8sResourceList';
+import type { ProjectKind } from '@odh-dashboard/dashboard-foundation-frontend/k8sTypes';
+import { incrementResourceVersion } from '@odh-dashboard/test-mocks/mockUtils';
+import { mock200Status } from '@odh-dashboard/test-mocks/mockK8sStatus';
+import { mockSelfSubjectAccessReview } from '@odh-dashboard/test-mocks/mockSelfSubjectAccessReview';
 import {
   ProjectModel,
   ProjectRequestModel,
   SelfSubjectAccessReviewModel,
-} from '../../../utils/models';
+} from '@odh-dashboard/dashboard-foundation-frontend/api/models';
+import { asProjectAdminUser } from '../../../utils/mockUsers';
+import { testPagination } from '../../../utils/pagination';
 import { deleteModal } from '../../../pages/components/DeleteModal';
 import { createProjectModal, projectListPage } from '../../../pages/projects';
 

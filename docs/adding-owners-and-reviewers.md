@@ -90,8 +90,8 @@ filters:
 **Path pattern examples:**
 
 - Single directory: `'packages/your-package/.*'`
-- Multiple paths: `'(frontend/src/pages/yourFeature|packages/your-package)/.*'`
-- Specific file types: `'frontend/src/.*\.test\.ts'`
+- Multiple paths: `'(packages/your-feature|packages/your-shared)/.*'`
+- Specific file types: `'packages/your-package/src/.*\.test\.ts'`
 
 **About labels:**
 

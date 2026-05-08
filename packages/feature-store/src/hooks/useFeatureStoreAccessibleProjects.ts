@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { ProjectKind } from '@odh-dashboard/internal/k8sTypes';
-import { getProjects } from '@odh-dashboard/internal/api/k8s/projects';
+import { ProjectKind } from '@odh-dashboard/dashboard-foundation-frontend/k8sTypes';
+import { getProjects } from '@odh-dashboard/dashboard-foundation-frontend/api/k8s/projects';
 import { isFeatureStoreAccessibleProject } from '../utils/contextUtils';
 
 type UseFeatureStoreAccessibleProjectsReturn = {

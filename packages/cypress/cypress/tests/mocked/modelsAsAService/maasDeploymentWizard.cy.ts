@@ -1,28 +1,20 @@
-import { mockLLMInferenceServiceK8sResource } from '@odh-dashboard/internal/__mocks__/mockLLMInferenceServiceK8sResource';
-import { mockMaaSModelRef } from '@odh-dashboard/internal/__mocks__/mockMaaSModelRefResource';
+import { mockLLMInferenceServiceK8sResource } from '@odh-dashboard/test-mocks/mockLLMInferenceServiceK8sResource';
+import { mockMaaSModelRef } from '@odh-dashboard/test-mocks/mockMaaSModelRefResource';
 import {
   mockDashboardConfig,
   mockDscStatus,
   mockK8sResourceList,
   mockProjectK8sResource,
   mockSecretK8sResource,
-} from '@odh-dashboard/internal/__mocks__';
-import { mockGlobalScopedHardwareProfiles } from '@odh-dashboard/internal/__mocks__/mockHardwareProfile';
-import { mockStandardModelServingTemplateK8sResources } from '@odh-dashboard/internal/__mocks__/mockServingRuntimeTemplateK8sResource';
-import { mockConnectionTypeConfigMap } from '@odh-dashboard/internal/__mocks__/mockConnectionType';
-import { DataScienceStackComponent } from '@odh-dashboard/internal/concepts/areas/types';
+} from '@odh-dashboard/test-mocks';
+import { mockGlobalScopedHardwareProfiles } from '@odh-dashboard/test-mocks/mockHardwareProfile';
+import { mockStandardModelServingTemplateK8sResources } from '@odh-dashboard/test-mocks/mockServingRuntimeTemplateK8sResource';
+import { mockConnectionTypeConfigMap } from '@odh-dashboard/test-mocks/mockConnectionType';
+import { DataScienceStackComponent } from '@odh-dashboard/dashboard-foundation-frontend/concepts/areas';
 import {
   ModelLocationSelectOption,
   ModelTypeLabel,
 } from '@odh-dashboard/model-serving/components/deploymentWizard/types';
-import { hardwareProfileSection } from '../../../pages/components/HardwareProfileSection';
-import { maasWizardField } from '../../../pages/modelsAsAService';
-import {
-  modelServingGlobal,
-  modelServingWizard,
-  modelServingWizardEdit,
-} from '../../../pages/modelServing';
-import { initMockGatewayIntercepts } from '../../../utils/modelServingUtils';
 import {
   HardwareProfileModel,
   InferenceServiceModel,
@@ -31,7 +23,15 @@ import {
   SecretModel,
   ServingRuntimeModel,
   TemplateModel,
-} from '../../../utils/models';
+} from '@odh-dashboard/dashboard-foundation-frontend/api/models';
+import { hardwareProfileSection } from '../../../pages/components/HardwareProfileSection';
+import { maasWizardField } from '../../../pages/modelsAsAService';
+import {
+  modelServingGlobal,
+  modelServingWizard,
+  modelServingWizardEdit,
+} from '../../../pages/modelServing';
+import { initMockGatewayIntercepts } from '../../../utils/modelServingUtils';
 
 describe('MaaS Deployment Wizard', () => {
   const initMaaSDeploymentIntercepts = () => {

@@ -1,15 +1,9 @@
 import React from 'react';
-import { K8sResourceCommon } from '@openshift/dynamic-plugin-sdk-utils';
-import { LastDeployed } from '@odh-dashboard/internal/components/LastDeployed';
-import { Deployment, ModelResourceType } from '../../../extension-points';
-
-type ModelWithStatus = ModelResourceType & {
-  status?: { conditions?: { type: string; lastTransitionTime: string }[] };
-  metadata: ModelResourceType['metadata'] & K8sResourceCommon['metadata'];
-};
+import { LastDeployed } from '@odh-dashboard/dashboard-foundation-frontend/components/LastDeployed';
+import { Deployment } from '@odh-dashboard/model-serving-shared/extension-points';
 
 type DeploymentLastDeployedProps = {
-  deployment: Deployment<ModelWithStatus>;
+  deployment: Deployment;
 };
 
 const DeploymentLastDeployed: React.FC<DeploymentLastDeployedProps> = ({

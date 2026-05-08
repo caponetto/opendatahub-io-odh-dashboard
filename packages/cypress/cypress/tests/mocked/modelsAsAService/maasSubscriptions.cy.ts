@@ -1,5 +1,5 @@
-import { mockDashboardConfig, mockDscStatus } from '@odh-dashboard/internal/__mocks__';
-import { DataScienceStackComponent } from '@odh-dashboard/internal/concepts/areas/types';
+import { mockDashboardConfig, mockDscStatus } from '@odh-dashboard/test-mocks';
+import { DataScienceStackComponent } from '@odh-dashboard/dashboard-foundation-frontend/concepts/areas';
 import { asProductAdminUser } from '../../../utils/mockUsers';
 import {
   createSubscriptionPage,

@@ -1,5 +1,7 @@
 import * as React from 'react';
-import useFetch, { NotReadyError } from '@odh-dashboard/internal/utilities/useFetch';
+import useFetch, {
+  NotReadyError,
+} from '@odh-dashboard/dashboard-foundation-frontend/utilities/useFetch';
 import { RayJobKind, RayClusterKind, RayClusterSpec } from '../k8sTypes';
 import { getRayCluster } from '../api/rayClusters';
 

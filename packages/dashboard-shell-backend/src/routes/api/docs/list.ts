@@ -1,0 +1,24 @@
+/* eslint-disable @typescript-eslint/consistent-type-assertions -- Fastify query typing */
+import { FastifyRequest } from 'fastify';
+import {
+  OdhDocument,
+  KubeFastifyInstance,
+} from '@odh-dashboard/dashboard-foundation-backend/backendTypes';
+import {
+  getDocs,
+  checkJupyterEnabled,
+} from '@odh-dashboard/dashboard-foundation-backend/resourceUtils';
+
+export const listDocs = (
+  fastify: KubeFastifyInstance,
+  request: FastifyRequest,
+): Promise<OdhDocument[]> => {
+  // Fetch the installed OdhDocument
+  let docs = getDocs().filter((doc) => checkJupyterEnabled() || doc.spec.appName !== 'jupyter');
+  const query = request.query as { [key: string]: string };
+  if (query.type) {
+    docs = docs.filter((doc) => doc.spec.type === query.type);
+  }
+
+  return Promise.resolve(docs);
+};

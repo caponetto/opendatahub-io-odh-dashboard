@@ -3,7 +3,7 @@ import {
   EnvironmentVariableType,
   SecretCategory,
   ConfigMapCategory,
-} from '@odh-dashboard/internal/pages/projects/types';
+} from '@odh-dashboard/connection-types-shared/concepts/workbench/envVariableFormTypes';
 import type { WBVariablesTestData } from '../../../../types';
 import { NotebookStatusLabel } from '../../../../types';
 import { projectDetails, projectListPage } from '../../../../pages/projects';

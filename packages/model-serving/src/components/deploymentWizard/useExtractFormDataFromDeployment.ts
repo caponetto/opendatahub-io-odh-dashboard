@@ -1,14 +1,14 @@
 import React from 'react';
-import { setupDefaults } from '@odh-dashboard/internal/concepts/k8s/K8sNameDescriptionField/utils';
-import { useDashboardNamespace } from '@odh-dashboard/internal/redux/selectors/project';
-import { type InitialWizardFormData } from './types';
-import { getExternalRouteFromDeployment, getTokenAuthenticationFromDeployment } from './utils';
-import { useWizardFieldExtractors } from './useWizardFieldExtractors';
+import { setupDefaults } from '@odh-dashboard/dashboard-foundation-frontend/concepts/k8s/K8sNameDescriptionField/utils';
+import { useDashboardNamespace } from '@odh-dashboard/dashboard-foundation-frontend/redux/selectors/project';
+import { type InitialWizardFormData } from '@odh-dashboard/model-serving-shared/types/form-data';
 import {
   type Deployment,
   type ExtractionResult,
   isModelServingDeploymentFormDataExtension,
-} from '../../../extension-points';
+} from '@odh-dashboard/model-serving-shared/extension-points';
+import { getExternalRouteFromDeployment, getTokenAuthenticationFromDeployment } from './utils';
+import { useWizardFieldExtractors } from './useWizardFieldExtractors';
 import { useResolvedDeploymentExtension } from '../../concepts/extensionUtils';
 import { useDeploymentAuthTokens } from '../../concepts/auth';
 

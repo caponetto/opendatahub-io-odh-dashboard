@@ -2,13 +2,13 @@ import React from 'react';
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { mockConnectionTypeConfigMapObj } from '@odh-dashboard/internal/__mocks__/mockConnectionType';
-import * as secretsApi from '@odh-dashboard/internal/api/k8s/secrets';
+import { mockConnectionTypeConfigMapObj } from '@odh-dashboard/test-mocks/mockConnectionType';
+import * as secretsApi from '@odh-dashboard/dashboard-foundation-frontend/api/k8s/secrets';
 import AutomlConnectionModal from '~/app/components/common/AutomlConnectionModal';
 
 const TEST_PROJECT = 'my-project';
 
-jest.mock('@odh-dashboard/internal/api/k8s/secrets', () => ({
+jest.mock('@odh-dashboard/dashboard-foundation-frontend/api/k8s/secrets', () => ({
   createSecret: jest.fn(),
 }));
 

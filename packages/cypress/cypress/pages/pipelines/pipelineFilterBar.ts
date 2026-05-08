@@ -1,4 +1,4 @@
-import type { ExperimentKF } from '@odh-dashboard/internal/concepts/pipelines/kfTypes';
+import type { ExperimentKF } from '@odh-dashboard/pipelines/concepts/kfTypes';
 
 class PipelineFilterBar {
   find() {

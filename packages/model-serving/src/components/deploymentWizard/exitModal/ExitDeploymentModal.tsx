@@ -1,5 +1,5 @@
 import React from 'react';
-import ContentModal from '@odh-dashboard/internal/components/modals/ContentModal';
+import ContentModal from '@odh-dashboard/dashboard-foundation-frontend/components/modals/ContentModal';
 
 type ExitDeploymentModalProps = {
   onClose: () => void;

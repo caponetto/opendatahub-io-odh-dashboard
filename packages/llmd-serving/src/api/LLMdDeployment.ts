@@ -1,4 +1,4 @@
-import { k8sDeleteResource, K8sStatus } from '@openshift/dynamic-plugin-sdk-utils';
+import { k8sDeleteResource, K8sStatus } from '@odh-dashboard/k8s-browser';
 import {
   LLMInferenceServiceConfigModel,
   LLMInferenceServiceModel,

@@ -8,7 +8,7 @@
   ],
   "exclude": [
     "node_modules",
-    "../../frontend/**/*",
+    "../../packages/dashboard-dist-full/**/*",
     "../../backend/**/*"
   ]
 }

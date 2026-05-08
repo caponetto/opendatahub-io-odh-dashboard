@@ -3,6 +3,10 @@
   "name": "@odh-dashboard/kserve",
   "description": "KServe model serving platform extension",
   "version": "0.0.0",
+  "sideEffects": false,
+  "topology": {
+    "tier": "extension"
+  },
   "scripts": {
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
@@ -12,16 +16,23 @@
     "test-unit-coverage": "jest --silent --coverage"
   },
   "exports": {
-    "./extensions": "./extensions.ts",
+    "./extensions": "./src/extensions.ts",
     "./deployUtils": "./src/deployUtils.ts"
   },
   "dependencies": {
-    "@odh-dashboard/internal": "*",
-    "@odh-dashboard/model-serving": "*"
+    "@odh-dashboard/connection-types-shared": "*",
+    "@odh-dashboard/dashboard-foundation-frontend": "*",
+    "@odh-dashboard/hardware-profiles-shared": "*",
+    "@odh-dashboard/k8s-browser": "*",
+    "@odh-dashboard/model-serving-shared": "*",
+    "@patternfly/react-core": "*",
+    "zod": "*"
   },
   "devDependencies": {
     "@odh-dashboard/eslint-config": "*",
     "@odh-dashboard/jest-config": "*",
-    "@odh-dashboard/tsconfig": "*"
+    "@odh-dashboard/test-mocks": "*",
+    "@odh-dashboard/tsconfig": "*",
+    "@types/react": "*"
   }
 }

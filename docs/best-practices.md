@@ -14,13 +14,13 @@ There are rare exceptions to break from this rule. See [Custom Components](#cust
 
 Every now and then we run into a scenario where PF is not quite managing something the way we need it to manage it. Usually this has to do with a layout problem but sometimes can extend to compositions of components or "needing a bit more out of a component".
 
-[`frontend/src/concepts/dashboard`](../frontend/src/concepts/dashboard) exists for this very reason. We have had the need to custom style and adjust PF components on occasion. Use this sparingly, the more we add in the custom space, the more we have to deal with PF upgrades breaking them.
+[`packages/dashboard-foundation-frontend/src/concepts/dashboard`](../packages/dashboard-foundation-frontend/src/concepts/dashboard) exists for this very reason. We have had the need to custom style and adjust PF components on occasion. Use this sparingly, the more we add in the custom space, the more we have to deal with PF upgrades breaking them.
 
 ### Custom Components
 
 We are a PF first application. You should almost never have to reach into the toolbox for the "new and custom component" tool. If you do, best verify with the team first.
 
-If you get the go-ahead on a new component, place it in the [`frontend/src/components`](../frontend/src/components) folder. Goal is to make a folder if you need to compose a bunch of them together or create multiple variants (eg. the Table component).
+If you get the go-ahead on a new component, place it in the [`packages/dashboard-foundation-frontend/src/components`](../packages/dashboard-foundation-frontend/src/components) folder. Goal is to make a folder if you need to compose a bunch of them together or create multiple variants (eg. the Table component).
 
 ### Hooks & Performance Considerations
 

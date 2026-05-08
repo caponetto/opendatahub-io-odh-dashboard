@@ -1,16 +1,16 @@
 import React from 'react';
 import { Form, Modal, ModalBody, ModalHeader, ModalFooter } from '@patternfly/react-core';
-import DashboardModalFooter from '@odh-dashboard/internal/concepts/dashboard/DashboardModalFooter';
-import ConnectionTypeForm from '@odh-dashboard/internal/concepts/connectionTypes/ConnectionTypeForm';
+import DashboardModalFooter from '@odh-dashboard/dashboard-foundation-frontend/concepts/dashboard/DashboardModalFooter';
+import ConnectionTypeForm from '@odh-dashboard/connection-types-shared/concepts/connectionTypes/ConnectionTypeForm';
 import {
   Connection,
   ConnectionTypeConfigMapObj,
   ConnectionTypeFieldType,
   ConnectionTypeValueType,
-} from '@odh-dashboard/internal/concepts/connectionTypes/types';
-import { K8sNameDescriptionFieldData } from '@odh-dashboard/internal/concepts/k8s/K8sNameDescriptionField/types';
-import { isK8sNameDescriptionDataValid } from '@odh-dashboard/internal/concepts/k8s/K8sNameDescriptionField/utils';
-import { useK8sNameDescriptionFieldData } from '@odh-dashboard/internal/concepts/k8s/K8sNameDescriptionField/K8sNameDescriptionField';
+} from '@odh-dashboard/connection-types-shared/concepts/connectionTypes/types';
+import { K8sNameDescriptionFieldData } from '@odh-dashboard/dashboard-foundation-frontend/concepts/k8s/K8sNameDescriptionField/types';
+import { isK8sNameDescriptionDataValid } from '@odh-dashboard/dashboard-foundation-frontend/concepts/k8s/K8sNameDescriptionField/utils';
+import { useK8sNameDescriptionFieldData } from '@odh-dashboard/dashboard-foundation-frontend/concepts/k8s/K8sNameDescriptionField/K8sNameDescriptionField';
 import {
   assembleConnectionSecret,
   filterEnabledConnectionTypes,
@@ -18,8 +18,8 @@ import {
   getDefaultValues,
   isConnectionTypeDataField,
   withRequiredFields,
-} from '@odh-dashboard/internal/concepts/connectionTypes/utils';
-import { createSecret } from '@odh-dashboard/internal/api/k8s/secrets';
+} from '@odh-dashboard/connection-types-shared/concepts/connectionTypes/utils';
+import { createSecret } from '@odh-dashboard/dashboard-foundation-frontend/api/k8s/secrets';
 
 const S3_REQUIRED_ENV_VARS = ['AWS_DEFAULT_REGION', 'AWS_S3_BUCKET'];
 

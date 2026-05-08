@@ -1,7 +1,7 @@
 import React from 'react';
 import { Flex, FlexItem, FormGroup, HelperTextItem, FormHelperText } from '@patternfly/react-core';
-import { ConnectionTypeConfigMapObj } from '@odh-dashboard/internal/concepts/connectionTypes/types.js';
-import SimpleSelect from '@odh-dashboard/internal/components/SimpleSelect';
+import { ConnectionTypeConfigMapObj } from '@odh-dashboard/connection-types-shared/concepts/connectionTypes/types';
+import SimpleSelect from '@odh-dashboard/dashboard-foundation-frontend/components/SimpleSelect';
 
 type CustomTypeSelectFieldProps = {
   typeOptions: ConnectionTypeConfigMapObj[];

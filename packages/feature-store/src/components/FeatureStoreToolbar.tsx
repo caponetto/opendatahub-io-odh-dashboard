@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { SearchInput } from '@patternfly/react-core';
-import DashboardDatePicker from '@odh-dashboard/internal/components/DashboardDatePicker';
+import DashboardDatePicker from '@odh-dashboard/dashboard-foundation-frontend/components/DashboardDatePicker';
 import FeatureStoreFilterToolbar from './FeatureStoreFilterToolbar';
 import { BaseFilterOptionRenders } from '../types/toolbarTypes';
 

@@ -1,5 +1,5 @@
-import { mockDashboardConfig, mockDscStatus } from '@odh-dashboard/internal/__mocks__';
-import { DataScienceStackComponent } from '@odh-dashboard/internal/concepts/areas/types';
+import { mockDashboardConfig, mockDscStatus } from '@odh-dashboard/test-mocks';
+import { DataScienceStackComponent } from '@odh-dashboard/dashboard-foundation-frontend/concepts/areas';
 import type { APIKey, SubscriptionDetail } from '@odh-dashboard/maas/types/api-key';
 import { formatApiKeyHiddenPreview } from '@odh-dashboard/maas/utils/api-keys';
 import {

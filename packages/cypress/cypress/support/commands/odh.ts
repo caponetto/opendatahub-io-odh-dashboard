@@ -1,4 +1,4 @@
-import type { K8sResourceListResult, K8sStatus } from '@openshift/dynamic-plugin-sdk-utils';
+import type { K8sResourceListResult, K8sStatus } from '@odh-dashboard/k8s-browser';
 import type { GenericStaticResponse, RouteHandlerController } from 'cypress/types/net-stubbing';
 import type {
   FeatureService,
@@ -30,7 +30,7 @@ import type {
 import type {
   BaseMetricCreationResponse,
   BaseMetricListResponse,
-} from '@odh-dashboard/internal/api';
+} from '@odh-dashboard/model-serving-shared/concepts/trustyai/rawTypes';
 import type {
   ModelArtifact,
   ModelArtifactList,
@@ -38,7 +38,7 @@ import type {
   ModelVersionList,
   RegisteredModel,
   RegisteredModelList,
-} from '@odh-dashboard/internal/concepts/modelRegistry/types';
+} from '@odh-dashboard/model-registry/concepts/modelRegistry/types';
 import type {
   ConfigMapKind,
   ConsoleLinkKind,
@@ -55,10 +55,10 @@ import type {
   SecretKind,
   ServingRuntimeKind,
   TemplateKind,
-} from '@odh-dashboard/internal/k8sTypes';
-import type { StartNotebookData } from '@odh-dashboard/internal/pages/projects/types';
-import type { AllowedUser } from '@odh-dashboard/internal/pages/notebookController/screens/admin/types';
-import type { StatusResponse } from '@odh-dashboard/internal/redux/types';
+} from '@odh-dashboard/dashboard-foundation-frontend/k8sTypes';
+import type { StartNotebookData } from '@odh-dashboard/workbenches/pages/types';
+import type { AllowedUser } from '@odh-dashboard/dashboard-foundation-frontend/types/allowedUser';
+import type { StatusResponse } from '@odh-dashboard/dashboard-foundation-frontend/redux/types';
 import type {
   BYONImage,
   ClusterSettingsType,
@@ -71,7 +71,7 @@ import type {
   PrometheusQueryResponse,
   ResponseStatus,
   SubscriptionStatusData,
-} from '@odh-dashboard/internal/types';
+} from '@odh-dashboard/dashboard-foundation-frontend/types';
 import type {
   ArgoWorkflowPipelineVersion,
   ExperimentKF,
@@ -84,12 +84,12 @@ import type {
   PipelineRecurringRunKF,
   PipelineRunKF,
   PipelineVersionKF,
-} from '@odh-dashboard/internal/concepts/pipelines/kfTypes';
-import type { GrpcResponse } from '@odh-dashboard/internal/__mocks__/mlmd/utils';
-import type { NimServingResponse } from '@odh-dashboard/internal/__mocks__/mockNimResource';
-import type { BuildMockPipelinveVersionsType } from '@odh-dashboard/internal/__mocks__';
-import type { ArtifactStorage } from '@odh-dashboard/internal/concepts/pipelines/types';
-import type { ConnectionTypeConfigMap } from '@odh-dashboard/internal/concepts/connectionTypes/types';
+} from '@odh-dashboard/pipelines/concepts/kfTypes';
+import type { GrpcResponse } from '@odh-dashboard/test-mocks/mlmd/utils';
+import type { NimServingResponse } from '@odh-dashboard/test-mocks/mockNimResource';
+import type { BuildMockPipelinveVersionsType } from '@odh-dashboard/test-mocks';
+import type { ArtifactStorage } from '@odh-dashboard/pipelines/concepts/types';
+import type { ConnectionTypeConfigMap } from '@odh-dashboard/connection-types-shared/concepts/connectionTypes/types';
 import type {
   APIKey,
   APIKeyListResponse,

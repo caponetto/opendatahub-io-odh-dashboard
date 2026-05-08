@@ -11,13 +11,12 @@ module.exports = {
     '\\.(css|less|sass|scss)$': '<rootDir>/config/transform.style.js',
     '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$':
       '<rootDir>/config/transform.file.js',
-    // Single React instance when testing components that use @odh-dashboard/internal
+    // Single React instance when testing ODH dashboard workspace packages
     '^react$': '<rootDir>/../../../node_modules/react',
     '^react-dom$': '<rootDir>/../../../node_modules/react-dom',
-    // Resolve @odh-dashboard/internal's #~/ imports to main frontend src
+    // Resolve dashboard-foundation `#~/` imports to main frontend src
     '#~/(.*)': '<rootDir>/../../../frontend/src/$1',
     '~/(.*)': '<rootDir>/src/$1',
-    '^@odh-dashboard/internal(.*)$': '<rootDir>/../../../frontend/src$1',
   },
   testEnvironment: 'jest-environment-jsdom',
   transformIgnorePatterns: [

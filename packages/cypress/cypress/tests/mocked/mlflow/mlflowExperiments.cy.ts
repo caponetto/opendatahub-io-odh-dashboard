@@ -2,10 +2,10 @@ import {
   mockDashboardConfig,
   mockK8sResourceList,
   mockProjectK8sResource,
-} from '@odh-dashboard/internal/__mocks__';
-import { mockDscStatus } from '@odh-dashboard/internal/__mocks__/mockDscStatus';
-import { DataScienceStackComponent } from '@odh-dashboard/internal/concepts/areas/types';
-import { ProjectModel } from '../../../utils/models';
+} from '@odh-dashboard/test-mocks';
+import { mockDscStatus } from '@odh-dashboard/test-mocks/mockDscStatus';
+import { DataScienceStackComponent } from '@odh-dashboard/dashboard-foundation-frontend/concepts/areas';
+import { ProjectModel } from '@odh-dashboard/dashboard-foundation-frontend/api/models';
 import { asProductAdminUser } from '../../../utils/mockUsers';
 import { interceptMlflowStatus } from '../../../utils/mlflowUtils';
 import { mlflowExperiments } from '../../../pages/mlflowExperiments';

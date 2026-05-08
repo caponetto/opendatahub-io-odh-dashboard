@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Label, type LabelProps } from '@patternfly/react-core';
 import { ActionsColumn, Td, Tr } from '@patternfly/react-table';
 import { Link } from 'react-router-dom';
-import RunStartTimestamp from '@odh-dashboard/internal/concepts/pipelines/content/tables/RunStartTimestamp';
+import RunStartTimestamp from '@odh-dashboard/pipelines-shared/concepts/pipelines/RunStartTimestamp';
 import type { PipelineRun } from '~/app/types';
 import StopRunModal from '~/app/components/run-results/StopRunModal';
 import { useAutoragRunActions } from '~/app/hooks/useAutoragRunActions';

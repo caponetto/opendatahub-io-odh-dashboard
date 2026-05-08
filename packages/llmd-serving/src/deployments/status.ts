@@ -1,16 +1,14 @@
-import type { DeploymentStatus } from '@odh-dashboard/model-serving/extension-points';
-import {
-  ModelDeploymentState,
-  ModelStatus,
-} from '@odh-dashboard/internal/pages/modelServing/screens/types';
-import { k8sPatchResource } from '@openshift/dynamic-plugin-sdk-utils';
-import { K8sAPIOptions, PodKind } from '@odh-dashboard/internal/k8sTypes';
-import { checkModelPodStatus } from '@odh-dashboard/internal/concepts/modelServingKServe/kserveStatusUtils';
-import { PodModel } from '@odh-dashboard/internal/api/models/k8s';
-import { groupVersionKind } from '@odh-dashboard/internal/api/k8sUtils';
-import useK8sWatchResourceList from '@odh-dashboard/internal/utilities/useK8sWatchResourceList';
-import { CustomWatchK8sResult } from '@odh-dashboard/internal/types';
-import { getModelDeploymentStoppedStates } from '@odh-dashboard/model-serving/utils';
+import type { DeploymentStatus } from '@odh-dashboard/model-serving-shared/extension-points';
+import { ModelDeploymentState } from '@odh-dashboard/model-serving-shared/concepts/modelServing/deploymentState';
+import type { ModelStatus } from '@odh-dashboard/model-serving-shared/concepts/modelServing/types';
+import { k8sPatchResource } from '@odh-dashboard/k8s-browser';
+import { K8sAPIOptions, PodKind } from '@odh-dashboard/dashboard-foundation-frontend/k8sTypes';
+import { checkModelPodStatus } from '@odh-dashboard/model-serving-shared/concepts/modelServing/kserveStatusUtils';
+import { PodModel } from '@odh-dashboard/dashboard-foundation-frontend/api/models/k8s';
+import { groupVersionKind } from '@odh-dashboard/dashboard-foundation-frontend/api/k8sUtils';
+import useK8sWatchResourceList from '@odh-dashboard/dashboard-foundation-frontend/utilities/useK8sWatchResourceList';
+import { CustomWatchK8sResult } from '@odh-dashboard/dashboard-foundation-frontend/types';
+import { getModelDeploymentStoppedStates } from '@odh-dashboard/model-serving-shared/concepts/modelServing/utils';
 import {
   LLMdDeployment,
   LLMInferenceServiceKind,
@@ -41,6 +39,13 @@ export const getLLMdDeploymentStatus = (
   inferenceService: LLMInferenceServiceKind,
   deploymentPods: PodKind[],
 ): DeploymentStatus => {
+  const annotations = inferenceService.metadata.annotations
+    ? Object.fromEntries(
+        Object.entries(inferenceService.metadata.annotations).filter(
+          (entry): entry is [string, string] => entry[1] !== undefined,
+        ),
+      )
+    : undefined;
   const deploymentPod = deploymentPods.length > 0 ? deploymentPods[0] : undefined;
 
   const modelPodStatus = deploymentPod ? checkModelPodStatus(deploymentPod) : undefined;
@@ -48,11 +53,7 @@ export const getLLMdDeploymentStatus = (
   const state = getLLMInferenceServiceModelState(inferenceService, modelPodStatus);
   const message = getLLMInferenceServiceStatusMessage(inferenceService, modelPodStatus);
 
-  const stoppedStates = getModelDeploymentStoppedStates(
-    state,
-    inferenceService.metadata.annotations,
-    deploymentPod,
-  );
+  const stoppedStates = getModelDeploymentStoppedStates(state, annotations, deploymentPod);
 
   return { state, message, stoppedStates };
 };

@@ -1,6 +1,6 @@
 import * as React from 'react';
-import DashboardEmptyTableView from '@odh-dashboard/internal/concepts/dashboard/DashboardEmptyTableView';
-import Table from '@odh-dashboard/internal/components/table/Table';
+import DashboardEmptyTableView from '@odh-dashboard/dashboard-foundation-frontend/concepts/dashboard/DashboardEmptyTableView';
+import Table from '@odh-dashboard/dashboard-foundation-frontend/components/table/Table';
 import { baseColumns } from './const';
 import FeatureTableRow from './FeatureTableRow';
 import { Features } from '../../types/features';

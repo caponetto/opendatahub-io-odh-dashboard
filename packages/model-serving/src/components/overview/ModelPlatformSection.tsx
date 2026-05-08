@@ -9,12 +9,15 @@ import {
   Label,
   CardFooter,
 } from '@patternfly/react-core';
-import CollapsibleSection from '@odh-dashboard/internal/concepts/design/CollapsibleSection';
-import { ProjectObjectType, SectionType } from '@odh-dashboard/internal/concepts/design/utils';
-import OverviewCard from '@odh-dashboard/internal/pages/projects/screens/detail/overview/components/OverviewCard';
-import { ProjectDetailsContext } from '@odh-dashboard/internal/pages/projects/ProjectDetailsContext';
-import ModelServingPlatformSelectErrorAlert from '@odh-dashboard/internal/concepts/modelServing/Platforms/ModelServingPlatformSelectErrorAlert';
+import CollapsibleSection from '@odh-dashboard/dashboard-foundation-frontend/concepts/design/CollapsibleSection';
+import {
+  ProjectObjectType,
+  SectionType,
+} from '@odh-dashboard/dashboard-foundation-frontend/concepts/design/utils';
+import OverviewCard from '@odh-dashboard/dashboard-foundation-frontend/components/OverviewCard';
+import { ProjectDetailsContext } from '@odh-dashboard/projects-shared/concepts/projects/ProjectDetailsContext';
 import EmptyModelServingPlatformSection from './NoProjectServingEnabledSection';
+import ModelServingPlatformSelectErrorAlert from '../../concepts/Platforms/ModelServingPlatformSelectErrorAlert';
 import {
   useProjectServingPlatform,
   type ModelServingPlatform,

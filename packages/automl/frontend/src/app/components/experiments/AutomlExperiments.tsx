@@ -1,8 +1,8 @@
 import { Alert, Bullseye, Spinner } from '@patternfly/react-core';
 import React from 'react';
 import { useParams } from 'react-router';
-import { getGenericErrorCode } from '@odh-dashboard/internal/api/errorUtils';
-import UnauthorizedError from '@odh-dashboard/internal/pages/UnauthorizedError';
+import { getGenericErrorCode } from '@odh-dashboard/dashboard-foundation-frontend/api/errorUtils';
+import UnauthorizedError from '@odh-dashboard/dashboard-foundation-frontend/components/UnauthorizedError';
 import { AutomlRunsTable } from '~/app/components/AutomlRunsTable';
 import EmptyExperimentsState from '~/app/components/empty-states/EmptyExperimentsState';
 import NoPipelineServer from '~/app/components/empty-states/NoPipelineServer';

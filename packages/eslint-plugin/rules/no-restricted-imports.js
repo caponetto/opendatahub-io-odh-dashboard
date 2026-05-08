@@ -3,13 +3,18 @@ const micromatch = require('micromatch');
 
 const baseNoRestrictedImports = new Linter().getRules().get('no-restricted-imports');
 
-// Wrap the base rule to support negation patterns with '!'
 module.exports = {
   ...baseNoRestrictedImports,
+  meta: {
+    ...baseNoRestrictedImports.meta,
+    schema: {
+      type: 'array',
+      items: { type: 'object', additionalProperties: true },
+    },
+  },
   create(context) {
     const options = context.options || [];
 
-    // Extract negation patterns (those starting with '!')
     const processedOptions = options.map((option) => {
       if (option && option.patterns) {
         return {
@@ -19,10 +24,12 @@ module.exports = {
               const allowPatterns = pattern.group.filter((p) => p.startsWith('!'));
               const restrictPatterns = pattern.group.filter((p) => !p.startsWith('!'));
 
+              const { allowTypeImports, ...rest } = pattern;
               return {
-                ...pattern,
+                ...rest,
                 group: restrictPatterns,
-                _allowPatterns: allowPatterns.map((p) => p.slice(1)), // Remove '!' prefix
+                _allowPatterns: allowPatterns.map((p) => p.slice(1)),
+                _allowTypeImports: allowTypeImports,
               };
             }
             return pattern;
@@ -32,18 +39,16 @@ module.exports = {
       return option;
     });
 
-    // Create the base rule with processed options
     const baseRule = baseNoRestrictedImports.create({
       ...context,
       options: processedOptions,
     });
 
-    // Wrap the ImportDeclaration handler to check allowlist
     return {
       ImportDeclaration(node) {
         const importSource = node.source.value;
+        const isTypeOnly = node.importKind === 'type';
 
-        // Check if this import should be allowed based on negation patterns
         const isAllowed = processedOptions.some((option) =>
           option?.patterns?.some(
             (pattern) =>
@@ -51,12 +56,24 @@ module.exports = {
           ),
         );
 
-        // If allowed, skip the base rule check
         if (isAllowed) {
           return;
         }
 
-        // Otherwise, run the base rule
+        if (isTypeOnly) {
+          const typeAllowed = processedOptions.some((option) =>
+            option?.patterns?.some(
+              (pattern) =>
+                pattern._allowTypeImports &&
+                pattern.group &&
+                micromatch.isMatch(importSource, pattern.group),
+            ),
+          );
+          if (typeAllowed) {
+            return;
+          }
+        }
+
         if (baseRule.ImportDeclaration) {
           baseRule.ImportDeclaration(node);
         }

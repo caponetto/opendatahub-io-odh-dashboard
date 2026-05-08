@@ -1,24 +1,24 @@
 import React from 'react';
-import {
-  initialModelServingFilterData,
-  type ModelServingFilterDataType,
-  ModelServingToolbarFilterOptions,
-} from '@odh-dashboard/internal/pages/modelServing/screens/global/const';
-import { getDisplayNameFromK8sResource } from '@odh-dashboard/internal/concepts/k8s/utils';
-import DashboardEmptyTableView from '@odh-dashboard/internal/concepts/dashboard/DashboardEmptyTableView';
+import { getDisplayNameFromK8sResource } from '@odh-dashboard/dashboard-foundation-frontend/concepts/k8s/utils';
+import DashboardEmptyTableView from '@odh-dashboard/dashboard-foundation-frontend/concepts/dashboard/DashboardEmptyTableView';
 import { Label } from '@patternfly/react-core';
-import { namespaceToProjectDisplayName } from '@odh-dashboard/internal/concepts/projects/utils';
-import { ProjectsContext } from '@odh-dashboard/internal/concepts/projects/ProjectsContext';
+import { namespaceToProjectDisplayName } from '@odh-dashboard/dashboard-foundation-frontend/concepts/projects/utils';
+import { ProjectsContext } from '@odh-dashboard/dashboard-foundation-frontend/concepts/projects/ProjectsContext';
 import { useExtensions, useResolvedExtensions } from '@odh-dashboard/plugin-core';
-import type { ProjectKind } from '@odh-dashboard/internal/k8sTypes';
-import GlobalModelsToolbar from './GlobalModelsToolbar';
-import DeploymentsTable from '../deployments/DeploymentsTable';
+import type { ProjectKind } from '@odh-dashboard/dashboard-foundation-frontend/k8sTypes';
 import {
   isModelServingDeploymentsTableExtension,
   isModelServingPlatformExtension,
   type Deployment,
   type DeploymentsTableColumn,
-} from '../../../extension-points';
+} from '@odh-dashboard/model-serving-shared/extension-points';
+import GlobalModelsToolbar from './GlobalModelsToolbar';
+import {
+  initialModelServingFilterData,
+  type ModelServingFilterDataType,
+  ModelServingToolbarFilterOptions,
+} from '../../pages/screens/global/const';
+import DeploymentsTable from '../deployments/DeploymentsTable';
 
 const ProjectCell: React.FC<{ deployment: Deployment; projects: ProjectKind[] }> = ({
   deployment,

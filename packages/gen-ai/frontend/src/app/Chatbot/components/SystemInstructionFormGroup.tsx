@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { TextArea, Stack } from '@patternfly/react-core';
-import { fireSimpleTrackingEvent } from '@odh-dashboard/internal/concepts/analyticsTracking/segmentIOUtils';
+import { fireSimpleTrackingEvent } from '@odh-dashboard/dashboard-foundation-frontend/concepts/analyticsTracking/segmentIOUtils';
 
 interface SystemInstructionFormGroupProps {
   systemInstruction: string;

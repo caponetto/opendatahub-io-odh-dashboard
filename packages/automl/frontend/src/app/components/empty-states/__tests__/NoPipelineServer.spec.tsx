@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom';
-import { pipelinesBaseRoute } from '@odh-dashboard/internal/routes/pipelines/global';
+import { pipelinesBaseRoute } from '@odh-dashboard/pipelines-shared/concepts/pipelines/routes';
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';

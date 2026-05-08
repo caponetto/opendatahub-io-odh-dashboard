@@ -1,4 +1,4 @@
-import { ServingRuntimeAPIProtocol } from '@odh-dashboard/internal/types';
+import { ServingRuntimeAPIProtocol } from '@odh-dashboard/dashboard-foundation-frontend/types';
 import { servingRuntimes } from '../../../../pages/servingRuntimes';
 import { HTPASSWD_CLUSTER_ADMIN_USER } from '../../../../utils/e2eUsers';
 import { getSingleModelPath } from '../../../../utils/fileImportUtils';

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Checkbox, Stack, StackItem } from '@patternfly/react-core';
-import ContentModal from '@odh-dashboard/internal/components/modals/ContentModal';
-import { getDisplayNameFromK8sResource } from '@odh-dashboard/internal/concepts/k8s/utils';
+import ContentModal from '@odh-dashboard/dashboard-foundation-frontend/components/modals/ContentModal';
+import { getDisplayNameFromK8sResource } from '@odh-dashboard/dashboard-foundation-frontend/concepts/k8s/utils';
 import { RayJobKind } from '../../k8sTypes';
 
 type PauseRayJobModalProps = {

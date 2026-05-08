@@ -1,8 +1,13 @@
 import * as React from 'react';
-import useFetch, { NotReadyError } from '@odh-dashboard/internal/utilities/useFetch';
-import { k8sGetResource } from '@openshift/dynamic-plugin-sdk-utils';
-import { GatewayModel, HTTPRouteModel } from '@odh-dashboard/internal/api/models';
-import { useDashboardNamespace } from '@odh-dashboard/internal/redux/selectors/project';
+import useFetch, {
+  NotReadyError,
+} from '@odh-dashboard/dashboard-foundation-frontend/utilities/useFetch';
+import { k8sGetResource } from '@odh-dashboard/k8s-browser';
+import {
+  GatewayModel,
+  HTTPRouteModel,
+} from '@odh-dashboard/dashboard-foundation-frontend/api/models';
+import { useDashboardNamespace } from '@odh-dashboard/dashboard-foundation-frontend/redux/selectors/project';
 import { GatewayResource, HTTPRouteResource } from '../k8sTypes';
 
 const GATEWAY_NAME = 'data-science-gateway';

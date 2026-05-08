@@ -1,8 +1,14 @@
 import React from 'react';
 import { FormGroup, HelperText, HelperTextItem } from '@patternfly/react-core';
 import { z } from 'zod';
-import NumberInputWrapper from '@odh-dashboard/internal/components/NumberInputWrapper';
-import { normalizeBetween } from '@odh-dashboard/internal/utilities/utils';
+import NumberInputWrapper from '@odh-dashboard/dashboard-foundation-frontend/components/NumberInputWrapper';
+import { normalizeBetween } from '@odh-dashboard/dashboard-foundation-frontend/utilities/utils';
+import type {
+  NumReplicasFieldData,
+  NumReplicasFieldHook,
+} from '@odh-dashboard/model-serving-shared/types/form-data';
+
+export type { NumReplicasFieldData, NumReplicasFieldHook };
 
 // Schema
 const LOWER_LIMIT = 1;
@@ -10,18 +16,11 @@ const UPPER_LIMIT = 99;
 
 export const numReplicasFieldSchema = z.number().min(LOWER_LIMIT).max(UPPER_LIMIT);
 
-export type NumReplicasFieldData = z.infer<typeof numReplicasFieldSchema>;
-
 export const isValidNumReplicas = (value: unknown): value is NumReplicasFieldData => {
   return numReplicasFieldSchema.safeParse(value).success;
 };
 
 // Hook
-export type NumReplicasFieldHook = {
-  data: NumReplicasFieldData | undefined;
-  setReplicas: (replicas: number) => void;
-};
-
 export const useNumReplicasField = (existingData?: NumReplicasFieldData): NumReplicasFieldHook => {
   const [replicaData, setReplicaData] = React.useState<NumReplicasFieldData | undefined>(
     existingData || LOWER_LIMIT,

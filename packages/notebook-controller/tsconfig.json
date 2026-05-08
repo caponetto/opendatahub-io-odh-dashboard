@@ -1,0 +1,11 @@
+{
+  "extends": "@odh-dashboard/tsconfig",
+  "compilerOptions": {
+    "rootDir": "."
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx"
+  ],
+  "exclude": ["node_modules"]
+}

@@ -1,16 +1,16 @@
-import {
-  type WizardFormData,
-  ModelLocationType,
+import type {
+  WizardFormData,
   ModelLocationData,
   RuntimeArgsFieldData,
   EnvironmentVariablesFieldData,
   CreateConnectionFieldData,
   ModelAvailabilityFieldsData,
-  type InitialWizardFormData,
-} from '@odh-dashboard/model-serving/types/form-data';
-import type { DeploymentAssemblyFn } from '@odh-dashboard/model-serving/extension-points';
-import { HardwareProfileConfig } from '@odh-dashboard/internal/concepts/hardwareProfiles/useHardwareProfileConfig';
-import { applyHardwareProfileConfig } from '@odh-dashboard/internal/concepts/hardwareProfiles/utils';
+  InitialWizardFormData,
+} from '@odh-dashboard/model-serving-shared/types/form-data';
+import { ModelLocationType } from '@odh-dashboard/model-serving-shared/concepts/modelServing/modelLocationTypes';
+import type { DeploymentAssemblyFn } from '@odh-dashboard/model-serving-shared/extension-points';
+import { HardwareProfileConfig } from '@odh-dashboard/hardware-profiles-shared/concepts/hardwareProfiles/useHardwareProfileConfig';
+import { applyHardwareProfileConfig } from '@odh-dashboard/hardware-profiles-shared/concepts/hardwareProfiles/utils';
 import { applyReplicas, LLMD_INFERENCE_SERVICE_HARDWARE_PROFILE_PATHS } from './hardware';
 import { setUpTokenAuth } from './deployUtils';
 import {
@@ -22,7 +22,7 @@ import {
 } from './model';
 import { applyConfigBaseRef } from './server';
 import { applyModelAvailabilityData } from '../wizardFields/modelAvailability';
-import { LLMD_SERVING_ID } from '../../extensions/extensions';
+import { LLMD_SERVING_ID } from '../extensions/extensions';
 import {
   isLLMInferenceServiceConfig,
   LLMdDeployment,

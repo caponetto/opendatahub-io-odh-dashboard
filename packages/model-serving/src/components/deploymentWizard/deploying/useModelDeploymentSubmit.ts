@@ -1,14 +1,17 @@
 import React from 'react';
 // eslint-disable-next-line @odh-dashboard/no-restricted-imports
-import { getServingRuntimeFromTemplate } from '@odh-dashboard/internal/pages/modelServing/customServingRuntimes/utils';
+import {
+  Deployment,
+  DeploymentAssemblyResources,
+} from '@odh-dashboard/model-serving-shared/extension-points';
+import type { InitialWizardFormData } from '@odh-dashboard/model-serving-shared/types/form-data';
 import { useDeployMethod } from './useDeployMethod';
 import { useWizardFieldPreDeploy } from './useWizardFieldPreDeploy';
 import { useWizardFieldPostDeploy } from './useWizardFieldPostDeploy';
+import { getServingRuntimeFromTemplate } from '../../../pages/customServingRuntimes/utils';
 import { ModelDeploymentWizardValidation } from '../useDeploymentWizardValidation';
 import { useWizardFieldApply } from '../useWizardFieldApply';
 import { deployModel } from '../utils';
-import { Deployment, DeploymentAssemblyResources } from '../../../../extension-points';
-import { InitialWizardFormData } from '../types';
 import { WizardFormState } from '../useDeploymentWizardReducer';
 import { ModelDeploymentWizardViewMode } from '../ModelDeploymentWizard';
 

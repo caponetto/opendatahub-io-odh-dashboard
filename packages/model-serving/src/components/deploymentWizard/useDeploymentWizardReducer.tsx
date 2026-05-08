@@ -1,12 +1,12 @@
 import React from 'react';
 import { isEqual } from 'lodash-es';
-import type { ExternalDataMap } from './ExternalDataLoader';
 import type {
   InitialWizardFormData,
   WizardField,
   WizardFormData,
   WizardStateOverrides,
-} from './types';
+} from '@odh-dashboard/model-serving-shared/types/form-data';
+import type { ExternalDataMap } from './ExternalDataLoader';
 import { getFieldDependencies, useActiveFields } from './dynamicFormUtils';
 
 ///// Field type stuff

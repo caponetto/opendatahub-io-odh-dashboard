@@ -1,8 +1,10 @@
 import * as React from 'react';
 import { DashboardResource } from '@perses-dev/core';
-import { useAccessReview } from '@odh-dashboard/internal/api/useAccessReview';
-import { useUser } from '@odh-dashboard/internal/redux/selectors/user';
-import useFetch, { type FetchStateObject } from '@odh-dashboard/internal/utilities/useFetch';
+import { useAccessReview } from '@odh-dashboard/dashboard-foundation-frontend/api/useAccessReview';
+import { useUser } from '@odh-dashboard/dashboard-foundation-frontend/redux/selectors/user';
+import useFetch, {
+  type FetchStateObject,
+} from '@odh-dashboard/dashboard-foundation-frontend/utilities/useFetch';
 import {
   filterDashboards,
   filterDashboardsByThanosNonTenancyAccess,

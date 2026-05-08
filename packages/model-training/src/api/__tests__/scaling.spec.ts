@@ -1,9 +1,9 @@
-import { k8sPatchResource } from '@openshift/dynamic-plugin-sdk-utils';
-import { TrainJobModel } from '@odh-dashboard/internal/api/models/kubeflow';
+import { k8sPatchResource } from '@odh-dashboard/k8s-browser';
+import { TrainJobModel } from '@odh-dashboard/dashboard-foundation-frontend/api/models/kubeflow';
 import { updateTrainJobNumNodes } from '../scaling';
 import { mockTrainJobK8sResource } from '../../__mocks__/mockTrainJobK8sResource';
 
-jest.mock('@openshift/dynamic-plugin-sdk-utils');
+jest.mock('@odh-dashboard/k8s-browser');
 
 const mockK8sPatchResource = jest.mocked(k8sPatchResource);
 

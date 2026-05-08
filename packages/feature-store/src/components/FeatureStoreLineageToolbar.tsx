@@ -1,10 +1,10 @@
 import React, { useMemo, useCallback } from 'react';
 import { Toolbar, ToolbarContent, ToolbarItem, Switch } from '@patternfly/react-core';
-import FilterToolbar from '@odh-dashboard/internal/components/FilterToolbar';
+import FilterToolbar from '@odh-dashboard/dashboard-foundation-frontend/components/FilterToolbar';
 import {
   MultiSelection,
   type SelectionOptions,
-} from '@odh-dashboard/internal/components/MultiSelection';
+} from '@odh-dashboard/dashboard-foundation-frontend/components/MultiSelection';
 import {
   extractFilterOptionsFromLineage,
   extractFilterOptionsFromFeatureViewLineage,

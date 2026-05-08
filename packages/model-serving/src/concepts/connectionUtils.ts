@@ -7,18 +7,19 @@ import {
   deleteSecret,
   isGeneratedSecretName,
   getGeneratedSecretName,
-} from '@odh-dashboard/internal/api/index';
-import { SecretKind } from '@odh-dashboard/internal/k8sTypes';
-import { translateDisplayNameForK8s } from '@odh-dashboard/internal/concepts/k8s/utils';
+} from '@odh-dashboard/dashboard-foundation-frontend/api';
+import { SecretKind } from '@odh-dashboard/dashboard-foundation-frontend/k8sTypes';
+import { translateDisplayNameForK8s } from '@odh-dashboard/dashboard-foundation-frontend/concepts/k8s/utils';
 import {
   assembleConnectionSecret,
   getConnectionProtocolType,
-} from '@odh-dashboard/internal/concepts/connectionTypes/utils';
-import { K8sResourceCommon } from '@openshift/dynamic-plugin-sdk-utils';
-import { Connection } from '@odh-dashboard/internal/concepts/connectionTypes/types';
-import { K8sNameDescriptionType } from '@odh-dashboard/internal/concepts/k8s/K8sNameDescriptionField/types';
+} from '@odh-dashboard/connection-types-shared/concepts/connectionTypes/utils';
+import { K8sResourceCommon } from '@odh-dashboard/k8s-browser';
+import { Connection } from '@odh-dashboard/connection-types-shared/concepts/connectionTypes/types';
+import { K8sNameDescriptionType } from '@odh-dashboard/dashboard-foundation-frontend/concepts/k8s/K8sNameDescriptionField/types';
+import { ModelLocationData } from '@odh-dashboard/model-serving-shared/types/form-data';
+import { ModelLocationType } from '@odh-dashboard/model-serving-shared/concepts/modelServing/modelLocationTypes';
 import { CreateConnectionData } from '../components/deploymentWizard/fields/CreateConnectionInputFields';
-import { ModelLocationData, ModelLocationType } from '../components/deploymentWizard/types';
 
 export const handleConnectionCreation = async (
   createConnectionData: CreateConnectionData,

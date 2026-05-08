@@ -1,33 +1,32 @@
 /* eslint-disable camelcase */
-import { mockDashboardConfig } from '@odh-dashboard/internal/__mocks__/mockDashboardConfig';
-import { mockDataSciencePipelineApplicationK8sResource } from '@odh-dashboard/internal/__mocks__/mockDataSciencePipelinesApplicationK8sResource';
-import { mockDscStatus } from '@odh-dashboard/internal/__mocks__/mockDscStatus';
-import { mockImageStreamK8sResource } from '@odh-dashboard/internal/__mocks__/mockImageStreamK8sResource';
-import { mockK8sResourceList } from '@odh-dashboard/internal/__mocks__/mockK8sResourceList';
-import { mockNotebookK8sResource } from '@odh-dashboard/internal/__mocks__/mockNotebookK8sResource';
-import { mockPVCK8sResource } from '@odh-dashboard/internal/__mocks__/mockPVCK8sResource';
-import { mockPipelineKF } from '@odh-dashboard/internal/__mocks__/mockPipelineKF';
-import { buildMockPipelines } from '@odh-dashboard/internal/__mocks__/mockPipelinesProxy';
-import { mockPodK8sResource } from '@odh-dashboard/internal/__mocks__/mockPodK8sResource';
-import { mockServiceAccountK8sResource } from '@odh-dashboard/internal/__mocks__/mockServiceAccountK8sResource';
-import { mockProjectK8sResource } from '@odh-dashboard/internal/__mocks__/mockProjectK8sResource';
-import { mockRouteK8sResource } from '@odh-dashboard/internal/__mocks__/mockRouteK8sResource';
-import { mockSecretK8sResource } from '@odh-dashboard/internal/__mocks__/mockSecretK8sResource';
-import { mockServingRuntimeTemplateK8sResource } from '@odh-dashboard/internal/__mocks__/mockServingRuntimeTemplateK8sResource';
-import { ServingRuntimePlatform } from '@odh-dashboard/internal/types';
-import { mockServingRuntimeK8sResource } from '@odh-dashboard/internal/__mocks__/mockServingRuntimeK8sResource';
-import { mockInferenceServiceK8sResource } from '@odh-dashboard/internal/__mocks__/mockInferenceServiceK8sResource';
-import { mockNimServingRuntimeTemplate } from '@odh-dashboard/internal/__mocks__/mockNimResource';
-import { mockNimAccount } from '@odh-dashboard/internal/__mocks__/mockNimAccount';
-import { mockOdhApplication } from '@odh-dashboard/internal/__mocks__/mockOdhApplication';
-import { mockModelRegistryService } from '@odh-dashboard/internal/__mocks__/mockModelRegistryService';
-import {
-  mockConsoleLinks,
-  mockMLflowLink,
-} from '@odh-dashboard/internal/__mocks__/mockConsoleLinks';
-import type { InferenceServiceKind, ServingRuntimeKind } from '@odh-dashboard/internal/k8sTypes';
-import { DataScienceStackComponent } from '@odh-dashboard/internal/concepts/areas/types';
-import { deleteProjectModal, editProjectModal, projectDetails } from '../../../pages/projects';
+import { mockDashboardConfig } from '@odh-dashboard/test-mocks/mockDashboardConfig';
+import { mockDataSciencePipelineApplicationK8sResource } from '@odh-dashboard/test-mocks/mockDataSciencePipelinesApplicationK8sResource';
+import { mockDscStatus } from '@odh-dashboard/test-mocks/mockDscStatus';
+import { mockImageStreamK8sResource } from '@odh-dashboard/test-mocks/mockImageStreamK8sResource';
+import { mockK8sResourceList } from '@odh-dashboard/test-mocks/mockK8sResourceList';
+import { mockNotebookK8sResource } from '@odh-dashboard/test-mocks/mockNotebookK8sResource';
+import { mockPVCK8sResource } from '@odh-dashboard/test-mocks/mockPVCK8sResource';
+import { mockPipelineKF } from '@odh-dashboard/test-mocks/mockPipelineKF';
+import { buildMockPipelines } from '@odh-dashboard/test-mocks/mockPipelinesProxy';
+import { mockPodK8sResource } from '@odh-dashboard/test-mocks/mockPodK8sResource';
+import { mockServiceAccountK8sResource } from '@odh-dashboard/test-mocks/mockServiceAccountK8sResource';
+import { mockProjectK8sResource } from '@odh-dashboard/test-mocks/mockProjectK8sResource';
+import { mockRouteK8sResource } from '@odh-dashboard/test-mocks/mockRouteK8sResource';
+import { mockSecretK8sResource } from '@odh-dashboard/test-mocks/mockSecretK8sResource';
+import { mockServingRuntimeTemplateK8sResource } from '@odh-dashboard/test-mocks/mockServingRuntimeTemplateK8sResource';
+import { ServingRuntimePlatform } from '@odh-dashboard/dashboard-foundation-frontend/types';
+import { mockServingRuntimeK8sResource } from '@odh-dashboard/test-mocks/mockServingRuntimeK8sResource';
+import { mockInferenceServiceK8sResource } from '@odh-dashboard/test-mocks/mockInferenceServiceK8sResource';
+import { mockNimServingRuntimeTemplate } from '@odh-dashboard/test-mocks/mockNimResource';
+import { mockNimAccount } from '@odh-dashboard/test-mocks/mockNimAccount';
+import { mockOdhApplication } from '@odh-dashboard/test-mocks/mockOdhApplication';
+import { mockModelRegistryService } from '@odh-dashboard/test-mocks/mockModelRegistryService';
+import { mockConsoleLinks, mockMLflowLink } from '@odh-dashboard/test-mocks/mockConsoleLinks';
+import type {
+  InferenceServiceKind,
+  ServingRuntimeKind,
+} from '@odh-dashboard/dashboard-foundation-frontend/k8sTypes';
+import { DataScienceStackComponent } from '@odh-dashboard/dashboard-foundation-frontend/concepts/areas';
 import {
   DataSciencePipelineApplicationModel,
   ImageStreamModel,
@@ -43,7 +42,8 @@ import {
   ServiceModel,
   ServingRuntimeModel,
   TemplateModel,
-} from '../../../utils/models';
+} from '@odh-dashboard/dashboard-foundation-frontend/api/models';
+import { deleteProjectModal, editProjectModal, projectDetails } from '../../../pages/projects';
 import { asProjectAdminUser, asProjectEditUser } from '../../../utils/mockUsers';
 import { interceptMlflowStatus } from '../../../utils/mlflowUtils';
 

@@ -4,7 +4,7 @@ import type {
   PipelineRecurringRunKF,
   PipelineRunKF,
   PipelineVersionKF,
-} from '@odh-dashboard/internal/concepts/pipelines/kfTypes';
+} from '@odh-dashboard/pipelines/concepts/kfTypes';
 import { CreateRunPage } from './createRunPage';
 
 class DuplicateRunPage extends CreateRunPage {

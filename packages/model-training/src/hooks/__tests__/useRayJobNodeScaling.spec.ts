@@ -1,14 +1,14 @@
 import { renderHook, waitFor } from '@testing-library/react';
 import { act } from 'react';
-import { useAccessReview } from '@odh-dashboard/internal/api/useAccessReview';
+import { useAccessReview } from '@odh-dashboard/dashboard-foundation-frontend/api/useAccessReview';
 import { useRayJobNodeScaling } from '../useRayJobNodeScaling';
 import { updateRayJobNumNodes } from '../../api';
 import { mockRayJobK8sResource } from '../../__mocks__/mockRayJobK8sResource';
 import { RayJobDeploymentStatus, RayJobStatusValue, TrainingJobState } from '../../types';
 
 jest.mock('../../api');
-jest.mock('@odh-dashboard/internal/utilities/useNotification');
-jest.mock('@odh-dashboard/internal/api/useAccessReview');
+jest.mock('@odh-dashboard/dashboard-foundation-frontend/utilities/useNotification');
+jest.mock('@odh-dashboard/dashboard-foundation-frontend/api/useAccessReview');
 
 const mockUpdateRayJobNumNodes = jest.mocked(updateRayJobNumNodes);
 const mockUseAccessReview = jest.mocked(useAccessReview);
@@ -38,9 +38,9 @@ describe('useRayJobNodeScaling', () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
-    jest.requireMock('@odh-dashboard/internal/utilities/useNotification').default = jest.fn(
-      () => mockNotification,
-    );
+    jest.requireMock(
+      '@odh-dashboard/dashboard-foundation-frontend/utilities/useNotification',
+    ).default = jest.fn(() => mockNotification);
     mockUpdateRayJobNumNodes.mockResolvedValue(jobWithWorkerGroups);
     mockUseAccessReview.mockReturnValue([true, true]);
   });

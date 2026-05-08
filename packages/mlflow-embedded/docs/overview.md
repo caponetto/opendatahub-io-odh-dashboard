@@ -37,7 +37,7 @@ This package does not call the main dashboard’s `/api/k8s/` proxy for MLflow d
 | Main ODH Dashboard | Host application | Compiles this package; loads extensions via `@odh-dashboard/plugin-core` |
 | `packages/mlflow` | Sibling package | ODH-styled MLflow UX vs this package’s embedded native UI—different products |
 | External MLflow server | Module Federation remote | Must serve `mlflowEmbedded/MlflowExperimentWrapper` |
-| `@odh-dashboard/internal` | Shared library | Page chrome, project selector, routes, analytics |
+| `@odh-dashboard/dashboard-foundation-frontend`, `@odh-dashboard/pipelines`, `@odh-dashboard/workbenches`, `@odh-dashboard/dashboard-shell-frontend` | Packages | Page chrome, project selector, routes, analytics |
 
 ## Known Issues / Gotchas
 

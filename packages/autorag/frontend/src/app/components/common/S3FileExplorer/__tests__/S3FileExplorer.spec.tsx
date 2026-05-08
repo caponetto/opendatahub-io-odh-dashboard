@@ -19,7 +19,7 @@ jest.mock('~/app/api/s3', () => ({
   getFiles: jest.fn(),
 }));
 
-jest.mock('@odh-dashboard/internal/utilities/time', () => ({
+jest.mock('@odh-dashboard/dashboard-foundation-frontend/utilities/time', () => ({
   relativeTime: jest.fn(() => '2 days ago'),
 }));
 

@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { PodKind } from '@odh-dashboard/internal/k8sTypes';
-import { PodModel } from '@odh-dashboard/internal/api/models/k8s';
-import { groupVersionKind } from '@odh-dashboard/internal/api/k8sUtils';
-import useK8sWatchResourceList from '@odh-dashboard/internal/utilities/useK8sWatchResourceList';
+import { PodKind } from '@odh-dashboard/dashboard-foundation-frontend/k8sTypes';
+import { PodModel } from '@odh-dashboard/dashboard-foundation-frontend/api/models/k8s';
+import { groupVersionKind } from '@odh-dashboard/dashboard-foundation-frontend/api/k8sUtils';
+import useK8sWatchResourceList from '@odh-dashboard/dashboard-foundation-frontend/utilities/useK8sWatchResourceList';
 import { RayJobKind } from '../k8sTypes';
 
 type UseRayJobPodsResult = {
@@ -52,12 +52,14 @@ const useRayJobPods = (job: RayJobKind | undefined): UseRayJobPodsResult => {
       : null,
     PodModel,
   );
+  const safeSubmitterPodsList = React.useMemo(() => submitterPodsList ?? [], [submitterPodsList]);
+  const safeClusterPodsList = React.useMemo(() => clusterPodsList ?? [], [clusterPodsList]);
 
   const { headPods, workerPods } = React.useMemo(() => {
     const heads: PodKind[] = [];
     const workers: PodKind[] = [];
 
-    clusterPodsList.forEach((pod) => {
+    safeClusterPodsList.forEach((pod) => {
       const nodeType = pod.metadata.labels?.['ray.io/node-type'];
       if (nodeType === 'head') {
         heads.push(pod);
@@ -67,10 +69,10 @@ const useRayJobPods = (job: RayJobKind | undefined): UseRayJobPodsResult => {
     });
 
     return { headPods: heads, workerPods: workers };
-  }, [clusterPodsList]);
+  }, [safeClusterPodsList]);
 
   return {
-    submitterPods: submitterPodsList,
+    submitterPods: safeSubmitterPodsList,
     headPods,
     workerPods,
     loaded: submitterLoaded && clusterLoaded,

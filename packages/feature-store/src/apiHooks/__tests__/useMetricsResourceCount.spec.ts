@@ -174,9 +174,12 @@ describe('useMetricsResourceCount', () => {
     it('should recreate callback when project changes', () => {
       mockApi.getMetricsResourceCount.mockResolvedValue(mockProjectMetricsResponse);
 
-      const { rerender } = renderHook(({ project }) => useMetricsResourceCount({ project }), {
-        initialProps: { project: 'rbac' },
-      });
+      const { rerender } = renderHook(
+        ({ project }: { project: string }) => useMetricsResourceCount({ project }),
+        {
+          initialProps: { project: 'rbac' },
+        },
+      );
 
       rerender({ project: 'credit_scoring_local' });
 

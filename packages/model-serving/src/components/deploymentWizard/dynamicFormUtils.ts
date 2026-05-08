@@ -1,11 +1,15 @@
 import React from 'react';
 import { useResolvedExtensions } from '@odh-dashboard/plugin-core';
-import type { RecursivePartial } from '@odh-dashboard/internal/typeHelpers';
-import type { DeploymentWizardField, WizardField, WizardFormData } from './types';
+import type { RecursivePartial } from '@odh-dashboard/dashboard-foundation-frontend/typeHelpers';
+import type {
+  DeploymentWizardField,
+  WizardField,
+  WizardFormData,
+} from '@odh-dashboard/model-serving-shared/types/form-data';
 import {
   isDeploymentWizardFieldExtension,
   isWizardField2Extension,
-} from '../../../extension-points';
+} from '@odh-dashboard/model-serving-shared/extension-points';
 
 export const useWizardFieldFromExtension = <T extends DeploymentWizardField>(
   predicate: (field: DeploymentWizardField) => field is T,

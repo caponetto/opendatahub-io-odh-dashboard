@@ -1,0 +1,35 @@
+import { Label, LabelGroup } from '@patternfly/react-core';
+import * as React from 'react';
+import { TemplateKind } from '@odh-dashboard/dashboard-foundation-frontend/k8sTypes';
+import { ServingRuntimePlatform } from '@odh-dashboard/dashboard-foundation-frontend/types';
+import { getEnabledPlatformsFromTemplate } from './utils';
+
+type CustomServingRuntimePlatformsLabelGroupProps = {
+  template: TemplateKind;
+};
+
+const ServingRuntimePlatformLabels = {
+  [ServingRuntimePlatform.SINGLE]: 'Single-model',
+};
+
+const CustomServingRuntimePlatformsLabelGroup: React.FC<
+  CustomServingRuntimePlatformsLabelGroupProps
+> = ({ template }) => {
+  const platforms = getEnabledPlatformsFromTemplate(template);
+
+  if (platforms.length === 0) {
+    return null;
+  }
+
+  return (
+    <LabelGroup data-testid="serving-runtime-platform-label">
+      {platforms.map((platform, i) => (
+        <Label color="purple" data-testid={`${platform}-model`} key={i}>
+          {ServingRuntimePlatformLabels[platform]}
+        </Label>
+      ))}
+    </LabelGroup>
+  );
+};
+
+export default CustomServingRuntimePlatformsLabelGroup;

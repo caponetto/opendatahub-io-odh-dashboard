@@ -1,4 +1,4 @@
-import type { GrpcResponse } from '@odh-dashboard/internal/__mocks__/mlmd/utils';
+import type { GrpcResponse } from '@odh-dashboard/test-mocks/mlmd/utils';
 import { Contextual } from '../components/Contextual';
 
 class ArtifactsGlobal {

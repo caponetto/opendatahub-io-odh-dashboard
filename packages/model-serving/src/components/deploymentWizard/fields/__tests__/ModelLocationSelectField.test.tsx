@@ -3,13 +3,17 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import { z } from 'zod';
 import { useWizardContext, useWizardFooter } from '@patternfly/react-core';
 import { renderHook } from '@odh-dashboard/jest-config/hooks';
-import { KnownLabels, PersistentVolumeClaimKind } from '@odh-dashboard/internal/k8sTypes';
+import {
+  KnownLabels,
+  PersistentVolumeClaimKind,
+} from '@odh-dashboard/dashboard-foundation-frontend/k8sTypes';
 import {
   ConnectionTypeConfigMapObj,
   Connection,
-} from '@odh-dashboard/internal/concepts/connectionTypes/types';
-import { mockPVCK8sResource } from '@odh-dashboard/internal/__mocks__/mockPVCK8sResource';
-import { ModelLocationData, ModelLocationType } from '../../types';
+} from '@odh-dashboard/connection-types-shared/concepts/connectionTypes/types';
+import { mockPVCK8sResource } from '@odh-dashboard/test-mocks/mockPVCK8sResource';
+import type { ModelLocationData } from '@odh-dashboard/model-serving-shared/types/form-data';
+import { ModelLocationType } from '@odh-dashboard/model-serving-shared/concepts/modelServing/modelLocationTypes';
 import { isValidModelLocationData, useModelLocationData } from '../ModelLocationInputFields';
 import { ModelLocationSelectField } from '../ModelLocationSelectField';
 
@@ -207,20 +211,23 @@ const mockConnectionTypes: ConnectionTypeConfigMapObj[] = [
     },
   },
 ];
-jest.mock('@odh-dashboard/internal/utilities/useWatchConnectionTypes', () => ({
-  useWatchConnectionTypes: () => [mockConnectionTypes, true],
-}));
+jest.mock(
+  '@odh-dashboard/connection-types-shared/concepts/connectionTypes/useWatchConnectionTypes',
+  () => ({
+    useWatchConnectionTypes: () => [mockConnectionTypes, true],
+  }),
+);
 
 const mockConnections: Connection[] = [];
 const mockPvcs: PersistentVolumeClaimKind[] = [];
 
-jest.mock('@odh-dashboard/internal/pages/modelServing/usePvcs', () => ({
+jest.mock('@odh-dashboard/model-serving/pages/usePvcs', () => ({
   __esModule: true,
   default: jest.fn(() => ({ data: mockPvcs, loaded: true, error: undefined })),
 }));
 
 jest.mock(
-  '@odh-dashboard/internal/pages/projects/screens/detail/connections/useServingConnections',
+  '@odh-dashboard/connection-types-shared/concepts/connectionTypes/useServingConnections',
   () => ({
     __esModule: true,
     default: jest.fn(() => [mockConnections, true]),

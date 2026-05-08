@@ -1,5 +1,5 @@
 // eslint-disable-next-line no-restricted-syntax
-import { DataScienceStackComponentMap } from '@odh-dashboard/internal/concepts/areas/const';
+import { DataScienceStackComponentMap } from '@odh-dashboard/dashboard-foundation-frontend/concepts/areas';
 import { aboutDialog } from '../../../pages/aboutDialog';
 import {
   getCsvByDisplayName,

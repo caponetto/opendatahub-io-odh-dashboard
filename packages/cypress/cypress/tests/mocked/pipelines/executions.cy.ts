@@ -7,17 +7,17 @@ import {
   mockK8sResourceList,
   mockProjectK8sResource,
   mockRouteK8sResource,
-} from '@odh-dashboard/internal/__mocks__';
+} from '@odh-dashboard/test-mocks';
 import {
   mockGetExecutions,
   mockGetNextPageExecutions,
-} from '@odh-dashboard/internal/__mocks__/mlmd/mockGetExecutions';
-import { decodeGetExecutionsRequest, initMlmdIntercepts } from './mlmdUtils';
+} from '@odh-dashboard/test-mocks/mlmd/mockGetExecutions';
 import {
   DataSciencePipelineApplicationModel,
   RouteModel,
   ProjectModel,
-} from '../../../utils/models';
+} from '@odh-dashboard/dashboard-foundation-frontend/api/models';
+import { decodeGetExecutionsRequest, initMlmdIntercepts } from './mlmdUtils';
 import { executionPage, executionFilter } from '../../../pages/pipelines/executions';
 import { tablePagination } from '../../../pages/components/Pagination';
 import { verifyRelativeURL } from '../../../utils/url';

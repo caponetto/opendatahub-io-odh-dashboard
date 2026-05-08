@@ -1,0 +1,8 @@
+{
+  "extends": "@odh-dashboard/tsconfig/tsconfig.json",
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true
+  },
+  "include": []
+}

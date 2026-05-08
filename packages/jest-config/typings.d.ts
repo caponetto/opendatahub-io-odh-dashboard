@@ -1,3 +1,10 @@
+interface ImportMeta {
+  /** Absolute path of the directory containing the current module (Node.js >= 21.2). */
+  dirname: string;
+  /** Absolute path of the current module file (Node.js >= 21.2). */
+  filename: string;
+}
+
 declare namespace jest {
   interface Expect {
     isIdentityEqual: <T>(expected: T) => T;

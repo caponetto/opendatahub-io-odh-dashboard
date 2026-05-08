@@ -1,5 +1,5 @@
-import { proxyGET } from '@odh-dashboard/internal/api/proxyUtils';
-import { K8sAPIOptions } from '@odh-dashboard/internal/k8sTypes';
+import { proxyGET } from '@odh-dashboard/dashboard-foundation-frontend/api/proxyUtils';
+import { K8sAPIOptions } from '@odh-dashboard/dashboard-foundation-frontend/k8sTypes';
 import { handleFeatureStoreFailures } from './errorUtils';
 import { FeatureStoreLineage, FeatureViewLineage } from '../types/lineage';
 import { FEATURE_STORE_API_VERSION } from '../const';

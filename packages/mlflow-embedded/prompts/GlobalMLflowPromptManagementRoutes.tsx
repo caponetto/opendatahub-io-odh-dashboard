@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { Route } from 'react-router-dom';
-import ProjectsRoutes from '@odh-dashboard/internal/concepts/projects/ProjectsRoutes';
-import TitleWithIcon from '@odh-dashboard/internal/concepts/design/TitleWithIcon';
-import { ProjectObjectType } from '@odh-dashboard/internal/concepts/design/utils';
-import { mlflowPromptManagementBaseRoute } from '@odh-dashboard/internal/routes/pipelines/mlflow';
+import ProjectsRoutes from '@odh-dashboard/dashboard-foundation-frontend/concepts/projects/ProjectsRoutes';
+import TitleWithIcon from '@odh-dashboard/dashboard-foundation-frontend/concepts/design/TitleWithIcon';
+import { ProjectObjectType } from '@odh-dashboard/dashboard-foundation-frontend/concepts/design/utils';
+import { mlflowPromptManagementBaseRoute } from '#~/routes';
 import MlflowPromptManagementPage from './MlflowPromptManagementPage';
 import {
   PROMPT_MANAGEMENT_PAGE_TITLE,

@@ -1,4 +1,4 @@
-import { SupportedArea } from '@odh-dashboard/internal/concepts/areas/types';
+import { SupportedArea } from '@odh-dashboard/dashboard-foundation-frontend/concepts/areas';
 import type {
   NavExtension,
   RouteExtension,

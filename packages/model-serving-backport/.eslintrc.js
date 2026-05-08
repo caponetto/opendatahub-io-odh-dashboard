@@ -1,1 +1,5 @@
-module.exports = require('@odh-dashboard/eslint-config').recommendedReactTypescript(__dirname);
+const { merge } = require('@odh-dashboard/eslint-config/utils');
+const { tierRestrictions } = require('@odh-dashboard/eslint-config/tier-restrictions');
+const config = require('@odh-dashboard/eslint-config').recommendedReactTypescript(__dirname);
+
+module.exports = merge(config, tierRestrictions('model-serving-backport'));

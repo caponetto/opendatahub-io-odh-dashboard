@@ -1,5 +1,5 @@
 import * as React from 'react';
-import ApplicationsPage from '@odh-dashboard/internal/pages/ApplicationsPage';
+import ApplicationsPage from '@odh-dashboard/dashboard-foundation-frontend/components/ApplicationsPage';
 import DashboardContent from './DashboardContent';
 import { DASHBOARD_PAGE_TITLE, DASHBOARD_PAGE_DESCRIPTION } from './const';
 import { usePersesDashboards } from '../api/usePersesDashboards';

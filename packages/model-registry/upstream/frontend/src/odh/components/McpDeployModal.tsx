@@ -15,11 +15,11 @@ import {
 import { CodeEditor, Language } from '@patternfly/react-code-editor';
 import { APIOptions, useQueryParamNamespaces } from 'mod-arch-core';
 import { DashboardModalFooter, FieldGroupHelpLabelIcon } from 'mod-arch-shared';
-import { useThemeContext } from '@odh-dashboard/internal/app/ThemeContext';
+import { useThemeContext } from '@odh-dashboard/dashboard-foundation-frontend/app/ThemeContext';
 import {
   translateDisplayNameForK8s,
   isValidK8sName,
-} from '@odh-dashboard/internal/concepts/k8s/utils';
+} from '@odh-dashboard/dashboard-foundation-frontend/concepts/k8s/utils';
 import NamespaceSelectorFieldWrapper from '~/odh/components/NamespaceSelectorFieldWrapper';
 import useMcpServerConverter from '~/app/hooks/mcpCatalogDeployment/useMcpServerConverter';
 import K8sNameDescriptionField from '~/concepts/k8s/K8sNameDescriptionField/K8sNameDescriptionField';

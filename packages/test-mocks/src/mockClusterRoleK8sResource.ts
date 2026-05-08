@@ -1,0 +1,32 @@
+import {
+  KnownLabels,
+  ResourceRule,
+  ClusterRoleKind,
+} from '@odh-dashboard/dashboard-foundation-frontend/k8sTypes';
+import { genUID } from '@odh-dashboard/test-mocks/mockUtils';
+
+type MockResourceConfigType = {
+  name?: string;
+  rules?: ResourceRule[];
+  labels?: Record<string, string>;
+  uid?: string;
+};
+
+export const mockClusterRoleK8sResource = ({
+  name = 'test-name-view',
+  rules = [],
+  labels,
+  uid = genUID('clusterrole'),
+}: MockResourceConfigType): ClusterRoleKind => ({
+  kind: 'ClusterRole',
+  apiVersion: 'rbac.authorization.k8s.io/v1',
+  metadata: {
+    name,
+    uid,
+    creationTimestamp: '2023-02-14T21:43:59Z',
+    labels: labels ?? {
+      [KnownLabels.DASHBOARD_RESOURCE]: 'true',
+    },
+  },
+  rules,
+});

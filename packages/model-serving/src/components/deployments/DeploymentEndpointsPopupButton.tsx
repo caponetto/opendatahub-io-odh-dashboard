@@ -16,7 +16,7 @@ import {
   Flex,
   FlexItem,
 } from '@patternfly/react-core';
-import { DeploymentEndpoint } from '../../../extension-points';
+import { DeploymentEndpoint } from '@odh-dashboard/model-serving-shared/extension-points';
 
 const EndpointListItem: React.FC<{ endpoint: DeploymentEndpoint }> = ({ endpoint }) => (
   <DescriptionListGroup key={endpoint.name}>

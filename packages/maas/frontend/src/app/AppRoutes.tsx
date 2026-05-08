@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
-import NotFound from '@odh-dashboard/internal/pages/NotFound';
+import NotFound from '@odh-dashboard/dashboard-foundation-frontend/pages/NotFound';
 import AllSubscriptionsPage from '~/app/pages/subscriptions/AllSubscriptionsPage';
 import ViewSubscriptionPage from '~/app/pages/subscriptions/ViewSubscriptionPage';
 import EditSubscriptionPage from '~/app/pages/subscriptions/EditSubscriptionPage';

@@ -1,4 +1,4 @@
-import { SupportedArea } from '@odh-dashboard/internal/concepts/areas/types';
+import { SupportedArea } from '@odh-dashboard/dashboard-foundation-frontend/concepts/areas';
 import type {
   NavExtension,
   RouteExtension,
@@ -17,7 +17,7 @@ const PLUGIN_MODEL_REGISTRY = 'model-registry-plugin';
 const ADMIN_USER = 'ADMIN_USER';
 
 const createRedirectComponent = (args: { from: string; to: string }) => () =>
-  import('@odh-dashboard/internal/utilities/v2Redirect').then((module) => ({
+  import('@odh-dashboard/dashboard-foundation-frontend/utilities/v2Redirect').then((module) => ({
     default: () => module.buildV2RedirectElement(args),
   }));
 

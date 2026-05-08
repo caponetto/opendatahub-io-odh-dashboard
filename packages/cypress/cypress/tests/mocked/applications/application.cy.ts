@@ -2,14 +2,14 @@ import {
   mockDashboardConfig,
   mockDscStatus,
   dataScienceStackComponentMap,
-} from '@odh-dashboard/internal/__mocks__';
+} from '@odh-dashboard/test-mocks';
 import {
   mockConsoleLinks,
   mockMLflowLink,
   mockOpenDataHubConsoleLink,
-} from '@odh-dashboard/internal/__mocks__/mockConsoleLinks';
-import { DataScienceStackComponent } from '@odh-dashboard/internal/concepts/areas/types';
-import { OdhPlatformType } from '@odh-dashboard/internal/types';
+} from '@odh-dashboard/test-mocks/mockConsoleLinks';
+import { DataScienceStackComponent } from '@odh-dashboard/dashboard-foundation-frontend/concepts/areas';
+import { OdhPlatformType } from '@odh-dashboard/dashboard-foundation-frontend/types';
 import { appChrome } from '../../../pages/appChrome';
 import { asDisallowedUser, asProductAdminUser } from '../../../utils/mockUsers';
 import { aboutDialog } from '../../../pages/aboutDialog';

@@ -1,0 +1,55 @@
+{
+  "private": true,
+  "name": "@odh-dashboard/connection-types-shared",
+  "description": "Shared connection type definitions, form fields, and utilities consumed by multiple extensions",
+  "version": "0.0.0",
+  "sideEffects": false,
+  "topology": {
+    "tier": "shared"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "type-check": "tsc --noEmit",
+    "test-unit": "jest --silent --passWithNoTests"
+  },
+  "imports": {
+    "#~/*": [
+      "./src/*",
+      "./src/*.ts",
+      "./src/*.d.ts",
+      "./src/*.tsx",
+      "./src/*/index.ts",
+      "./src/*/index.tsx"
+    ]
+  },
+  "exports": {
+    "./*": [
+      "./src/*",
+      "./src/*.ts",
+      "./src/*.d.ts",
+      "./src/*.tsx",
+      "./src/*/index.ts",
+      "./src/*/index.tsx"
+    ]
+  },
+  "dependencies": {
+    "@odh-dashboard/dashboard-foundation-frontend": "*",
+    "@odh-dashboard/k8s-browser": "*",
+    "@odh-dashboard/plugin-core": "*",
+    "@patternfly/react-core": "*",
+    "@patternfly/react-icons": "*",
+    "lodash-es": "*",
+    "react": "^18.2.0",
+    "react-dropzone": "^14.2.3",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@odh-dashboard/eslint-config": "*",
+    "@odh-dashboard/jest-config": "*",
+    "@odh-dashboard/test-mocks": "*",
+    "@odh-dashboard/tsconfig": "*",
+    "@types/lodash-es": "^4.17.8",
+    "@types/react": "*"
+  }
+}

@@ -1,5 +1,6 @@
 import type { DashboardResource } from '@perses-dev/core';
-import { mockDashboardConfig, mockStatus } from '@odh-dashboard/internal/__mocks__';
+import { mockDashboardConfig } from '@odh-dashboard/test-mocks/mockDashboardConfig';
+import { mockStatus } from '@odh-dashboard/test-mocks/mockStatus';
 import { observabilityDashboardPage } from '../../pages/observabilityDashboard';
 
 // Minimal test fixtures following the naming pattern from packages/observability/setup

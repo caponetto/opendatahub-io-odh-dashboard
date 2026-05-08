@@ -1,28 +1,28 @@
 /* eslint-disable camelcase */
-import { mockDataSciencePipelineApplicationK8sResource } from '@odh-dashboard/internal/__mocks__/mockDataSciencePipelinesApplicationK8sResource';
-import { mockDscStatus } from '@odh-dashboard/internal/__mocks__/mockDscStatus';
-import { mockK8sResourceList } from '@odh-dashboard/internal/__mocks__/mockK8sResourceList';
-import { mockNotebookK8sResource } from '@odh-dashboard/internal/__mocks__/mockNotebookK8sResource';
-import { mockProjectK8sResource } from '@odh-dashboard/internal/__mocks__/mockProjectK8sResource';
-import { mockRouteK8sResource } from '@odh-dashboard/internal/__mocks__/mockRouteK8sResource';
-import { mockSecretK8sResource } from '@odh-dashboard/internal/__mocks__/mockSecretK8sResource';
-import { buildMockRunKF } from '@odh-dashboard/internal/__mocks__/mockRunKF';
-import { mockSuccessGoogleRpcStatus } from '@odh-dashboard/internal/__mocks__/mockGoogleRpcStatusKF';
+import { mockDataSciencePipelineApplicationK8sResource } from '@odh-dashboard/test-mocks/mockDataSciencePipelinesApplicationK8sResource';
+import { mockDscStatus } from '@odh-dashboard/test-mocks/mockDscStatus';
+import { mockK8sResourceList } from '@odh-dashboard/test-mocks/mockK8sResourceList';
+import { mockNotebookK8sResource } from '@odh-dashboard/test-mocks/mockNotebookK8sResource';
+import { mockProjectK8sResource } from '@odh-dashboard/test-mocks/mockProjectK8sResource';
+import { mockRouteK8sResource } from '@odh-dashboard/test-mocks/mockRouteK8sResource';
+import { mockSecretK8sResource } from '@odh-dashboard/test-mocks/mockSecretK8sResource';
+import { buildMockRunKF } from '@odh-dashboard/test-mocks/mockRunKF';
+import { mockSuccessGoogleRpcStatus } from '@odh-dashboard/test-mocks/mockGoogleRpcStatusKF';
 import {
   buildMockPipeline,
   buildMockPipelines,
   buildMockPipelineVersion,
   buildMockPipelineVersions,
   buildMockRecurringRunKF,
-} from '@odh-dashboard/internal/__mocks__';
-import { DataScienceStackComponent } from '@odh-dashboard/internal/concepts/areas/types';
+} from '@odh-dashboard/test-mocks';
+import { DataScienceStackComponent } from '@odh-dashboard/dashboard-foundation-frontend/concepts/areas';
 import {
   DataSciencePipelineApplicationModel,
   NotebookModel,
   ProjectModel,
   RouteModel,
   SecretModel,
-} from '../../../../utils/models';
+} from '@odh-dashboard/dashboard-foundation-frontend/api/models';
 import {
   pipelineRecurringRunTable,
   pipelineRunsGlobal,

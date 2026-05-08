@@ -4,46 +4,38 @@ import {
   Connection,
   ConnectionTypeConfigMapObj,
   ConnectionTypeDataField,
-} from '@odh-dashboard/internal/concepts/connectionTypes/types';
+} from '@odh-dashboard/connection-types-shared/concepts/connectionTypes/types';
 import {
   isModelServingCompatible,
   ModelServingCompatibleTypes,
   parseConnectionSecretValues,
-} from '@odh-dashboard/internal/concepts/connectionTypes/utils';
+} from '@odh-dashboard/connection-types-shared/concepts/connectionTypes/utils';
 import { z } from 'zod';
-import { ConnectionOciAlert } from '@odh-dashboard/internal/pages/modelServing/screens/projects/InferenceServiceModal/ConnectionOciAlert';
-import { PersistentVolumeClaimKind } from '@odh-dashboard/internal/k8sTypes';
+import { PersistentVolumeClaimKind } from '@odh-dashboard/dashboard-foundation-frontend/k8sTypes';
+import { useWatchConnectionTypes } from '@odh-dashboard/connection-types-shared/concepts/connectionTypes/useWatchConnectionTypes';
+import useServingConnections from '@odh-dashboard/connection-types-shared/concepts/connectionTypes/useServingConnections';
+import { getResourceNameFromK8sResource } from '@odh-dashboard/dashboard-foundation-frontend/concepts/k8s/utils';
+import { isGeneratedSecretName } from '@odh-dashboard/dashboard-foundation-frontend/api/k8s/secrets';
 import {
-  getPVCNameFromURI,
-  isPVCUri,
-} from '@odh-dashboard/internal/pages/modelServing/screens/projects/utils';
-import { useWatchConnectionTypes } from '@odh-dashboard/internal/utilities/useWatchConnectionTypes';
-import useServingConnections from '@odh-dashboard/internal/pages/projects/screens/detail/connections/useServingConnections';
-import { getResourceNameFromK8sResource } from '@odh-dashboard/internal/concepts/k8s/utils';
-import { isGeneratedSecretName } from '@odh-dashboard/internal/api/k8s/secrets';
-import { containsOnlySlashes, isS3PathValid } from '@odh-dashboard/internal/utilities/string';
+  containsOnlySlashes,
+  isS3PathValid,
+} from '@odh-dashboard/dashboard-foundation-frontend/utilities/string';
+import type {
+  ModelLocationDataField,
+  ModelLocationData,
+} from '@odh-dashboard/model-serving-shared/types/form-data';
+import { ModelLocationType } from '@odh-dashboard/model-serving-shared/concepts/modelServing/modelLocationTypes';
 import { ExistingConnectionField } from './modelLocationFields/ExistingConnectionField';
 import NewConnectionField from './modelLocationFields/NewConnectionField';
 import { PvcSelectField } from './modelLocationFields/PVCSelectField';
 import { CustomTypeSelectField } from './modelLocationFields/CustomTypeSelectField';
+import { getPVCNameFromURI, isPVCUri } from '../../../pages/screens/projects/utils';
+import { ConnectionOciAlert } from '../../../pages/screens/projects/InferenceServiceModal/ConnectionOciAlert';
 import usePvcs from '../../../concepts/usePvcs';
-import { ModelLocationData, ModelLocationType } from '../types';
 import { resolveConnectionType } from '../utils';
 
-export type ModelLocationDataField = {
-  data: ModelLocationData | undefined;
-  setData: (data: ModelLocationData | undefined) => void;
-  projectName?: string;
-  connections: Connection[];
-  connectionsLoaded: boolean;
-  connectionTypes: ConnectionTypeConfigMapObj[];
-  connectionTypesLoaded: boolean;
-  selectedConnection: Connection | undefined;
-  setSelectedConnection: (connection: Connection | undefined) => void;
-  isLoadingSecretData: boolean;
-  disableInputFields: boolean;
-  pvcs: PersistentVolumeClaimKind[];
-};
+export type { ModelLocationDataField };
+
 export const useModelLocationData = (
   projectName?: string,
   existingData?: ModelLocationData,

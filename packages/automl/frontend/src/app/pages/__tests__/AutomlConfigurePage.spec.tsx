@@ -132,9 +132,12 @@ jest.mock('~/app/components/common/S3FileExplorer/S3FileExplorer.tsx', () => ({
 }));
 
 // Mock useWatchConnectionTypes used by AutomlConfigure
-jest.mock('@odh-dashboard/internal/utilities/useWatchConnectionTypes', () => ({
-  useWatchConnectionTypes: jest.fn(() => [[]]),
-}));
+jest.mock(
+  '@odh-dashboard/connection-types-shared/concepts/connectionTypes/useWatchConnectionTypes',
+  () => ({
+    useWatchConnectionTypes: jest.fn(() => [[]]),
+  }),
+);
 
 jest.mock('~/app/components/empty-states/InvalidProject', () => ({
   __esModule: true,

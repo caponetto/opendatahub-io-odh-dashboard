@@ -9,8 +9,8 @@ import {
   Stack,
   StackItem,
 } from '@patternfly/react-core';
-import { getDisplayNameFromK8sResource } from '@odh-dashboard/internal/concepts/k8s/utils';
-import DashboardModalFooter from '@odh-dashboard/internal/concepts/dashboard/DashboardModalFooter';
+import { getDisplayNameFromK8sResource } from '@odh-dashboard/dashboard-foundation-frontend/concepts/k8s/utils';
+import DashboardModalFooter from '@odh-dashboard/dashboard-foundation-frontend/concepts/dashboard/DashboardModalFooter';
 import { TrainJobKind } from '../../k8sTypes';
 
 type PauseTrainingJobModalProps = {

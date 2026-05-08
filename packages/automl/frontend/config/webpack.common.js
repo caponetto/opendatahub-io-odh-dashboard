@@ -69,7 +69,7 @@ module.exports = (env) => ({
           ),
           path.resolve(RELATIVE_DIRNAME, 'node_modules/@patternfly/patternfly/assets/fonts'),
           path.resolve(RELATIVE_DIRNAME, 'node_modules/@patternfly/patternfly/assets/pficon'),
-          // Root node_modules for @odh-dashboard/internal imports
+          // Root node_modules for @odh-dashboard/* workspace packages
           path.resolve(ROOT_NODE_MODULES, 'patternfly/dist/fonts'),
           path.resolve(ROOT_NODE_MODULES, '@patternfly/react-core/dist/styles/assets/fonts'),
           path.resolve(ROOT_NODE_MODULES, '@patternfly/react-core/dist/styles/assets/pficon'),
@@ -150,7 +150,7 @@ module.exports = (env) => ({
             RELATIVE_DIRNAME,
             'node_modules/@patternfly/react-inline-edit-extension/node_modules/@patternfly/react-styles/css/assets/images',
           ),
-          // Root node_modules for @odh-dashboard/internal imports
+          // Root node_modules for @odh-dashboard/* workspace packages
           path.resolve(ROOT_NODE_MODULES, 'patternfly'),
           path.resolve(ROOT_NODE_MODULES, '@patternfly/patternfly/assets/images'),
           path.resolve(ROOT_NODE_MODULES, '@patternfly/react-styles/css/assets/images'),

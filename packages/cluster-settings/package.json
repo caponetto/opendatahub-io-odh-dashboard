@@ -1,0 +1,42 @@
+{
+  "private": true,
+  "name": "@odh-dashboard/cluster-settings",
+  "description": "Cluster Settings admin page (general settings, PVC, culler, telemetry, model serving platforms)",
+  "version": "0.0.0",
+  "topology": {
+    "tier": "extension"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "type-check": "tsc --noEmit"
+  },
+  "exports": {
+    "./extensions": "./src/extensions.ts",
+    "./*": [
+      "./src/*",
+      "./src/*.ts",
+      "./src/*.d.ts",
+      "./src/*.tsx",
+      "./src/*/index.ts",
+      "./src/*/index.tsx"
+    ]
+  },
+  "dependencies": {
+    "@odh-dashboard/dashboard-foundation-frontend": "*",
+    "@odh-dashboard/k8s-browser": "*",
+    "@odh-dashboard/model-serving-shared": "*",
+    "@odh-dashboard/pipelines-shared": "*",
+    "@odh-dashboard/plugin-core": "*",
+    "@patternfly/react-core": "*",
+    "@patternfly/react-icons": "*",
+    "lodash-es": "*",
+    "react": "^18.2.0"
+  },
+  "devDependencies": {
+    "@odh-dashboard/eslint-config": "*",
+    "@odh-dashboard/tsconfig": "*",
+    "@types/lodash-es": "^4.17.8",
+    "@types/react": "*"
+  }
+}

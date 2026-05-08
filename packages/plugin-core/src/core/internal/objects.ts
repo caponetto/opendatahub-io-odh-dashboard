@@ -1,5 +1,5 @@
-import type { AnyObject } from '@openshift/dynamic-plugin-sdk';
 import { forOwn, isPlainObject } from 'lodash-es';
+import type { AnyObject } from '../types';
 
 /**
  * Recursive equivalent of Lodash `forOwn` function that traverses objects and arrays.

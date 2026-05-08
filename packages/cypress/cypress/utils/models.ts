@@ -1,10 +1,4 @@
-/* eslint-disable no-barrel-files/no-barrel-files */
-
 import { modelServingSection } from '../pages/modelServing';
-// Re-exports all api/models to allow tests to reference models.
-
-// eslint-disable-next-line no-restricted-imports
-export * from '@odh-dashboard/internal/api/models/index';
 
 const maxAttempts = 5;
 let attempts = 0;

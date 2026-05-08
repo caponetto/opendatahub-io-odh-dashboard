@@ -1,4 +1,4 @@
-import * as secretsApi from '@odh-dashboard/internal/api/k8s/secrets';
+import * as secretsApi from '@odh-dashboard/dashboard-foundation-frontend/api/k8s/secrets';
 import '@testing-library/jest-dom';
 import { fireEvent, render, screen } from '@testing-library/react';
 import React, { act } from 'react';
@@ -6,7 +6,7 @@ import LlamaStackConnectionModal from '~/app/components/common/LlamaStackConnect
 
 const TEST_NAMESPACE = 'my-namespace';
 
-jest.mock('@odh-dashboard/internal/api/k8s/secrets', () => ({
+jest.mock('@odh-dashboard/dashboard-foundation-frontend/api/k8s/secrets', () => ({
   createSecret: jest.fn(),
 }));
 

@@ -17,9 +17,9 @@ import {
 } from '@patternfly/react-core';
 import { CubesIcon, DownloadIcon, ExclamationCircleIcon } from '@patternfly/react-icons';
 import { LogViewer } from '@patternfly/react-log-viewer';
-import { PodKind } from '@odh-dashboard/internal/k8sTypes';
-import { getPodContainerLogText } from '@odh-dashboard/internal/api/k8s/pods';
-import { downloadString } from '@odh-dashboard/internal/utilities/string';
+import { PodKind } from '@odh-dashboard/dashboard-foundation-frontend/k8sTypes';
+import { getPodContainerLogText } from '@odh-dashboard/dashboard-foundation-frontend/api/k8s/pods';
+import { downloadString } from '@odh-dashboard/dashboard-foundation-frontend/utilities/string';
 import { getDefaultPodContainerName } from './utils';
 import { TrainJobKind } from '../../k8sTypes';
 import useTrainJobPods from '../../hooks/useTrainJobPods';

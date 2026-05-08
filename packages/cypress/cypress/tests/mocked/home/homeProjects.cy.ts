@@ -1,7 +1,10 @@
-import { mockSelfSubjectAccessReview } from '@odh-dashboard/internal/__mocks__/mockSelfSubjectAccessReview';
-import { mockProjectsK8sList } from '@odh-dashboard/internal/__mocks__';
+import { mockSelfSubjectAccessReview } from '@odh-dashboard/test-mocks/mockSelfSubjectAccessReview';
+import { mockProjectsK8sList } from '@odh-dashboard/test-mocks';
+import {
+  ProjectModel,
+  SelfSubjectAccessReviewModel,
+} from '@odh-dashboard/dashboard-foundation-frontend/api/models';
 import { createProjectModal, projectDetails, projectListPage } from '../../../pages/projects';
-import { ProjectModel, SelfSubjectAccessReviewModel } from '../../../utils/models';
 import { homePage } from '../../../pages/home/home';
 
 const interceptAccessReview = (allowed: boolean) => {

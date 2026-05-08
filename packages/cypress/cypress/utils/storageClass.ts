@@ -1,5 +1,5 @@
 // eslint-disable-next-line @odh-dashboard/no-restricted-imports
-import { StorageProvisioner } from '@odh-dashboard/internal/pages/storageClasses/storageEnums';
+import { StorageProvisioner } from '@odh-dashboard/storage-classes-shared/concepts/storageClasses/storageEnums';
 import {
   createStorageClass,
   deleteStorageClass,

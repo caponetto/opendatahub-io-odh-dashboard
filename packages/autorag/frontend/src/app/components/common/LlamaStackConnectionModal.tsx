@@ -11,14 +11,14 @@ import {
   ModalHeader,
   TextInput,
 } from '@patternfly/react-core';
-import PasswordInput from '@odh-dashboard/internal/components/PasswordInput';
-import DashboardModalFooter from '@odh-dashboard/internal/concepts/dashboard/DashboardModalFooter';
+import PasswordInput from '@odh-dashboard/dashboard-foundation-frontend/components/PasswordInput';
+import DashboardModalFooter from '@odh-dashboard/dashboard-foundation-frontend/concepts/dashboard/DashboardModalFooter';
 import K8sNameDescriptionField, {
   useK8sNameDescriptionFieldData,
-} from '@odh-dashboard/internal/concepts/k8s/K8sNameDescriptionField/K8sNameDescriptionField';
-import { isK8sNameDescriptionDataValid } from '@odh-dashboard/internal/concepts/k8s/K8sNameDescriptionField/utils';
-import { createSecret } from '@odh-dashboard/internal/api/k8s/secrets';
-import { SecretKind } from '@odh-dashboard/internal/k8sTypes';
+} from '@odh-dashboard/dashboard-foundation-frontend/concepts/k8s/K8sNameDescriptionField/K8sNameDescriptionField';
+import { isK8sNameDescriptionDataValid } from '@odh-dashboard/dashboard-foundation-frontend/concepts/k8s/K8sNameDescriptionField/utils';
+import { createSecret } from '@odh-dashboard/dashboard-foundation-frontend/api/k8s/secrets';
+import { SecretKind } from '@odh-dashboard/dashboard-foundation-frontend/k8sTypes';
 
 type Props = {
   namespace: string;

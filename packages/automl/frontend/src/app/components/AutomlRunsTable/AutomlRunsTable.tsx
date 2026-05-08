@@ -1,7 +1,7 @@
 import { ToolbarGroup, ToolbarItem } from '@patternfly/react-core';
 import * as React from 'react';
-import { TableBase } from '@odh-dashboard/internal/components/table';
-import DashboardEmptyTableView from '@odh-dashboard/internal/concepts/dashboard/DashboardEmptyTableView';
+import { TableBase } from '@odh-dashboard/dashboard-foundation-frontend/components/table';
+import DashboardEmptyTableView from '@odh-dashboard/dashboard-foundation-frontend/concepts/dashboard/DashboardEmptyTableView';
 import type { PipelineRun } from '~/app/types';
 import { automlRunsColumns } from './columns';
 import AutomlRunsTableRow from './AutomlRunsTableRow';

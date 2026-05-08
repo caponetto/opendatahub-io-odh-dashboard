@@ -1,5 +1,5 @@
 import type { ComponentType } from 'react';
-import type { Extension, CodeRef } from '@openshift/dynamic-plugin-sdk';
+import type { Extension, CodeRef } from '@odh-dashboard/plugin-core';
 
 export type AIAssetsTabExtension = Extension<
   'gen-ai.ai-assets/tab',

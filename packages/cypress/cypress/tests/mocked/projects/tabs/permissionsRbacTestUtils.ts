@@ -9,14 +9,14 @@ import {
   mockProjectK8sResource,
   mockRoleK8sResource,
   mockUserRoleBindingSubject,
-} from '@odh-dashboard/internal/__mocks__';
-import { mockRoleBindingK8sResource } from '@odh-dashboard/internal/__mocks__/mockRoleBindingK8sResource';
+} from '@odh-dashboard/test-mocks';
+import { mockRoleBindingK8sResource } from '@odh-dashboard/test-mocks/mockRoleBindingK8sResource';
 import {
   ClusterRoleModel,
   ProjectModel,
   RoleBindingModel,
   RoleModel,
-} from '../../../../utils/models';
+} from '@odh-dashboard/dashboard-foundation-frontend/api/models';
 
 export const NAMESPACE = 'test-project';
 

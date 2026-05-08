@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Content, ContentVariants } from '@patternfly/react-core';
-import { SortableData } from '@odh-dashboard/internal/components/table/index';
+import { SortableData } from '@odh-dashboard/dashboard-foundation-frontend/components/table/index';
 import { getUnifiedJobStatusSync } from './utils';
 import { UnifiedJobKind, isRayJob } from '../../types';
 import { KUEUE_QUEUE_LABEL } from '../../const';

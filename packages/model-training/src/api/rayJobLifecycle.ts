@@ -1,7 +1,7 @@
-import { k8sPatchResource } from '@openshift/dynamic-plugin-sdk-utils';
-import { applyK8sAPIOptions } from '@odh-dashboard/internal/api/apiMergeUtils';
-import { K8sAPIOptions } from '@odh-dashboard/internal/k8sTypes';
-import { RayJobModel } from '@odh-dashboard/internal/api/models/kubeflow';
+import { k8sPatchResource } from '@odh-dashboard/k8s-browser';
+import { applyK8sAPIOptions } from '@odh-dashboard/dashboard-foundation-frontend/api/apiMergeUtils';
+import { K8sAPIOptions } from '@odh-dashboard/dashboard-foundation-frontend/k8sTypes';
+import { RayJobModel } from '@odh-dashboard/dashboard-foundation-frontend/api/models/kubeflow';
 import { getWorkloadForJob, patchWorkloadActiveState } from './workloads';
 import { RayJobKind } from '../k8sTypes';
 

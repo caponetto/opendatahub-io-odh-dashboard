@@ -1,16 +1,21 @@
 import React from 'react';
-import useFetch, { FetchStateObject } from '@odh-dashboard/internal/utilities/useFetch';
+import useFetch, {
+  FetchStateObject,
+} from '@odh-dashboard/dashboard-foundation-frontend/utilities/useFetch';
 import {
   k8sCreateResource,
   k8sListResourceItems,
   k8sPatchResource,
   k8sUpdateResource,
-} from '@openshift/dynamic-plugin-sdk-utils';
-import useK8sWatchResourceList from '@odh-dashboard/internal/utilities/useK8sWatchResourceList';
-import { createPatchesFromDiff, groupVersionKind } from '@odh-dashboard/internal/api/k8sUtils';
-import { K8sAPIOptions } from '@odh-dashboard/internal/k8sTypes';
-import { CustomWatchK8sResult } from '@odh-dashboard/internal/types';
-import { applyK8sAPIOptions } from '@odh-dashboard/internal/api/apiMergeUtils';
+} from '@odh-dashboard/k8s-browser';
+import useK8sWatchResourceList from '@odh-dashboard/dashboard-foundation-frontend/utilities/useK8sWatchResourceList';
+import {
+  createPatchesFromDiff,
+  groupVersionKind,
+} from '@odh-dashboard/dashboard-foundation-frontend/api/k8sUtils';
+import { K8sAPIOptions } from '@odh-dashboard/dashboard-foundation-frontend/k8sTypes';
+import { CustomWatchK8sResult } from '@odh-dashboard/dashboard-foundation-frontend/types';
+import { applyK8sAPIOptions } from '@odh-dashboard/dashboard-foundation-frontend/api/apiMergeUtils';
 import { LLMInferenceServiceConfigModel, type LLMInferenceServiceConfigKind } from '../types';
 
 export const createLLMInferenceServiceConfig = (

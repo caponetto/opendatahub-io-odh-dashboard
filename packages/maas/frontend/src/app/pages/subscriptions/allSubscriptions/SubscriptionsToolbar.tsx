@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Button, SearchInput, ToolbarGroup, ToolbarItem } from '@patternfly/react-core';
-import FilterToolbar from '@odh-dashboard/internal/components/FilterToolbar';
+import FilterToolbar from '@odh-dashboard/dashboard-foundation-frontend/components/FilterToolbar';
 import { useNavigate } from 'react-router-dom';
 import { URL_PREFIX } from '~/app/utilities/const';
 import {

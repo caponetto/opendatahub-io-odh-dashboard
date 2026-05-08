@@ -9,18 +9,21 @@ import {
   mockK8sResourceList,
   mockModelVersionList,
   mockProjectK8sResource,
-} from '@odh-dashboard/internal/__mocks__';
-import { mockDsciStatus } from '@odh-dashboard/internal/__mocks__/mockDsciStatus';
-import { DataScienceStackComponent } from '@odh-dashboard/internal/concepts/areas/types';
-import { mockRegisteredModel } from '@odh-dashboard/internal/__mocks__/mockRegisteredModel';
-import { mockModelVersion } from '@odh-dashboard/internal/__mocks__/mockModelVersion';
+} from '@odh-dashboard/test-mocks';
+import { mockDsciStatus } from '@odh-dashboard/test-mocks/mockDsciStatus';
+import { DataScienceStackComponent } from '@odh-dashboard/dashboard-foundation-frontend/concepts/areas';
+import { mockRegisteredModel } from '@odh-dashboard/test-mocks/mockRegisteredModel';
+import { mockModelVersion } from '@odh-dashboard/test-mocks/mockModelVersion';
 import {
   mockModelRegistry,
   mockModelRegistryService,
-} from '@odh-dashboard/internal/__mocks__/mockModelRegistryService';
-import { mockRegisteredModelList } from '@odh-dashboard/internal/__mocks__/mockRegisteredModelsList';
+} from '@odh-dashboard/test-mocks/mockModelRegistryService';
+import { mockRegisteredModelList } from '@odh-dashboard/test-mocks/mockRegisteredModelsList';
+import {
+  ProjectModel,
+  ServiceModel,
+} from '@odh-dashboard/dashboard-foundation-frontend/api/models';
 import { registerAndStorePage } from '../../../pages/modelRegistry/registerAndStorePage';
-import { ProjectModel, ServiceModel } from '../../../utils/models';
 
 const MODEL_REGISTRY_API_VERSION = 'v1';
 

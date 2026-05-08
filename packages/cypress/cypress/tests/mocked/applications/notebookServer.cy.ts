@@ -1,26 +1,33 @@
-import { mockRoleBindingK8sResource } from '@odh-dashboard/internal/__mocks__/mockRoleBindingK8sResource';
+import { mockRoleBindingK8sResource } from '@odh-dashboard/test-mocks/mockRoleBindingK8sResource';
 import {
   mockCustomSecretK8sResource,
   mockDashboardConfig,
   mockK8sResourceList,
   mockNotebookK8sResource,
   mockStorageClassList,
-} from '@odh-dashboard/internal/__mocks__';
-import type { RoleBindingSubject } from '@odh-dashboard/internal/k8sTypes';
-import { mockAllowedUsers } from '@odh-dashboard/internal/__mocks__/mockAllowedUsers';
-import { mockStartNotebookData } from '@odh-dashboard/internal/__mocks__/mockStartNotebookData';
+} from '@odh-dashboard/test-mocks';
+import type { RoleBindingSubject } from '@odh-dashboard/dashboard-foundation-frontend/k8sTypes';
+import { mockAllowedUsers } from '@odh-dashboard/test-mocks/mockAllowedUsers';
+import { mockStartNotebookData } from '@odh-dashboard/test-mocks/mockStartNotebookData';
 import {
   mockGlobalScopedHardwareProfiles,
   mockProjectScopedHardwareProfiles,
-} from '@odh-dashboard/internal/__mocks__/mockHardwareProfile';
-import type { EnvironmentVariable, NotebookData } from '@odh-dashboard/internal/types';
-import { mockConfigMap } from '@odh-dashboard/internal/__mocks__/mockConfigMap';
-import { mockImageStreamK8sResourceList } from '@odh-dashboard/internal/__mocks__/mockImageStreamK8sResource';
+} from '@odh-dashboard/test-mocks/mockHardwareProfile';
+import type {
+  EnvironmentVariable,
+  NotebookData,
+} from '@odh-dashboard/dashboard-foundation-frontend/types';
+import { mockConfigMap } from '@odh-dashboard/test-mocks/mockConfigMap';
+import { mockImageStreamK8sResourceList } from '@odh-dashboard/test-mocks/mockImageStreamK8sResource';
+import {
+  HardwareProfileModel,
+  ImageStreamModel,
+  StorageClassModel,
+} from '@odh-dashboard/dashboard-foundation-frontend/api/models';
 import { notebookServer } from '../../../pages/notebookServer';
 import { asClusterAdminUser, asProjectEditUser } from '../../../utils/mockUsers';
 import { notebookController, stopNotebookModal } from '../../../pages/administration';
 import { homePage } from '../../../pages/home/home';
-import { HardwareProfileModel, ImageStreamModel, StorageClassModel } from '../../../utils/models';
 
 const groupSubjects: RoleBindingSubject[] = [
   {

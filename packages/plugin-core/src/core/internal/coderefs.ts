@@ -1,11 +1,6 @@
-import type {
-  CodeRef,
-  Extension,
-  LoadedExtension,
-  ResolvedExtension,
-} from '@openshift/dynamic-plugin-sdk';
 import { cloneDeep } from 'lodash-es';
 import { visitDeep } from './objects';
+import type { CodeRef, Extension, LoadedExtension, ResolvedExtension } from '../types';
 
 export const isCodeRef = (obj: unknown): obj is CodeRef => typeof obj === 'function';
 

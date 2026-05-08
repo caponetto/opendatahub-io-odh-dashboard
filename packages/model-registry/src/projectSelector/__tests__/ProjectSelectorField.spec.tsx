@@ -1,11 +1,11 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import { ProjectsContext } from '@odh-dashboard/internal/concepts/projects/ProjectsContext';
-import { mockProjectK8sResource } from '@odh-dashboard/internal/__mocks__/mockProjectK8sResource';
+import { ProjectsContext } from '@odh-dashboard/dashboard-foundation-frontend/concepts/projects/ProjectsContext';
+import { mockProjectK8sResource } from '@odh-dashboard/test-mocks/mockProjectK8sResource';
 import ProjectSelectorField from '../ProjectSelectorField';
 
-jest.mock('@odh-dashboard/internal/concepts/projects/ProjectSelector', () => {
+jest.mock('@odh-dashboard/dashboard-foundation-frontend/concepts/projects/ProjectSelector', () => {
   function MockProjectSelector(props: {
     namespace: string;
     onSelection: (projectName: string) => void;

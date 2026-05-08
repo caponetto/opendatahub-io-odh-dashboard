@@ -1,0 +1,40 @@
+{
+  "private": true,
+  "name": "@odh-dashboard/test-mocks",
+  "description": "Shared test mock data for ODH Dashboard",
+  "version": "0.0.0",
+  "exports": {
+    ".": "./src/index.ts",
+    "./*": [
+      "./src/*",
+      "./src/*.ts",
+      "./src/*.d.ts",
+      "./src/*.tsx",
+      "./src/*/index.ts",
+      "./src/*/index.tsx"
+    ]
+  },
+  "dependencies": {
+    "@odh-dashboard/k8s-browser": "*",
+    "long": "^5.2.3"
+  },
+  "peerDependencies": {
+    "@odh-dashboard/admin": "*",
+    "@odh-dashboard/cluster-settings": "*",
+    "@odh-dashboard/dashboard-foundation-frontend": "*",
+    "@odh-dashboard/distributed-workloads": "*",
+    "@odh-dashboard/model-registry": "*",
+    "@odh-dashboard/model-serving": "*",
+    "@odh-dashboard/model-serving-shared": "*",
+    "@odh-dashboard/pipelines": "*",
+    "@odh-dashboard/trustyai": "*",
+    "@odh-dashboard/workbenches": "*"
+  },
+  "devDependencies": {
+    "@odh-dashboard/tsconfig": "*"
+  },
+  "topology": {
+    "tier": "infrastructure",
+    "eslintTierExempt": true
+  }
+}

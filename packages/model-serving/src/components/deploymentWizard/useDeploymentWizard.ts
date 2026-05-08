@@ -1,13 +1,18 @@
 import React from 'react';
-import { useHardwareProfileConfig } from '@odh-dashboard/internal/concepts/hardwareProfiles/useHardwareProfileConfig';
-import { useK8sNameDescriptionFieldData } from '@odh-dashboard/internal/concepts/k8s/K8sNameDescriptionField/K8sNameDescriptionField';
+import { useHardwareProfileConfig } from '@odh-dashboard/hardware-profiles-shared/concepts/hardwareProfiles/useHardwareProfileConfig';
+import { useK8sNameDescriptionFieldData } from '@odh-dashboard/dashboard-foundation-frontend/concepts/k8s/K8sNameDescriptionField/K8sNameDescriptionField';
 import {
   extractK8sNameDescriptionFieldData,
   INFERENCE_SERVICE_NAME_INVALID_CHARS_MESSAGE,
   INFERENCE_SERVICE_NAME_REGEX,
   LimitNameResourceType,
-} from '@odh-dashboard/internal/concepts/k8s/K8sNameDescriptionField/utils';
-import { useAccessReview } from '@odh-dashboard/internal/api/index';
+} from '@odh-dashboard/dashboard-foundation-frontend/concepts/k8s/K8sNameDescriptionField/utils';
+import { useAccessReview } from '@odh-dashboard/dashboard-foundation-frontend/api';
+import {
+  type InitialWizardFormData,
+  type WizardField,
+  type WizardFormData,
+} from '@odh-dashboard/model-serving-shared/types/form-data';
 import { accessReviewResource } from './steps/AdvancedOptionsStep';
 import { useModelFormatField } from './fields/ModelFormatField';
 import { useModelTypeField } from './fields/ModelTypeSelectField';
@@ -19,7 +24,6 @@ import { useRuntimeArgsField } from './fields/RuntimeArgsField';
 import { useEnvironmentVariablesField } from './fields/EnvironmentVariablesField';
 import { useModelAvailabilityFields } from './fields/ModelAvailabilityFields';
 import { useModelServerSelectField } from './fields/ModelServerTemplateSelectField';
-import { type InitialWizardFormData, type WizardField, type WizardFormData } from './types';
 import { useCreateConnectionData } from './fields/CreateConnectionInputFields';
 import { useProjectSection } from './fields/ProjectSection';
 import { useDeploymentStrategyField } from './fields/DeploymentStrategyField';

@@ -1,9 +1,9 @@
-import { k8sGetResource } from '@openshift/dynamic-plugin-sdk-utils';
-import { RayClusterModel } from '@odh-dashboard/internal/api/models/kubeflow';
+import { k8sGetResource } from '@odh-dashboard/k8s-browser';
+import { RayClusterModel } from '@odh-dashboard/dashboard-foundation-frontend/api/models/kubeflow';
 import { mockRayClusterK8sResource } from '../../__mocks__/mockRayClusterK8sResource';
 import { getRayCluster } from '../rayClusters';
 
-jest.mock('@openshift/dynamic-plugin-sdk-utils');
+jest.mock('@odh-dashboard/k8s-browser');
 
 const mockK8sGetResource = jest.mocked(k8sGetResource);
 

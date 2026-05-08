@@ -49,9 +49,12 @@ jest.mock('mod-arch-shared', () => ({
 }));
 
 const mockFireMiscTrackingEvent = jest.fn();
-jest.mock('@odh-dashboard/internal/concepts/analyticsTracking/segmentIOUtils', () => ({
-  fireMiscTrackingEvent: (...args: unknown[]) => mockFireMiscTrackingEvent(...args),
-}));
+jest.mock(
+  '@odh-dashboard/dashboard-foundation-frontend/concepts/analyticsTracking/segmentIOUtils',
+  () => ({
+    fireMiscTrackingEvent: (...args: unknown[]) => mockFireMiscTrackingEvent(...args),
+  }),
+);
 
 const mockNavigate = jest.fn();
 jest.mock('react-router-dom', () => ({

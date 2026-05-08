@@ -5,8 +5,8 @@ import {
   DeploymentAssemblyResources,
   isAssembleModelResourceExtension,
   type Deployment,
-} from '../../../../extension-points';
-import type { WizardFormData } from '../types';
+} from '@odh-dashboard/model-serving-shared/extension-points';
+import type { WizardFormData } from '@odh-dashboard/model-serving-shared/types/form-data';
 import { useWizardFieldApply } from '../useWizardFieldApply';
 
 /**

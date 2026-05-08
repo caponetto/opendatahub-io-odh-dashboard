@@ -1,19 +1,22 @@
 /* eslint-disable camelcase */
 import { mockTrainJobK8sResourceList } from '@odh-dashboard/model-training/__mocks__/mockTrainJobK8sResource';
 import { TrainingJobState } from '@odh-dashboard/model-training/types';
-import { mockDashboardConfig } from '@odh-dashboard/internal/__mocks__/mockDashboardConfig';
-import { mockK8sResourceList } from '@odh-dashboard/internal/__mocks__/mockK8sResourceList';
-import { mockProjectK8sResource } from '@odh-dashboard/internal/__mocks__/mockProjectK8sResource';
-import { mockLocalQueueK8sResource } from '@odh-dashboard/internal/__mocks__/mockLocalQueueK8sResource';
-import { mockClusterQueueK8sResource } from '@odh-dashboard/internal/__mocks__/mockClusterQueueK8sResource';
-import { mockWorkloadK8sResource } from '@odh-dashboard/internal/__mocks__/mockWorkloadK8sResource';
+import { mockDashboardConfig } from '@odh-dashboard/test-mocks/mockDashboardConfig';
+import { mockK8sResourceList } from '@odh-dashboard/test-mocks/mockK8sResourceList';
+import { mockProjectK8sResource } from '@odh-dashboard/test-mocks/mockProjectK8sResource';
+import { mockLocalQueueK8sResource } from '@odh-dashboard/test-mocks/mockLocalQueueK8sResource';
+import { mockClusterQueueK8sResource } from '@odh-dashboard/test-mocks/mockClusterQueueK8sResource';
+import { mockWorkloadK8sResource } from '@odh-dashboard/test-mocks/mockWorkloadK8sResource';
+import {
+  ProjectModel,
+  TrainJobModel,
+} from '@odh-dashboard/dashboard-foundation-frontend/api/models';
 import {
   ClusterQueueModel,
   LocalQueueModel,
-  TrainJobModel,
   WorkloadModel,
-} from '@odh-dashboard/internal/api/models';
-import { WorkloadStatusType } from '@odh-dashboard/internal/concepts/distributedWorkloads/utils';
+} from '@odh-dashboard/distributed-workloads-shared/api/models/kueue';
+import { WorkloadStatusType } from '@odh-dashboard/distributed-workloads-shared/concepts/distributedWorkloads/types';
 import { asClusterAdminUser } from '../../../utils/mockUsers';
 import {
   modelTrainingGlobal,
@@ -22,7 +25,6 @@ import {
   trainingJobStatusModal,
   pauseTrainingJobModal,
 } from '../../../pages/modelTraining';
-import { ProjectModel } from '../../../utils/models';
 
 const projectName = 'test-pause-resume-project';
 const projectDisplayName = 'Test Pause Resume Project';

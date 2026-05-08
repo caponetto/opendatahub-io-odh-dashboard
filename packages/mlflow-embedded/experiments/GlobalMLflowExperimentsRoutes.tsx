@@ -7,12 +7,11 @@
  */
 import * as React from 'react';
 import { Navigate, Route } from 'react-router-dom';
-// eslint-disable-next-line @odh-dashboard/no-restricted-imports
-import NotFound from '@odh-dashboard/internal/pages/NotFound';
-import ProjectsRoutes from '@odh-dashboard/internal/concepts/projects/ProjectsRoutes';
-import TitleWithIcon from '@odh-dashboard/internal/concepts/design/TitleWithIcon';
-import { ProjectObjectType } from '@odh-dashboard/internal/concepts/design/utils';
-import { mlflowExperimentsBaseRoute } from '@odh-dashboard/internal/routes/pipelines/mlflow';
+import NotFound from '@odh-dashboard/dashboard-foundation-frontend/pages/NotFound';
+import ProjectsRoutes from '@odh-dashboard/dashboard-foundation-frontend/concepts/projects/ProjectsRoutes';
+import TitleWithIcon from '@odh-dashboard/dashboard-foundation-frontend/concepts/design/TitleWithIcon';
+import { ProjectObjectType } from '@odh-dashboard/dashboard-foundation-frontend/concepts/design/utils';
+import { mlflowExperimentsBaseRoute } from '@odh-dashboard/mlflow-shared/concepts/mlflow/routes';
 import MlflowExperimentsPage from './MlflowExperimentsPage';
 import { EXPERIMENTS_PAGE_TITLE, EXPERIMENTS_NO_PROJECTS_MESSAGE } from '../shared/const';
 import WorkspaceRouteLoader from '../shared/WorkspaceRouteLoader';

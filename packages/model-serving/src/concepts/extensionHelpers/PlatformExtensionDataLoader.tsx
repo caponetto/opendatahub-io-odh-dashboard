@@ -4,7 +4,7 @@ import type {
   ExtensionPredicate,
   LoadedExtension,
   ResolvedExtension,
-} from '@openshift/dynamic-plugin-sdk';
+} from '@odh-dashboard/plugin-core';
 import type { PlatformExtension } from '../extensionUtils';
 
 type DataHook = () => unknown;

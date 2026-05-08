@@ -1,9 +1,12 @@
 import React from 'react';
 import { Content, Flex, FlexItem, Stack, StackItem, Alert } from '@patternfly/react-core';
-import EmptyDetailsView from '@odh-dashboard/internal/components/EmptyDetailsView';
-import { ProjectObjectType, typedEmptyImage } from '@odh-dashboard/internal/concepts/design/utils';
-import ModelServingPlatformSelectErrorAlert from '@odh-dashboard/internal/concepts/modelServing/Platforms/ModelServingPlatformSelectErrorAlert';
+import EmptyDetailsView from '@odh-dashboard/dashboard-foundation-frontend/components/EmptyDetailsView';
+import {
+  ProjectObjectType,
+  typedEmptyImage,
+} from '@odh-dashboard/dashboard-foundation-frontend/concepts/design/utils';
 import EmptyModelServingPlatform from './EmptyModelServingPlatform';
+import ModelServingPlatformSelectErrorAlert from '../../concepts/Platforms/ModelServingPlatformSelectErrorAlert';
 import { ModelServingPlatform } from '../../concepts/useProjectServingPlatform';
 import { PlatformSelectionGallery } from '../platforms/platformSelection';
 

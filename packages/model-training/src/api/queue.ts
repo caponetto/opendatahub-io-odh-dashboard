@@ -1,6 +1,12 @@
-import { k8sGetResource } from '@openshift/dynamic-plugin-sdk-utils';
-import { LocalQueueModel, ClusterQueueModel } from '@odh-dashboard/internal/api/models/kueue';
-import { LocalQueueKind, ClusterQueueKind } from '@odh-dashboard/internal/k8sTypes';
+import { k8sGetResource } from '@odh-dashboard/k8s-browser';
+import {
+  LocalQueueModel,
+  ClusterQueueModel,
+} from '@odh-dashboard/distributed-workloads-shared/api/models/kueue';
+import {
+  LocalQueueKind,
+  ClusterQueueKind,
+} from '@odh-dashboard/dashboard-foundation-frontend/k8sTypes';
 
 export const getLocalQueue = async (name: string, namespace: string): Promise<LocalQueueKind> =>
   k8sGetResource<LocalQueueKind>({

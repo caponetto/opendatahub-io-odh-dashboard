@@ -4,16 +4,20 @@ import {
   mock404Error,
   mockDashboardConfig,
   mockK8sResourceList,
-} from '@odh-dashboard/internal/__mocks__';
-import { mockHardwareProfile } from '@odh-dashboard/internal/__mocks__/mockHardwareProfile';
+} from '@odh-dashboard/test-mocks';
+import { mockHardwareProfile } from '@odh-dashboard/test-mocks/mockHardwareProfile';
 import {
   IdentifierResourceType,
   ImageStreamAnnotation,
   ImageStreamLabel,
   ImageStreamSpecTagAnnotation,
-} from '@odh-dashboard/internal/types';
-import { HardwareProfileFeatureVisibility } from '@odh-dashboard/internal/k8sTypes';
-import { mockImageStreamK8sResource } from '@odh-dashboard/internal/__mocks__/mockImageStreamK8sResource';
+} from '@odh-dashboard/dashboard-foundation-frontend/types';
+import { HardwareProfileFeatureVisibility } from '@odh-dashboard/dashboard-foundation-frontend/k8sTypes';
+import { mockImageStreamK8sResource } from '@odh-dashboard/test-mocks/mockImageStreamK8sResource';
+import {
+  HardwareProfileModel,
+  ImageStreamModel,
+} from '@odh-dashboard/dashboard-foundation-frontend/api/models';
 import { deleteModal } from '../../../pages/components/DeleteModal';
 import {
   importNotebookImageModal,
@@ -26,7 +30,6 @@ import { projectListPage } from '../../../pages/projects';
 import { be } from '../../../utils/should';
 import { asProductAdminUser, asProjectAdminUser } from '../../../utils/mockUsers';
 import { testPagination } from '../../../utils/pagination';
-import { HardwareProfileModel, ImageStreamModel } from '../../../utils/models';
 
 it('Workbench image settings should not be available for non product admins', () => {
   asProjectAdminUser();

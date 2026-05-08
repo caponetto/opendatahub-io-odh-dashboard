@@ -1,9 +1,9 @@
 import { testHook } from '@odh-dashboard/jest-config/hooks';
-import useFetch from '@odh-dashboard/internal/utilities/useFetch';
+import useFetch from '@odh-dashboard/dashboard-foundation-frontend/utilities/useFetch';
 import { mockClusterTrainingRuntimeK8sResource } from '../../__mocks__/mockClusterTrainingRuntimeK8sResource';
 import useClusterTrainingRuntime from '../useClusterTrainingRuntime';
 
-jest.mock('@odh-dashboard/internal/utilities/useFetch', () => ({
+jest.mock('@odh-dashboard/dashboard-foundation-frontend/utilities/useFetch', () => ({
   __esModule: true,
   default: jest.fn(),
 }));

@@ -10,8 +10,14 @@ import {
   mock404Error,
   buildMockPipeline,
   buildMockPipelines,
-} from '@odh-dashboard/internal/__mocks__';
-import type { PipelineKF } from '@odh-dashboard/internal/concepts/pipelines/kfTypes';
+} from '@odh-dashboard/test-mocks';
+import type { PipelineKF } from '@odh-dashboard/pipelines/concepts/kfTypes';
+import {
+  DataSciencePipelineApplicationModel,
+  ProjectModel,
+  RouteModel,
+  SecretModel,
+} from '@odh-dashboard/dashboard-foundation-frontend/api/models';
 import {
   pipelinesTable,
   configurePipelineServerModal,
@@ -22,12 +28,6 @@ import {
 } from '../../../pages/pipelines';
 import { pipelinesSection } from '../../../pages/pipelines/pipelinesSection';
 import { projectDetails } from '../../../pages/projects';
-import {
-  DataSciencePipelineApplicationModel,
-  ProjectModel,
-  RouteModel,
-  SecretModel,
-} from '../../../utils/models';
 import { verifyRelativeURL } from '../../../utils/url';
 
 const projectName = 'test-project-name';

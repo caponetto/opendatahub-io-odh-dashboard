@@ -1,0 +1,298 @@
+import * as React from 'react';
+import { useNavigate } from 'react-router';
+import {
+  Alert,
+  Form,
+  Stack,
+  StackItem,
+  Modal,
+  ModalBody,
+  ModalHeader,
+  ModalFooter,
+  ExpandableSection,
+} from '@patternfly/react-core';
+import { deleteSecret } from '@odh-dashboard/dashboard-foundation-frontend/api/k8s/secrets';
+import { EMPTY_AWS_PIPELINE_DATA } from '@odh-dashboard/dashboard-foundation-frontend/constants/dataConnectionConst';
+import DashboardModalFooter from '@odh-dashboard/dashboard-foundation-frontend/concepts/dashboard/DashboardModalFooter';
+import { fireFormTrackingEvent } from '@odh-dashboard/dashboard-foundation-frontend/concepts/analyticsTracking/segmentIOUtils';
+import { TrackingOutcome } from '@odh-dashboard/dashboard-foundation-frontend/concepts/analyticsTracking/trackingProperties';
+import {
+  SupportedArea,
+  useIsAreaAvailable,
+} from '@odh-dashboard/dashboard-foundation-frontend/concepts/areas';
+import {
+  NotificationResponseStatus,
+  NotificationWatcherContext,
+} from '@odh-dashboard/dashboard-foundation-frontend/concepts/notificationWatcher/NotificationWatcherContext.tsx';
+import usePipelinesConnections from '@odh-dashboard/connection-types-shared/concepts/connectionTypes/usePipelinesConnections';
+import { FAST_POLL_INTERVAL } from '@odh-dashboard/dashboard-foundation-frontend/utilities/const.ts';
+import { DSPipelineKind } from '@odh-dashboard/dashboard-foundation-frontend/k8sTypes.ts';
+import { pipelinesBaseRoute } from '@odh-dashboard/pipelines-shared/concepts/pipelines/routes';
+import { createPipelinesCR, listPipelinesCR } from '@odh-dashboard/pipelines/api/k8s';
+import SamplePipelineSettingsSection from '@odh-dashboard/pipelines/concepts/content/configurePipelinesServer/SamplePipelineSettingsSection';
+import { usePipelinesAPI } from '@odh-dashboard/pipelines/concepts/context';
+import {
+  dspaLoaded,
+  hasServerTimedOut,
+  isDspaAllReady,
+} from '@odh-dashboard/pipelines/concepts/context/usePipelineNamespaceCR';
+import { PipelinesDatabaseSection } from './PipelinesDatabaseSection';
+import { PipelineCachingSection } from './PipelineCachingSection';
+import { ObjectStorageSection } from './ObjectStorageSection';
+import {
+  DATABASE_CONNECTION_FIELDS,
+  EMPTY_DATABASE_CONNECTION,
+  ExternalDatabaseSecret,
+} from './const';
+import { configureDSPipelineResourceSpec, objectStorageIsValid } from './utils';
+import { PipelineServerConfigType } from './types';
+import PipelinesDefinitionStorageSection from './PipelinesDefinitionStorageSection';
+
+type ConfigurePipelinesServerModalProps = {
+  onClose: () => void;
+};
+
+const FORM_DEFAULTS: PipelineServerConfigType = {
+  database: { useDefault: true, value: EMPTY_DATABASE_CONNECTION },
+  objectStorage: { newValue: EMPTY_AWS_PIPELINE_DATA },
+  enableInstructLab: false,
+  storeYamlInKubernetes: true,
+  enableCaching: true,
+};
+
+const serverConfiguredEvent = 'Pipeline Server Configured';
+export const ConfigurePipelinesServerModal: React.FC<ConfigurePipelinesServerModalProps> = ({
+  onClose,
+}) => {
+  const { project, namespace, startingStatusModalOpenRef } = usePipelinesAPI();
+  const [connections, loaded] = usePipelinesConnections(namespace);
+  const [fetching, setFetching] = React.useState(false);
+  const [error, setError] = React.useState<Error>();
+  const [advancedSettingsExpanded, setAdvancedSettingsExpanded] = React.useState(false);
+  const [config, setConfig] = React.useState<PipelineServerConfigType>(FORM_DEFAULTS);
+  const { registerNotification } = React.useContext(NotificationWatcherContext);
+  const isFineTuningAvailable = useIsAreaAvailable(SupportedArea.FINE_TUNING).status;
+  const advancedSettingsRef = React.useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
+
+  const databaseIsValid = config.database.useDefault
+    ? true
+    : config.database.value.every(({ key, value }) =>
+        DATABASE_CONNECTION_FIELDS.filter((field) => field.isRequired)
+          .map((field) => field.key)
+          .includes(key)
+          ? !!value
+          : true,
+      );
+
+  const objectIsValid = objectStorageIsValid(config.objectStorage.newValue);
+  const canSubmit = databaseIsValid && objectIsValid;
+
+  const onBeforeClose = () => {
+    onClose();
+    setFetching(false);
+    setError(undefined);
+    setConfig(FORM_DEFAULTS);
+  };
+
+  const onCancel = () => {
+    onBeforeClose();
+    fireFormTrackingEvent(serverConfiguredEvent, { outcome: TrackingOutcome.cancel });
+  };
+
+  const submit = () => {
+    const objectStorage: PipelineServerConfigType['objectStorage'] = {
+      newValue: config.objectStorage.newValue.map((entry) => ({
+        ...entry,
+        value: entry.value.trim(),
+      })),
+    };
+    setFetching(true);
+    setError(undefined);
+
+    const configureConfig: PipelineServerConfigType = {
+      ...config,
+      objectStorage,
+    };
+
+    configureDSPipelineResourceSpec(configureConfig, project.metadata.name)
+      .then((spec) => {
+        createPipelinesCR(namespace, spec)
+          .then((obj: DSPipelineKind) => {
+            onBeforeClose();
+
+            const pollingNamespace = obj.metadata.namespace;
+            registerNotification({
+              callbackDelay: FAST_POLL_INTERVAL,
+              callback: async (signal: AbortSignal) => {
+                try {
+                  // This should emulate the logic in usePipelineNamespaceCR as much as possible
+                  const response = await listPipelinesCR(pollingNamespace, { signal });
+                  const serverLoaded = dspaLoaded([response[0], true]);
+                  const serverAllReady = isDspaAllReady([response[0], true]);
+
+                  if (hasServerTimedOut([response[0], true], serverLoaded)) {
+                    const errorMessage =
+                      response[0]?.status?.conditions?.find(
+                        (condition) => condition.type === 'Ready',
+                      )?.message || `${pollingNamespace} pipeline server creation timed out`;
+                    throw Error(errorMessage);
+                  }
+
+                  // User deleted pipeline server while waiting
+                  if (response.length === 0) {
+                    return {
+                      status: NotificationResponseStatus.STOP,
+                    };
+                  }
+
+                  if (serverLoaded && serverAllReady) {
+                    // If we're viewing the StartingStatusModal in the same namespace, we don't need to show the notification
+                    if (startingStatusModalOpenRef?.current === pollingNamespace) {
+                      return {
+                        status: NotificationResponseStatus.STOP,
+                      };
+                    }
+
+                    return {
+                      status: NotificationResponseStatus.SUCCESS,
+                      title: `Pipeline server for ${pollingNamespace} is ready.`,
+                      actions: [
+                        {
+                          title: `${pollingNamespace} pipeline server`,
+                          onClick: () => navigate(pipelinesBaseRoute(pollingNamespace)),
+                        },
+                      ],
+                    };
+                  }
+
+                  // repoll
+                  return {
+                    status: NotificationResponseStatus.REPOLL,
+                  };
+                } catch (e) {
+                  if (startingStatusModalOpenRef?.current === pollingNamespace) {
+                    return {
+                      status: NotificationResponseStatus.STOP,
+                    };
+                  }
+                  return {
+                    status: NotificationResponseStatus.ERROR,
+                    title: `Error configuring pipeline server for ${pollingNamespace}`,
+                    message: e instanceof Error ? e.message : 'Unknown error',
+                    actions: [
+                      {
+                        title: `${pollingNamespace} pipeline server`,
+                        onClick: () => navigate(pipelinesBaseRoute(pollingNamespace)),
+                      },
+                    ],
+                  };
+                }
+              },
+            });
+            fireFormTrackingEvent(serverConfiguredEvent, {
+              outcome: TrackingOutcome.submit,
+              success: true,
+              isILabEnabled: config.enableInstructLab,
+            });
+          })
+          .catch((e) => {
+            setFetching(false);
+            setError(e);
+            fireFormTrackingEvent(serverConfiguredEvent, {
+              outcome: TrackingOutcome.submit,
+              success: false,
+              error: e,
+            });
+            // Cleanup created password secret
+            deleteSecret(project.metadata.name, ExternalDatabaseSecret.NAME);
+          });
+      })
+      .catch((e) => {
+        setFetching(false);
+        setError(e);
+        fireFormTrackingEvent(serverConfiguredEvent, {
+          outcome: TrackingOutcome.submit,
+          success: false,
+          error: e,
+        });
+      });
+  };
+
+  return (
+    <Modal variant="medium" isOpen onClose={onCancel}>
+      <ModalHeader
+        title="Configure pipeline server"
+        description="Configuring a pipeline server enables you to create and manage pipelines."
+      />
+      <ModalBody>
+        <Stack hasGutter>
+          <StackItem>
+            <Alert
+              variant="info"
+              isInline
+              title="Pipeline server configuration cannot be edited after creation. To use a different configuration after creation, delete the pipeline server and create a new one."
+            />
+          </StackItem>
+          <StackItem>
+            <Form
+              onSubmit={(e) => {
+                e.preventDefault();
+                submit();
+              }}
+            >
+              <ObjectStorageSection
+                setConfig={setConfig}
+                config={config}
+                loaded={loaded}
+                connections={connections}
+              />
+              <ExpandableSection
+                data-testid="advanced-settings-section"
+                isIndented
+                toggleId="advanced-settings-toggle"
+                toggleText="Advanced settings"
+                onToggle={() => {
+                  setAdvancedSettingsExpanded(!advancedSettingsExpanded);
+
+                  if (!advancedSettingsExpanded) {
+                    requestAnimationFrame(() => {
+                      advancedSettingsRef.current?.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start',
+                      });
+                    });
+                  }
+                }}
+                isExpanded={advancedSettingsExpanded}
+              >
+                <div ref={advancedSettingsRef}>
+                  <PipelinesDatabaseSection setConfig={setConfig} config={config} />
+                  {isFineTuningAvailable && (
+                    <SamplePipelineSettingsSection setConfig={setConfig} config={config} />
+                  )}
+                  <PipelinesDefinitionStorageSection setConfig={setConfig} config={config} />
+                  <PipelineCachingSection
+                    enableCaching={config.enableCaching}
+                    setEnableCaching={(enableCaching) => setConfig({ ...config, enableCaching })}
+                  />
+                </div>
+              </ExpandableSection>
+            </Form>
+          </StackItem>
+        </Stack>
+      </ModalBody>
+      <ModalFooter>
+        <DashboardModalFooter
+          submitLabel="Configure pipeline server"
+          onSubmit={submit}
+          isSubmitLoading={fetching}
+          isSubmitDisabled={!canSubmit || fetching}
+          onCancel={onCancel}
+          alertTitle="Error configuring pipeline server"
+          error={error}
+        />
+      </ModalFooter>
+    </Modal>
+  );
+};

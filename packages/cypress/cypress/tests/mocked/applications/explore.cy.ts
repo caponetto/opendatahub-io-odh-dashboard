@@ -1,4 +1,4 @@
-import { mockComponents } from '@odh-dashboard/internal/__mocks__/mockComponents';
+import { mockComponents } from '@odh-dashboard/test-mocks/mockComponents';
 import { explorePage } from '../../../pages/explore';
 import { jupyterCard } from '../../../pages/components/JupyterCard';
 import { warningValidationCard } from '../../../pages/components/WarningValidationCard';

@@ -1,0 +1,64 @@
+{
+  "private": true,
+  "name": "@odh-dashboard/dashboard-dist-slim",
+  "description": "Slim dashboard variant — selective feature inclusion via the same app shell",
+  "version": "0.0.0",
+  "topology": {
+    "tier": "assembler",
+    "imagesFilter": [
+      "odh-logo-*.svg"
+    ],
+    "disableMonaco": true
+  },
+  "exports": {
+    "./extensions": "./src/extensions.ts"
+  },
+  "pluginPackages": [
+    "@odh-dashboard/hardware-profiles",
+    "@odh-dashboard/kserve",
+    "@odh-dashboard/model-serving"
+  ],
+  "scripts": {
+    "build": "webpack --config ./config/webpack.prod.js",
+    "build:prod": "webpack --config ./config/webpack.prod.js",
+    "build:clean": "rimraf ./public",
+    "build:stats": "webpack --config ./config/webpack.stats.js",
+    "start:dev": "webpack serve --hot --color --config ./config/webpack.dev.js",
+    "start:dev:ext": "cross-env EXT_CLUSTER=true npm run start:dev",
+    "start:dev:mf": "cross-env MF_UPDATE_TYPES=true npm run start:dev",
+    "start:dev:wait": "npx wait-on -i 1000 http://localhost:4010",
+    "start:dev:backend": "ASSEMBLER_DIR=$PWD NODE_TLS_REJECT_UNAUTHORIZED=0 NODE_ENV=development APP_ENV=development npm run start:dev --prefix ../dashboard-shell-backend",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "type-check": "tsc --noEmit",
+    "test-unit": "jest --silent --passWithNoTests",
+    "test-unit-coverage": "jest --silent --coverage --passWithNoTests",
+    "test:cypress-ci:coverage:nobuild": "npx concurrently -P -k -s first 'npm run cypress:server' 'npm run cypress:server:wait && npm run cypress:run:mock:coverage -- {@}' --",
+    "cypress:server": "serve ./public-cypress -p 9001 -s -L",
+    "cypress:server:wait": "npx wait-on -i 1000 http://localhost:9001",
+    "cypress:run": "cypress run -b chrome --project ../cypress",
+    "cypress:run:mock": "cross-env CY_MOCK=1 CY_WS_PORT=9002 npm run cypress:run -- ",
+    "cypress:run:mock:coverage": "rimraf ../cypress/coverage ../cypress/.nyc_output && cross-env CY_COVERAGE=true npm run cypress:run:mock -- {@}"
+  },
+  "dependencies": {
+    "@odh-dashboard/dashboard-foundation-frontend": "*",
+    "@odh-dashboard/dashboard-shell-backend": "*",
+    "@odh-dashboard/dashboard-shell-frontend": "*",
+    "@odh-dashboard/model-serving": "*",
+    "@odh-dashboard/model-serving-shared": "*",
+    "@odh-dashboard/plugin-core": "*",
+    "@odh-dashboard/plugin-types": "*",
+    "@odh-dashboard/projects-shared": "*",
+    "dotenv": "*",
+    "dotenv-expand": "*",
+    "react-router-dom": "^7.6.2"
+  },
+  "devDependencies": {
+    "@odh-dashboard/dashboard-build": "*",
+    "@odh-dashboard/eslint-config": "*",
+    "@odh-dashboard/jest-config": "*",
+    "@odh-dashboard/tsconfig": "*",
+    "@testing-library/react": "^16.3.2",
+    "@types/react": "*"
+  }
+}

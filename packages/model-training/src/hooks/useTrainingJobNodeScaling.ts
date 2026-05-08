@@ -1,5 +1,5 @@
 import * as React from 'react';
-import useNotification from '@odh-dashboard/internal/utilities/useNotification';
+import useNotification from '@odh-dashboard/dashboard-foundation-frontend/utilities/useNotification';
 import useClusterTrainingRuntime from './useClusterTrainingRuntime';
 import { scaleNodes } from '../api';
 import { getStatusFlags, getTrainingJobStatusSync } from '../global/trainingJobList/utils';

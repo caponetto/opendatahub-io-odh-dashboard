@@ -152,9 +152,12 @@ jest.mock('~/app/components/common/SecretSelector', () => {
   };
 });
 
-jest.mock('@odh-dashboard/internal/utilities/useWatchConnectionTypes', () => ({
-  useWatchConnectionTypes: () => [[]],
-}));
+jest.mock(
+  '@odh-dashboard/connection-types-shared/concepts/connectionTypes/useWatchConnectionTypes',
+  () => ({
+    useWatchConnectionTypes: () => [[]],
+  }),
+);
 
 jest.mock('~/app/components/common/AutomlConnectionModal', () => ({
   __esModule: true,

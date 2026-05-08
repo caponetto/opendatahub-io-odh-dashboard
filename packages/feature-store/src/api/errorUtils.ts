@@ -1,4 +1,4 @@
-import { isCommonStateError } from '@odh-dashboard/internal/utilities/useFetch';
+import { isCommonStateError } from '@odh-dashboard/dashboard-foundation-frontend/utilities/useFetch';
 import { FeatureStoreError } from '../types/global';
 
 const isError = (e: unknown): e is FeatureStoreError =>

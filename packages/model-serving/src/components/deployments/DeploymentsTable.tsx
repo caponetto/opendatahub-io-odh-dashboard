@@ -1,7 +1,15 @@
 import React from 'react';
-import { SortableData, Table } from '@odh-dashboard/internal/components/table/index';
-import { fireFormTrackingEvent } from '@odh-dashboard/internal/concepts/analyticsTracking/segmentIOUtils';
-import { TrackingOutcome } from '@odh-dashboard/internal/concepts/analyticsTracking/trackingProperties';
+import {
+  SortableData,
+  Table,
+} from '@odh-dashboard/dashboard-foundation-frontend/components/table/index';
+import { fireFormTrackingEvent } from '@odh-dashboard/dashboard-foundation-frontend/concepts/analyticsTracking/segmentIOUtils';
+import { TrackingOutcome } from '@odh-dashboard/dashboard-foundation-frontend/concepts/analyticsTracking/trackingProperties';
+import {
+  Deployment,
+  isDeployedModelServingDetails,
+  type DeploymentsTableColumn,
+} from '@odh-dashboard/model-serving-shared/extension-points';
 import { DeploymentRow } from './row/DeploymentsTableRow';
 import {
   isDataHook,
@@ -9,11 +17,6 @@ import {
 } from '../../concepts/extensionHelpers/PlatformExtensionDataLoader';
 import { usePlatformExtensionDataMap } from '../../concepts/extensionHelpers/usePlatformExtensionDataMap';
 import { deploymentNameSort, deploymentLastDeployedSort } from '../../concepts/deploymentUtils';
-import {
-  Deployment,
-  isDeployedModelServingDetails,
-  type DeploymentsTableColumn,
-} from '../../../extension-points';
 import DeleteModelServingModal from '../deleteModal/DeleteModelServingModal';
 
 const expandedInfoColumn: SortableData<Deployment> = {

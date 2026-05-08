@@ -1,8 +1,8 @@
 import type {
   CreatePipelineVersionKFData,
   PipelineVersionKF,
-} from '@odh-dashboard/internal/concepts/pipelines/kfTypes';
-import { buildMockPipelineVersion } from '@odh-dashboard/internal/__mocks__/mockPipelineVersionsProxy';
+} from '@odh-dashboard/pipelines/concepts/kfTypes';
+import { buildMockPipelineVersion } from '@odh-dashboard/test-mocks/mockPipelineVersionsProxy';
 import { Modal } from '../components/Modal';
 import { SearchSelector } from '../components/subComponents/SearchSelector';
 

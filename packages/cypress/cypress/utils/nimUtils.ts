@@ -1,5 +1,5 @@
-import { mockDefaultHardwareProfile } from '@odh-dashboard/internal/__mocks__/mockHardwareProfile';
-import type { MockDashboardConfigType } from '@odh-dashboard/internal/__mocks__';
+import { mockDefaultHardwareProfile } from '@odh-dashboard/test-mocks/mockHardwareProfile';
+import type { MockDashboardConfigType } from '@odh-dashboard/test-mocks';
 import {
   mock200Status,
   mockDashboardConfig,
@@ -7,7 +7,7 @@ import {
   mockK8sResourceList,
   mockProjectK8sResource,
   mockSecretK8sResource,
-} from '@odh-dashboard/internal/__mocks__';
+} from '@odh-dashboard/test-mocks';
 import {
   mockNimImages,
   mockNimInferenceService,
@@ -18,22 +18,28 @@ import {
   mockNimServingRuntimeTemplate,
   mockNvidiaNimAccessSecret,
   mockNvidiaNimImagePullSecret,
-} from '@odh-dashboard/internal/__mocks__/mockNimResource';
-import type { InferenceServiceKind } from '@odh-dashboard/internal/k8sTypes';
-import { mockNimAccount } from '@odh-dashboard/internal/__mocks__/mockNimAccount';
-import { mockOdhApplication } from '@odh-dashboard/internal/__mocks__/mockOdhApplication';
-import { DataScienceStackComponent } from '@odh-dashboard/internal/concepts/areas/types';
+} from '@odh-dashboard/test-mocks/mockNimResource';
+import type { InferenceServiceKind } from '@odh-dashboard/dashboard-foundation-frontend/k8sTypes';
+import { mockNimAccount } from '@odh-dashboard/test-mocks/mockNimAccount';
+import { mockOdhApplication } from '@odh-dashboard/test-mocks/mockOdhApplication';
+import { DataScienceStackComponent } from '@odh-dashboard/dashboard-foundation-frontend/concepts/areas';
 import {
   ConfigMapModel,
-  HardwareProfileModel,
-  InferenceServiceModel,
-  NIMAccountModel,
-  ProjectModel,
   PVCModel,
   SecretModel,
+} from '@odh-dashboard/dashboard-foundation-frontend/api/models/k8s';
+import {
+  InferenceServiceModel,
   ServingRuntimeModel,
+} from '@odh-dashboard/dashboard-foundation-frontend/api/models/kserve';
+import {
+  HardwareProfileModel,
+  NIMAccountModel,
+} from '@odh-dashboard/dashboard-foundation-frontend/api/models/odh';
+import {
+  ProjectModel,
   TemplateModel,
-} from './models';
+} from '@odh-dashboard/dashboard-foundation-frontend/api/models/openShift';
 
 /* ###################################################
    ###### Interception Initialization Utilities ######

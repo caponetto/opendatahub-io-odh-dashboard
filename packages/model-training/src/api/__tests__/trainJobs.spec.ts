@@ -1,8 +1,8 @@
-import { k8sDeleteResource } from '@openshift/dynamic-plugin-sdk-utils';
-import { TrainJobModel } from '@odh-dashboard/internal/api/models/kubeflow';
+import { k8sDeleteResource } from '@odh-dashboard/k8s-browser';
+import { TrainJobModel } from '@odh-dashboard/dashboard-foundation-frontend/api/models/kubeflow';
 import { deleteTrainJob } from '../trainJobs';
 
-jest.mock('@openshift/dynamic-plugin-sdk-utils');
+jest.mock('@odh-dashboard/k8s-browser');
 jest.mock('../workloads');
 jest.mock('../lifecycle');
 

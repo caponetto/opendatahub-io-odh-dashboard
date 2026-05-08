@@ -7,12 +7,17 @@ import {
   PendingIcon,
 } from '@patternfly/react-icons';
 import { t_global_color_brand_default as BrandDefaultColor } from '@patternfly/react-tokens';
-import { PodKind } from '@odh-dashboard/internal/k8sTypes';
+import { PodKind } from '@odh-dashboard/dashboard-foundation-frontend/k8sTypes';
 
 export const getPodStatusIcon = (pod: PodKind): React.ReactElement => {
   const phase = pod.status?.phase ? pod.status.phase.toLowerCase() : '';
   const containerStatuses = pod.status?.containerStatuses || [];
-  const hasWaiting = containerStatuses.some((cs) => cs.state?.waiting);
+  const hasWaiting = containerStatuses.some((cs) => {
+    if (!('state' in cs) || typeof cs.state !== 'object' || cs.state === null) {
+      return false;
+    }
+    return 'waiting' in cs.state;
+  });
 
   switch (phase) {
     case 'succeeded':

@@ -2,9 +2,9 @@ import {
   mockGlobalScopedHardwareProfiles,
   mockHardwareProfile,
   mockProjectScopedHardwareProfiles,
-} from '@odh-dashboard/internal/__mocks__/mockHardwareProfile';
-import { mockClusterQueueK8sResource } from '@odh-dashboard/internal/__mocks__/mockClusterQueueK8sResource';
-import { mockLocalQueueK8sResource } from '@odh-dashboard/internal/__mocks__/mockLocalQueueK8sResource';
+} from '@odh-dashboard/test-mocks/mockHardwareProfile';
+import { mockClusterQueueK8sResource } from '@odh-dashboard/test-mocks/mockClusterQueueK8sResource';
+import { mockLocalQueueK8sResource } from '@odh-dashboard/test-mocks/mockLocalQueueK8sResource';
 import {
   mockCustomSecretK8sResource,
   mockDashboardConfig,
@@ -15,24 +15,29 @@ import {
   mockRouteK8sResource,
   mockSecretK8sResource,
   mockStorageClassList,
-} from '@odh-dashboard/internal/__mocks__';
-import { mockConfigMap } from '@odh-dashboard/internal/__mocks__/mockConfigMap';
-import { mockImageStreamK8sResource } from '@odh-dashboard/internal/__mocks__/mockImageStreamK8sResource';
-import { mockPVCK8sResource } from '@odh-dashboard/internal/__mocks__/mockPVCK8sResource';
-import { mockPodK8sResource } from '@odh-dashboard/internal/__mocks__/mockPodK8sResource';
-import { mock200Status, mock404Error } from '@odh-dashboard/internal/__mocks__/mockK8sStatus';
-import { mockConnectionTypeConfigMap } from '@odh-dashboard/internal/__mocks__/mockConnectionType';
-import type { HardwareProfileKind, NotebookKind, PodKind } from '@odh-dashboard/internal/k8sTypes';
-import { IdentifierResourceType, SchedulingType } from '@odh-dashboard/internal/types';
+} from '@odh-dashboard/test-mocks';
+import { mockConfigMap } from '@odh-dashboard/test-mocks/mockConfigMap';
+import { mockImageStreamK8sResource } from '@odh-dashboard/test-mocks/mockImageStreamK8sResource';
+import { mockPVCK8sResource } from '@odh-dashboard/test-mocks/mockPVCK8sResource';
+import { mockPodK8sResource } from '@odh-dashboard/test-mocks/mockPodK8sResource';
+import { mock200Status, mock404Error } from '@odh-dashboard/test-mocks/mockK8sStatus';
+import { mockConnectionTypeConfigMap } from '@odh-dashboard/test-mocks/mockConnectionType';
+import type {
+  HardwareProfileKind,
+  NotebookKind,
+  PodKind,
+} from '@odh-dashboard/dashboard-foundation-frontend/k8sTypes';
+import {
+  IdentifierResourceType,
+  SchedulingType,
+} from '@odh-dashboard/dashboard-foundation-frontend/types';
 // eslint-disable-next-line @odh-dashboard/no-restricted-imports
-import { SpawnerPageSectionID } from '@odh-dashboard/internal/pages/projects/screens/spawner/types';
-import { DataScienceStackComponent } from '@odh-dashboard/internal/concepts/areas/types';
-import { mockWorkloadK8sResource } from '@odh-dashboard/internal/__mocks__/mockWorkloadK8sResource';
-import { WorkloadStatusType } from '@odh-dashboard/internal/concepts/distributedWorkloads/utils';
-import { AccessMode } from '../../../../types';
+import { SpawnerPageSectionID } from '@odh-dashboard/workbenches/pages/screens/spawner/types';
+import { DataScienceStackComponent } from '@odh-dashboard/dashboard-foundation-frontend/concepts/areas';
+import { mockWorkloadK8sResource } from '@odh-dashboard/test-mocks/mockWorkloadK8sResource';
+import { WorkloadStatusType } from '@odh-dashboard/distributed-workloads-shared/concepts/distributedWorkloads/types';
 import {
   ConfigMapModel,
-  ClusterQueueModel,
   EventModel,
   ImageStreamModel,
   NotebookModel,
@@ -43,9 +48,13 @@ import {
   SecretModel,
   StorageClassModel,
   HardwareProfileModel,
+} from '@odh-dashboard/dashboard-foundation-frontend/api/models';
+import {
+  ClusterQueueModel,
   LocalQueueModel,
   WorkloadModel,
-} from '../../../../utils/models';
+} from '@odh-dashboard/distributed-workloads-shared/api/models/kueue';
+import { AccessMode } from '../../../../types';
 import { deleteModal } from '../../../../pages/components/DeleteModal';
 import { be } from '../../../../utils/should';
 import { verifyRelativeURL } from '../../../../utils/url';

@@ -1,4 +1,15 @@
 {
   "extends": "@odh-dashboard/tsconfig/tsconfig.json",
-  "exclude": ["node_modules", "upstream"]
+  "exclude": ["node_modules", "upstream"],
+  "compilerOptions": {
+    "paths": {
+      "@mf/*": ["../dashboard-dist-full/@mf-types/@mf/*"],
+      "@odh-dashboard/dashboard-foundation-frontend/api": [
+        "../model-serving/src/compatibility/dashboardFoundationApiExports.ts"
+      ],
+      "@odh-dashboard/dashboard-foundation-frontend/api/index": [
+        "../model-serving/src/compatibility/dashboardFoundationApiExports.ts"
+      ]
+    }
+  }
 }

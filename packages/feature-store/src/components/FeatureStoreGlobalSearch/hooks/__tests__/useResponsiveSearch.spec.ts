@@ -62,7 +62,8 @@ describe('useResponsiveSearch', () => {
 
     it('should update when isSmallScreen changes', () => {
       const { result, rerender } = renderHook(
-        ({ isSmallScreen }) => useResponsiveSearch(isSmallScreen, mockContainerRef),
+        ({ isSmallScreen }: { isSmallScreen: boolean }) =>
+          useResponsiveSearch(isSmallScreen, mockContainerRef),
         { initialProps: { isSmallScreen: true } },
       );
 
@@ -73,7 +74,8 @@ describe('useResponsiveSearch', () => {
 
     it('should update when isDetailsPage changes', () => {
       const { result, rerender } = renderHook(
-        ({ isDetailsPage }) => useResponsiveSearch(false, mockContainerRef, isDetailsPage),
+        ({ isDetailsPage }: { isDetailsPage: boolean }) =>
+          useResponsiveSearch(false, mockContainerRef, isDetailsPage),
         { initialProps: { isDetailsPage: false } },
       );
 
@@ -153,7 +155,8 @@ describe('useResponsiveSearch', () => {
       mockGetBoundingClientRect.mockReturnValue({ width: 200 });
 
       const { result, rerender } = renderHook(
-        ({ containerRef }) => useResponsiveSearch(true, containerRef),
+        ({ containerRef }: { containerRef: React.RefObject<HTMLDivElement> }) =>
+          useResponsiveSearch(true, containerRef),
         { initialProps: { containerRef: mockContainerRef } },
       );
 

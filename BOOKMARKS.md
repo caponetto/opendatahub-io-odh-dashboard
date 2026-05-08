@@ -70,17 +70,17 @@ Central index of key documentation in the ODH Dashboard monorepo.
 
 ## Frontend Areas
 
-> Active frontend areas in `frontend/src/pages/`. Model Registry, Model Serving, and Model Catalog are deprecated in the main frontend — see Package docs below.
+> Core frontend area code now lives in feature packages under `packages/`. Model Registry, Model Serving, and Model Catalog have dedicated packages — see Package docs below.
 
 | Doc | Description |
 |-----|-------------|
-| [Pipelines](frontend/docs/pipelines.md) | Pipeline runs, DAG viewing, artifact tracking, Kubeflow Pipelines integration |
-| [Workbenches](frontend/docs/workbenches.md) | Notebook creation, JupyterLab, gateway-based routing (v3.0+), notebookController |
-| [Projects](frontend/docs/projects.md) | Data Science Projects hub — primary entry point for workbenches, pipelines, serving, storage, connections |
-| [Distributed Workloads](frontend/docs/distributed-workloads.md) | Kueue workload management, distributed training job monitoring |
-| [Gen AI / LLM](frontend/docs/gen-ai.md) | Host-side LLM feature flags and type definitions; actual UI lives in federated packages (gen-ai, eval-hub) |
-| [Home / Applications](frontend/docs/home-applications.md) | Application tile dashboard, enabled apps, learning center |
-| [Admin Settings](frontend/docs/admin-settings.md) | Cluster settings, group management, storage classes, hardware profiles, BYON images, connection types |
+| [Pipelines](docs/pipelines.md) | Pipeline runs, DAG viewing, artifact tracking, Kubeflow Pipelines integration |
+| [Workbenches](docs/workbenches.md) | Notebook creation, JupyterLab, gateway-based routing (v3.0+), notebookController |
+| [Projects](docs/projects.md) | Data Science Projects hub — primary entry point for workbenches, pipelines, serving, storage, connections |
+| [Distributed Workloads](docs/distributed-workloads.md) | Kueue workload management, distributed training job monitoring |
+| [Gen AI / LLM](docs/gen-ai.md) | Host-side LLM feature flags and type definitions; actual UI lives in federated packages (gen-ai, eval-hub) |
+| [Home / Applications](docs/home-applications.md) | Application tile dashboard, enabled apps, learning center |
+| [Admin Settings](docs/admin-settings.md) | Cluster settings, group management, storage classes, hardware profiles, BYON images, connection types |
 
 ---
 
@@ -88,7 +88,7 @@ Central index of key documentation in the ODH Dashboard monorepo.
 
 | Doc | Description |
 |-----|-------------|
-| [Backend Overview](backend/docs/overview.md) | Authentication strategies, proxy/pass-through architecture, k8s integration, service account calls, environment config |
+| [Backend Overview](docs/backend-overview.md) | Authentication strategies, proxy/pass-through architecture, k8s integration, service account calls, environment config |
 
 ---
 
@@ -118,10 +118,12 @@ Central index of key documentation in the ODH Dashboard monorepo.
 
 | Doc | Description |
 |-----|-------------|
-| [App Config](packages/app-config/README.md) | Shared runtime and build-time configuration utilities |
+| [Dashboard Config](packages/dashboard-config/README.md) | Shared runtime and build-time configuration utilities |
 | [ESLint Config](packages/eslint-config/README.md) | Shared ESLint rules and configurations |
 | [ESLint Plugin](packages/eslint-plugin/README.md) | Custom ESLint plugin rules |
 | [Jest Config](packages/jest-config/README.md) | Shared Jest test runner configurations |
+| [K8s Browser](packages/k8s-browser/README.md) | Browser-side Kubernetes runtime helpers and shared low-level K8s primitives |
 | [Plugin Core](packages/plugin-core/README.md) | Core plugin infrastructure and extension-point definitions |
+| [Plugin Types](packages/plugin-types/README.md) | Lightweight shared extension contract types re-exported by `plugin-core` |
 | [Plugin Template](packages/plugin-template/README.md) | Starter template for new modular packages |
 | [TSConfig](packages/tsconfig/README.md) | Shared TypeScript compiler configurations |

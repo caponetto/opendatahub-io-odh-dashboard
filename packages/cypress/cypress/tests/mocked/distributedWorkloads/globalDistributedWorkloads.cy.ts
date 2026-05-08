@@ -1,29 +1,29 @@
-import { mockDashboardConfig } from '@odh-dashboard/internal/__mocks__/mockDashboardConfig';
-import { mockDscStatus } from '@odh-dashboard/internal/__mocks__/mockDscStatus';
-import { mockComponents } from '@odh-dashboard/internal/__mocks__/mockComponents';
-import { mockK8sResourceList } from '@odh-dashboard/internal/__mocks__/mockK8sResourceList';
-import { mockProjectK8sResource } from '@odh-dashboard/internal/__mocks__/mockProjectK8sResource';
-import { mockDWUsageByOwnerPrometheusResponse } from '@odh-dashboard/internal/__mocks__/mockDWUsageByOwnerPrometheusResponse';
-import { mockWorkloadK8sResource } from '@odh-dashboard/internal/__mocks__/mockWorkloadK8sResource';
+import { mockDashboardConfig } from '@odh-dashboard/test-mocks/mockDashboardConfig';
+import { mockDscStatus } from '@odh-dashboard/test-mocks/mockDscStatus';
+import { mockComponents } from '@odh-dashboard/test-mocks/mockComponents';
+import { mockK8sResourceList } from '@odh-dashboard/test-mocks/mockK8sResourceList';
+import { mockProjectK8sResource } from '@odh-dashboard/test-mocks/mockProjectK8sResource';
+import { mockDWUsageByOwnerPrometheusResponse } from '@odh-dashboard/test-mocks/mockDWUsageByOwnerPrometheusResponse';
+import { mockWorkloadK8sResource } from '@odh-dashboard/test-mocks/mockWorkloadK8sResource';
 import type {
   ClusterQueueKind,
   LocalQueueKind,
   WorkloadKind,
   WorkloadPodSet,
-} from '@odh-dashboard/internal/k8sTypes';
-import { WorkloadOwnerType } from '@odh-dashboard/internal/k8sTypes';
-import type { PodContainer } from '@odh-dashboard/internal/types';
-import { WorkloadStatusType } from '@odh-dashboard/internal/concepts/distributedWorkloads/utils';
-import { mockClusterQueueK8sResource } from '@odh-dashboard/internal/__mocks__/mockClusterQueueK8sResource';
-import { mockLocalQueueK8sResource } from '@odh-dashboard/internal/__mocks__/mockLocalQueueK8sResource';
-import { RefreshIntervalTitle } from '@odh-dashboard/internal/concepts/metrics/types';
-import { DataScienceStackComponent } from '@odh-dashboard/internal/concepts/areas/types';
+} from '@odh-dashboard/dashboard-foundation-frontend/k8sTypes';
+import { WorkloadOwnerType } from '@odh-dashboard/dashboard-foundation-frontend/k8sTypes';
+import type { PodContainer } from '@odh-dashboard/dashboard-foundation-frontend/types';
+import { WorkloadStatusType } from '@odh-dashboard/distributed-workloads-shared/concepts/distributedWorkloads/types';
+import { mockClusterQueueK8sResource } from '@odh-dashboard/test-mocks/mockClusterQueueK8sResource';
+import { mockLocalQueueK8sResource } from '@odh-dashboard/test-mocks/mockLocalQueueK8sResource';
+import { RefreshIntervalTitle } from '@odh-dashboard/dashboard-foundation-frontend/concepts/metrics/types';
+import { DataScienceStackComponent } from '@odh-dashboard/dashboard-foundation-frontend/concepts/areas';
+import { ProjectModel } from '@odh-dashboard/dashboard-foundation-frontend/api/models';
 import {
   ClusterQueueModel,
   LocalQueueModel,
-  ProjectModel,
   WorkloadModel,
-} from '../../../utils/models';
+} from '@odh-dashboard/distributed-workloads-shared/api/models/kueue';
 import { globalDistributedWorkloads } from '../../../pages/distributedWorkloads';
 
 const mockContainer: PodContainer = {

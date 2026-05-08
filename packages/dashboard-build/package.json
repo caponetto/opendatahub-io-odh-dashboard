@@ -1,0 +1,62 @@
+{
+  "private": true,
+  "name": "@odh-dashboard/dashboard-build",
+  "description": "Shared webpack build infrastructure for ODH Dashboard assembler packages",
+  "version": "0.0.0",
+  "main": "index.js",
+  "scripts": {
+    "generate:manifest": "node generatePluginManifest.js",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "test": "jest",
+    "test-unit": "jest --silent",
+    "test-unit-coverage": "jest --silent --coverage"
+  },
+  "dependencies": {
+    "@jsdevtools/coverage-istanbul-loader": "*",
+    "@module-federation/enhanced": "*",
+    "@pmmmwh/react-refresh-webpack-plugin": "^0.5.15",
+    "@swc/core": "^1.13.3",
+    "copy-webpack-plugin": "*",
+    "cross-env": "*",
+    "css-loader": "*",
+    "css-minimizer-webpack-plugin": "*",
+    "dotenv": "*",
+    "dotenv-expand": "*",
+    "dotenv-webpack": "*",
+    "file-loader": "*",
+    "fork-ts-checker-webpack-plugin": "*",
+    "html-webpack-plugin": "*",
+    "js-yaml-loader": "*",
+    "mini-css-extract-plugin": "*",
+    "monaco-editor": "^0.50.0",
+    "monaco-editor-webpack-plugin": "^7.1.0",
+    "raw-loader": "*",
+    "react-refresh": "^0.14.2",
+    "rimraf": "*",
+    "sass": "*",
+    "sass-loader": "*",
+    "speed-measure-webpack-plugin": "*",
+    "style-loader": "*",
+    "svg-url-loader": "*",
+    "swc-loader": "^0.2.6",
+    "terser-webpack-plugin": "*",
+    "ts-loader": "*",
+    "url-loader": "*",
+    "webpack": "*",
+    "webpack-bundle-analyzer": "*",
+    "webpack-cli": "*",
+    "webpack-dev-server": "*",
+    "webpack-merge": "*",
+    "webpack-virtual-modules": "^0.6.2"
+  },
+  "devDependencies": {
+    "@odh-dashboard/eslint-config": "*",
+    "@odh-dashboard/jest-config": "*",
+    "@odh-dashboard/tsconfig": "*"
+  },
+  "topology": {
+    "tier": "infrastructure",
+    "eslintTierExempt": true
+  }
+}

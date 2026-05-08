@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { useAccessAllowed } from '@odh-dashboard/internal/concepts/userSSAR/useAccessAllowed';
-import { verbModelAccess } from '@odh-dashboard/internal/concepts/userSSAR/utils';
-import { ModelRegistryModel } from '@odh-dashboard/internal/api/models/odh';
+import { useAccessAllowed } from '@odh-dashboard/dashboard-foundation-frontend/concepts/userSSAR/useAccessAllowed';
+import { verbModelAccess } from '@odh-dashboard/dashboard-foundation-frontend/concepts/userSSAR/utils';
+import { ModelRegistryModel } from '@odh-dashboard/dashboard-foundation-frontend/api/models/odh';
 
 type AdminCheckProps = {
   children: (isAdmin: boolean, loaded: boolean) => React.ReactElement;

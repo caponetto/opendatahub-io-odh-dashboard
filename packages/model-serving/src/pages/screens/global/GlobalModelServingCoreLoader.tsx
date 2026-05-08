@@ -1,0 +1,76 @@
+import * as React from 'react';
+import { Navigate, Outlet, useParams } from 'react-router-dom';
+import ApplicationsPage from '@odh-dashboard/dashboard-foundation-frontend/components/ApplicationsPage';
+import {
+  byName,
+  ProjectsContext,
+} from '@odh-dashboard/dashboard-foundation-frontend/concepts/projects/ProjectsContext';
+import InvalidProject from '@odh-dashboard/dashboard-foundation-frontend/concepts/projects/InvalidProject';
+import ModelServingNoProjects from './ModelServingNoProjects';
+import ModelServingProjectSelection from './ModelServingProjectSelection';
+import ModelServingContextProvider from '../../ModelServingContext';
+
+type ApplicationPageProps = React.ComponentProps<typeof ApplicationsPage>;
+type EmptyStateProps = 'emptyStatePage' | 'empty';
+
+type GlobalModelServingCoreLoaderProps = {
+  getInvalidRedirectPath: (namespace: string) => string;
+};
+
+type ApplicationPageRenderState = Pick<ApplicationPageProps, EmptyStateProps>;
+
+const GlobalModelServingCoreLoader: React.FC<GlobalModelServingCoreLoaderProps> = ({
+  getInvalidRedirectPath,
+}) => {
+  const { namespace } = useParams<{ namespace: string }>();
+  const { projects, preferredProject } = React.useContext(ProjectsContext);
+
+  let renderStateProps: ApplicationPageRenderState & { children?: React.ReactNode };
+  if (projects.length === 0) {
+    renderStateProps = {
+      empty: true,
+      emptyStatePage: <ModelServingNoProjects />,
+    };
+  } else if (namespace) {
+    const foundProject = projects.find(byName(namespace));
+    if (foundProject) {
+      // Render the content
+      return (
+        <ModelServingContextProvider namespace={namespace}>
+          <Outlet />
+        </ModelServingContextProvider>
+      );
+    }
+
+    // They ended up on a non-valid project path
+    renderStateProps = {
+      empty: true,
+      emptyStatePage: (
+        <InvalidProject namespace={namespace} getRedirectPath={getInvalidRedirectPath} />
+      ),
+    };
+  } else {
+    // Redirect the namespace suffix into the URL
+    if (preferredProject) {
+      return <Navigate to={getInvalidRedirectPath(preferredProject.metadata.name)} replace />;
+    }
+    // Go with All projects path
+    return (
+      <ModelServingContextProvider>
+        <Outlet />
+      </ModelServingContextProvider>
+    );
+  }
+
+  return (
+    <ApplicationsPage
+      {...renderStateProps}
+      title="Deployments"
+      description="Manage and view the health and performance of your deployed models."
+      loaded
+      headerContent={<ModelServingProjectSelection getRedirectPath={getInvalidRedirectPath} />}
+      provideChildrenPadding
+    />
+  );
+};
+export default GlobalModelServingCoreLoader;

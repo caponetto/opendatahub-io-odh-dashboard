@@ -1,8 +1,9 @@
-import { mockClusterSettings } from '@odh-dashboard/internal/__mocks__/mockClusterSettings';
-import { mockDscStatus } from '@odh-dashboard/internal/__mocks__/mockDscStatus';
-import { DataScienceStackComponent } from '@odh-dashboard/internal/concepts/areas/types';
-import { mockK8sResourceList } from '@odh-dashboard/internal/__mocks__';
-import { mockDsc } from '@odh-dashboard/internal/__mocks__/mockDsc';
+import { mockClusterSettings } from '@odh-dashboard/test-mocks/mockClusterSettings';
+import { mockDscStatus } from '@odh-dashboard/test-mocks/mockDscStatus';
+import { DataScienceStackComponent } from '@odh-dashboard/dashboard-foundation-frontend/concepts/areas';
+import { mockK8sResourceList } from '@odh-dashboard/test-mocks';
+import { mockDsc } from '@odh-dashboard/test-mocks/mockDsc';
+import { DataScienceClusterModel } from '@odh-dashboard/dashboard-foundation-frontend/api/models';
 import {
   clusterSettings,
   cullerSettings,
@@ -14,7 +15,6 @@ import {
 import { pageNotfound } from '../../../pages/pageNotFound';
 import { be } from '../../../utils/should';
 import { asClusterAdminUser, asProjectAdminUser } from '../../../utils/mockUsers';
-import { DataScienceClusterModel } from '../../../utils/models';
 
 it('Cluster settings should not be available for non product admins', () => {
   asProjectAdminUser();

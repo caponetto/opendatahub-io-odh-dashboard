@@ -1,20 +1,25 @@
-import { K8sStatus } from '@openshift/dynamic-plugin-sdk-utils';
+import { K8sStatus } from '@odh-dashboard/k8s-browser';
 import {
   assembleSecretSA,
   createSecret,
   deleteSecret,
   replaceSecret,
-} from '@odh-dashboard/internal/api/k8s/secrets';
-import { assembleServiceAccount } from '@odh-dashboard/internal/api/k8s/serviceAccounts';
-import { generateRoleBindingServiceAccount } from '@odh-dashboard/internal/api/k8s/roleBindings';
-import { addOwnerReference } from '@odh-dashboard/internal/api/k8sUtils';
-import { SecretKind, K8sAPIOptions, RoleKind, KnownLabels } from '@odh-dashboard/internal/k8sTypes';
-import { getTokenNames } from '@odh-dashboard/model-serving/concepts/auth';
+} from '@odh-dashboard/dashboard-foundation-frontend/api/k8s/secrets';
+import { assembleServiceAccount } from '@odh-dashboard/dashboard-foundation-frontend/api/k8s/serviceAccounts';
+import { generateRoleBindingServiceAccount } from '@odh-dashboard/dashboard-foundation-frontend/api/k8s/roleBindings';
+import { addOwnerReference } from '@odh-dashboard/dashboard-foundation-frontend/api/k8sUtils';
+import {
+  SecretKind,
+  K8sAPIOptions,
+  RoleKind,
+  KnownLabels,
+} from '@odh-dashboard/dashboard-foundation-frontend/k8sTypes';
+import { getTokenNames } from '@odh-dashboard/model-serving-shared/concepts/modelServing/utils';
 import {
   createServiceAccountIfMissing,
   createRoleIfMissing,
   createRoleBindingIfMissing,
-} from '@odh-dashboard/kserve/deployUtils';
+} from '@odh-dashboard/dashboard-foundation-frontend/api/k8s/createIfMissing';
 import { LLMInferenceServiceKind } from '../types';
 
 export const generateRoleLLMInferenceService = (

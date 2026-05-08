@@ -105,9 +105,12 @@ describe('useSearchState', () => {
 
   describe('search state management', () => {
     it('should reset isSearching to false when isLoading becomes false', async () => {
-      const { result, rerender } = renderHook(({ isLoading }) => useSearchState({ isLoading }), {
-        initialProps: { isLoading: true },
-      });
+      const { result, rerender } = renderHook(
+        ({ isLoading }: { isLoading: boolean }) => useSearchState({ isLoading }),
+        {
+          initialProps: { isLoading: true },
+        },
+      );
 
       result.current.setIsSearching(true);
       await waitFor(() => {
@@ -120,9 +123,12 @@ describe('useSearchState', () => {
     });
 
     it('should not reset isSearching when isLoading remains true', async () => {
-      const { result, rerender } = renderHook(({ isLoading }) => useSearchState({ isLoading }), {
-        initialProps: { isLoading: true },
-      });
+      const { result, rerender } = renderHook(
+        ({ isLoading }: { isLoading: boolean }) => useSearchState({ isLoading }),
+        {
+          initialProps: { isLoading: true },
+        },
+      );
 
       result.current.setIsSearching(true);
       await waitFor(() => {
@@ -226,9 +232,12 @@ describe('useSearchState', () => {
 
   describe('integration behavior', () => {
     it('should maintain search open state when isLoading changes but search value remains', async () => {
-      const { result, rerender } = renderHook(({ isLoading }) => useSearchState({ isLoading }), {
-        initialProps: { isLoading: false },
-      });
+      const { result, rerender } = renderHook(
+        ({ isLoading }: { isLoading: boolean }) => useSearchState({ isLoading }),
+        {
+          initialProps: { isLoading: false },
+        },
+      );
 
       result.current.setSearchValue('test query');
       await waitFor(() => {
@@ -247,9 +256,12 @@ describe('useSearchState', () => {
     });
 
     it('should close search when value is cleared regardless of isLoading', async () => {
-      const { result, rerender } = renderHook(({ isLoading }) => useSearchState({ isLoading }), {
-        initialProps: { isLoading: true },
-      });
+      const { result, rerender } = renderHook(
+        ({ isLoading }: { isLoading: boolean }) => useSearchState({ isLoading }),
+        {
+          initialProps: { isLoading: true },
+        },
+      );
 
       result.current.setSearchValue('test query');
       await waitFor(() => {

@@ -4,15 +4,15 @@ import {
   K8sAPIOptions,
   ProjectKind,
   ServingRuntimeKind,
-} from '@odh-dashboard/internal/k8sTypes';
-import { Deployment } from '@odh-dashboard/model-serving/extension-points';
+} from '@odh-dashboard/dashboard-foundation-frontend/k8sTypes';
+import type { Deployment } from '@odh-dashboard/model-serving-shared/extension-points';
 import {
   deleteInferenceService,
-  deleteServingRuntime,
   getInferenceService,
   getInferenceServicePods,
-} from '@odh-dashboard/internal/api/index';
-import { getAPIProtocolFromServingRuntime } from '@odh-dashboard/internal/pages/modelServing/customServingRuntimes/utils';
+} from '@odh-dashboard/model-serving-shared/api/k8s/inferenceServices';
+import { deleteServingRuntime } from '@odh-dashboard/model-serving-shared/api/k8s/servingRuntimes';
+import { getAPIProtocolFromServingRuntime } from '@odh-dashboard/model-serving-shared/concepts/modelServing/servingRuntimeUtils';
 import { getKServeDeploymentEndpoints } from './deploymentEndpoints';
 import {
   useWatchDeploymentPods,
@@ -20,7 +20,7 @@ import {
   useWatchInferenceServices,
 } from './api/watch';
 import { getKServeDeploymentStatus } from './deploymentStatus';
-import { KSERVE_ID } from '../extensions';
+import { KSERVE_ID } from './extensions';
 
 export type KServeDeployment = Deployment<InferenceServiceKind, ServingRuntimeKind>;
 export const isKServeDeployment = (deployment: Deployment): deployment is KServeDeployment =>
@@ -42,32 +42,35 @@ export const useWatchDeployments = (
     project,
     opts,
   );
+  const safeInferenceServices = React.useMemo(() => inferenceServices ?? [], [inferenceServices]);
+  const safeServingRuntimes = React.useMemo(() => servingRuntimes ?? [], [servingRuntimes]);
+  const safeDeploymentPods = React.useMemo(() => deploymentPods ?? [], [deploymentPods]);
 
   const filteredInferenceServices = React.useMemo(() => {
     if (!filterFn) {
-      return inferenceServices;
+      return safeInferenceServices;
     }
-    return inferenceServices.filter(filterFn);
-  }, [inferenceServices, filterFn]);
+    return safeInferenceServices.filter(filterFn);
+  }, [safeInferenceServices, filterFn]);
 
   const deployments: KServeDeployment[] = React.useMemo(
     () =>
       filteredInferenceServices.map((inferenceService) => {
-        const servingRuntime = servingRuntimes.find(
+        const servingRuntime = safeServingRuntimes.find(
           (sr) => sr.metadata.name === inferenceService.spec.predictor.model?.runtime,
         );
         return {
           modelServingPlatformId: KSERVE_ID,
           model: inferenceService,
           server: servingRuntime,
-          status: getKServeDeploymentStatus(inferenceService, deploymentPods),
+          status: getKServeDeploymentStatus(inferenceService, safeDeploymentPods),
           endpoints: getKServeDeploymentEndpoints(inferenceService),
           apiProtocol: servingRuntime
             ? getAPIProtocolFromServingRuntime(servingRuntime)
             : undefined,
         };
       }),
-    [filteredInferenceServices, servingRuntimes, deploymentPods],
+    [filteredInferenceServices, safeServingRuntimes, safeDeploymentPods],
   );
 
   const effectivelyLoaded = Boolean(

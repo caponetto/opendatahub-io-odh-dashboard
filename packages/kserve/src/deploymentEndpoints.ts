@@ -1,9 +1,9 @@
-import { InferenceServiceKind } from '@odh-dashboard/internal/k8sTypes';
+import { InferenceServiceKind } from '@odh-dashboard/dashboard-foundation-frontend/k8sTypes';
 import {
   getUrlFromKserveInferenceService,
   isInferenceServiceRouteEnabled,
-} from '@odh-dashboard/internal/pages/modelServing/screens/projects/utils';
-import { DeploymentEndpoint } from '@odh-dashboard/model-serving/extension-points';
+} from '@odh-dashboard/model-serving-shared/concepts/modelServing/utils';
+import type { DeploymentEndpoint } from '@odh-dashboard/model-serving-shared/extension-points';
 
 export const getKServeDeploymentEndpoints = (
   inferenceService: InferenceServiceKind,

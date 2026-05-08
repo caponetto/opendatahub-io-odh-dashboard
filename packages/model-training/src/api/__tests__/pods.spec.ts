@@ -1,11 +1,11 @@
-import { k8sListResource } from '@openshift/dynamic-plugin-sdk-utils';
-import { PodModel } from '@odh-dashboard/internal/api/models/index';
-import { PodKind } from '@odh-dashboard/internal/k8sTypes';
-import { mockK8sResourceList } from '@odh-dashboard/internal/__mocks__/mockK8sResourceList';
+import { k8sListResource } from '@odh-dashboard/k8s-browser';
+import { PodModel } from '@odh-dashboard/dashboard-foundation-frontend/api/models';
+import { PodKind } from '@odh-dashboard/dashboard-foundation-frontend/k8sTypes';
+import { mockK8sResourceList } from '@odh-dashboard/test-mocks/mockK8sResourceList';
 import { getPodsForTrainJob } from '../pods';
 import { mockTrainJobK8sResource } from '../../__mocks__/mockTrainJobK8sResource';
 
-jest.mock('@openshift/dynamic-plugin-sdk-utils');
+jest.mock('@odh-dashboard/k8s-browser');
 
 const mockK8sListResource = jest.mocked(k8sListResource);
 

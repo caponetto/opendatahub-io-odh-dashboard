@@ -1,12 +1,12 @@
-import { k8sPatchResource } from '@openshift/dynamic-plugin-sdk-utils';
-import { WorkloadModel } from '@odh-dashboard/internal/api/models/kueue';
-import { listWorkloads } from '@odh-dashboard/internal/api/k8s/workloads';
-import { mockWorkloadK8sResource } from '@odh-dashboard/internal/__mocks__/mockWorkloadK8sResource';
+import { k8sPatchResource } from '@odh-dashboard/k8s-browser';
+import { WorkloadModel } from '@odh-dashboard/distributed-workloads-shared/api/models/kueue';
+import { listWorkloads } from '@odh-dashboard/distributed-workloads-shared/api/k8s/workloads';
+import { mockWorkloadK8sResource } from '@odh-dashboard/test-mocks/mockWorkloadK8sResource';
 import { getWorkloadForJob, patchWorkloadActiveState } from '../workloads';
 import { mockTrainJobK8sResource } from '../../__mocks__/mockTrainJobK8sResource';
 
-jest.mock('@openshift/dynamic-plugin-sdk-utils');
-jest.mock('@odh-dashboard/internal/api/k8s/workloads');
+jest.mock('@odh-dashboard/k8s-browser');
+jest.mock('@odh-dashboard/distributed-workloads-shared/api/k8s/workloads');
 
 const mockK8sPatchResource = jest.mocked(k8sPatchResource);
 const mockListWorkloads = jest.mocked(listWorkloads);

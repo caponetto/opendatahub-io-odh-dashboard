@@ -9,7 +9,7 @@ import {
 } from 'mod-arch-core';
 import { ThemeProvider, Theme } from 'mod-arch-kubeflow';
 import { Bullseye } from '@patternfly/react-core';
-import useFetchDscStatus from '@odh-dashboard/internal/concepts/areas/useFetchDscStatus';
+import { useFetchDscStatus } from '@odh-dashboard/dashboard-foundation-frontend/concepts/areas';
 import { BFF_API_VERSION, URL_PREFIX } from '~/app/utilities/const';
 import ModelRegistryRoutes from '~/app/pages/modelRegistry/ModelRegistryRoutes';
 import { ModelRegistrySelectorContextProvider } from '~/app/context/ModelRegistrySelectorContext';

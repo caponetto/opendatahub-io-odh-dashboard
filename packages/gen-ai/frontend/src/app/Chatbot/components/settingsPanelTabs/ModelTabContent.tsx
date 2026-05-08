@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Form, FormGroup, Switch } from '@patternfly/react-core';
-import { fireMiscTrackingEvent } from '@odh-dashboard/internal/concepts/analyticsTracking/segmentIOUtils';
+import { fireMiscTrackingEvent } from '@odh-dashboard/dashboard-foundation-frontend/concepts/analyticsTracking/segmentIOUtils';
 import TabContentWrapper from '~/app/Chatbot/components/settingsPanelTabs/TabContentWrapper';
 import ModelParameterFormGroup from '~/app/Chatbot/components/ModelParameterFormGroup';
 import ModelDetailsDropdown from '~/app/Chatbot/components/ModelDetailsDropdown';

@@ -1,30 +1,30 @@
-import { mockDashboardConfig } from '@odh-dashboard/internal/__mocks__/mockDashboardConfig';
-import { mockDscStatus } from '@odh-dashboard/internal/__mocks__/mockDscStatus';
-import { mockInferenceServiceK8sResource } from '@odh-dashboard/internal/__mocks__/mockInferenceServiceK8sResource';
-import { mockK8sResourceList } from '@odh-dashboard/internal/__mocks__/mockK8sResourceList';
-import { mockProjectK8sResource } from '@odh-dashboard/internal/__mocks__/mockProjectK8sResource';
+import { mockDashboardConfig } from '@odh-dashboard/test-mocks/mockDashboardConfig';
+import { mockDscStatus } from '@odh-dashboard/test-mocks/mockDscStatus';
+import { mockInferenceServiceK8sResource } from '@odh-dashboard/test-mocks/mockInferenceServiceK8sResource';
+import { mockK8sResourceList } from '@odh-dashboard/test-mocks/mockK8sResourceList';
+import { mockProjectK8sResource } from '@odh-dashboard/test-mocks/mockProjectK8sResource';
 import {
   mockCustomSecretK8sResource,
   mockSecretK8sResource,
-} from '@odh-dashboard/internal/__mocks__/mockSecretK8sResource';
+} from '@odh-dashboard/test-mocks/mockSecretK8sResource';
 import type {
   InferenceServiceKind,
   SecretKind,
   ServingRuntimeKind,
   TrustyAIKind,
-} from '@odh-dashboard/internal/k8sTypes';
-import { mockPrometheusServing } from '@odh-dashboard/internal/__mocks__/mockPrometheusServing';
-import { mockPrometheusBias } from '@odh-dashboard/internal/__mocks__/mockPrometheusBias';
-import { mockMetricsRequest } from '@odh-dashboard/internal/__mocks__/mockMetricsRequests';
-import { mockTrustyAIServiceForDbK8sResource } from '@odh-dashboard/internal/__mocks__/mockTrustyAIServiceK8sResource';
-import { mockRouteK8sResource } from '@odh-dashboard/internal/__mocks__/mockRouteK8sResource';
-import { mockServingRuntimeK8sResource } from '@odh-dashboard/internal/__mocks__/mockServingRuntimeK8sResource';
+} from '@odh-dashboard/dashboard-foundation-frontend/k8sTypes';
+import { mockPrometheusServing } from '@odh-dashboard/test-mocks/mockPrometheusServing';
+import { mockPrometheusBias } from '@odh-dashboard/test-mocks/mockPrometheusBias';
+import { mockMetricsRequest } from '@odh-dashboard/test-mocks/mockMetricsRequests';
+import { mockTrustyAIServiceForDbK8sResource } from '@odh-dashboard/test-mocks/mockTrustyAIServiceK8sResource';
+import { mockRouteK8sResource } from '@odh-dashboard/test-mocks/mockRouteK8sResource';
+import { mockServingRuntimeK8sResource } from '@odh-dashboard/test-mocks/mockServingRuntimeK8sResource';
 import {
   mockInvalidTemplateK8sResource,
   mockServingRuntimeTemplateK8sResource,
-} from '@odh-dashboard/internal/__mocks__/mockServingRuntimeTemplateK8sResource';
-import { ServingRuntimePlatform } from '@odh-dashboard/internal/types';
-import { mock403Error, mock404Error } from '@odh-dashboard/internal/__mocks__/mockK8sStatus';
+} from '@odh-dashboard/test-mocks/mockServingRuntimeTemplateK8sResource';
+import { ServingRuntimePlatform } from '@odh-dashboard/dashboard-foundation-frontend/types';
+import { mock403Error, mock404Error } from '@odh-dashboard/test-mocks/mockK8sStatus';
 import {
   MOCK_KSERVE_METRICS_CONFIG_2,
   MOCK_KSERVE_METRICS_CONFIG_3,
@@ -35,9 +35,9 @@ import {
   MOCK_NIM_METRICS_CONFIG_MISSING_QUERY_3,
   mockKserveMetricsConfigMap,
   mockNimMetricsConfigMap,
-} from '@odh-dashboard/internal/__mocks__/mockKserveMetricsConfigMap';
-import { mockOdhApplication } from '@odh-dashboard/internal/__mocks__/mockOdhApplication';
-import { DataScienceStackComponent } from '@odh-dashboard/internal/concepts/areas/types';
+} from '@odh-dashboard/test-mocks/mockKserveMetricsConfigMap';
+import { mockOdhApplication } from '@odh-dashboard/test-mocks/mockOdhApplication';
+import { DataScienceStackComponent } from '@odh-dashboard/dashboard-foundation-frontend/concepts/areas';
 import {
   ConfigMapModel,
   InferenceServiceModel,
@@ -47,7 +47,7 @@ import {
   ServingRuntimeModel,
   TemplateModel,
   TrustyAIApplicationsModel,
-} from '../../../utils/models';
+} from '@odh-dashboard/dashboard-foundation-frontend/api/models';
 import { projectDetailsSettingsTab } from '../../../pages/projects';
 import {
   configureBiasMetricModal,

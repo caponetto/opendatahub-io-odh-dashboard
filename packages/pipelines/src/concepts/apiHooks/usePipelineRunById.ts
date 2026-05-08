@@ -1,0 +1,61 @@
+import * as React from 'react';
+import useFetchState, {
+  FetchState,
+  FetchStateCallbackPromise,
+  NotReadyError,
+} from '@odh-dashboard/dashboard-foundation-frontend/utilities/useFetchState';
+import { FAST_POLL_INTERVAL } from '@odh-dashboard/dashboard-foundation-frontend/utilities/const';
+import { usePipelinesAPI } from '@odh-dashboard/pipelines/concepts/context';
+import {
+  PipelineRunKF,
+  RuntimeStateKF,
+  runtimeStateLabels,
+} from '@odh-dashboard/pipelines/concepts/kfTypes';
+import { computeRunStatus } from '@odh-dashboard/pipelines/concepts/content/utils';
+
+export const isPipelineRunFinished = (run?: PipelineRunKF | null): boolean => {
+  const { label } = computeRunStatus(run);
+  return [
+    runtimeStateLabels[RuntimeStateKF.SUCCEEDED],
+    runtimeStateLabels[RuntimeStateKF.FAILED],
+    runtimeStateLabels[RuntimeStateKF.CANCELED],
+  ].includes(label);
+};
+
+const usePipelineRunById = (
+  pipelineRunId?: string,
+  refreshForDetails?: boolean,
+): FetchState<PipelineRunKF | null> => {
+  const { api } = usePipelinesAPI();
+  const [pipelineFinished, setPipelineFinished] = React.useState(false);
+
+  const call = React.useCallback<FetchStateCallbackPromise<PipelineRunKF | null>>(
+    (opts) => {
+      if (!pipelineRunId) {
+        return Promise.reject(new NotReadyError('No pipeline run id'));
+      }
+
+      return api.getPipelineRun(opts, pipelineRunId);
+    },
+    [api, pipelineRunId],
+  );
+
+  const runData = useFetchState(call, null, {
+    refreshRate: !pipelineFinished && refreshForDetails ? FAST_POLL_INTERVAL : undefined,
+  });
+
+  const [run] = runData;
+  const isFinished = isPipelineRunFinished(run);
+
+  React.useEffect(() => {
+    if (isFinished) {
+      setPipelineFinished(true);
+    } else if (run) {
+      setPipelineFinished(false);
+    }
+  }, [isFinished, run]);
+
+  return runData;
+};
+
+export default usePipelineRunById;

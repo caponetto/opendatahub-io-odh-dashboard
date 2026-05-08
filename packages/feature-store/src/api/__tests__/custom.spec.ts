@@ -1,4 +1,4 @@
-import { proxyGET } from '@odh-dashboard/internal/api/proxyUtils';
+import { proxyGET } from '@odh-dashboard/dashboard-foundation-frontend/api/proxyUtils';
 import { handleFeatureStoreFailures } from '../errorUtils';
 import {
   listFeatureStoreProject,
@@ -15,7 +15,7 @@ import { FEATURE_STORE_API_VERSION } from '../../const';
 
 const mockProxyPromise = Promise.resolve();
 
-jest.mock('@odh-dashboard/internal/api/proxyUtils', () => ({
+jest.mock('@odh-dashboard/dashboard-foundation-frontend/api/proxyUtils', () => ({
   proxyGET: jest.fn(() => mockProxyPromise),
 }));
 

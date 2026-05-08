@@ -8,6 +8,10 @@
     ".": "./jest.config.ts",
     "./hooks": "./src/hooks.ts"
   },
+  "topology": {
+    "tier": "infrastructure",
+    "eslintTierExempt": true
+  },
   "scripts": {
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",

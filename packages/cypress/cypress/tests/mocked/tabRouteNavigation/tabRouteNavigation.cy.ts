@@ -1,6 +1,6 @@
-import { mockDashboardConfig } from '@odh-dashboard/internal/__mocks__/mockDashboardConfig';
-import { mockDscStatus } from '@odh-dashboard/internal/__mocks__/mockDscStatus';
-import { DataScienceStackComponent } from '@odh-dashboard/internal/concepts/areas/types';
+import { mockDashboardConfig } from '@odh-dashboard/test-mocks/mockDashboardConfig';
+import { mockDscStatus } from '@odh-dashboard/test-mocks/mockDscStatus';
+import { DataScienceStackComponent } from '@odh-dashboard/dashboard-foundation-frontend/concepts/areas';
 import { tabRoutePage } from '../../../pages/tabRoutePage';
 
 const initIntercepts = () => {

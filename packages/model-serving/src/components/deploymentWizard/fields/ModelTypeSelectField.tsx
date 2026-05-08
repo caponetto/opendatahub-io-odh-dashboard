@@ -1,12 +1,21 @@
 import React from 'react';
 import { Checkbox, FormGroup } from '@patternfly/react-core';
 import { z, type ZodIssue } from 'zod';
-import SimpleSelect from '@odh-dashboard/internal/components/SimpleSelect';
-import { FieldValidationProps } from '@odh-dashboard/internal/hooks/useZodFormValidation';
-import { ZodErrorHelperText } from '@odh-dashboard/internal/components/ZodErrorFormHelperText';
-import { ServingRuntimeModelType } from '@odh-dashboard/internal/types';
-import { SupportedArea, useIsAreaAvailable } from '@odh-dashboard/internal/concepts/areas';
+import SimpleSelect from '@odh-dashboard/dashboard-foundation-frontend/components/SimpleSelect';
+import { FieldValidationProps } from '@odh-dashboard/dashboard-foundation-frontend/hooks/useZodFormValidation';
+import { ZodErrorHelperText } from '@odh-dashboard/dashboard-foundation-frontend/components/ZodErrorFormHelperText';
+import { ServingRuntimeModelType } from '@odh-dashboard/dashboard-foundation-frontend/types';
+import {
+  SupportedArea,
+  useIsAreaAvailable,
+} from '@odh-dashboard/dashboard-foundation-frontend/concepts/areas';
+import type {
+  ModelTypeField,
+  ModelTypeFieldData,
+} from '@odh-dashboard/model-serving-shared/types/form-data';
 import { ModelTypeLabel } from '../types';
+
+export type { ModelTypeField, ModelTypeFieldData };
 
 // Schema
 
@@ -25,16 +34,11 @@ export const modelTypeSelectFieldSchema = z.object({
   legacyVLLM: z.boolean(),
 });
 
-export type ModelTypeFieldData = z.infer<typeof modelTypeSelectFieldSchema>;
 export const isValidModelType = (value: string): value is ModelTypeValue =>
   value === ServingRuntimeModelType.PREDICTIVE || value === ServingRuntimeModelType.GENERATIVE;
 
 // Hooks
 
-export type ModelTypeField = {
-  data: ModelTypeFieldData | undefined;
-  setData: (data: ModelTypeFieldData) => void;
-};
 export const useModelTypeField = (existingData?: ModelTypeFieldData): ModelTypeField => {
   const [modelType, setModelType] = React.useState<ModelTypeFieldData | undefined>(existingData);
 

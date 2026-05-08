@@ -1,6 +1,6 @@
 import React from 'react';
 import { Breadcrumb, BreadcrumbItem, Button } from '@patternfly/react-core';
-import { WORKSPACE_QUERY_PARAM } from '@odh-dashboard/internal/routes/pipelines/mlflow';
+import { WORKSPACE_QUERY_PARAM } from '@odh-dashboard/mlflow-shared/concepts/mlflow/routes';
 
 export interface BreadcrumbEntry {
   label: string;

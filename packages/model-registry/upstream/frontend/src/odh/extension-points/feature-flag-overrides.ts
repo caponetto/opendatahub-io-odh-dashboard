@@ -1,5 +1,5 @@
 import * as React from 'react';
-import type { Extension, CodeRef } from '@openshift/dynamic-plugin-sdk';
+import type { Extension, CodeRef } from '@odh-dashboard/plugin-core';
 import type { TempDevFeature } from '~/app/hooks/useTempDevFeatureAvailable';
 
 /**

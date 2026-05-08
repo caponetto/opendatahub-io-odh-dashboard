@@ -30,12 +30,15 @@ export const renderHook = <
   let prevResult: Result;
   let currentResult: Result;
 
-  const renderResult = renderHookRTL((props) => {
-    updateCount++;
-    prevResult = currentResult;
-    currentResult = render(props);
-    return currentResult;
-  }, options);
+  const renderResult = renderHookRTL(
+    (props) => {
+      updateCount++;
+      prevResult = currentResult;
+      currentResult = render(props);
+      return currentResult;
+    },
+    { reactStrictMode: false, ...options },
+  );
 
   const renderResultExt: RenderHookResultExt<Result, Props> = {
     ...renderResult,

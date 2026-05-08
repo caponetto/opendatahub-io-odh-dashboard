@@ -1,0 +1,65 @@
+import React from 'react';
+import { getConfigMap } from '@odh-dashboard/dashboard-foundation-frontend/api/k8s/configMaps';
+import { isK8sStatus } from '@odh-dashboard/dashboard-foundation-frontend/api/errorUtils';
+import useNamespaces from '@odh-dashboard/dashboard-foundation-frontend/utilities/useNamespaces';
+import {
+  useIsAreaAvailable,
+  SupportedArea,
+} from '@odh-dashboard/dashboard-foundation-frontend/concepts/areas';
+import { allSettledPromises } from '@odh-dashboard/dashboard-foundation-frontend/utilities/allSettledPromises';
+import useFetchState, {
+  NotReadyError,
+  FetchState,
+} from '@odh-dashboard/dashboard-foundation-frontend/utilities/useFetchState';
+import { ModelCatalogSource, ModelCatalogSourcesObject } from './types';
+import {
+  MODEL_CATALOG_SOURCES_CONFIGMAP,
+  MODEL_CATALOG_UNMANAGED_SOURCES_CONFIGMAP,
+} from './const';
+
+type State = ModelCatalogSource[];
+// Temporary implementation for MVP - will be replaced with API for remote model catalog sources
+// See: https://issues.redhat.com/browse/RHOAISTRAT-455
+
+const isK8sNotFoundError = (e: unknown): boolean =>
+  typeof e === 'object' &&
+  e != null &&
+  'statusObject' in e &&
+  isK8sStatus(e.statusObject) &&
+  e.statusObject.code === 404;
+
+export const useModelCatalogSources = (): FetchState<State> => {
+  const { dashboardNamespace } = useNamespaces();
+  const isModelCatalogAvailable = useIsAreaAvailable(SupportedArea.MODEL_CATALOG).status;
+
+  const callback = React.useCallback(async () => {
+    if (!isModelCatalogAvailable) {
+      throw new NotReadyError('Model catalog feature is not enabled');
+    }
+
+    const [successes, fails] = await allSettledPromises([
+      getConfigMap(dashboardNamespace, MODEL_CATALOG_SOURCES_CONFIGMAP),
+      getConfigMap(dashboardNamespace, MODEL_CATALOG_UNMANAGED_SOURCES_CONFIGMAP),
+    ]);
+
+    for (const fail of fails) {
+      if (!isK8sNotFoundError(fail.reason)) {
+        throw fail.reason;
+      }
+    }
+
+    const sources: ModelCatalogSource[] = successes.flatMap((success) => {
+      const { data } = success.value;
+      if (!data || typeof data.modelCatalogSources !== 'string') {
+        return [];
+      }
+
+      const parsed: ModelCatalogSourcesObject | undefined = JSON.parse(data.modelCatalogSources);
+      return parsed ? parsed.sources : [];
+    });
+
+    return sources;
+  }, [dashboardNamespace, isModelCatalogAvailable]);
+
+  return useFetchState<State>(callback, []);
+};

@@ -4,12 +4,12 @@ import {
   mockK8sResourceList,
   mockProjectK8sResource,
   mockRouteK8sResource,
-} from '@odh-dashboard/internal/__mocks__';
+} from '@odh-dashboard/test-mocks';
 import {
   DataSciencePipelineApplicationModel,
   ProjectModel,
   RouteModel,
-} from '../../../utils/models';
+} from '@odh-dashboard/dashboard-foundation-frontend/api/models';
 
 export const configIntercept = (): void => {
   cy.interceptOdh('GET /api/config', mockDashboardConfig({}));

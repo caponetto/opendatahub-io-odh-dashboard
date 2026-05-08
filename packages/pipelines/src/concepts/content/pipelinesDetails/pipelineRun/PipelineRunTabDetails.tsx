@@ -1,0 +1,156 @@
+import * as React from 'react';
+import { Spinner, EmptyStateVariant, EmptyState, Truncate } from '@patternfly/react-core';
+import { Link } from 'react-router-dom';
+import { relativeDuration } from '@odh-dashboard/dashboard-foundation-frontend/utilities/time';
+import { getDisplayNameFromK8sResource } from '@odh-dashboard/dashboard-foundation-frontend/concepts/k8s/utils';
+import {
+  SupportedArea,
+  useIsAreaAvailable,
+} from '@odh-dashboard/dashboard-foundation-frontend/concepts/areas';
+import {
+  PipelineRecurringRunKF,
+  PipelineRunKF,
+  RecurringRunStatus,
+} from '@odh-dashboard/pipelines/concepts/kfTypes';
+import {
+  getRunDuration,
+  getRunStartTime,
+} from '@odh-dashboard/pipelines/concepts/content/tables/utils';
+import { usePipelinesAPI } from '@odh-dashboard/pipelines/concepts/context';
+import {
+  asTimestamp,
+  DetailItem,
+  isEmptyDateKF,
+  renderDetailItems,
+} from '@odh-dashboard/pipelines/concepts/content/pipelinesDetails/pipelineRun/utils';
+import {
+  isPipelineRun,
+  isPipelineRecurringRun,
+} from '@odh-dashboard/pipelines/concepts/content/utils';
+import { PipelineVersionLink } from '@odh-dashboard/pipelines/concepts/content/PipelineVersionLink';
+import usePipelineVersionById from '@odh-dashboard/pipelines/concepts/apiHooks/usePipelineVersionById';
+import usePipelineById from '@odh-dashboard/pipelines/concepts/apiHooks/usePipelineById';
+import { RecurringRunTrigger } from '@odh-dashboard/pipelines/concepts/content/tables/renderUtils';
+import { getIsArtifactModelRegistered } from '@odh-dashboard/pipelines/pages/pipelines/global/experiments/artifacts/utils';
+import PipelineRunRegisteredModelDetails from './PipelineRunRegisteredModelDetails';
+import { getArtifactModelData } from './artifacts/utils';
+import { Artifact } from '../../../../third_party/mlmd';
+
+type PipelineRunTabDetailsProps = {
+  run?: PipelineRunKF | PipelineRecurringRunKF | null;
+  workflowName?: string;
+  artifacts?: Artifact[];
+};
+
+const PipelineRunTabDetails: React.FC<PipelineRunTabDetailsProps> = ({
+  run,
+  workflowName,
+  artifacts,
+}) => {
+  const { namespace, project } = usePipelinesAPI();
+  const [version, versionLoaded, versionError] = usePipelineVersionById(
+    run?.pipeline_version_reference?.pipeline_id,
+    run?.pipeline_version_reference?.pipeline_version_id,
+  );
+  const [pipeline] = usePipelineById(run?.pipeline_version_reference?.pipeline_id);
+  const { status: modelRegistryAvailable } = useIsAreaAvailable(SupportedArea.MODEL_REGISTRY);
+
+  if (!run || !workflowName) {
+    return (
+      <EmptyState
+        headingLevel="h4"
+        titleText="Loading"
+        variant={EmptyStateVariant.lg}
+        data-id="loading-empty-state"
+      >
+        <Spinner size="xl" />
+      </EmptyState>
+    );
+  }
+
+  const artifactModelData = modelRegistryAvailable
+    ? artifacts
+        ?.filter((artifact) => getIsArtifactModelRegistered(artifact))
+        .map((artifact) => getArtifactModelData(artifact))
+    : undefined;
+
+  const runId = isPipelineRun(run) ? run.run_id : run.recurring_run_id;
+
+  const details: DetailItem[] = [
+    { key: 'Name', value: <Truncate content={run.display_name} /> },
+    {
+      key: 'Project',
+      value: <Link to={`/projects/${namespace}`}>{getDisplayNameFromK8sResource(project)}</Link>,
+    },
+    ...(versionError
+      ? [{ key: 'Pipeline version', value: 'No pipeline version' }]
+      : [
+          {
+            key: 'Pipeline version',
+            value: (
+              <PipelineVersionLink
+                loadingIndicator={<Spinner size="sm" />}
+                loaded={versionLoaded}
+                version={version}
+                error={versionError}
+              />
+            ),
+          },
+        ]),
+    ...(pipeline
+      ? [
+          {
+            key: 'Pipeline',
+            value: pipeline.display_name,
+          },
+        ]
+      : []),
+    { key: 'Run ID', value: runId },
+    { key: 'Workflow name', value: workflowName },
+    ...(modelRegistryAvailable
+      ? [
+          {
+            key: 'Registered models',
+            value: (
+              <>
+                {artifactModelData?.length ? (
+                  artifactModelData.map((data) => (
+                    <PipelineRunRegisteredModelDetails
+                      key={data.modelVersionId}
+                      artifactModelData={data}
+                    />
+                  ))
+                ) : (
+                  <span>No model details available</span>
+                )}
+              </>
+            ),
+          },
+        ]
+      : []),
+    ...(!isPipelineRecurringRun(run)
+      ? [
+          {
+            key: 'Started',
+            value: asTimestamp(getRunStartTime(run)),
+          },
+          {
+            key: 'Finished',
+            value: isEmptyDateKF(run.finished_at) ? 'N/A' : asTimestamp(new Date(run.finished_at)),
+          },
+          { key: 'Duration', value: relativeDuration(getRunDuration(run)) },
+        ]
+      : [
+          { key: 'Created', value: asTimestamp(new Date(run.created_at)) },
+          {
+            key: 'Run trigger enabled',
+            value: run.status === RecurringRunStatus.ENABLED ? 'Yes' : 'No',
+          },
+          { key: 'Trigger', value: <RecurringRunTrigger recurringRun={run} /> },
+        ]),
+  ];
+
+  return <>{renderDetailItems(details)}</>;
+};
+
+export default PipelineRunTabDetails;

@@ -1,13 +1,13 @@
 import * as React from 'react';
-import type { SecretKind } from '@odh-dashboard/internal/k8sTypes';
+import type { SecretKind } from '@odh-dashboard/dashboard-foundation-frontend/k8sTypes';
 import useFetch, {
   NotReadyError,
   type FetchOptions,
   type FetchStateObject,
-} from '@odh-dashboard/internal/utilities/useFetch';
-import { LABEL_SELECTOR_DASHBOARD_RESOURCE } from '@odh-dashboard/internal/const';
-import { getSecretsByLabel } from '@odh-dashboard/internal/api/index';
-import type { Deployment } from '../../extension-points';
+} from '@odh-dashboard/dashboard-foundation-frontend/utilities/useFetch';
+import { LABEL_SELECTOR_DASHBOARD_RESOURCE } from '@odh-dashboard/dashboard-foundation-frontend/const';
+import { getSecretsByLabel } from '@odh-dashboard/dashboard-foundation-frontend/api';
+import type { Deployment } from '@odh-dashboard/model-serving-shared/extension-points';
 
 const getModelServingRuntimeName = (namespace: string): string => `model-server-${namespace}`;
 const getModelServiceAccountName = (name: string): string => `${name}-sa`;

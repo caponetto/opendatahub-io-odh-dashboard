@@ -17,11 +17,11 @@ import {
 import {
   MultiSelection,
   SelectionOptions,
-} from '@odh-dashboard/internal/components/MultiSelection';
+} from '@odh-dashboard/dashboard-foundation-frontend/components/MultiSelection';
 import K8sNameDescriptionField, {
   useK8sNameDescriptionFieldData,
-} from '@odh-dashboard/internal/concepts/k8s/K8sNameDescriptionField/K8sNameDescriptionField';
-import { isK8sNameDescriptionDataValid } from '@odh-dashboard/internal/concepts/k8s/K8sNameDescriptionField/utils';
+} from '@odh-dashboard/dashboard-foundation-frontend/concepts/k8s/K8sNameDescriptionField/K8sNameDescriptionField';
+import { isK8sNameDescriptionDataValid } from '@odh-dashboard/dashboard-foundation-frontend/concepts/k8s/K8sNameDescriptionField/utils';
 import { APIOptions } from 'mod-arch-core';
 import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons';
 import { URL_PREFIX } from '~/app/utilities/const';

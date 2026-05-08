@@ -1,4 +1,4 @@
-import { ServingRuntimeModelType } from '@odh-dashboard/internal/types';
+import { ServingRuntimeModelType } from '@odh-dashboard/dashboard-foundation-frontend/types';
 import { isGenerativeNonLegacy, isLLMInferenceServiceActive } from '../formUtils';
 import { LLMD_OPTION } from '../deployments/server';
 

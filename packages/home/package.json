@@ -1,0 +1,48 @@
+{
+  "name": "@odh-dashboard/home",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Home landing page for ODH Dashboard",
+  "topology": {
+    "tier": "extension"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "type-check": "tsc --noEmit",
+    "test-unit": "jest --silent"
+  },
+  "exports": {
+    "./extensions": "./src/extensions.ts",
+    "./*": [
+      "./src/*",
+      "./src/*.ts",
+      "./src/*.d.ts",
+      "./src/*.tsx",
+      "./src/*/index.ts",
+      "./src/*/index.tsx"
+    ]
+  },
+  "dependencies": {
+    "@odh-dashboard/dashboard-foundation-frontend": "*",
+    "@odh-dashboard/mlflow-shared": "*",
+    "@odh-dashboard/plugin-core": "*",
+    "@patternfly/react-core": "*",
+    "@patternfly/react-icons": "*",
+    "@patternfly/react-styles": "*",
+    "lodash-es": "*",
+    "react": "^18.2.0",
+    "react-cool-dimensions": "^2.0.5",
+    "react-router-dom": "^7.6.2"
+  },
+  "devDependencies": {
+    "@odh-dashboard/eslint-config": "*",
+    "@odh-dashboard/jest-config": "*",
+    "@testing-library/jest-dom": "*",
+    "@testing-library/react": "*",
+    "@types/lodash-es": "^4.17.8",
+    "@types/react": "*",
+    "@types/react-dom": "^18.0.8",
+    "react-dom": "^18.2.0"
+  }
+}

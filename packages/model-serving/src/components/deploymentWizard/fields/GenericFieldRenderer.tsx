@@ -1,5 +1,9 @@
 import React from 'react';
-import { resolveFieldValue, type GenericFieldProps, WizardField } from '../types';
+import type {
+  GenericFieldProps,
+  WizardField,
+} from '@odh-dashboard/model-serving-shared/types/form-data';
+import { resolveFieldValue } from '../types';
 import type { UseModelDeploymentWizardState } from '../useDeploymentWizard';
 import type { ExternalDataMap } from '../ExternalDataLoader';
 import { getFieldDependencies } from '../dynamicFormUtils';

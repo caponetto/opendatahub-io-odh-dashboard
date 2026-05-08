@@ -29,9 +29,12 @@ yarn.lock
 .turbo
 
 jest-coverage
+coverage
+empty-coverage.json
 
 # Build outputs
 dist
+.plugin-manifest.json
 
 # Contract test results
 contract-test-results
@@ -98,3 +101,6 @@ vendor/
 # AgentReady reports
 .agentready/
 assessment-output.txt
+
+# TODO caponetto: remove it
+.omc/

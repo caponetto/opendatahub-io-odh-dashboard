@@ -10,8 +10,8 @@ import {
   Title,
 } from '@patternfly/react-core';
 import { TimesIcon } from '@patternfly/react-icons';
-import { useBrowserStorage } from '@odh-dashboard/internal/components/browserStorage/BrowserStorageContext';
-import validatedModelsBannerImg from '@odh-dashboard/internal/images/validated-models-banner.svg';
+import { useBrowserStorage } from '@odh-dashboard/dashboard-foundation-frontend/components/browserStorage/BrowserStorageContext';
+import validatedModelsBannerImg from '@odh-dashboard/dashboard-foundation-frontend/images/validated-models-banner.svg';
 
 const BANNER_STORAGE_KEY = 'odh.dashboard.modelCatalog.validatedModelsBanner.dismissed';
 

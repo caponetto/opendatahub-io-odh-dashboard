@@ -1,12 +1,15 @@
-import { mockServingRuntimeTemplateK8sResource } from '@odh-dashboard/internal/__mocks__/mockServingRuntimeTemplateK8sResource';
-import { ServingRuntimeAPIProtocol, ServingRuntimePlatform } from '@odh-dashboard/internal/types';
-import { mockServingRuntimeK8sResource } from '@odh-dashboard/internal/__mocks__/mockServingRuntimeK8sResource';
+import { mockServingRuntimeTemplateK8sResource } from '@odh-dashboard/test-mocks/mockServingRuntimeTemplateK8sResource';
+import {
+  ServingRuntimeAPIProtocol,
+  ServingRuntimePlatform,
+} from '@odh-dashboard/dashboard-foundation-frontend/types';
+import { mockServingRuntimeK8sResource } from '@odh-dashboard/test-mocks/mockServingRuntimeK8sResource';
+import { TemplateModel } from '@odh-dashboard/dashboard-foundation-frontend/api/models';
 import { customServingRuntimesIntercept } from './customServingRuntimesUtils';
 import { servingRuntimes } from '../../../pages/servingRuntimes';
 import { deleteModal } from '../../../pages/components/DeleteModal';
 import { asProductAdminUser, asProjectAdminUser } from '../../../utils/mockUsers';
 import { pageNotfound } from '../../../pages/pageNotFound';
-import { TemplateModel } from '../../../utils/models';
 
 // const addfilePath = './cypress/fixtures/resources/modelServing/mock-custom-serving-runtime-add.yaml';
 const editfilePath =

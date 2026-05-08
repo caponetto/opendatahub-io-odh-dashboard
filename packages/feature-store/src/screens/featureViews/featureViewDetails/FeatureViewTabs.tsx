@@ -1,14 +1,14 @@
 import { Content, PageSection, Tab, Tabs, TabTitleText } from '@patternfly/react-core';
 import * as React from 'react';
-import {
-  LineageCenterProvider,
-  useLineageCenter,
-} from '@odh-dashboard/internal/components/lineage/context/LineageCenterContext';
 import FeatureViewLineageTab from './FeatureViewLineageTab';
 import FeatureViewDetailsView from './FeatureViewDetailsTab';
 import FeatureViewMaterialization from './FeatureViewMaterialization';
 import FeatureViewTransformation from './FeatureViewTransformation';
 import FeatureViewConsumingTab from './FeatureViewConsumingTab';
+import {
+  LineageCenterProvider,
+  useLineageCenter,
+} from '../../../components/lineage/context/LineageCenterContext';
 import { FeatureView } from '../../../types/featureView';
 import FeatureStoreInfoTooltip from '../../components/FeatureStoreInfoTooltip';
 import { FeatureViewTab } from '../const';

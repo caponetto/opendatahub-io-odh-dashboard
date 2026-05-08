@@ -81,7 +81,7 @@ jobs:
             # Files/patterns to resolve by keeping odh-release version (ours)
             # These are release-specific configs that differ between main and odh-release
             KEEP_OURS_PATTERNS=(
-              "frontend/.env"
+              "packages/dashboard-dist-full/.env"
               ".tekton/"
               "manifests/modular-architecture/params.env"
               "manifests/odh/params.env"
@@ -140,8 +140,8 @@ jobs:
         run: |
           echo "Bumping z-stream version..."
           
-          # Read current version from frontend/.env
-          CURRENT_VERSION=$(grep "^INTERNAL_DASHBOARD_VERSION=" frontend/.env | cut -d'=' -f2)
+          # Read current version from packages/dashboard-dist-full/.env
+          CURRENT_VERSION=$(grep "^INTERNAL_DASHBOARD_VERSION=" packages/dashboard-dist-full/.env | cut -d'=' -f2)
           echo "Current version: $CURRENT_VERSION"
           
           # Parse version (expected format: vX.Y.Z)
@@ -160,9 +160,9 @@ jobs:
           echo "New version: $NEW_VERSION"
           echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
           
-          # Update frontend/.env
-          sed -i "s/^INTERNAL_DASHBOARD_VERSION=.*/INTERNAL_DASHBOARD_VERSION=${NEW_VERSION}/" frontend/.env
-          echo "Updated frontend/.env"
+          # Update packages/dashboard-dist-full/.env
+          sed -i "s/^INTERNAL_DASHBOARD_VERSION=.*/INTERNAL_DASHBOARD_VERSION=${NEW_VERSION}/" packages/dashboard-dist-full/.env
+          echo "Updated packages/dashboard-dist-full/.env"
           
           # Update manifests/odh/params.env (odh-dashboard-image)
           sed -i "s|odh-dashboard-image=quay.io/opendatahub/odh-dashboard:.*|odh-dashboard-image=quay.io/opendatahub/odh-dashboard:${NEW_VERSION}-odh|" manifests/odh/params.env
@@ -175,7 +175,7 @@ jobs:
           echo "Updated manifests/modular-architecture/params.env"
           
           # Commit version bump
-          git add frontend/.env manifests/odh/params.env manifests/modular-architecture/params.env
+          git add packages/dashboard-dist-full/.env manifests/odh/params.env manifests/modular-architecture/params.env
           git commit -m "Bump version to ${NEW_VERSION}"
           echo "Version bump committed"
 
@@ -200,7 +200,7 @@ jobs:
           - Bump version to ${NEW_VERSION}
 
           ## Files updated
-          - \`frontend/.env\`
+          - \`packages/dashboard-dist-full/.env\`
           - \`manifests/odh/params.env\`
           - \`manifests/modular-architecture/params.env\`
 

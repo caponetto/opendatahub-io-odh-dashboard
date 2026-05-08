@@ -1,4 +1,4 @@
-[k8s pass through API]: ../backend/src/utils/pass-through.ts
+[k8s pass through API]: ../packages/dashboard-foundation-backend/src/proxy.ts
 [CONTRIBUTING]: ../CONTRIBUTING.md
 [@openshift/dynamic-plugin-sdk]: https://www.npmjs.com/package/@openshift/dynamic-plugin-sdk
 [@openshift/dynamic-plugin-sdk-utils]: https://www.npmjs.com/package/@openshift/dynamic-plugin-sdk-utils
@@ -30,7 +30,7 @@ Instead of using our custom NodeJS backend, we'll want to migrate to using one o
 
 All these are heavily typed and are Generics`*`, so you should be able to infer from the types what is needed. But to help that along, here are a couple helpful notes:
 
-- `model` - Models are simply just a collection of properties that describes a K8s Resource Type. K8s ones like `ConfigMap` & `Pod` to CRDs like `Notebook` and `OdhDashboardConfig` - we will create our list of these under `frontend/src/models` - check it out for examples.
+- `model` - Models are simply just a collection of properties that describes a K8s Resource Type. K8s ones like `ConfigMap` & `Pod` to CRDs like `Notebook` and `OdhDashboardConfig` - we will create our list of these under `packages/dashboard-foundation-frontend/src/api/models` - check it out for examples.
 - `queryOptions` - These are just simply additional options to help target your call at something; typically you'll be setting `name` and `ns` (aka `namespace`)
 
 `*` A couple notes about the Generic nature of these functions

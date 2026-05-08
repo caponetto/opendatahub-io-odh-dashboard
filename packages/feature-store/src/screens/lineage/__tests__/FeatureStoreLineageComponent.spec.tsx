@@ -4,7 +4,7 @@ import FeatureStoreLineageComponent from '../FeatureStoreLineageComponent';
 import useFeatureStoreLineage from '../../../apiHooks/useFeatureStoreLineage';
 import useFeatureViewLineage from '../../../apiHooks/useFeatureViewLineage';
 
-jest.mock('@odh-dashboard/internal/components/lineage/Lineage', () => ({
+jest.mock('../../../components/lineage/Lineage', () => ({
   Lineage: ({ data, loading }: { data: { nodes: unknown[] }; loading: boolean }) => (
     <div data-testid="lineage-mock">
       {loading ? 'loading' : 'loaded'}-{data.nodes.length}
@@ -12,11 +12,11 @@ jest.mock('@odh-dashboard/internal/components/lineage/Lineage', () => ({
   ),
 }));
 
-jest.mock('@odh-dashboard/internal/components/lineage/factories', () => ({
+jest.mock('../../../components/lineage/factories', () => ({
   createLineageComponentFactory: jest.fn(() => jest.fn()),
 }));
 
-jest.mock('@odh-dashboard/internal/components/lineage/context/LineageCenterContext', () => ({
+jest.mock('../../../components/lineage/context/LineageCenterContext', () => ({
   useLineageCenter: () => ({
     triggerCenter: jest.fn(),
     forceCenter: false,

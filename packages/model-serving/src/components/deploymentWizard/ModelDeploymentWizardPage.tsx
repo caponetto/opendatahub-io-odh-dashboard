@@ -1,6 +1,9 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { ProjectsContext, byName } from '@odh-dashboard/internal/concepts/projects/ProjectsContext';
+import {
+  ProjectsContext,
+  byName,
+} from '@odh-dashboard/dashboard-foundation-frontend/concepts/projects/ProjectsContext';
 import {
   Bullseye,
   Button,

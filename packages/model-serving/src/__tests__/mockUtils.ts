@@ -1,16 +1,17 @@
-import { NamespaceApplicationCase } from '@odh-dashboard/internal/pages/projects/types';
-import type { ProjectKind } from '@odh-dashboard/internal/k8sTypes';
-import { ProjectObjectType } from '@odh-dashboard/internal/concepts/design/utils';
+import { NamespaceApplicationCase } from '@odh-dashboard/dashboard-foundation-frontend/concepts/projects/types';
+import type { ProjectKind } from '@odh-dashboard/dashboard-foundation-frontend/k8sTypes';
+import { ProjectObjectType } from '@odh-dashboard/dashboard-foundation-frontend/concepts/design/utils';
 import {
   useResolvedExtensions,
   useExtensions,
   type UseResolvedExtensionsResult,
+  Extension,
+  LoadedExtension,
 } from '@odh-dashboard/plugin-core';
 import * as _ from 'lodash-es';
-import type { Extension, LoadedExtension } from '@openshift/dynamic-plugin-sdk';
-import { mockK8sNameDescriptionFieldData } from '@odh-dashboard/internal/__mocks__/mockK8sNameDescriptionFieldData';
-import { RecursivePartial } from '@odh-dashboard/internal/typeHelpers';
-import { ServingRuntimeModelType } from '@odh-dashboard/internal/types';
+import { mockK8sNameDescriptionFieldData } from '@odh-dashboard/test-mocks/mockK8sNameDescriptionFieldData';
+import { RecursivePartial } from '@odh-dashboard/dashboard-foundation-frontend/typeHelpers';
+import { ServingRuntimeModelType } from '@odh-dashboard/dashboard-foundation-frontend/types';
 import { ModelServingPlatform } from '../concepts/useProjectServingPlatform';
 import type { UseModelDeploymentWizardState } from '../components/deploymentWizard/useDeploymentWizard';
 import { deploymentStrategyRolling } from '../components/deploymentWizard/fields/DeploymentStrategyField';

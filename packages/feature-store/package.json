@@ -3,6 +3,9 @@
   "name": "@odh-dashboard/feature-store",
   "description": "Feature store plugin for managing feature engineering and data pipelines.",
   "version": "0.0.0",
+  "topology": {
+    "tier": "extension"
+  },
   "scripts": {
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
@@ -10,8 +13,18 @@
     "test-unit-coverage": "jest --silent --coverage",
     "type-check": "tsc --noEmit"
   },
+  "imports": {
+    "#~/*": [
+      "./src/*",
+      "./src/*.ts",
+      "./src/*.d.ts",
+      "./src/*.tsx",
+      "./src/*/index.ts",
+      "./src/*/index.tsx"
+    ]
+  },
   "exports": {
-    "./extensions": "./extensions.ts",
+    "./extensions": "./src/extensions.ts",
     "./mocks/*": [
       "./src/__mocks__/*",
       "./src/__mocks__/*.ts"
@@ -40,17 +53,33 @@
       "./src/screens/lineage/*.ts",
       "./src/screens/lineage/*.tsx"
     ],
-    "./routes": [
-      "./src/routes.ts"
-    ]
+    "./routes": "./src/backend/routes/index.ts"
   },
   "dependencies": {
-    "@odh-dashboard/internal": "*",
-    "@odh-dashboard/plugin-core": "*"
+    "@fastify/autoload": "^5.7.1",
+    "@kubernetes/client-node": "^0.12.2",
+    "@odh-dashboard/dashboard-foundation-backend": "*",
+    "@odh-dashboard/dashboard-foundation-frontend": "*",
+    "@odh-dashboard/plugin-core": "*",
+    "@patternfly/react-core": "*",
+    "@patternfly/react-icons": "*",
+    "@patternfly/react-styles": "^6.4.0",
+    "@patternfly/react-table": "*",
+    "@patternfly/react-tokens": "*",
+    "@patternfly/react-topology": "^6.4.0",
+    "fastify": "^4.28.1",
+    "fastify-plugin": "^4.5.1",
+    "react": "^18.2.0",
+    "react-router": "^7.6.2",
+    "react-router-dom": "^7.6.2"
   },
   "devDependencies": {
     "@odh-dashboard/eslint-config": "*",
     "@odh-dashboard/jest-config": "*",
-    "@odh-dashboard/tsconfig": "*"
+    "@odh-dashboard/tsconfig": "*",
+    "@testing-library/jest-dom": "*",
+    "@testing-library/react": "16.3.0",
+    "@types/lodash": "*",
+    "react-dom": "^18.2.0"
   }
 }

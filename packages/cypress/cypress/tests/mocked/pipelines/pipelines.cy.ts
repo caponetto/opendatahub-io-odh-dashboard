@@ -11,12 +11,15 @@ import {
   mockSecretK8sResource,
   mockSuccessGoogleRpcStatus,
   mockArgoWorkflowPipelineVersion,
-} from '@odh-dashboard/internal/__mocks__';
-import type {
-  PipelineKF,
-  PipelineVersionKF,
-} from '@odh-dashboard/internal/concepts/pipelines/kfTypes';
-import { DSPipelineAPIServerStore } from '@odh-dashboard/internal/k8sTypes.ts';
+} from '@odh-dashboard/test-mocks';
+import type { PipelineKF, PipelineVersionKF } from '@odh-dashboard/pipelines/concepts/kfTypes';
+import { DSPipelineAPIServerStore } from '@odh-dashboard/dashboard-foundation-frontend/k8sTypes';
+import {
+  DataSciencePipelineApplicationModel,
+  ProjectModel,
+  RouteModel,
+  SecretModel,
+} from '@odh-dashboard/dashboard-foundation-frontend/api/models';
 import {
   pipelinesGlobal,
   pipelinesTable,
@@ -29,12 +32,6 @@ import {
   pipelineDetails,
 } from '../../../pages/pipelines';
 import { deleteModal } from '../../../pages/components/DeleteModal';
-import {
-  DataSciencePipelineApplicationModel,
-  ProjectModel,
-  RouteModel,
-  SecretModel,
-} from '../../../utils/models';
 import { tablePagination } from '../../../pages/components/Pagination';
 import { verifyRelativeURL } from '../../../utils/url';
 import { pipelineRunsGlobal } from '../../../pages/pipelines/pipelineRunsGlobal';

@@ -1,4 +1,4 @@
-import { mockDashboardConfig } from '@odh-dashboard/internal/__mocks__';
+import { mockDashboardConfig } from '@odh-dashboard/test-mocks';
 import { pageNotfound } from '../../../pages/pageNotFound';
 import { navSidebar } from '../navSidebar/navSidebar';
 

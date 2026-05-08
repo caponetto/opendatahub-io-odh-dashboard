@@ -2,13 +2,13 @@ import React from 'react';
 import { Alert, AlertVariant, Content, Flex } from '@patternfly/react-core';
 import { ExternalLinkAltIcon } from '@patternfly/react-icons';
 import { Link } from 'react-router-dom';
-import { FeatureStoreModel } from '@odh-dashboard/internal/api/models/odh';
-import { useAccessAllowed } from '@odh-dashboard/internal/concepts/userSSAR/useAccessAllowed';
-import { verbModelAccess } from '@odh-dashboard/internal/concepts/userSSAR/utils';
-import { useClusterInfo } from '@odh-dashboard/internal/redux/selectors/clusterInfo';
-import { getOpenShiftConsoleAction } from '@odh-dashboard/internal/app/AppLauncher';
-import WhosMyAdministrator from '@odh-dashboard/internal/components/WhosMyAdministrator';
-import { ODH_PRODUCT_NAME } from '@odh-dashboard/internal/utilities/const';
+import { FeatureStoreModel } from '@odh-dashboard/dashboard-foundation-frontend/api/models/odh';
+import { useAccessAllowed } from '@odh-dashboard/dashboard-foundation-frontend/concepts/userSSAR/useAccessAllowed';
+import { verbModelAccess } from '@odh-dashboard/dashboard-foundation-frontend/concepts/userSSAR/utils';
+import { useClusterInfo } from '@odh-dashboard/dashboard-foundation-frontend/redux/selectors/clusterInfo';
+import WhosMyAdministrator from '@odh-dashboard/dashboard-foundation-frontend/components/WhosMyAdministrator';
+import { ODH_PRODUCT_NAME } from '@odh-dashboard/dashboard-foundation-frontend/utilities/const';
+import { getOpenShiftConsoleAction } from '#~/utilities/appLauncherUtils';
 import { FeatureStoreContext } from '../FeatureStoreContext';
 
 const FeatureStoreWarningAlert: React.FC = () => {

@@ -23,7 +23,7 @@
 | **Endpoint URL** | HTTP(S) URL for inference; shown in table and detail views. |
 | **Deployment** | Package abstraction `Deployment<M, S>` wrapping model + server + status + endpoints. |
 | **Platform extension** | `model-serving.platform` (and related) registered by a platform package. |
-| **Extension point** | Interfaces in `extension-points/index.ts` for wizard, table, delete, auth, metrics. |
+| **Extension point** | Interfaces from `@odh-dashboard/model-serving-shared/extension-points` (wizard, table, delete, auth, metrics). |
 | **Feature flag** | `disableModelServing` in `OdhDashboardConfig` hides the entire area. |
 
 ## Interactions
@@ -40,6 +40,6 @@
 ## Known Issues / Gotchas
 
 - Deprecated `frontend/src/pages/modelServing/` may still exist; redirect to `/ai-hub/deployments/` lives in `extensions/odh.ts` — extend `packages/model-serving/` only.
-- ModelMesh migration is incomplete; some ModelMesh UI may still live in `@odh-dashboard/internal` — confirm before large ModelMesh work.
+- ModelMesh migration is incomplete; some ModelMesh UI may still live alongside the legacy dashboard frontend — confirm before large ModelMesh work.
 - Platforms must register required extension points or the wizard has no deploy target; watch console for unresolved-extension warnings.
 - `model-serving.deployment/wizard-field2` supersedes `wizard-field`; a rename is tracked in code (TODO) — treat `wizard-field2` as transitional naming.

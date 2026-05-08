@@ -75,9 +75,12 @@ jest.mock('mod-arch-shared', () => ({
 }));
 
 // Mock useWatchConnectionTypes (used for connection types list)
-jest.mock('@odh-dashboard/internal/utilities/useWatchConnectionTypes', () => ({
-  useWatchConnectionTypes: jest.fn(() => [[]]),
-}));
+jest.mock(
+  '@odh-dashboard/connection-types-shared/concepts/connectionTypes/useWatchConnectionTypes',
+  () => ({
+    useWatchConnectionTypes: jest.fn(() => [[]]),
+  }),
+);
 
 // Mock useNotification (used by AutoragVectorStoreSelector and upload validation)
 jest.mock('~/app/hooks/useNotification', () => ({

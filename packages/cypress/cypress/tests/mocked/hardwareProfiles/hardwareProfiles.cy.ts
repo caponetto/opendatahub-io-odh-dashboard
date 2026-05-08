@@ -1,17 +1,19 @@
 import {
   mockDefaultHardwareProfile,
   mockHardwareProfile,
-} from '@odh-dashboard/internal/__mocks__/mockHardwareProfile';
+} from '@odh-dashboard/test-mocks/mockHardwareProfile';
+import { mock200Status, mockDashboardConfig, mockK8sResourceList } from '@odh-dashboard/test-mocks';
 import {
-  mock200Status,
-  mockDashboardConfig,
-  mockK8sResourceList,
-} from '@odh-dashboard/internal/__mocks__';
-import { IdentifierResourceType, SchedulingType } from '@odh-dashboard/internal/types';
-import { mockSelfSubjectAccessReview } from '@odh-dashboard/internal/__mocks__/mockSelfSubjectAccessReview';
+  IdentifierResourceType,
+  SchedulingType,
+} from '@odh-dashboard/dashboard-foundation-frontend/types';
+import { mockSelfSubjectAccessReview } from '@odh-dashboard/test-mocks/mockSelfSubjectAccessReview';
+import {
+  HardwareProfileModel,
+  SelfSubjectAccessReviewModel,
+} from '@odh-dashboard/dashboard-foundation-frontend/api/models';
 import { hardwareProfile } from '../../../pages/hardwareProfile';
 import { deleteModal } from '../../../pages/components/DeleteModal';
-import { HardwareProfileModel, SelfSubjectAccessReviewModel } from '../../../utils/models';
 import { asProductAdminUser } from '../../../utils/mockUsers';
 
 const initIntercepts = () => {

@@ -24,10 +24,10 @@ Create a single test file per source code file. Use `describe('<function name>')
 
 ```bash
 # Source file:
-/frontend/src/foo/bar/utils.ts
+/packages/<package-name>/src/foo/bar/utils.ts
 
 # Test file:
-/frontend/src/foo/bar/__tests__/utils.spec.ts
+/packages/<package-name>/src/foo/bar/__tests__/utils.spec.ts
 ```
 
 _Example unit test file_

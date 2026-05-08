@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useVariableDefinitionActions } from '@perses-dev/dashboards';
-import { useClusterInfo } from '@odh-dashboard/internal/redux/selectors/clusterInfo';
-import { useWatchOperatorSubscriptionStatus } from '@odh-dashboard/internal/utilities/useWatchOperatorSubscriptionStatus';
+import { useClusterInfo } from '@odh-dashboard/dashboard-foundation-frontend/redux/selectors/clusterInfo';
+import { useWatchOperatorSubscriptionStatus } from '@odh-dashboard/dashboard-foundation-frontend/utilities/useWatchOperatorSubscriptionStatus';
 import { CLUSTER_DETAILS_VARIABLES } from '../utils/variables';
 import { useClusterDetails } from '../api/useClusterDetails';
 

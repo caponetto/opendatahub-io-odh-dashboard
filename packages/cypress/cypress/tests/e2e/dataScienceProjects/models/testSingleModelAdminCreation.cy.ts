@@ -3,7 +3,7 @@ import {
   ModelTypeLabel,
   ModelStateLabel,
   ModelStateToggleLabel,
-} from '@odh-dashboard/model-serving/types/form-data';
+} from '@odh-dashboard/model-serving/components/deploymentWizard/types';
 import type { DataScienceProjectData } from '../../../../types';
 import { deleteOpenShiftProject } from '../../../../utils/oc_commands/project';
 import { loadDSPFixture } from '../../../../utils/dataLoader';

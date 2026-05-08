@@ -2,25 +2,20 @@ import React from 'react';
 import { Alert, Checkbox, Flex, FlexItem, Popover, Stack, StackItem } from '@patternfly/react-core';
 import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons';
 import { z } from 'zod';
-import DashboardPopupIconButton from '@odh-dashboard/internal/concepts/dashboard/DashboardPopupIconButton';
+import DashboardPopupIconButton from '@odh-dashboard/dashboard-foundation-frontend/concepts/dashboard/DashboardPopupIconButton';
 import K8sNameDescriptionField, {
   useK8sNameDescriptionFieldData,
-} from '@odh-dashboard/internal/concepts/k8s/K8sNameDescriptionField/K8sNameDescriptionField';
-import { K8sNameDescriptionFieldData } from '@odh-dashboard/internal/concepts/k8s/K8sNameDescriptionField/types';
-import { isGeneratedSecretName } from '@odh-dashboard/internal/api/k8s/secrets';
-import { translateDisplayNameForK8s } from '@odh-dashboard/internal/concepts/k8s/utils';
-import { ModelLocationData, ModelLocationType } from '../types';
+} from '@odh-dashboard/dashboard-foundation-frontend/concepts/k8s/K8sNameDescriptionField/K8sNameDescriptionField';
+import { isGeneratedSecretName } from '@odh-dashboard/dashboard-foundation-frontend/api/k8s/secrets';
+import { translateDisplayNameForK8s } from '@odh-dashboard/dashboard-foundation-frontend/concepts/k8s/utils';
+import type {
+  CreateConnectionData,
+  CreateConnectionDataField,
+  ModelLocationData,
+} from '@odh-dashboard/model-serving-shared/types/form-data';
+import { ModelLocationType } from '@odh-dashboard/model-serving-shared/concepts/modelServing/modelLocationTypes';
 
-export type CreateConnectionData = {
-  saveConnection?: boolean;
-  nameDesc?: K8sNameDescriptionFieldData;
-  hideFields?: boolean;
-};
-export type CreateConnectionDataField = {
-  data: CreateConnectionData;
-  setData: (data: CreateConnectionData) => void;
-  projectName?: string;
-};
+export type { CreateConnectionData, CreateConnectionDataField };
 
 export const useCreateConnectionData = (
   projectName?: string,

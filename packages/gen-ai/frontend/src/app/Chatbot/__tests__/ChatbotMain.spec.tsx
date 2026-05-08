@@ -21,10 +21,13 @@ jest.mock('~/app/Chatbot/store', () => ({
   ...jest.requireActual('~/app/Chatbot/store'),
   useChatbotConfigStore: jest.fn(),
 }));
-jest.mock('@odh-dashboard/internal/concepts/analyticsTracking/segmentIOUtils', () => ({
-  fireMiscTrackingEvent: jest.fn(),
-  fireSimpleTrackingEvent: jest.fn(),
-}));
+jest.mock(
+  '@odh-dashboard/dashboard-foundation-frontend/concepts/analyticsTracking/segmentIOUtils',
+  () => ({
+    fireMiscTrackingEvent: jest.fn(),
+    fireSimpleTrackingEvent: jest.fn(),
+  }),
+);
 
 // Mock child components
 jest.mock('~/app/Chatbot/ChatbotHeader', () => ({

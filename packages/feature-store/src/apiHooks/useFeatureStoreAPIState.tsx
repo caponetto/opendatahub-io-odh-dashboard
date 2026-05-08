@@ -1,6 +1,6 @@
 import React from 'react';
-import { APIState } from '@odh-dashboard/internal/concepts/proxy/types';
-import useAPIState from '@odh-dashboard/internal/concepts/proxy/useAPIState';
+import { APIState } from '@odh-dashboard/dashboard-foundation-frontend/concepts/proxy/types';
+import useAPIState from '@odh-dashboard/dashboard-foundation-frontend/concepts/proxy/useAPIState';
 import {
   getEntities,
   getFeatureViews,

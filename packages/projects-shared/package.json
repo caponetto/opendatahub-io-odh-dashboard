@@ -1,0 +1,51 @@
+{
+  "private": true,
+  "name": "@odh-dashboard/projects-shared",
+  "description": "Shared project context and types consumed by project-related extensions",
+  "version": "0.0.0",
+  "sideEffects": false,
+  "topology": {
+    "tier": "shared"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "type-check": "tsc --noEmit",
+    "test-unit": "jest --silent --passWithNoTests"
+  },
+  "imports": {
+    "#~/*": [
+      "./src/*",
+      "./src/*.ts",
+      "./src/*.d.ts",
+      "./src/*.tsx",
+      "./src/*/index.ts",
+      "./src/*/index.tsx"
+    ]
+  },
+  "exports": {
+    "./*": [
+      "./src/*",
+      "./src/*.ts",
+      "./src/*.d.ts",
+      "./src/*.tsx",
+      "./src/*/index.ts",
+      "./src/*/index.tsx"
+    ]
+  },
+  "dependencies": {
+    "@odh-dashboard/connection-types-shared": "*",
+    "@odh-dashboard/dashboard-foundation-frontend": "*",
+    "@odh-dashboard/distributed-workloads-shared": "*",
+    "react": "^18.2.0"
+  },
+  "devDependencies": {
+    "@odh-dashboard/eslint-config": "*",
+    "@odh-dashboard/jest-config": "*",
+    "@odh-dashboard/test-mocks": "*",
+    "@odh-dashboard/tsconfig": "*",
+    "@testing-library/react": "^16.3.0",
+    "@types/react": "*",
+    "react-dom": "^18.3.1"
+  }
+}

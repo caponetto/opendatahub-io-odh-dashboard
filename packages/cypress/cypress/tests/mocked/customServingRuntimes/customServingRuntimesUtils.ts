@@ -1,12 +1,15 @@
-import { mockK8sResourceList } from '@odh-dashboard/internal/__mocks__/mockK8sResourceList';
-import { mockServingRuntimeTemplateK8sResource } from '@odh-dashboard/internal/__mocks__/mockServingRuntimeTemplateK8sResource';
+import { mockK8sResourceList } from '@odh-dashboard/test-mocks/mockK8sResourceList';
+import { mockServingRuntimeTemplateK8sResource } from '@odh-dashboard/test-mocks/mockServingRuntimeTemplateK8sResource';
 import {
   ServingRuntimeAPIProtocol,
   ServingRuntimeModelType,
   ServingRuntimePlatform,
-} from '@odh-dashboard/internal/types';
-import { mockProjectK8sResource } from '@odh-dashboard/internal/__mocks__';
-import { ProjectModel, TemplateModel } from '../../../utils/models';
+} from '@odh-dashboard/dashboard-foundation-frontend/types';
+import { mockProjectK8sResource } from '@odh-dashboard/test-mocks';
+import {
+  ProjectModel,
+  TemplateModel,
+} from '@odh-dashboard/dashboard-foundation-frontend/api/models';
 
 export const customServingRuntimesInitialMock = [
   mockServingRuntimeTemplateK8sResource({

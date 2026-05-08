@@ -12,15 +12,16 @@ jest.mock('~/app/context/CollectionsContext', () => ({
   CollectionsContextProvider: ({ children }: { children: React.ReactNode }) => children,
 }));
 
-jest.mock('@odh-dashboard/internal/pages/ApplicationsPage', () =>
+jest.mock('@odh-dashboard/dashboard-foundation-frontend/components/ApplicationsPage', () =>
   require('~/__tests__/unit/testUtils/mocks').mockApplicationsPageModule(),
 );
 
-jest.mock('@odh-dashboard/internal/concepts/projects/ProjectIconWithSize', () =>
-  require('~/__tests__/unit/testUtils/mocks').mockProjectIconWithSizeModule(),
+jest.mock(
+  '@odh-dashboard/dashboard-foundation-frontend/concepts/projects/ProjectIconWithSize',
+  () => require('~/__tests__/unit/testUtils/mocks').mockProjectIconWithSizeModule(),
 );
 
-jest.mock('@odh-dashboard/internal/types', () =>
+jest.mock('@odh-dashboard/dashboard-foundation-frontend/types', () =>
   require('~/__tests__/unit/testUtils/mocks').mockIconSizeModule(),
 );
 

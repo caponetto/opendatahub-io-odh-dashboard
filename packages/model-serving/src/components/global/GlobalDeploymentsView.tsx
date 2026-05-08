@@ -1,19 +1,23 @@
 import React from 'react';
-import ApplicationsPage from '@odh-dashboard/internal/pages/ApplicationsPage';
-import { ProjectObjectType } from '@odh-dashboard/internal/concepts/design/utils';
-import TitleWithIcon from '@odh-dashboard/internal/concepts/design/TitleWithIcon';
-import type { ProjectKind } from '@odh-dashboard/internal/k8sTypes';
+import ApplicationsPage from '@odh-dashboard/dashboard-foundation-frontend/components/ApplicationsPage';
+import { ProjectObjectType } from '@odh-dashboard/dashboard-foundation-frontend/concepts/design/utils';
+import TitleWithIcon from '@odh-dashboard/dashboard-foundation-frontend/concepts/design/TitleWithIcon';
+import type { ProjectKind } from '@odh-dashboard/dashboard-foundation-frontend/k8sTypes';
 import { useNavigate, useParams } from 'react-router-dom';
-import { byName, ProjectsContext } from '@odh-dashboard/internal/concepts/projects/ProjectsContext';
+import {
+  byName,
+  ProjectsContext,
+} from '@odh-dashboard/dashboard-foundation-frontend/concepts/projects/ProjectsContext';
 import { useExtensions } from '@odh-dashboard/plugin-core';
 import { Alert, Flex, FlexItem, List, ListItem } from '@patternfly/react-core';
+import { isModelServingPlatformExtension } from '@odh-dashboard/model-serving-shared/extension-points';
 import { GlobalNoModelsView } from './GlobalNoModelsView';
 import GlobalDeploymentsTable from './GlobalDeploymentsTable';
 import ModelServingProjectSelection from './ModelServingProjectSelection';
 import NoProjectsPage from './NoProjectsPage';
 import GlobalModelsLoading from './GlobalModelsLoading';
+import { getGlobalDeploymentsPath } from './globalRouteUtils';
 import { ModelDeploymentsContext } from '../../concepts/ModelDeploymentsContext';
-import { isModelServingPlatformExtension } from '../../../extension-points';
 import EmptyModelServingPlatform from '../projectDetails/EmptyModelServingPlatform';
 
 type GlobalDeploymentsViewProps = {
@@ -54,7 +58,7 @@ const GlobalDeploymentsView: React.FC<GlobalDeploymentsViewProps> = ({
             const redirectProject =
               preferredProject ?? projects.length > 0 ? projects[0] : undefined;
             if (redirectProject) {
-              navigate(`/ai-hub/models/deployments/${redirectProject.metadata.name}`);
+              navigate(getGlobalDeploymentsPath(redirectProject.metadata.name));
             }
           }}
         />
@@ -93,11 +97,7 @@ const GlobalDeploymentsView: React.FC<GlobalDeploymentsViewProps> = ({
       }
       noTitle // rendered inside a TabRoutePage which provides the title
       title={<TitleWithIcon title="Deployments" objectType={ProjectObjectType.deployedModels} />}
-      headerContent={
-        <ModelServingProjectSelection
-          getRedirectPath={(ns: string) => `/ai-hub/models/deployments/${ns}`}
-        />
-      }
+      headerContent={<ModelServingProjectSelection getRedirectPath={getGlobalDeploymentsPath} />}
       provideChildrenPadding
     >
       <GlobalDeploymentsTable deployments={deployments ?? []} loaded />

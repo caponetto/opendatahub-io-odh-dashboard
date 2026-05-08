@@ -1,4 +1,4 @@
-import { mockDashboardConfig } from '@odh-dashboard/internal/__mocks__';
+import { mockDashboardConfig } from '@odh-dashboard/test-mocks';
 import { HomeAdminSection } from './homeAdmin';
 import { HomeProject } from './homeProject';
 import { HomeResource } from './homeResource';

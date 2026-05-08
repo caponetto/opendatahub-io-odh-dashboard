@@ -167,7 +167,7 @@ jest.mock('~/app/Chatbot/hooks/useGuardrailsEnabled', () => ({
   default: jest.fn(() => false),
 }));
 
-jest.mock('@openshift/dynamic-plugin-sdk', () => ({
+jest.mock('@odh-dashboard/plugin-core', () => ({
   useFeatureFlag: jest.fn(() => [false]),
 }));
 

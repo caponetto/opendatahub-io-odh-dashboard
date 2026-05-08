@@ -1,5 +1,4 @@
-import type { Extension } from '@openshift/dynamic-plugin-sdk';
-import type { ComponentCodeRef } from '../core/types';
+import type { Extension, ComponentCodeRef } from '../core/types';
 
 export type OverviewSectionExtension = Extension<
   'app.project-details/overview-section',

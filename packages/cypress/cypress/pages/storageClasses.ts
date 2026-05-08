@@ -1,10 +1,10 @@
-import { mockStorageClassList } from '@odh-dashboard/internal/__mocks__';
-import type { StorageClassKind } from '@odh-dashboard/internal/k8sTypes';
+import { mockStorageClassList } from '@odh-dashboard/test-mocks';
+import type { StorageClassKind } from '@odh-dashboard/dashboard-foundation-frontend/k8sTypes';
+import { StorageClassModel } from '@odh-dashboard/dashboard-foundation-frontend/api/models';
 import { TableRow } from './components/table';
 import { appChrome } from './appChrome';
 import { TableToolbar } from './components/TableToolbar';
 import { Modal } from './components/Modal';
-import { StorageClassModel } from '../utils/models';
 
 class StorageClassesPage {
   visit() {

@@ -318,7 +318,7 @@ This ensures webpack can parse TypeScript from `@odh-dashboard/*` packages resol
 
 All `@odh-dashboard/*` dependencies must be listed in the MF `shared` config so that only one copy is loaded at runtime.
 
-**Host** (`frontend/config/moduleFederation.js`): Uses `npm query .workspace` at build time to dynamically discover all `@odh-dashboard/*` workspace packages and share them with `eager: true`. The `eager` flag means the host's copy loads immediately and takes priority during runtime negotiation. This is automatic — no manual updates needed when new packages are added.
+**Host** (`packages/dashboard-build/moduleFederation.js`): Uses the plugin manifest (`.plugin-manifest.json`) or falls back to `npm query .workspace` at build time to dynamically discover all `@odh-dashboard/*` workspace packages and share them with `eager: true`. The `eager` flag means the host's copy loads immediately and takes priority during runtime negotiation. This is automatic — no manual updates needed when new packages are added.
 
 **Remotes** (each package's `moduleFederation.js`): Explicitly list the `@odh-dashboard/*` packages they depend on with `singleton: true`:
 

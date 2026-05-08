@@ -10,17 +10,15 @@ import { Bullseye, Flex, FlexItem, Spinner } from '@patternfly/react-core';
 import { useSearchParams } from 'react-router-dom';
 import { loadRemote } from '@module-federation/runtime';
 import { LazyCodeRefComponent } from '@odh-dashboard/plugin-core';
-// eslint-disable-next-line @odh-dashboard/no-restricted-imports
-import ApplicationsPage from '@odh-dashboard/internal/pages/ApplicationsPage';
-// eslint-disable-next-line @odh-dashboard/no-restricted-imports
-import PipelineCoreProjectSelector from '@odh-dashboard/internal/pages/pipelines/global/PipelineCoreProjectSelector';
-import TitleWithIcon from '@odh-dashboard/internal/concepts/design/TitleWithIcon';
-import { ProjectObjectType } from '@odh-dashboard/internal/concepts/design/utils';
+import ApplicationsPage from '@odh-dashboard/dashboard-foundation-frontend/components/ApplicationsPage';
+import PipelineCoreProjectSelector from '@odh-dashboard/pipelines-shared/concepts/pipelines/PipelineCoreProjectSelector';
+import TitleWithIcon from '@odh-dashboard/dashboard-foundation-frontend/concepts/design/TitleWithIcon';
+import { ProjectObjectType } from '@odh-dashboard/dashboard-foundation-frontend/concepts/design/utils';
 import {
   mlflowExperimentsBaseRoute,
   mlflowExperimentsPath,
   WORKSPACE_QUERY_PARAM,
-} from '@odh-dashboard/internal/routes/pipelines/mlflow';
+} from '@odh-dashboard/mlflow-shared/concepts/mlflow/routes';
 import { EXPERIMENTS_PAGE_TITLE } from '../shared/const';
 import MLflowUnavailable from '../shared/MLflowUnavailable';
 import MlflowBreadcrumbs, { BreadcrumbEntry } from '../shared/MlflowBreadcrumbs';

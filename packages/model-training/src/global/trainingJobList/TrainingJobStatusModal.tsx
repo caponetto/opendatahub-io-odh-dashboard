@@ -26,7 +26,7 @@ import {
 } from '@patternfly/react-core';
 
 import { t_global_text_color_disabled as DisabledColor } from '@patternfly/react-tokens';
-import EventLog from '@odh-dashboard/internal/concepts/k8s/EventLog/EventLog';
+import EventLog from '@odh-dashboard/dashboard-foundation-frontend/concepts/k8s/EventLog/EventLog';
 import TrainingJobStatus from './components/TrainingJobStatus';
 import {
   getTrainingJobStatusSync,
@@ -82,10 +82,11 @@ const TrainingJobStatusModal: React.FC<TrainingJobStatusModalProps> = ({
 }) => {
   const status = jobStatus || getTrainingJobStatusSync(job);
   const [workloads, workloadLoaded] = useWorkloadForTrainJob(job);
+  const safeWorkloads = React.useMemo(() => workloads ?? [], [workloads]);
   const workload = React.useMemo(() => {
-    if (!workloadLoaded || workloads.length === 0) return null;
-    return workloads[0];
-  }, [workloads, workloadLoaded]);
+    if (!workloadLoaded || safeWorkloads.length === 0) return null;
+    return safeWorkloads[0];
+  }, [safeWorkloads, workloadLoaded]);
   const workloadConditions = React.useMemo(
     () => workload?.status?.conditions ?? [],
     [workload?.status?.conditions],

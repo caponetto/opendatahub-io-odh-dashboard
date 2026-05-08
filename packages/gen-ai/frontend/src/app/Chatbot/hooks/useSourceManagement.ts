@@ -2,8 +2,8 @@
 /* eslint-disable camelcase */
 import * as React from 'react';
 import { DropEvent } from '@patternfly/react-core';
-import { fireFormTrackingEvent } from '@odh-dashboard/internal/concepts/analyticsTracking/segmentIOUtils';
-import { TrackingOutcome } from '@odh-dashboard/internal/concepts/analyticsTracking/trackingProperties';
+import { fireFormTrackingEvent } from '@odh-dashboard/dashboard-foundation-frontend/concepts/analyticsTracking/segmentIOUtils';
+import { TrackingOutcome } from '@odh-dashboard/dashboard-foundation-frontend/concepts/analyticsTracking/trackingProperties';
 import { ChatbotSourceSettings, FileModel } from '~/app/types';
 import { FILE_UPLOAD_CONFIG } from '~/app/Chatbot/const';
 import { useGenAiAPI } from '~/app/hooks/useGenAiAPI';

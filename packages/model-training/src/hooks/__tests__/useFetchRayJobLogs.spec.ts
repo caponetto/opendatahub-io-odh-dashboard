@@ -2,11 +2,11 @@
  * @jest-environment jsdom
  */
 import { testHook } from '@odh-dashboard/jest-config/hooks';
-import useFetch from '@odh-dashboard/internal/utilities/useFetch';
+import useFetch from '@odh-dashboard/dashboard-foundation-frontend/utilities/useFetch';
 import { getRayJobDriverLogs } from '../../api/rayJobLogs';
 import useFetchRayJobLogs from '../useFetchRayJobLogs';
 
-jest.mock('@odh-dashboard/internal/utilities/useFetch', () => ({
+jest.mock('@odh-dashboard/dashboard-foundation-frontend/utilities/useFetch', () => ({
   __esModule: true,
   default: jest.fn(),
 }));

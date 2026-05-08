@@ -1,4 +1,4 @@
-import { mockNotebookK8sResource } from '@odh-dashboard/internal/__mocks__/mockNotebookK8sResource.ts';
+import { mockNotebookK8sResource } from '@odh-dashboard/test-mocks/mockNotebookK8sResource';
 import { Modal } from './components/Modal';
 import { TableRow } from './components/table';
 

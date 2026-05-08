@@ -1,6 +1,6 @@
-import { getDisplayNameFromK8sResource } from '@odh-dashboard/internal/concepts/k8s/utils';
-import { ModelDeploymentState } from '@odh-dashboard/internal/pages/modelServing/screens/types';
-import { Deployment } from '../../extension-points';
+import { getDisplayNameFromK8sResource } from '@odh-dashboard/dashboard-foundation-frontend/concepts/k8s/utils';
+import { ModelDeploymentState } from '@odh-dashboard/model-serving-shared/concepts/modelServing/deploymentState';
+import { Deployment } from '@odh-dashboard/model-serving-shared/extension-points';
 
 const isDeploymentInactive = (deployment: Deployment): boolean =>
   deployment.model.metadata.annotations?.['serving.kserve.io/deploymentMode'] === 'Stopped';
@@ -29,9 +29,9 @@ export const deploymentLastDeployedSort = (a: Deployment, b: Deployment): number
   }
 
   type Condition = {
-    type: string;
-    status: 'True' | 'False' | 'Unknown';
-    lastTransitionTime: string;
+    type?: string;
+    status?: string;
+    lastTransitionTime?: string;
   };
 
   const getConditions = (deployment: Deployment): Condition[] => {

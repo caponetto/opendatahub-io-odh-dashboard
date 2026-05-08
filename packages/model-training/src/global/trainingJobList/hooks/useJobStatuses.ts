@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { allSettledPromises } from '@odh-dashboard/internal/utilities/allSettledPromises';
+import { allSettledPromises } from '@odh-dashboard/dashboard-foundation-frontend/utilities/allSettledPromises';
 import { getTrainingJobStatus, getRayJobStatus } from '../utils';
 import { JobDisplayState, UnifiedJobKind, isRayJob } from '../../../types';
 

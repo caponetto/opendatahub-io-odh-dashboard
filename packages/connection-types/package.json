@@ -1,0 +1,55 @@
+{
+  "private": true,
+  "name": "@odh-dashboard/connection-types",
+  "description": "Connection Types feature plugin",
+  "version": "0.0.0",
+  "topology": {
+    "tier": "extension"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "type-check": "tsc --noEmit",
+    "test-unit": "jest --silent"
+  },
+  "exports": {
+    "./extensions": "./src/extensions.ts",
+    "./routes": "./src/backend/routes/index.ts",
+    "./*": [
+      "./src/*",
+      "./src/*.ts",
+      "./src/*.d.ts",
+      "./src/*.tsx",
+      "./src/*/index.ts",
+      "./src/*/index.tsx"
+    ]
+  },
+  "dependencies": {
+    "@fastify/autoload": "^5.7.1",
+    "@kubernetes/client-node": "^0.12.2",
+    "@odh-dashboard/connection-types-shared": "*",
+    "@odh-dashboard/dashboard-foundation-backend": "*",
+    "@odh-dashboard/dashboard-foundation-frontend": "*",
+    "@odh-dashboard/plugin-core": "*",
+    "@patternfly/react-core": "*",
+    "@patternfly/react-icons": "*",
+    "@patternfly/react-styles": "*",
+    "@patternfly/react-table": "*",
+    "react-dropzone": "^14.2.3",
+    "react-router": "^7.6.2",
+    "react-router-dom": "^7.6.2",
+    "fastify": "^4.28.1",
+    "fastify-plugin": "^4.5.1",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@odh-dashboard/eslint-config": "*",
+    "@odh-dashboard/jest-config": "*",
+    "@odh-dashboard/test-mocks": "*",
+    "@odh-dashboard/tsconfig": "*",
+    "@testing-library/jest-dom": "*",
+    "@testing-library/react": "*",
+    "@types/react": "*",
+    "react-dom": "^18.2.0"
+  }
+}

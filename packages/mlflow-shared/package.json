@@ -1,0 +1,51 @@
+{
+  "private": true,
+  "name": "@odh-dashboard/mlflow-shared",
+  "description": "Shared MLflow types, components, and route helpers consumed by multiple extensions",
+  "version": "0.0.0",
+  "topology": {
+    "tier": "shared"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "type-check": "tsc --noEmit",
+    "test-unit": "jest --silent"
+  },
+  "imports": {
+    "#~/*": [
+      "./src/*",
+      "./src/*.ts",
+      "./src/*.tsx",
+      "./src/*/index.ts",
+      "./src/*/index.tsx"
+    ]
+  },
+  "exports": {
+    "./*": [
+      "./src/*",
+      "./src/*.ts",
+      "./src/*.tsx",
+      "./src/*/index.ts",
+      "./src/*/index.tsx"
+    ]
+  },
+  "dependencies": {
+    "@odh-dashboard/dashboard-foundation-frontend": "*",
+    "@patternfly/react-core": "*",
+    "@patternfly/react-icons": "*",
+    "@patternfly/react-table": "*",
+    "react": "^18.2.0"
+  },
+  "devDependencies": {
+    "@odh-dashboard/eslint-config": "*",
+    "@odh-dashboard/jest-config": "*",
+    "@odh-dashboard/test-mocks": "*",
+    "@odh-dashboard/tsconfig": "*",
+    "@testing-library/jest-dom": "*",
+    "@testing-library/react": "16.3.0",
+    "@testing-library/user-event": "*",
+    "@types/react": "*",
+    "react-dom": "^18.2.0"
+  }
+}

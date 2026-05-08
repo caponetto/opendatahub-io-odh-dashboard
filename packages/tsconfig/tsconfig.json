@@ -23,7 +23,7 @@
     "outDir": "${configDir}/dist",
     "emitDeclarationOnly": false,
     "paths": {
-      "@mf/*": ["../../frontend/@mf-types/@mf/*"]
+      "@mf/*": ["../dashboard-dist-full/@mf-types/@mf/*"]
     }
   },
   "include": [

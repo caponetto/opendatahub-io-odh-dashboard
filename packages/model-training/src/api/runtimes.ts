@@ -1,7 +1,7 @@
-import { k8sGetResource } from '@openshift/dynamic-plugin-sdk-utils';
-import { applyK8sAPIOptions } from '@odh-dashboard/internal/api/apiMergeUtils';
-import { K8sAPIOptions } from '@odh-dashboard/internal/k8sTypes';
-import { ClusterTrainingRuntimeModel } from '@odh-dashboard/internal/api/models/kubeflow';
+import { k8sGetResource } from '@odh-dashboard/k8s-browser';
+import { applyK8sAPIOptions } from '@odh-dashboard/dashboard-foundation-frontend/api/apiMergeUtils';
+import { K8sAPIOptions } from '@odh-dashboard/dashboard-foundation-frontend/k8sTypes';
+import { ClusterTrainingRuntimeModel } from '@odh-dashboard/dashboard-foundation-frontend/api/models/kubeflow';
 import { ClusterTrainingRuntimeKind } from '../k8sTypes';
 
 /**

@@ -1,7 +1,7 @@
-import { type RecursivePartial } from '@odh-dashboard/internal/typeHelpers';
-import { WizardFormData } from '@odh-dashboard/model-serving/types/form-data';
-import { ModelResourceType } from '@odh-dashboard/model-serving/extension-points';
-import { ServingRuntimeModelType } from '@odh-dashboard/internal/types';
+import { type RecursivePartial } from '@odh-dashboard/dashboard-foundation-frontend/typeHelpers';
+import type { WizardFormData } from '@odh-dashboard/model-serving-shared/types/form-data';
+import type { ModelResourceType } from '@odh-dashboard/model-serving-shared/extension-points';
+import { ServingRuntimeModelType } from '@odh-dashboard/dashboard-foundation-frontend/types';
 import { LLMD_OPTION } from './deployments/server';
 
 /**

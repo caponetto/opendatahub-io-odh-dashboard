@@ -8,19 +8,25 @@ jest.mock('~/app/Chatbot/hooks/useDarkMode', () => ({
   default: jest.fn(() => false),
 }));
 
-jest.mock('@odh-dashboard/internal/concepts/analyticsTracking/segmentIOUtils', () => ({
-  fireMiscTrackingEvent: jest.fn(),
-}));
+jest.mock(
+  '@odh-dashboard/dashboard-foundation-frontend/concepts/analyticsTracking/segmentIOUtils',
+  () => ({
+    fireMiscTrackingEvent: jest.fn(),
+  }),
+);
 
 // Mock FieldGroupHelpLabelIcon to avoid React hook conflicts
-jest.mock('@odh-dashboard/internal/components/FieldGroupHelpLabelIcon', () => ({
-  __esModule: true,
-  default: ({ onClick }: { content: string; onClick?: () => void }) => (
-    <button aria-label="More info" onClick={onClick}>
-      Help
-    </button>
-  ),
-}));
+jest.mock(
+  '@odh-dashboard/dashboard-foundation-frontend/components/FieldGroupHelpLabelIcon',
+  () => ({
+    __esModule: true,
+    default: ({ onClick }: { content: string; onClick?: () => void }) => (
+      <button aria-label="More info" onClick={onClick}>
+        Help
+      </button>
+    ),
+  }),
+);
 
 describe('GuardrailsTabContent', () => {
   const defaultProps = {

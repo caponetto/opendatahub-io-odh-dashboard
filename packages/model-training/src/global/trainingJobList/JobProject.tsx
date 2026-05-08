@@ -1,7 +1,10 @@
 import * as React from 'react';
 import { HelperText, HelperTextItem, Skeleton } from '@patternfly/react-core';
-import { ProjectsContext, byName } from '@odh-dashboard/internal/concepts/projects/ProjectsContext';
-import { getDisplayNameFromK8sResource } from '@odh-dashboard/internal/concepts/k8s/utils';
+import {
+  ProjectsContext,
+  byName,
+} from '@odh-dashboard/dashboard-foundation-frontend/concepts/projects/ProjectsContext';
+import { getDisplayNameFromK8sResource } from '@odh-dashboard/dashboard-foundation-frontend/concepts/k8s/utils';
 import { UnifiedJobKind } from '../../types';
 
 type JobProjectProps = {

@@ -1,8 +1,8 @@
 import type {
   CreatePipelineAndVersionKFData,
   PipelineKF,
-} from '@odh-dashboard/internal/concepts/pipelines/kfTypes';
-import { buildMockPipeline } from '@odh-dashboard/internal/__mocks__/mockPipelinesProxy';
+} from '@odh-dashboard/pipelines/concepts/kfTypes';
+import { buildMockPipeline } from '@odh-dashboard/test-mocks/mockPipelinesProxy';
 import { Modal } from '../components/Modal';
 
 class PipelineImportModal extends Modal {

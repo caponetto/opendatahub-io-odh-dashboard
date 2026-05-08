@@ -23,7 +23,9 @@
       "port": 8043
     }
   },
-  "e2eCiTags": ["@MaaSCI"],
+  "e2eCiTags": [
+    "@MaaSCI"
+  ],
   "bffConfig": {
     "enabled": true,
     "port": 8081,
@@ -31,8 +33,11 @@
     "startCommand": "make dev-bff-e2e-mock",
     "startCommandCluster": "make dev-bff-e2e-cluster"
   },
+  "topology": {
+    "tier": "extension"
+  },
   "scripts": {
-    "install:module": "npm install --prefix frontend",
+    "install:module": "[ -d ../../node_modules ] && exit 0 || npm install --prefix frontend",
     "cypress:server:build": "cd frontend && cross-env DIST_DIR=./public-cypress DEPLOYMENT_MODE=federated npm run build",
     "cypress:server:build:coverage": "cross-env COVERAGE=true npm run cypress:server:build",
     "cypress:server": "cd frontend && serve ./public-cypress -p 9104 -s -L",
@@ -50,11 +55,8 @@
     "./types/auth-policies": "./frontend/src/app/types/auth-policies.ts"
   },
   "dependencies": {
-    "@odh-dashboard/internal": "*",
-    "@odh-dashboard/plugin-core": "*",
-    "@odh-dashboard/model-serving": "*",
-    "@odh-dashboard/llmd-serving": "*",
-    "@odh-dashboard/gen-ai": "*"
+    "@odh-dashboard/dashboard-foundation-frontend": "*",
+    "@odh-dashboard/plugin-core": "*"
   },
   "devDependencies": {
     "@odh-dashboard/eslint-config": "*",

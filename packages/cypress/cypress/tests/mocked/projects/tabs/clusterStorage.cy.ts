@@ -7,20 +7,13 @@ import {
   mockProjectK8sResource,
   mockStorageClasses,
   mockStorageClassList,
-} from '@odh-dashboard/internal/__mocks__';
+} from '@odh-dashboard/test-mocks';
 
-import { mockClusterSettings } from '@odh-dashboard/internal/__mocks__/mockClusterSettings';
-import { mockPVCK8sResource } from '@odh-dashboard/internal/__mocks__/mockPVCK8sResource';
-import { mockPodK8sResource } from '@odh-dashboard/internal/__mocks__/mockPodK8sResource';
-import { mock200Status } from '@odh-dashboard/internal/__mocks__/mockK8sStatus';
-import { mockPrometheusQueryVectorResponse } from '@odh-dashboard/internal/__mocks__/mockPrometheusQueryVectorResponse';
-import {
-  clusterStorage,
-  addClusterStorageModal,
-  updateClusterStorageModal,
-} from '../../../../pages/clusterStorage';
-import { deleteModal } from '../../../../pages/components/DeleteModal';
-import { be } from '../../../../utils/should';
+import { mockClusterSettings } from '@odh-dashboard/test-mocks/mockClusterSettings';
+import { mockPVCK8sResource } from '@odh-dashboard/test-mocks/mockPVCK8sResource';
+import { mockPodK8sResource } from '@odh-dashboard/test-mocks/mockPodK8sResource';
+import { mock200Status } from '@odh-dashboard/test-mocks/mockK8sStatus';
+import { mockPrometheusQueryVectorResponse } from '@odh-dashboard/test-mocks/mockPrometheusQueryVectorResponse';
 import {
   NotebookModel,
   PVCModel,
@@ -28,7 +21,14 @@ import {
   ProjectModel,
   StorageClassModel,
   InferenceServiceModel,
-} from '../../../../utils/models';
+} from '@odh-dashboard/dashboard-foundation-frontend/api/models';
+import {
+  clusterStorage,
+  addClusterStorageModal,
+  updateClusterStorageModal,
+} from '../../../../pages/clusterStorage';
+import { deleteModal } from '../../../../pages/components/DeleteModal';
+import { be } from '../../../../utils/should';
 import { storageClassesPage } from '../../../../pages/storageClasses';
 import { AccessMode } from '../../../../types';
 

@@ -1,8 +1,8 @@
-import { getGenericErrorCode } from '@odh-dashboard/internal/api/errorUtils';
+import { getGenericErrorCode } from '@odh-dashboard/dashboard-foundation-frontend/api/errorUtils';
 
 import { shouldShowConfigurePipelineServerEmptyState } from '~/app/utilities/pipelineServerEmptyState';
 
-jest.mock('@odh-dashboard/internal/api/errorUtils', () => ({
+jest.mock('@odh-dashboard/dashboard-foundation-frontend/api/errorUtils', () => ({
   getGenericErrorCode: jest.fn(),
 }));
 

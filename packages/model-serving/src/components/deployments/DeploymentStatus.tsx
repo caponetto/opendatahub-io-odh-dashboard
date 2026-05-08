@@ -1,8 +1,8 @@
 import React from 'react';
-import { ModelDeploymentState } from '@odh-dashboard/internal/pages/modelServing/screens/types';
-import { ToggleState } from '@odh-dashboard/internal/components/StateActionToggle';
+import { ToggleState } from '@odh-dashboard/dashboard-foundation-frontend/components/StateActionToggle';
+import { ModelDeploymentState } from '@odh-dashboard/model-serving-shared/concepts/modelServing/deploymentState';
+import { Deployment } from '@odh-dashboard/model-serving-shared/extension-points';
 import { DeploymentEndpointsPopupButton } from './DeploymentEndpointsPopupButton';
-import { Deployment } from '../../../extension-points';
 
 type DeploymentStatusProps = {
   deployment: Deployment;

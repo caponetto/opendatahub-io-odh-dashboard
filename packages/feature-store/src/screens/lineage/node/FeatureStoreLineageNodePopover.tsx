@@ -12,8 +12,8 @@ import {
   List,
   ListItem,
 } from '@patternfly/react-core';
-import { LineageNode } from '@odh-dashboard/internal/components/lineage/types';
-import { useLineageClick } from '@odh-dashboard/internal/components/lineage/LineageClickContext';
+import { LineageNode } from '../../../components/lineage/types';
+import { useLineageClick } from '../../../components/lineage/LineageClickContext';
 import {
   featureDataSourceRoute,
   featureEntityRoute,

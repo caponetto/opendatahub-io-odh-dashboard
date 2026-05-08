@@ -1,4 +1,4 @@
-import type { K8sResourceCommon } from '@odh-dashboard/internal/k8sTypes';
+import type { K8sResourceCommon } from '@odh-dashboard/dashboard-foundation-frontend/k8sTypes';
 import { MaaSSubscription } from '~/app/types/subscriptions';
 /**
  * Returns the lowest non-negative integer priority not already taken by existing subscriptions.

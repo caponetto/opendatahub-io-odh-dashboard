@@ -16,5 +16,9 @@
     "@odh-dashboard/eslint-config": "*",
     "@odh-dashboard/jest-config": "*",
     "@odh-dashboard/tsconfig": "*"
+  },
+  "topology": {
+    "tier": "infrastructure",
+    "eslintTierExempt": true
   }
 }

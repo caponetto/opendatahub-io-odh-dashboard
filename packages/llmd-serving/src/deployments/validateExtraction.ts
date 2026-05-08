@@ -1,5 +1,5 @@
-import { MetadataAnnotation } from '@odh-dashboard/internal/k8sTypes';
-import { isPVCUri } from '@odh-dashboard/internal/pages/modelServing/screens/projects/utils';
+import { MetadataAnnotation } from '@odh-dashboard/dashboard-foundation-frontend/k8sTypes';
+import { isPVCUri } from '@odh-dashboard/model-serving-shared/concepts/modelServing/utils';
 import type { LLMdDeployment } from '../types';
 
 /**

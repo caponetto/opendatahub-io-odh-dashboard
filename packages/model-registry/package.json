@@ -3,7 +3,11 @@
   "name": "@odh-dashboard/model-registry",
   "description": "Model registry plugin.",
   "version": "0.0.0",
+  "topology": {
+    "tier": "extension"
+  },
   "scripts": {
+    "build": "make -C upstream build",
     "install:module": "npm install --prefix upstream/frontend",
     "lint": "eslint .",
     "type-check": "tsc --noEmit",
@@ -56,7 +60,8 @@
     "startCommandCluster": "make -C upstream dev-bff-e2e-cluster"
   },
   "exports": {
-    "./extensions": "./extensions.ts",
+    "./routes": "./src/backend/routes/index.ts",
+    "./extensions": "./src/extensions.ts",
     "./model-catalog-deploy": {
       "types": "./upstream/frontend/src/odh/extension-points/model-catalog-deploy.ts"
     },
@@ -67,18 +72,47 @@
     "./types/modelCatalogTypes": "./upstream/frontend/src/app/modelCatalogTypes.ts",
     "./types/mcpDeploymentTypes": "./upstream/frontend/src/app/mcpDeploymentTypes.ts",
     "./types/types": "./upstream/frontend/src/app/types.ts",
-    "./routeUtils": "./upstream/frontend/src/app/pages/modelRegistry/screens/routeUtils.ts"
+    "./routeUtils": "./upstream/frontend/src/app/pages/modelRegistry/screens/routeUtils.ts",
+    "./*": [
+      "./src/*",
+      "./src/*.ts",
+      "./src/*.d.ts",
+      "./src/*.tsx",
+      "./src/*/index.ts",
+      "./src/*/index.tsx"
+    ]
   },
   "dependencies": {
-    "@odh-dashboard/internal": "*"
+    "@fastify/autoload": "^5.7.1",
+    "@kubernetes/client-node": "^0.12.2",
+    "@odh-dashboard/connection-types-shared": "*",
+    "@odh-dashboard/dashboard-foundation-backend": "*",
+    "@odh-dashboard/dashboard-foundation-frontend": "*",
+    "@odh-dashboard/k8s-browser": "*",
+    "@odh-dashboard/model-serving-shared": "*",
+    "@patternfly/react-core": "*",
+    "@patternfly/react-icons": "*",
+    "@patternfly/react-table": "*",
+    "fastify": "^4.23.2",
+    "fastify-plugin": "^4.5.1",
+    "http-errors": "^1.8.0",
+    "lodash-es": "^4.17.15",
+    "react-router": "^7.6.2",
+    "react-router-dom": "^7.6.2"
   },
   "devDependencies": {
-    "@odh-dashboard/eslint-config": "*",
-    "@odh-dashboard/plugin-core": "*",
-    "@odh-dashboard/tsconfig": "*",
     "@odh-dashboard/contract-tests": "*",
-    "@openshift/dynamic-plugin-sdk": "*",
+    "@odh-dashboard/eslint-config": "*",
+    "@odh-dashboard/jest-config": "*",
+    "@odh-dashboard/plugin-core": "*",
+    "@odh-dashboard/test-mocks": "*",
+    "@odh-dashboard/tsconfig": "*",
     "@patternfly/react-code-editor": "*",
-    "cross-env": "^10.1.0"
+    "@testing-library/jest-dom": "*",
+    "@testing-library/react": "16.3.0",
+    "@testing-library/user-event": "*",
+    "@types/react": "*",
+    "cross-env": "^10.1.0",
+    "react-dom": "^18.2.0"
   }
 }

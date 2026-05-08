@@ -1,6 +1,6 @@
-import { mockDocs } from '@odh-dashboard/internal/__mocks__/mockDocs';
-import { mockComponents } from '@odh-dashboard/internal/__mocks__/mockComponents';
-import { mockQuickStarts } from '@odh-dashboard/internal/__mocks__/mockQuickStarts';
+import { mockDocs } from '@odh-dashboard/test-mocks/mockDocs';
+import { mockComponents } from '@odh-dashboard/test-mocks/mockComponents';
+import { mockQuickStarts } from '@odh-dashboard/test-mocks/mockQuickStarts';
 import { customServingRuntimesIntercept } from '../customServingRuntimes/customServingRuntimesUtils';
 import { notebookImageSettings } from '../../../pages/notebookImageSettings';
 import { asProductAdminUser, asProjectEditUser } from '../../../utils/mockUsers';

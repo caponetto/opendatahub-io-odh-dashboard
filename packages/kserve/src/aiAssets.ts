@@ -1,4 +1,4 @@
-import { ModelAvailabilityFieldsData } from '@odh-dashboard/model-serving/types/form-data';
+import type { ModelAvailabilityFieldsData } from '@odh-dashboard/model-serving-shared/types/form-data';
 import { KServeDeployment } from './deployments';
 
 export const extractModelAvailabilityData = (

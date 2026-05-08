@@ -1,4 +1,4 @@
-import type { Extension } from '@openshift/dynamic-plugin-sdk';
+import type { Extension } from '@odh-dashboard/plugin-core';
 import type { ComponentCodeRef } from '@odh-dashboard/plugin-core';
 import type { NamespaceSelectorFieldProps } from '~/concepts/k8s/NamespaceSelectorField/NamespaceSelectorField';
 

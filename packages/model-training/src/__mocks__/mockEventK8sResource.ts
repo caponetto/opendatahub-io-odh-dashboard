@@ -1,5 +1,5 @@
-import { genUID } from '@odh-dashboard/internal/__mocks__/mockUtils';
-import { EventKind } from '@odh-dashboard/internal/k8sTypes';
+import { genUID } from '@odh-dashboard/test-mocks/mockUtils';
+import { EventKind } from '@odh-dashboard/dashboard-foundation-frontend/k8sTypes';
 
 type MockEventResourceConfigType = {
   name?: string;

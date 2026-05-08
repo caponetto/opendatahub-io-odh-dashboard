@@ -1,6 +1,8 @@
 import * as React from 'react';
-import useFetch, { FetchStateCallbackPromise } from '@odh-dashboard/internal/utilities/useFetch';
-import { proxyGET } from '@odh-dashboard/internal/api/proxyUtils';
+import useFetch, {
+  FetchStateCallbackPromise,
+} from '@odh-dashboard/dashboard-foundation-frontend/utilities/useFetch';
+import { proxyGET } from '@odh-dashboard/dashboard-foundation-frontend/api/proxyUtils';
 
 export type RegistryFeatureStore = {
   name: string;

@@ -3,7 +3,11 @@
   "name": "@odh-dashboard/notebooks",
   "description": "Notebooks plugin.",
   "version": "0.0.0",
+  "topology": {
+    "tier": "extension"
+  },
   "scripts": {
+    "build": "make -C upstream/workspaces/backend build && make -C upstream/workspaces/controller build && npm run build --prefix upstream/workspaces/frontend",
     "lint": "eslint .",
     "type-check": "tsc --noEmit",
     "update-subtree": "package-subtree --package=@odh-dashboard/notebooks",
@@ -39,9 +43,7 @@
       "port": 8343
     }
   },
-  "dependencies": {
-    "@odh-dashboard/internal": "*"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@odh-dashboard/eslint-config": "*",
     "@odh-dashboard/tsconfig": "*"

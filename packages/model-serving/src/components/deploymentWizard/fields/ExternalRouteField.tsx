@@ -1,27 +1,25 @@
 import React from 'react';
 import { Checkbox, Stack, StackItem } from '@patternfly/react-core';
 import { z } from 'zod';
-import type { ModelServerSelectField } from './ModelServerTemplateSelectField';
+import type {
+  ExternalRouteFieldData,
+  ExternalRouteFieldHook,
+} from '@odh-dashboard/model-serving-shared/types/form-data';
+import type { ModelServerSelectField } from '@odh-dashboard/model-serving-shared/concepts/modelServing/ModelServerTemplateSelectField';
 import type { ModelTypeField } from './ModelTypeSelectField';
 import { isExternalRouteField } from '../types';
 import { useWizardFieldFromExtension } from '../dynamicFormUtils';
 
+export type { ExternalRouteFieldData, ExternalRouteFieldHook };
+
 // Schema
 export const externalRouteFieldSchema = z.boolean();
-
-export type ExternalRouteFieldData = z.infer<typeof externalRouteFieldSchema>;
 
 export const isValidExternalRoute = (value: unknown): value is ExternalRouteFieldData => {
   return externalRouteFieldSchema.safeParse(value).success;
 };
 
 // Hook
-export type ExternalRouteFieldHook = {
-  data: ExternalRouteFieldData | undefined;
-  setData: (data: ExternalRouteFieldData) => void;
-  isVisible: boolean;
-};
-
 export const useExternalRouteField = (
   existingData?: ExternalRouteFieldData,
   modelType?: ModelTypeField,

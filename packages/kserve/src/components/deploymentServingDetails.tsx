@@ -1,5 +1,5 @@
 import React from 'react';
-import InferenceServiceServingRuntime from '@odh-dashboard/internal/pages/modelServing/screens/global/InferenceServiceServingRuntime';
+import InferenceServiceServingRuntime from '@odh-dashboard/model-serving-shared/concepts/modelServing/InferenceServiceServingRuntime';
 import type { KServeDeployment } from '../deployments';
 
 type Props = {

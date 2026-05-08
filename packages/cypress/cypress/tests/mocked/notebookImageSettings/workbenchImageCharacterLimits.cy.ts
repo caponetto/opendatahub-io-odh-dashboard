@@ -1,5 +1,5 @@
-import { mockImageStreamK8sResource } from '@odh-dashboard/internal/__mocks__/mockImageStreamK8sResource';
-import { ImageStreamModel } from '../../../utils/models';
+import { mockImageStreamK8sResource } from '@odh-dashboard/test-mocks/mockImageStreamK8sResource';
+import { ImageStreamModel } from '@odh-dashboard/dashboard-foundation-frontend/api/models';
 import { asProductAdminUser } from '../../../utils/mockUsers';
 import { notebookImageSettings } from '../../../pages/notebookImageSettings';
 

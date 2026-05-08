@@ -5,11 +5,15 @@ import { mockFeatureStoreProject } from '@odh-dashboard/feature-store/mocks/mock
 import { mockDataSets, mockDataSet } from '@odh-dashboard/feature-store/mocks/mockDataSets';
 import { mockFeatureService } from '@odh-dashboard/feature-store/mocks/mockFeatureServices';
 import { mockFeature } from '@odh-dashboard/feature-store/mocks/mockFeatures';
-import { mockDashboardConfig } from '@odh-dashboard/internal/__mocks__/mockDashboardConfig';
-import { mockDscStatus } from '@odh-dashboard/internal/__mocks__/mockDscStatus';
-import { mockK8sResourceList } from '@odh-dashboard/internal/__mocks__/mockK8sResourceList';
-import { mockProjectK8sResource } from '@odh-dashboard/internal/__mocks__/mockProjectK8sResource';
-import { DataScienceStackComponent } from '@odh-dashboard/internal/concepts/areas/types';
+import { mockDashboardConfig } from '@odh-dashboard/test-mocks/mockDashboardConfig';
+import { mockDscStatus } from '@odh-dashboard/test-mocks/mockDscStatus';
+import { mockK8sResourceList } from '@odh-dashboard/test-mocks/mockK8sResourceList';
+import { mockProjectK8sResource } from '@odh-dashboard/test-mocks/mockProjectK8sResource';
+import { DataScienceStackComponent } from '@odh-dashboard/dashboard-foundation-frontend/concepts/areas';
+import {
+  ProjectModel,
+  ServiceModel,
+} from '@odh-dashboard/dashboard-foundation-frontend/api/models';
 import { featureStoreGlobal } from '../../../pages/featureStore/featureStoreGlobal';
 import {
   featureDataSetsTable,
@@ -17,7 +21,6 @@ import {
 } from '../../../pages/featureStore/featureDataSet';
 import { featureServiceDetails } from '../../../pages/featureStore/featureServiceDetails';
 import { featureDetails } from '../../../pages/featureStore/featuresDetails';
-import { ProjectModel, ServiceModel } from '../../../utils/models';
 import { asClusterAdminUser } from '../../../utils/mockUsers';
 
 const k8sNamespace = 'default';

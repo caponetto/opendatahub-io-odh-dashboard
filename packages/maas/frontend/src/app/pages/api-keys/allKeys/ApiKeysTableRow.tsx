@@ -8,7 +8,7 @@ import {
   OutlinedClockIcon,
   OutlinedQuestionCircleIcon,
 } from '@patternfly/react-icons';
-import TableRowTitleDescription from '@odh-dashboard/internal/components/table/TableRowTitleDescription';
+import TableRowTitleDescription from '@odh-dashboard/dashboard-foundation-frontend/components/table/TableRowTitleDescription';
 import { APIKey, APIKeyStatus, SubscriptionDetail } from '~/app/types/api-key';
 import { ApiKeyColumn } from './columns';
 import SubscriptionCell from './SubscriptionCell';

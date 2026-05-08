@@ -2,14 +2,17 @@
 import * as React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { fireMiscTrackingEvent } from '@odh-dashboard/internal/concepts/analyticsTracking/segmentIOUtils';
+import { fireMiscTrackingEvent } from '@odh-dashboard/dashboard-foundation-frontend/concepts/analyticsTracking/segmentIOUtils';
 import ModelDetailsDropdown from '~/app/Chatbot/components/ModelDetailsDropdown';
 import { ChatbotContext } from '~/app/context/ChatbotContext';
 import { AIModel, LlamaModel, MaaSModel } from '~/app/types';
 
-jest.mock('@odh-dashboard/internal/concepts/analyticsTracking/segmentIOUtils', () => ({
-  fireMiscTrackingEvent: jest.fn(),
-}));
+jest.mock(
+  '@odh-dashboard/dashboard-foundation-frontend/concepts/analyticsTracking/segmentIOUtils',
+  () => ({
+    fireMiscTrackingEvent: jest.fn(),
+  }),
+);
 
 const mockFireMiscTrackingEvent = jest.mocked(fireMiscTrackingEvent);
 

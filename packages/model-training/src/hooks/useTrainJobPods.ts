@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { PodKind } from '@odh-dashboard/internal/k8sTypes';
-import { PodModel } from '@odh-dashboard/internal/api/models/k8s';
-import { groupVersionKind } from '@odh-dashboard/internal/api/k8sUtils';
-import useK8sWatchResourceList from '@odh-dashboard/internal/utilities/useK8sWatchResourceList';
+import { PodKind } from '@odh-dashboard/dashboard-foundation-frontend/k8sTypes';
+import { PodModel } from '@odh-dashboard/dashboard-foundation-frontend/api/models/k8s';
+import { groupVersionKind } from '@odh-dashboard/dashboard-foundation-frontend/api/k8sUtils';
+import useK8sWatchResourceList from '@odh-dashboard/dashboard-foundation-frontend/utilities/useK8sWatchResourceList';
 import { TrainJobKind } from '../k8sTypes';
 
 type UseTrainJobPodsResult = {
@@ -59,11 +59,12 @@ const useTrainJobPods = (job: TrainJobKind | undefined): UseTrainJobPodsResult =
       : null,
     PodModel,
   );
+  const safePods = React.useMemo(() => pods ?? [], [pods]);
 
-  const { initializers, training } = React.useMemo(() => groupPodsByType(pods), [pods]);
+  const { initializers, training } = React.useMemo(() => groupPodsByType(safePods), [safePods]);
 
   return {
-    pods,
+    pods: safePods,
     initializers,
     training,
     loaded: podsLoaded,

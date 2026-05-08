@@ -1,0 +1,70 @@
+{
+  "private": true,
+  "name": "@odh-dashboard/workbenches",
+  "description": "Workbench Projects feature plugin",
+  "version": "0.0.0",
+  "topology": {
+    "tier": "extension"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "type-check": "tsc --noEmit",
+    "test-unit": "jest --silent"
+  },
+  "exports": {
+    "./extensions": "./src/extensions.ts",
+    "./extension-points": "./src/extension-points/index.ts",
+    "./extension-points/model-serving": "./src/extension-points/model-serving.ts",
+    "./routes": "./src/backend/routes/index.ts",
+    "./*": [
+      "./src/*",
+      "./src/*.ts",
+      "./src/*.d.ts",
+      "./src/*.tsx",
+      "./src/*/index.ts",
+      "./src/*/index.tsx"
+    ]
+  },
+  "dependencies": {
+    "@fastify/autoload": "^5.7.1",
+    "@kubernetes/client-node": "^0.12.2",
+    "@odh-dashboard/connection-types-shared": "*",
+    "@odh-dashboard/dashboard-foundation-backend": "*",
+    "@odh-dashboard/dashboard-foundation-frontend": "*",
+    "@odh-dashboard/k8s-browser": "*",
+    "@odh-dashboard/mlflow-shared": "*",
+    "@odh-dashboard/distributed-workloads-shared": "*",
+    "@odh-dashboard/hardware-profiles-shared": "*",
+    "@odh-dashboard/model-serving-shared": "*",
+    "@odh-dashboard/workbenches-shared": "*",
+    "@odh-dashboard/pipelines-shared": "*",
+    "@odh-dashboard/projects-shared": "*",
+    "@odh-dashboard/plugin-core": "*",
+    "@odh-dashboard/storage-classes-shared": "*",
+    "@patternfly/react-core": "*",
+    "@patternfly/react-icons": "*",
+    "@patternfly/react-table": "*",
+    "@patternfly/react-templates": "*",
+    "@patternfly/react-tokens": "*",
+    "compare-versions": "^3.6.0",
+    "fastify": "^4.28.1",
+    "fastify-plugin": "^4.5.1",
+    "react": "^18.2.0",
+    "react-router": "^7.6.2",
+    "react-router-dom": "^7.6.2",
+    "yaml": "*"
+  },
+  "devDependencies": {
+    "@odh-dashboard/eslint-config": "*",
+    "@odh-dashboard/jest-config": "*",
+    "@odh-dashboard/test-mocks": "*",
+    "@odh-dashboard/tsconfig": "*",
+    "@testing-library/dom": "*",
+    "@testing-library/jest-dom": "*",
+    "@testing-library/react": "*",
+    "@testing-library/user-event": "*",
+    "@types/lodash-es": "*",
+    "react-dom": "^18.2.0"
+  }
+}

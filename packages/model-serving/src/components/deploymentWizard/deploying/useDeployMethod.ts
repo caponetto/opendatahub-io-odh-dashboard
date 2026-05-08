@@ -1,13 +1,13 @@
 import React from 'react';
-import type { ResolvedExtension } from '@openshift/dynamic-plugin-sdk';
 import { useResolvedExtensions } from '@odh-dashboard/plugin-core';
-import type { WizardFormData } from '../types';
+import type { ResolvedExtension } from '@odh-dashboard/plugin-core';
+import type { WizardFormData } from '@odh-dashboard/model-serving-shared/types/form-data';
 import {
   DeploymentAssemblyResources,
   isModelServingDeploy,
   type Deployment,
   type ModelServingDeploy,
-} from '../../../../extension-points';
+} from '@odh-dashboard/model-serving-shared/extension-points';
 
 export type DeployExtension = ResolvedExtension<ModelServingDeploy<Deployment>>['properties'];
 

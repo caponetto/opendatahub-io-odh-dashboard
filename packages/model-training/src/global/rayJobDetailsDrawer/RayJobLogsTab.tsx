@@ -12,7 +12,7 @@ import {
 } from '@patternfly/react-core';
 import { CubesIcon, DownloadIcon, ExclamationCircleIcon } from '@patternfly/react-icons';
 import { LogViewer } from '@patternfly/react-log-viewer';
-import { downloadString } from '@odh-dashboard/internal/utilities/string';
+import { downloadString } from '@odh-dashboard/dashboard-foundation-frontend/utilities/string';
 import { RayJobKind } from '../../k8sTypes';
 import useRayJobPods from '../../hooks/useRayJobPods';
 import useFetchRayJobLogs from '../../hooks/useFetchRayJobLogs';

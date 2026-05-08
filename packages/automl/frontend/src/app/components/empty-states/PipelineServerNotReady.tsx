@@ -3,9 +3,12 @@
  * Uses the same layout and graphic as NoPipelineServer and links to the Pipelines page
  * so the user can inspect the pipeline server status.
  */
-import EmptyDetailsView from '@odh-dashboard/internal/components/EmptyDetailsView';
-import { ProjectObjectType, typedEmptyImage } from '@odh-dashboard/internal/concepts/design/utils';
-import { pipelinesBaseRoute } from '@odh-dashboard/internal/routes/pipelines/global';
+import EmptyDetailsView from '@odh-dashboard/dashboard-foundation-frontend/components/EmptyDetailsView';
+import {
+  ProjectObjectType,
+  typedEmptyImage,
+} from '@odh-dashboard/dashboard-foundation-frontend/concepts/design/utils';
+import { pipelinesBaseRoute } from '@odh-dashboard/pipelines-shared/concepts/pipelines/routes';
 import { Button } from '@patternfly/react-core';
 import * as React from 'react';
 import { Link } from 'react-router-dom';

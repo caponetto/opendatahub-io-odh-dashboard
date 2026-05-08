@@ -1,6 +1,6 @@
 import React from 'react';
 import { ExpandableRowContent, Td } from '@patternfly/react-table';
-import ResourceTr from '@odh-dashboard/internal/components/ResourceTr';
+import ResourceTr from '@odh-dashboard/dashboard-foundation-frontend/components/ResourceTr';
 import {
   DescriptionListDescription,
   DescriptionListTerm,
@@ -11,25 +11,25 @@ import {
   List,
   Truncate,
 } from '@patternfly/react-core';
-import { formatMemory } from '@odh-dashboard/internal/utilities/valueUnits';
-import type { SupportedModelFormats } from '@odh-dashboard/internal/k8sTypes';
-import type { ContainerResources } from '@odh-dashboard/internal/types';
-import { TokensDescriptionItem } from '@odh-dashboard/internal/concepts/modelServing/ModelRow/TokensDescriptionItem';
-import type { CrPathConfig } from '@odh-dashboard/internal/concepts/hardwareProfiles/types';
-import { useAssignHardwareProfile } from '@odh-dashboard/internal/concepts/hardwareProfiles/useAssignHardwareProfile';
-import { MODEL_SERVING_VISIBILITY } from '@odh-dashboard/internal/concepts/hardwareProfiles/const';
-import HardwareProfileNameValue from './HardwareProfileNameValue';
-import { isDeploymentAuthEnabled, useDeploymentAuthTokens } from '../../../concepts/auth';
-import { useResolvedDeploymentExtension } from '../../../concepts/extensionUtils';
+import { formatMemory } from '@odh-dashboard/dashboard-foundation-frontend/utilities/valueUnits';
+import type { SupportedModelFormats } from '@odh-dashboard/dashboard-foundation-frontend/k8sTypes';
+import type { ContainerResources } from '@odh-dashboard/dashboard-foundation-frontend/types';
+import type { CrPathConfig } from '@odh-dashboard/hardware-profiles-shared/concepts/hardwareProfiles/types';
+import { useAssignHardwareProfile } from '@odh-dashboard/hardware-profiles-shared/concepts/hardwareProfiles/useAssignHardwareProfile';
+import { MODEL_SERVING_VISIBILITY } from '@odh-dashboard/hardware-profiles-shared/concepts/hardwareProfiles/const';
 import {
   isModelServingDeploymentFormDataExtension,
   type Deployment,
-} from '../../../../extension-points';
+} from '@odh-dashboard/model-serving-shared/extension-points';
+import type { ModelAvailabilityFieldsData } from '@odh-dashboard/model-serving-shared/types/form-data';
+import HardwareProfileNameValue from './HardwareProfileNameValue';
+import { TokensDescriptionItem } from '../../../concepts/ModelRow/TokensDescriptionItem';
+import { isDeploymentAuthEnabled, useDeploymentAuthTokens } from '../../../concepts/auth';
+import { useResolvedDeploymentExtension } from '../../../concepts/extensionUtils';
 import {
   ExtractedFieldData,
   useWizardFieldExtractors,
 } from '../../deploymentWizard/useWizardFieldExtractors';
-import type { ModelAvailabilityFieldsData } from '../../deploymentWizard/types';
 
 const MAAS_ENDPOINT_FIELD_ID = 'maas/save-as-maas-checkbox';
 type MaaSCheckboxFieldValue = { isChecked: boolean };

@@ -1,7 +1,13 @@
-module.exports = require('@odh-dashboard/eslint-config')
-  .extend({
-    rules: {
-      camelcase: 'off',
-    },
-  })
-  .recommendedReactTypescript(__dirname);
+const { merge } = require('@odh-dashboard/eslint-config/utils');
+const { tierRestrictions } = require('@odh-dashboard/eslint-config/tier-restrictions');
+
+module.exports = merge(
+  require('@odh-dashboard/eslint-config')
+    .extend({
+      rules: {
+        camelcase: 'off',
+      },
+    })
+    .recommendedReactTypescript(__dirname),
+  tierRestrictions('observability'),
+);

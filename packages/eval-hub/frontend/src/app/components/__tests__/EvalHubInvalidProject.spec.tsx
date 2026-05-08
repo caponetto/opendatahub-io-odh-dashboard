@@ -11,7 +11,7 @@ jest.mock('mod-arch-core', () => ({
   }),
 }));
 
-jest.mock('@odh-dashboard/internal/concepts/projects/ProjectSelector', () =>
+jest.mock('@odh-dashboard/dashboard-foundation-frontend/concepts/projects/ProjectSelector', () =>
   require('~/__tests__/unit/testUtils/mocks').mockProjectSelectorModule(),
 );
 

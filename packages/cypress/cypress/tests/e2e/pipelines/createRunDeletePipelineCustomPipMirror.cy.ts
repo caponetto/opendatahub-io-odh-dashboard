@@ -1,7 +1,4 @@
-import {
-  RuntimeStateKF,
-  runtimeStateLabels,
-} from '@odh-dashboard/internal/concepts/pipelines/kfTypes';
+import { RuntimeStateKF, runtimeStateLabels } from '@odh-dashboard/pipelines/concepts/kfTypes';
 import { deleteOpenShiftProject } from '../../../utils/oc_commands/project';
 import { HTPASSWD_CLUSTER_ADMIN_USER } from '../../../utils/e2eUsers';
 import { projectListPage, projectDetails } from '../../../pages/projects';

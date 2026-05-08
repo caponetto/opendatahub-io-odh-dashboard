@@ -2,7 +2,7 @@ import {
   buildMockStorageClass,
   buildMockStorageClassConfig,
   mockStorageClasses,
-} from '@odh-dashboard/internal/__mocks__';
+} from '@odh-dashboard/test-mocks';
 import { AccessMode } from '../../../types';
 import { asProductAdminUser } from '../../../utils/mockUsers';
 import { pageNotfound } from '../../../pages/pageNotFound';

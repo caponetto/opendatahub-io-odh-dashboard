@@ -8,24 +8,25 @@ import {
   StackItem,
 } from '@patternfly/react-core';
 import { z, type ZodIssue } from 'zod';
-import SimpleSelect from '@odh-dashboard/internal/components/SimpleSelect';
-import { FieldValidationProps } from '@odh-dashboard/internal/hooks/useZodFormValidation';
-import { ZodErrorHelperText } from '@odh-dashboard/internal/components/ZodErrorFormHelperText';
+import SimpleSelect from '@odh-dashboard/dashboard-foundation-frontend/components/SimpleSelect';
+import { FieldValidationProps } from '@odh-dashboard/dashboard-foundation-frontend/hooks/useZodFormValidation';
+import { ZodErrorHelperText } from '@odh-dashboard/dashboard-foundation-frontend/components/ZodErrorFormHelperText';
 import {
   Connection,
   ConnectionTypeConfigMapObj,
-} from '@odh-dashboard/internal/concepts/connectionTypes/types';
+} from '@odh-dashboard/connection-types-shared/concepts/connectionTypes/types';
 import {
   ModelServingCompatibleTypes,
   isModelServingCompatible,
   filterEnabledConnectionTypes,
   getModelServingCompatibility,
-} from '@odh-dashboard/internal/concepts/connectionTypes/utils';
-import { useWatchConnectionTypes } from '@odh-dashboard/internal/utilities/useWatchConnectionTypes';
-import { isGeneratedSecretName } from '@odh-dashboard/internal/api/k8s/secrets';
-import type { PersistentVolumeClaimKind } from '@odh-dashboard/internal/k8sTypes';
+} from '@odh-dashboard/connection-types-shared/concepts/connectionTypes/utils';
+import { useWatchConnectionTypes } from '@odh-dashboard/connection-types-shared/concepts/connectionTypes/useWatchConnectionTypes';
+import { isGeneratedSecretName } from '@odh-dashboard/dashboard-foundation-frontend/api/k8s/secrets';
+import type { PersistentVolumeClaimKind } from '@odh-dashboard/dashboard-foundation-frontend/k8sTypes';
+import type { ModelLocationData } from '@odh-dashboard/model-serving-shared/types/form-data';
+import { ModelLocationType } from '@odh-dashboard/model-serving-shared/concepts/modelServing/modelLocationTypes';
 import { ModelLocationInputFields } from './ModelLocationInputFields';
-import { ModelLocationData, ModelLocationType } from '../types';
 
 // Schema
 export const modelLocationSelectFieldSchema = z.enum(

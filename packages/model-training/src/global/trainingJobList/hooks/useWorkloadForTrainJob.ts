@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { WorkloadKind } from '@odh-dashboard/internal/k8sTypes';
-import { WorkloadModel } from '@odh-dashboard/internal/api/models/kueue';
-import { groupVersionKind } from '@odh-dashboard/internal/api/k8sUtils';
-import useK8sWatchResourceList from '@odh-dashboard/internal/utilities/useK8sWatchResourceList';
-import { CustomWatchK8sResult } from '@odh-dashboard/internal/types';
+import { WorkloadKind } from '@odh-dashboard/dashboard-foundation-frontend/k8sTypes';
+import { WorkloadModel } from '@odh-dashboard/distributed-workloads-shared/api/models/kueue';
+import { groupVersionKind } from '@odh-dashboard/dashboard-foundation-frontend/api/k8sUtils';
+import useK8sWatchResourceList from '@odh-dashboard/dashboard-foundation-frontend/utilities/useK8sWatchResourceList';
+import { CustomWatchK8sResult } from '@odh-dashboard/dashboard-foundation-frontend/types';
 import { TrainJobKind } from '../../../k8sTypes';
 import { UnifiedJobKind } from '../../../types';
 
@@ -42,8 +42,9 @@ export const useWorkloadForTrainJob = (
 
 export const useWorkload = (job: UnifiedJobKind | null): WorkloadKind | null => {
   const [workloads, loaded] = useWorkloadForJob(job);
+  const safeWorkloads = React.useMemo(() => workloads ?? [], [workloads]);
   return React.useMemo(() => {
-    if (!loaded || workloads.length === 0) return null;
-    return workloads[0];
-  }, [workloads, loaded]);
+    if (!loaded || safeWorkloads.length === 0) return null;
+    return safeWorkloads[0];
+  }, [safeWorkloads, loaded]);
 };

@@ -2,15 +2,15 @@ import React, { act } from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { z } from 'zod';
 import { renderHook } from '@odh-dashboard/jest-config/hooks';
-import { mockK8sNameDescriptionFieldData } from '@odh-dashboard/internal/__mocks__/mockK8sNameDescriptionFieldData';
+import { mockK8sNameDescriptionFieldData } from '@odh-dashboard/test-mocks/mockK8sNameDescriptionFieldData';
 
+import { ModelLocationType } from '@odh-dashboard/model-serving-shared/concepts/modelServing/modelLocationTypes';
 import {
   createConnectionDataSchema,
   CreateConnectionInputFields,
   isValidCreateConnectionData,
   useCreateConnectionData,
 } from '../CreateConnectionInputFields';
-import { ModelLocationType } from '../../types';
 
 const createConnectionInputFieldsSchema = z.object({
   createConnectionData: createConnectionDataSchema,

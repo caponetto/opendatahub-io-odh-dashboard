@@ -1,12 +1,15 @@
 import React from 'react';
 // eslint-disable-next-line @odh-dashboard/no-restricted-imports
-import { ProjectDetailsContext } from '@odh-dashboard/internal/pages/projects/ProjectDetailsContext';
+import { ProjectDetailsContext } from '@odh-dashboard/projects-shared/concepts/projects/ProjectDetailsContext';
 // eslint-disable-next-line @odh-dashboard/no-restricted-imports
-import ErrorOverviewCard from '@odh-dashboard/internal/pages/projects/screens/detail/overview/components/ErrorOverviewCard';
-import { ProjectObjectType, SectionType } from '@odh-dashboard/internal/concepts/design/utils';
+import ErrorOverviewCard from '@odh-dashboard/dashboard-foundation-frontend/components/ErrorOverviewCard';
+import {
+  ProjectObjectType,
+  SectionType,
+} from '@odh-dashboard/dashboard-foundation-frontend/concepts/design/utils';
 import { LazyCodeRefComponent } from '@odh-dashboard/plugin-core';
 import { Bullseye, Card, CardBody, Spinner } from '@patternfly/react-core';
-import CollapsibleSection from '@odh-dashboard/internal/concepts/design/CollapsibleSection';
+import CollapsibleSection from '@odh-dashboard/dashboard-foundation-frontend/concepts/design/CollapsibleSection';
 import {
   ModelDeploymentsProvider,
   ModelDeploymentsContext,

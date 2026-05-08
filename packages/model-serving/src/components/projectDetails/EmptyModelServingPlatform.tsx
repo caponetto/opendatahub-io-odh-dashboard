@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { EmptyState, EmptyStateBody, EmptyStateFooter } from '@patternfly/react-core';
-import WhosMyAdministrator from '@odh-dashboard/internal/components/WhosMyAdministrator';
+import WhosMyAdministrator from '@odh-dashboard/dashboard-foundation-frontend/components/WhosMyAdministrator';
 import gearsImg from '../../images/gears.svg';
 
 const EmptyModelServingPlatform: React.FC = () => (

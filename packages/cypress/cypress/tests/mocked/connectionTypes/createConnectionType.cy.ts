@@ -1,10 +1,10 @@
 import {
   mockConnectionTypeConfigMap,
   mockConnectionTypeConfigMapObj,
-} from '@odh-dashboard/internal/__mocks__/mockConnectionType';
-import { mockDashboardConfig } from '@odh-dashboard/internal/__mocks__';
-import type { ConnectionTypeField } from '@odh-dashboard/internal/concepts/connectionTypes/types';
-import { toConnectionTypeConfigMap } from '@odh-dashboard/internal/concepts/connectionTypes/utils';
+} from '@odh-dashboard/test-mocks/mockConnectionType';
+import { mockDashboardConfig } from '@odh-dashboard/test-mocks';
+import type { ConnectionTypeField } from '@odh-dashboard/connection-types-shared/concepts/connectionTypes/types';
+import { toConnectionTypeConfigMap } from '@odh-dashboard/connection-types-shared/concepts/connectionTypes/utils';
 import { asProductAdminUser } from '../../../utils/mockUsers';
 import { createConnectionTypePage } from '../../../pages/connectionTypes';
 

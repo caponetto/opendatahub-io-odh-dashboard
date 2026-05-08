@@ -10,12 +10,15 @@ import {
 import {
   isHardwareProfileEnabled,
   getHardwareProfileDisplayName,
-} from '@odh-dashboard/internal/pages/hardwareProfiles/utils';
-import ScopedLabel from '@odh-dashboard/internal/components/ScopedLabel';
-import { ScopedType } from '@odh-dashboard/internal/pages/modelServing/screens/const';
-import { SupportedArea, useIsAreaAvailable } from '@odh-dashboard/internal/concepts/areas/index';
-import type { UseAssignHardwareProfileResult } from '@odh-dashboard/internal/concepts/hardwareProfiles/useAssignHardwareProfile';
-import type { ModelResourceType } from '../../../../extension-points';
+} from '@odh-dashboard/hardware-profiles-shared/concepts/hardwareProfiles/pages/utils';
+import ScopedLabel from '@odh-dashboard/dashboard-foundation-frontend/components/ScopedLabel';
+import { ScopedType } from '@odh-dashboard/dashboard-foundation-frontend/concepts/modelServing/constants';
+import {
+  SupportedArea,
+  useIsAreaAvailable,
+} from '@odh-dashboard/dashboard-foundation-frontend/concepts/areas';
+import type { UseAssignHardwareProfileResult } from '@odh-dashboard/hardware-profiles-shared/concepts/hardwareProfiles/useAssignHardwareProfile';
+import type { ModelResourceType } from '@odh-dashboard/model-serving-shared/extension-points';
 
 const HardwareProfileNameValue = ({
   project,

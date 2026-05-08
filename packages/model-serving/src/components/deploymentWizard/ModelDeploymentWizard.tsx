@@ -1,8 +1,13 @@
 import React from 'react';
 import { PageSection, Wizard, WizardStep } from '@patternfly/react-core';
-import ApplicationsPage from '@odh-dashboard/internal/pages/ApplicationsPage';
-import { ProjectKind } from '@odh-dashboard/internal/k8sTypes';
-import { SupportedArea, useIsAreaAvailable } from '@odh-dashboard/internal/concepts/areas';
+import ApplicationsPage from '@odh-dashboard/dashboard-foundation-frontend/components/ApplicationsPage';
+import { ProjectKind } from '@odh-dashboard/dashboard-foundation-frontend/k8sTypes';
+import {
+  SupportedArea,
+  useIsAreaAvailable,
+} from '@odh-dashboard/dashboard-foundation-frontend/concepts/areas';
+import type { InitialWizardFormData } from '@odh-dashboard/model-serving-shared/types/form-data';
+import { Deployment } from '@odh-dashboard/model-serving-shared/extension-points';
 import { ExternalDataLoader, type ExternalDataMap } from './ExternalDataLoader';
 import { useModelDeploymentWizard } from './useDeploymentWizard';
 import { useModelDeploymentWizardValidation } from './useDeploymentWizardValidation';
@@ -10,7 +15,7 @@ import { ModelSourceStepContent } from './steps/ModelSourceStep';
 import { AdvancedSettingsStepContent } from './steps/AdvancedOptionsStep';
 import { ModelDeploymentStepContent } from './steps/ModelDeploymentStep';
 import { ReviewStepContent } from './steps/ReviewStep';
-import { InitialWizardFormData, WizardStepTitle } from './types';
+import { WizardStepTitle } from './types';
 import { ExitDeploymentModal } from './exitModal/ExitDeploymentModal';
 import { useRefreshWizardPage } from './useRefreshWizardPage';
 import { useExitDeploymentWizard } from './exitModal/useExitDeploymentWizard';
@@ -19,7 +24,6 @@ import { DeploymentWizardViewModeToggle } from './yaml/DeploymentWizardViewModeT
 import { useFormYamlResources } from './yaml/useYamlResourcesResult';
 import { useFormToResourcesTransformer } from './yaml/useFormToResourcesTransformer';
 import { useModelDeploymentSubmit } from './deploying/useModelDeploymentSubmit';
-import { Deployment } from '../../../extension-points';
 import {
   ModelDeploymentFooter,
   ModelDeploymentWizardFooter,

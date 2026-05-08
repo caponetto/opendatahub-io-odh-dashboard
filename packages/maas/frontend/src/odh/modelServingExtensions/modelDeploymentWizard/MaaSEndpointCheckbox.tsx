@@ -3,10 +3,23 @@ import { Checkbox, Stack, StackItem, Flex, FlexItem, Label } from '@patternfly/r
 import { z } from 'zod';
 import type {
   WizardField,
+  WizardFormData,
   WizardStateOverrides,
-} from '@odh-dashboard/model-serving/types/form-data';
-import { isLLMInferenceServiceActive } from '@odh-dashboard/llmd-serving/formUtils';
+} from '@odh-dashboard/model-serving-shared/types/form-data';
+import type { ModelResourceType } from '@odh-dashboard/model-serving-shared/extension-points';
+import type { RecursivePartial } from '@odh-dashboard/dashboard-foundation-frontend/typeHelpers';
 import { MAAS_DEFAULT_GATEWAY } from './maasDeploymentTransformer';
+
+const isLLMInferenceServiceActive = (
+  wizardState: RecursivePartial<WizardFormData['state']>,
+  resources?: { model?: ModelResourceType },
+): boolean => {
+  const isLLMOptionSelected =
+    wizardState.modelServer?.data?.selection?.name === 'llmd-serving' ||
+    wizardState.modelServer?.data?.selection?.template?.kind === 'LLMInferenceServiceConfig';
+  const isLLMInferenceService = resources?.model?.kind === 'LLMInferenceService';
+  return isLLMOptionSelected || isLLMInferenceService;
+};
 
 export type MaaSFieldValue = {
   isChecked: boolean;

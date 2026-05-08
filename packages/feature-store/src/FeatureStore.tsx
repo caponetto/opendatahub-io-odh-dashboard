@@ -1,10 +1,10 @@
 import React from 'react';
-import ApplicationsPage from '@odh-dashboard/internal/pages/ApplicationsPage';
+import ApplicationsPage from '@odh-dashboard/dashboard-foundation-frontend/components/ApplicationsPage';
 import { Tab, Tabs, TabTitleText, TabContent, PageSection, Flex } from '@patternfly/react-core';
 import {
   LineageCenterProvider,
   useLineageCenter,
-} from '@odh-dashboard/internal/components/lineage/context/LineageCenterContext';
+} from './components/lineage/context/LineageCenterContext';
 import FeatureStoreProjectSelectorNavigator from './screens/components/FeatureStoreProjectSelectorNavigator';
 import FeatureStorePageTitle from './components/FeatureStorePageTitle';
 import FeatureStoreWarningAlert from './components/FeatureStoreWarningAlert';

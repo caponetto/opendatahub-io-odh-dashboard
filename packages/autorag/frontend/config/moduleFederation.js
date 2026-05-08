@@ -17,15 +17,7 @@ const moduleFederationConfig = {
       singleton: true,
       requiredVersion: deps['@patternfly/react-component-groups'],
     },
-    '@openshift/dynamic-plugin-sdk': {
-      singleton: true,
-      requiredVersion: deps['@openshift/dynamic-plugin-sdk'],
-    },
-    '@openshift/dynamic-plugin-sdk-utils': {
-      singleton: true,
-      requiredVersion: deps['@openshift/dynamic-plugin-sdk-utils'],
-    },
-    '@odh-dashboard/internal': { singleton: true, requiredVersion: '*' },
+    '@odh-dashboard/dashboard-foundation-frontend': { singleton: true, requiredVersion: '*' },
     '@odh-dashboard/plugin-core': { singleton: true, requiredVersion: '*' },
   },
   exposes: {

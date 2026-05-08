@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { Alert, Content, Flex, FlexItem, Skeleton, Title } from '@patternfly/react-core';
-import ContentModal, { ButtonAction } from '@odh-dashboard/internal/components/modals/ContentModal';
+import ContentModal, {
+  ButtonAction,
+} from '@odh-dashboard/dashboard-foundation-frontend/components/modals/ContentModal';
 import RayJobStatus from './components/RayJobStatus';
 import { getRayJobStatusSync, getStatusFlags, getRayJobStatusAlert } from './utils';
 import { useWorkloadForJob } from './hooks/useWorkloadForTrainJob';
@@ -32,9 +34,11 @@ const RayJobStatusModal: React.FC<RayJobStatusModalProps> = ({
   const { isPaused, isComplete, isDeleting, canPauseResume } = getStatusFlags(status);
 
   const [workloads, workloadLoaded] = useWorkloadForJob(job);
+  const safeWorkloads = React.useMemo(() => workloads ?? [], [workloads]);
   const workloadConditions = React.useMemo(
-    () => (workloadLoaded && workloads.length > 0 ? workloads[0].status?.conditions ?? [] : []),
-    [workloads, workloadLoaded],
+    () =>
+      workloadLoaded && safeWorkloads.length > 0 ? safeWorkloads[0].status?.conditions ?? [] : [],
+    [safeWorkloads, workloadLoaded],
   );
 
   const alert = React.useMemo(

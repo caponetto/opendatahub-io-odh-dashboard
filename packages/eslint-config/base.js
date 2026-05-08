@@ -20,7 +20,10 @@ module.exports = {
     'public-cypress',
     'node_modules',
     'dist',
+    'jest.config.ts',
+    'babel.config.js',
     'CLAUDE.md',
+    'README.md',
   ],
   rules: {
     'arrow-body-style': 'error',

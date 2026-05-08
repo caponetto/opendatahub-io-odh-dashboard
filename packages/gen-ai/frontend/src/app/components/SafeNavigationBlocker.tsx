@@ -32,9 +32,11 @@ class NavigationBlockerErrorBoundary extends React.Component<
 }
 
 const LazyNavigationBlockerModal = React.lazy(() =>
-  import('@odh-dashboard/internal/components/NavigationBlockerModal').then((module) => ({
-    default: module.default,
-  })),
+  import('@odh-dashboard/dashboard-foundation-frontend/components/NavigationBlockerModal').then(
+    (module) => ({
+      default: module.default,
+    }),
+  ),
 );
 
 const SafeNavigationBlocker: React.FC<SafeNavigationBlockerProps> = (props) => {

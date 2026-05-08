@@ -1,0 +1,36 @@
+{
+  "name": "@odh-dashboard/admin",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Admin Settings shell and User Management for ODH Dashboard",
+  "scripts": {
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "type-check": "tsc --noEmit"
+  },
+  "exports": {
+    "./extensions": "./src/extensions.ts",
+    "./*": [
+      "./src/*",
+      "./src/*.ts",
+      "./src/*.d.ts",
+      "./src/*.tsx",
+      "./src/*/index.ts",
+      "./src/*/index.tsx"
+    ]
+  },
+  "topology": {
+    "tier": "extension"
+  },
+  "dependencies": {
+    "@odh-dashboard/dashboard-foundation-frontend": "*",
+    "@odh-dashboard/plugin-core": "*",
+    "@patternfly/react-core": "*",
+    "react": "^18.2.0"
+  },
+  "devDependencies": {
+    "@odh-dashboard/eslint-config": "*",
+    "@odh-dashboard/tsconfig": "*",
+    "@types/react": "*"
+  }
+}

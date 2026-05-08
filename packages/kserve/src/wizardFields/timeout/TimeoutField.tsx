@@ -1,15 +1,18 @@
 import React from 'react';
 import { Checkbox, FormGroup, StackItem } from '@patternfly/react-core';
 import { z } from 'zod';
-import type { RecursivePartial } from '@odh-dashboard/internal/typeHelpers';
-import type { WizardFormData, WizardField } from '@odh-dashboard/model-serving/types/form-data';
-import NumberInputWrapper from '@odh-dashboard/internal/components/NumberInputWrapper';
-import DashboardHelpTooltip from '@odh-dashboard/internal/concepts/dashboard/DashboardHelpTooltip';
+import type { RecursivePartial } from '@odh-dashboard/dashboard-foundation-frontend/typeHelpers';
+import type {
+  WizardFormData,
+  WizardField,
+} from '@odh-dashboard/model-serving-shared/types/form-data';
+import NumberInputWrapper from '@odh-dashboard/dashboard-foundation-frontend/components/NumberInputWrapper';
+import DashboardHelpTooltip from '@odh-dashboard/dashboard-foundation-frontend/concepts/dashboard/DashboardHelpTooltip';
 import {
   isServingRuntimeKind,
   isTemplateKind,
-} from '@odh-dashboard/internal/pages/modelServing/customServingRuntimes/utils';
-import type { K8sResourceCommon } from '@openshift/dynamic-plugin-sdk-utils';
+} from '@odh-dashboard/model-serving-shared/concepts/modelServing/servingRuntimeUtils';
+import type { K8sResourceCommon } from '@odh-dashboard/k8s-browser';
 import { DEFAULT_TIMEOUT } from './timeoutApplyExtract';
 
 export type TimeoutFieldValue = {

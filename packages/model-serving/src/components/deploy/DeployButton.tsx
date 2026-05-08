@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, Tooltip, type ButtonProps } from '@patternfly/react-core';
-import { ProjectKind } from '@odh-dashboard/internal/k8sTypes';
+import { ProjectKind } from '@odh-dashboard/dashboard-foundation-frontend/k8sTypes';
 import { useNavigateToDeploymentWizard } from '../deploymentWizard/useNavigateToDeploymentWizard';
 import { useCanMakeNewDeployment } from '../../concepts/useCanMakeNewDeployment';
 

@@ -1,5 +1,4 @@
 const path = require('path');
-
 const base = require('./base');
 const react = require('./react');
 const typescript = require('./typescript');
@@ -17,7 +16,7 @@ const addNoExtraneousDependenciesRule = (config, dirname) => {
     'import/no-extraneous-dependencies': [
       'error',
       {
-        packageDir: [dirname, path.resolve(__dirname, '../../frontend')],
+        packageDir: [dirname],
       },
     ],
   };
@@ -92,8 +91,22 @@ const extend = (config) =>
     return acc;
   }, {});
 
+/**
+ * Create a complete ESLint config for an assembler package.
+ * Auto-detects the package name from the directory and applies tier restrictions.
+ *
+ * @param {string} dirname - __dirname of the assembler's .eslintrc.js
+ * @returns {Object} ESLint config
+ */
+const recommendedAssembler = (dirname) => {
+  const { tierRestrictions } = require('./tier-restrictions');
+  const packageName = path.basename(dirname);
+  return merge(recommended.recommendedTypescript(dirname), tierRestrictions(packageName));
+};
+
 module.exports = {
   ...recommended,
+  recommendedAssembler,
   extend,
 
   // core configs
@@ -111,4 +124,10 @@ module.exports = {
 
   // utils
   addNoExtraneousDependenciesRule,
+
+  // tier enforcement
+  tierRestrictions: require('./tier-restrictions').tierRestrictions,
+
+  // API narrowing (patterns consumed by tierRestrictions)
+  getDeepImportPatterns: require('./deep-import-restrictions').getDeepImportPatterns,
 };

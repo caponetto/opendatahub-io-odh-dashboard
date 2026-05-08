@@ -1,24 +1,24 @@
-import type { HardwareProfileConfig } from '@odh-dashboard/internal/concepts/hardwareProfiles/useHardwareProfileConfig';
+import type { HardwareProfileConfig } from '@odh-dashboard/hardware-profiles-shared/concepts/hardwareProfiles/useHardwareProfileConfig';
 import {
   type SupportedModelFormats,
   type InferenceServiceKind,
-} from '@odh-dashboard/internal/k8sTypes';
-import { ServingRuntimeModelType } from '@odh-dashboard/internal/types';
-import {
+} from '@odh-dashboard/dashboard-foundation-frontend/k8sTypes';
+import { ServingRuntimeModelType } from '@odh-dashboard/dashboard-foundation-frontend/types';
+import type {
   DeploymentStrategyFieldData,
-  type ModelLocationData,
-  ModelLocationType,
-} from '@odh-dashboard/model-serving/types/form-data';
-import type { ModelAvailabilityFieldsData } from '@odh-dashboard/model-serving/components/deploymentWizard/fields/ModelAvailabilityFields';
-import type { EnvironmentVariablesFieldData } from '@odh-dashboard/model-serving/components/deploymentWizard/fields/EnvironmentVariablesField';
-import type { ExternalRouteFieldData } from '@odh-dashboard/model-serving/components/deploymentWizard/fields/ExternalRouteField';
-import type { NumReplicasFieldData } from '@odh-dashboard/model-serving/components/deploymentWizard/fields/NumReplicasField';
-import type { RuntimeArgsFieldData } from '@odh-dashboard/model-serving/components/deploymentWizard/fields/RuntimeArgsField';
-import type { TokenAuthenticationFieldData } from '@odh-dashboard/model-serving/components/deploymentWizard/fields/TokenAuthenticationField';
-import type { CreateConnectionData } from '@odh-dashboard/model-serving/components/deploymentWizard/fields/CreateConnectionInputFields';
-import { applyHardwareProfileConfig } from '@odh-dashboard/internal/concepts/hardwareProfiles/utils';
-import { INFERENCE_SERVICE_HARDWARE_PROFILE_PATHS } from '@odh-dashboard/internal/concepts/hardwareProfiles/const';
-import { DeploymentAssemblyFn } from '@odh-dashboard/model-serving/extension-points';
+  ModelLocationData,
+  ModelAvailabilityFieldsData,
+  EnvironmentVariablesFieldData,
+  ExternalRouteFieldData,
+  NumReplicasFieldData,
+  RuntimeArgsFieldData,
+  TokenAuthenticationFieldData,
+  CreateConnectionData,
+} from '@odh-dashboard/model-serving-shared/types/form-data';
+import { ModelLocationType } from '@odh-dashboard/model-serving-shared/concepts/modelServing/modelLocationTypes';
+import { applyHardwareProfileConfig } from '@odh-dashboard/hardware-profiles-shared/concepts/hardwareProfiles/utils';
+import { INFERENCE_SERVICE_HARDWARE_PROFILE_PATHS } from '@odh-dashboard/hardware-profiles-shared/concepts/hardwareProfiles/const';
+import type { DeploymentAssemblyFn } from '@odh-dashboard/model-serving-shared/extension-points';
 import {
   applyAiAvailableAssetAnnotations,
   applyAuth,
@@ -39,7 +39,7 @@ import {
 } from './api/inferenceService';
 import { applyModelRuntime } from './deployServer';
 import { KServeDeployment } from './deployments';
-import { KSERVE_ID } from '../extensions';
+import { KSERVE_ID } from './extensions';
 
 export type CreatingInferenceServiceObject = {
   project: string;

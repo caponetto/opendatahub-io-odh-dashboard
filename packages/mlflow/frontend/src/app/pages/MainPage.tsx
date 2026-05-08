@@ -18,13 +18,13 @@ import {
 } from '@patternfly/react-core';
 import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons';
 import { useNamespaceSelector } from 'mod-arch-core';
-import ApplicationsPage from '@odh-dashboard/internal/pages/ApplicationsPage';
-import DashboardPopupIconButton from '@odh-dashboard/internal/concepts/dashboard/DashboardPopupIconButton';
+import ApplicationsPage from '@odh-dashboard/dashboard-foundation-frontend/components/ApplicationsPage';
+import DashboardPopupIconButton from '@odh-dashboard/dashboard-foundation-frontend/concepts/dashboard/DashboardPopupIconButton';
 import {
   MlflowExperimentSelector,
   type MlflowExperiment,
   type MlflowSelectorStatus,
-} from '@odh-dashboard/internal/concepts/mlflow';
+} from '@odh-dashboard/mlflow-shared/concepts/mlflow';
 import { WORKSPACE_PARAM } from '~/app/utilities/const';
 
 const BffConnectionAlert: React.FC<{ selectorStatus: MlflowSelectorStatus }> = ({

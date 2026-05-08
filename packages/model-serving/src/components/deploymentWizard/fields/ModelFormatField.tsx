@@ -3,15 +3,21 @@ import { FormGroup, HelperText, HelperTextItem } from '@patternfly/react-core';
 import { z } from 'zod';
 import SimpleSelect, {
   type SimpleSelectOption,
-} from '@odh-dashboard/internal/components/SimpleSelect';
-import type { SupportedModelFormats, TemplateKind } from '@odh-dashboard/internal/k8sTypes';
+} from '@odh-dashboard/dashboard-foundation-frontend/components/SimpleSelect';
+import type { SupportedModelFormats } from '@odh-dashboard/dashboard-foundation-frontend/k8sTypes';
+import { ServingRuntimeModelType } from '@odh-dashboard/dashboard-foundation-frontend/types';
+import type {
+  ModelFormatFieldData,
+  ModelFormatState,
+} from '@odh-dashboard/model-serving-shared/types/form-data';
+import { type ModelTypeFieldData } from './ModelTypeSelectField';
 import {
   getModelTypesFromTemplate,
   getServingRuntimeFromTemplate,
-} from '@odh-dashboard/internal/pages/modelServing/customServingRuntimes/utils';
-import { ServingRuntimeModelType } from '@odh-dashboard/internal/types';
-import { type ModelTypeFieldData } from './ModelTypeSelectField';
+} from '../../../pages/customServingRuntimes/utils';
 import { useServingRuntimeTemplates } from '../../../concepts/servingRuntimeTemplates/useServingRuntimeTemplates';
+
+export type { ModelFormatFieldData, ModelFormatState };
 
 const getModelFormatLabel = (modelFormat: SupportedModelFormats): string => {
   return modelFormat.version ? `${modelFormat.name} - ${modelFormat.version}` : modelFormat.name;
@@ -28,19 +34,7 @@ export const modelFormatFieldSchema = z.custom<SupportedModelFormats>((val: unkn
   );
 }, 'Model format is required for predictive models');
 
-export type ModelFormatFieldData = z.infer<typeof modelFormatFieldSchema>;
-
 // Hooks
-
-export type ModelFormatState = {
-  modelFormatOptions: SupportedModelFormats[];
-  modelFormat?: SupportedModelFormats;
-  setModelFormat: (modelFormat: SupportedModelFormats) => void;
-  isVisible?: boolean;
-  error?: Error;
-  loaded: boolean;
-  templatesFilteredForModelType?: TemplateKind[];
-};
 
 export const useModelFormatField = (
   initialModelFormat?: SupportedModelFormats,
@@ -53,7 +47,7 @@ export const useModelFormatField = (
     useServingRuntimeTemplates(projectName);
 
   const allModelServerTemplates = React.useMemo(
-    () => servingRuntimeTemplates.concat(projectTemplates),
+    () => (servingRuntimeTemplates ?? []).concat(projectTemplates ?? []),
     [servingRuntimeTemplates, projectTemplates],
   );
 

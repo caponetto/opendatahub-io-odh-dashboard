@@ -1,15 +1,17 @@
 import { testHook } from '@odh-dashboard/jest-config/hooks';
-import useFetch from '@odh-dashboard/internal/utilities/useFetch';
-import * as reduxSelectors from '@odh-dashboard/internal/redux/selectors/project';
+import useFetch from '@odh-dashboard/dashboard-foundation-frontend/utilities/useFetch';
+import * as reduxSelectors from '@odh-dashboard/dashboard-foundation-frontend/redux/selectors/project';
 import { useRayClusterDashboardURL, useGatewayHostname } from '../useRayClusterDashboardURL';
 
-jest.mock('@odh-dashboard/internal/utilities/useFetch', () => ({
+jest.mock('@odh-dashboard/dashboard-foundation-frontend/utilities/useFetch', () => ({
   __esModule: true,
   default: jest.fn(),
-  NotReadyError: jest.requireActual('@odh-dashboard/internal/utilities/useFetch').NotReadyError,
+  NotReadyError: jest.requireActual(
+    '@odh-dashboard/dashboard-foundation-frontend/utilities/useFetch',
+  ).NotReadyError,
 }));
 
-jest.mock('@odh-dashboard/internal/redux/selectors/project', () => ({
+jest.mock('@odh-dashboard/dashboard-foundation-frontend/redux/selectors/project', () => ({
   useDashboardNamespace: jest.fn(),
 }));
 

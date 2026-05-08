@@ -1,0 +1,30 @@
+{
+  "private": true,
+  "name": "@odh-dashboard/k8s-browser",
+  "description": "Browser-side Kubernetes runtime helpers for ODH Dashboard.",
+  "version": "0.0.0",
+  "sideEffects": false,
+  "topology": {
+    "tier": "infrastructure"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "test-unit": "jest --silent",
+    "test-unit-coverage": "jest --silent --coverage",
+    "type-check": "tsc --noEmit"
+  },
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "dependencies": {
+    "react": "^18.2.0"
+  },
+  "devDependencies": {
+    "@odh-dashboard/eslint-config": "*",
+    "@odh-dashboard/jest-config": "*",
+    "@odh-dashboard/tsconfig": "*",
+    "@testing-library/react": "16.3.0",
+    "react-dom": "^18.2.0"
+  }
+}

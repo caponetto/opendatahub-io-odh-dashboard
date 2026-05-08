@@ -1,6 +1,9 @@
 import React from 'react';
 import { parse, stringify } from 'yaml';
-import { DeploymentAssemblyResources, type Deployment } from '../../../../extension-points';
+import {
+  DeploymentAssemblyResources,
+  type Deployment,
+} from '@odh-dashboard/model-serving-shared/extension-points';
 
 type UseFormYamlResourcesResult = {
   yaml?: string;

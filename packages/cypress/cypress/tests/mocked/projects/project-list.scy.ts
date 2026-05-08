@@ -1,4 +1,4 @@
-import type { K8sResourceCommon } from '@openshift/dynamic-plugin-sdk-utils';
+import type { K8sResourceCommon } from '@odh-dashboard/k8s-browser';
 import { deleteModal } from '../../../pages/components/DeleteModal';
 import { createProjectModal, projectListPage } from '../../../pages/projects';
 import { failEarly } from '../../../utils/failEarly';

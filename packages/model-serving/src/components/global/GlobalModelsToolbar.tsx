@@ -1,13 +1,16 @@
 import * as React from 'react';
 import { SearchInput, ToolbarGroup, ToolbarItem } from '@patternfly/react-core';
-import FilterToolbar from '@odh-dashboard/internal/components/FilterToolbar';
+import FilterToolbar from '@odh-dashboard/dashboard-foundation-frontend/components/FilterToolbar';
+import {
+  ProjectsContext,
+  byName,
+} from '@odh-dashboard/dashboard-foundation-frontend/concepts/projects/ProjectsContext';
+import { useParams } from 'react-router';
 import {
   ModelServingFilterDataType,
   modelServingFilterOptions,
   ModelServingToolbarFilterOptions,
-} from '@odh-dashboard/internal/pages/modelServing/screens/global/const';
-import { ProjectsContext, byName } from '@odh-dashboard/internal/concepts/projects/ProjectsContext';
-import { useParams } from 'react-router';
+} from '../../pages/screens/global/const';
 import { DeployButton } from '../deploy/DeployButton';
 
 type GlobalModelsToolbarProps = {

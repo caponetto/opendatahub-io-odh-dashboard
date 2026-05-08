@@ -1,8 +1,8 @@
 import type {
   InitialWizardFormData,
   WizardFormData,
-} from '@odh-dashboard/model-serving/types/form-data';
-import { DeploymentAssemblyFn } from '@odh-dashboard/model-serving/extension-points';
+} from '@odh-dashboard/model-serving-shared/types/form-data';
+import type { DeploymentAssemblyFn } from '@odh-dashboard/model-serving-shared/extension-points';
 import { KServeDeployment } from './deployments';
 import { setUpTokenAuth } from './deployUtils';
 import { createServingRuntime } from './deployServer';

@@ -23,7 +23,9 @@
       "port": 8043
     }
   },
-  "e2eCiTags": ["@MLflowCI"],
+  "e2eCiTags": [
+    "@MLflowCI"
+  ],
   "bffConfig": {
     "enabled": true,
     "port": 4020,
@@ -31,8 +33,11 @@
     "startCommand": "make dev-bff-e2e-mock",
     "startCommandCluster": "make dev-bff-e2e-cluster"
   },
+  "topology": {
+    "tier": "extension"
+  },
   "scripts": {
-    "install:module": "npm install --prefix frontend",
+    "install:module": "[ -d ../../node_modules ] && exit 0 || npm install --prefix frontend",
     "test:contract": "cross-env BFF_MOCK_FLAGS='--mock-k8s-client --mock-http-client --auth-method=disabled' odh-ct-bff-consumer --bff-dir bff",
     "cypress:server:build": "cd frontend && DIST_DIR=./public-cypress DEPLOYMENT_MODE=federated npm run build",
     "cypress:server:build:coverage": "COVERAGE=true npm run cypress:server:build",
@@ -43,7 +48,8 @@
     "lint:fix": "cd frontend && npm run lint:fix"
   },
   "dependencies": {
-    "@odh-dashboard/internal": "*",
+    "@odh-dashboard/dashboard-foundation-frontend": "*",
+    "@odh-dashboard/mlflow-shared": "*",
     "@odh-dashboard/plugin-core": "*"
   },
   "devDependencies": {

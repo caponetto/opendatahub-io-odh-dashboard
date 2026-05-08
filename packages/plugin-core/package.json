@@ -3,6 +3,10 @@
   "name": "@odh-dashboard/plugin-core",
   "description": "Plugin utilities and extension point definitions.",
   "version": "0.0.0",
+  "sideEffects": false,
+  "topology": {
+    "tier": "infrastructure"
+  },
   "scripts": {
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
@@ -16,11 +20,16 @@
     "./testing": "./src/testing/utils.ts"
   },
   "dependencies": {
-    "@openshift/dynamic-plugin-sdk": "^5.0.1"
+    "@odh-dashboard/dashboard-foundation-frontend": "*",
+    "@odh-dashboard/plugin-types": "*",
+    "lodash-es": "*"
   },
   "devDependencies": {
     "@odh-dashboard/eslint-config": "*",
     "@odh-dashboard/jest-config": "*",
-    "@odh-dashboard/tsconfig": "*"
+    "@odh-dashboard/tsconfig": "*",
+    "@testing-library/react": "16.3.0",
+    "react-dom": "^18.2.0",
+    "@types/lodash-es": "^4.17.8"
   }
 }

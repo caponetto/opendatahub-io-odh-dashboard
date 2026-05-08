@@ -1,5 +1,5 @@
 /* eslint-disable no-relative-import-paths/no-relative-import-paths */
-import type { RoleBindingKind } from '@odh-dashboard/internal/k8sTypes';
+import type { RoleBindingKind } from '@odh-dashboard/dashboard-foundation-frontend/k8sTypes';
 import type { GenericStaticResponse, RouteHandlerController } from 'cypress/types/net-stubbing';
 import type { Namespace, UserSettings } from 'mod-arch-core';
 import { mockModArchResponse } from 'mod-arch-core';

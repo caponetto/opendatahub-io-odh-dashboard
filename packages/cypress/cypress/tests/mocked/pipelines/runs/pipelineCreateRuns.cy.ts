@@ -2,12 +2,12 @@
 import type {
   PipelineRecurringRunKF,
   PipelineRunKF,
-} from '@odh-dashboard/internal/concepts/pipelines/kfTypes';
+} from '@odh-dashboard/pipelines/concepts/kfTypes';
 import {
   InputDefinitionParameterType,
   StorageStateKF,
-} from '@odh-dashboard/internal/concepts/pipelines/kfTypes';
-import { DSPAMlflowIntegrationMode } from '@odh-dashboard/internal/k8sTypes';
+} from '@odh-dashboard/pipelines/concepts/kfTypes';
+import { DSPAMlflowIntegrationMode } from '@odh-dashboard/dashboard-foundation-frontend/k8sTypes';
 import {
   buildMockRunKF,
   buildMockPipeline,
@@ -16,8 +16,8 @@ import {
   buildMockExperimentKF,
   mockDashboardConfig,
   mockArgoWorkflowPipelineVersion,
-} from '@odh-dashboard/internal/__mocks__';
-import { getCorePipelineSpec } from '@odh-dashboard/internal/concepts/pipelines/getCorePipelineSpec';
+} from '@odh-dashboard/test-mocks';
+import { getCorePipelineSpec } from '@odh-dashboard/pipelines/concepts/getCorePipelineSpec';
 import {
   createRunPage,
   duplicateRunPage,

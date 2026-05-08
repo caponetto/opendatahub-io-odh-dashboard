@@ -13,17 +13,20 @@
 // https://on.cypress.io/configuration
 // ***********************************************************
 
-import '@odh-dashboard/internal/types';
+import '@odh-dashboard/dashboard-foundation-frontend/types';
 import '@cypress/grep';
 import chaiSubset from 'chai-subset';
 import '@cypress/code-coverage/support';
 import 'cypress-mochawesome-reporter/register';
 import 'cypress-plugin-steps';
-import { type ModuleFederationConfig, getModuleFederationURL } from '@odh-dashboard/app-config';
+import {
+  type ModuleFederationConfig,
+  getModuleFederationURL,
+} from '@odh-dashboard/dashboard-config';
 import './commands';
 import '../utils/moduleFederationMock';
-import { mockDscStatus } from '@odh-dashboard/internal/__mocks__/mockDscStatus';
-import { mockDsciStatus } from '@odh-dashboard/internal/__mocks__/mockDsciStatus';
+import { mockDscStatus } from '@odh-dashboard/test-mocks/mockDscStatus';
+import { mockDsciStatus } from '@odh-dashboard/test-mocks/mockDsciStatus';
 import { addCommands as webSocketsAddCommands } from './websockets';
 import { asProjectAdminUser } from '../utils/mockUsers';
 import { maskSensitiveInfo } from '../utils/maskSensitiveInfo';

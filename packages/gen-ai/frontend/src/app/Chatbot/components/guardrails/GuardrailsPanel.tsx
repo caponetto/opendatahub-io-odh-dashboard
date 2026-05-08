@@ -11,8 +11,8 @@ import {
   SelectList,
   Switch,
 } from '@patternfly/react-core';
-import FieldGroupHelpLabelIcon from '@odh-dashboard/internal/components/FieldGroupHelpLabelIcon';
-import { fireMiscTrackingEvent } from '@odh-dashboard/internal/concepts/analyticsTracking/segmentIOUtils';
+import FieldGroupHelpLabelIcon from '@odh-dashboard/dashboard-foundation-frontend/components/FieldGroupHelpLabelIcon';
+import { fireMiscTrackingEvent } from '@odh-dashboard/dashboard-foundation-frontend/concepts/analyticsTracking/segmentIOUtils';
 import {
   useChatbotConfigStore,
   selectGuardrail,

@@ -2,14 +2,17 @@ import * as React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
-import { fireMiscTrackingEvent } from '@odh-dashboard/internal/concepts/analyticsTracking/segmentIOUtils';
+import { fireMiscTrackingEvent } from '@odh-dashboard/dashboard-foundation-frontend/concepts/analyticsTracking/segmentIOUtils';
 import GuardrailsPanel from '~/app/Chatbot/components/guardrails/GuardrailsPanel';
 import { useChatbotConfigStore } from '~/app/Chatbot/store';
 
 // Mock tracking
-jest.mock('@odh-dashboard/internal/concepts/analyticsTracking/segmentIOUtils', () => ({
-  fireMiscTrackingEvent: jest.fn(),
-}));
+jest.mock(
+  '@odh-dashboard/dashboard-foundation-frontend/concepts/analyticsTracking/segmentIOUtils',
+  () => ({
+    fireMiscTrackingEvent: jest.fn(),
+  }),
+);
 
 jest.mock('~/app/Chatbot/hooks/useDarkMode', () => ({
   __esModule: true,
@@ -17,14 +20,17 @@ jest.mock('~/app/Chatbot/hooks/useDarkMode', () => ({
 }));
 
 // Mock FieldGroupHelpLabelIcon to avoid React hook conflicts
-jest.mock('@odh-dashboard/internal/components/FieldGroupHelpLabelIcon', () => ({
-  __esModule: true,
-  default: ({ onClick }: { content: string; onClick?: () => void }) => (
-    <button aria-label="More info" onClick={onClick}>
-      Help
-    </button>
-  ),
-}));
+jest.mock(
+  '@odh-dashboard/dashboard-foundation-frontend/components/FieldGroupHelpLabelIcon',
+  () => ({
+    __esModule: true,
+    default: ({ onClick }: { content: string; onClick?: () => void }) => (
+      <button aria-label="More info" onClick={onClick}>
+        Help
+      </button>
+    ),
+  }),
+);
 
 describe('GuardrailsPanel - Event Tracking', () => {
   const defaultProps = {

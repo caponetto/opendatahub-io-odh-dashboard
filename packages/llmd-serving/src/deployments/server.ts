@@ -1,4 +1,4 @@
-import type { ModelServerSelectFieldData } from '@odh-dashboard/model-serving/components/deploymentWizard/fields/ModelServerTemplateSelectField';
+import type { ModelServerSelectFieldData } from '@odh-dashboard/model-serving-shared/concepts/modelServing/ModelServerTemplateSelectField';
 import type { LLMdDeployment, LLMInferenceServiceKind } from '../types';
 
 export const LLMD_OPTION = {

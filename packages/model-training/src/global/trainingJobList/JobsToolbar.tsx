@@ -1,7 +1,9 @@
 import * as React from 'react';
 import { SearchInput } from '@patternfly/react-core';
-import FilterToolbar from '@odh-dashboard/internal/components/FilterToolbar';
-import SimpleSelect, { SimpleSelectOption } from '@odh-dashboard/internal/components/SimpleSelect';
+import FilterToolbar from '@odh-dashboard/dashboard-foundation-frontend/components/FilterToolbar';
+import SimpleSelect, {
+  SimpleSelectOption,
+} from '@odh-dashboard/dashboard-foundation-frontend/components/SimpleSelect';
 import { JobsToolbarFilterOptions, JobsFilterDataType, JobsFilterOptions } from './const';
 import { JobType } from '../../types';
 

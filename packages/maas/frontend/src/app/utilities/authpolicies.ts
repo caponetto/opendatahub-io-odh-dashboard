@@ -1,4 +1,4 @@
-import type { K8sResourceCommon } from '@odh-dashboard/internal/k8sTypes';
+import type { K8sResourceCommon } from '@odh-dashboard/dashboard-foundation-frontend/k8sTypes';
 import { MaaSAuthPolicy, MaaSModelRefSummary } from '~/app/types/subscriptions';
 
 export const convertAuthPolicyToK8sResource = (authPolicy: MaaSAuthPolicy): K8sResourceCommon => ({

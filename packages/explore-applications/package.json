@@ -1,0 +1,40 @@
+{
+  "name": "@odh-dashboard/explore-applications",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Explore applications page for ODH Dashboard",
+  "topology": {
+    "tier": "extension"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "type-check": "tsc --noEmit"
+  },
+  "exports": {
+    "./extensions": "./src/extensions.ts",
+    "./*": [
+      "./src/*",
+      "./src/*.ts",
+      "./src/*.d.ts",
+      "./src/*.tsx",
+      "./src/*/index.ts",
+      "./src/*/index.tsx"
+    ]
+  },
+  "dependencies": {
+    "@odh-dashboard/dashboard-foundation-frontend": "*",
+    "@odh-dashboard/plugin-core": "*",
+    "@patternfly/react-core": "*",
+    "@patternfly/react-icons": "*",
+    "classnames": "*",
+    "lodash-es": "*",
+    "react": "^18.2.0",
+    "react-router-dom": "^7.6.2"
+  },
+  "devDependencies": {
+    "@odh-dashboard/eslint-config": "*",
+    "@types/lodash-es": "^4.17.8",
+    "@types/react": "*"
+  }
+}

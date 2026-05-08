@@ -1,4 +1,4 @@
-import { K8sModelCommon } from '@openshift/dynamic-plugin-sdk-utils';
+import { K8sModelCommon } from '@odh-dashboard/k8s-browser';
 
 export const ClusterVersionModel: K8sModelCommon = {
   apiVersion: 'v1',

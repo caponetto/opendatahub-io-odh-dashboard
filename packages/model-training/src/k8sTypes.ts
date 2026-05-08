@@ -1,4 +1,4 @@
-import { K8sResourceCommon } from '@openshift/dynamic-plugin-sdk-utils';
+import { K8sResourceCommon } from '@odh-dashboard/k8s-browser';
 import { TRAINER_STATUS_ANNOTATION } from './const';
 
 export interface TrainerStatus {

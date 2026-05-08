@@ -2,13 +2,15 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { useWizardContext, useWizardFooter, ValidatedOptions } from '@patternfly/react-core';
 import { z } from 'zod';
-import { ServingRuntimeModelType } from '@odh-dashboard/internal/types';
-import { mockK8sNameDescriptionFieldData } from '@odh-dashboard/internal/__mocks__/mockK8sNameDescriptionFieldData';
+import { ServingRuntimeModelType } from '@odh-dashboard/dashboard-foundation-frontend/types';
+import { mockK8sNameDescriptionFieldData } from '@odh-dashboard/test-mocks/mockK8sNameDescriptionFieldData';
+import type { ModelLocationData } from '@odh-dashboard/model-serving-shared/types/form-data';
+import { ModelLocationType } from '@odh-dashboard/model-serving-shared/concepts/modelServing/modelLocationTypes';
 import { ModelSourceStepContent } from '../ModelSourceStep';
 import { modelTypeSelectFieldSchema } from '../../fields/ModelTypeSelectField';
 import { mockDeploymentWizardState } from '../../../../__tests__/mockUtils';
 import { isValidModelLocationData } from '../../fields/ModelLocationInputFields';
-import { ModelLocationData, ModelLocationType, ModelTypeLabel } from '../../types';
+import { ModelTypeLabel } from '../../types';
 import { createConnectionDataSchema } from '../../fields/CreateConnectionInputFields';
 
 const modelSourceStepSchema = z.object({

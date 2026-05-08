@@ -22,6 +22,7 @@ const PORT = process.env._PORT;
 const PROXY_PROTOCOL = process.env._PROXY_PROTOCOL;
 const PROXY_HOST = process.env._PROXY_HOST;
 const PROXY_PORT = process.env._PROXY_PORT;
+const ROOT_NODE_MODULES = path.resolve(RELATIVE_DIRNAME, '../../../../node_modules');
 const DEPLOYMENT_MODE = process.env._DEPLOYMENT_MODE;
 const AUTH_METHOD = process.env._AUTH_METHOD;
 const BASE_PATH = DEPLOYMENT_MODE === 'kubeflow' ? '/model-registry/' : PUBLIC_PATH;
@@ -146,6 +147,7 @@ module.exports = smp.wrap(
               SRC_DIR,
               COMMON_DIR,
               path.resolve(RELATIVE_DIRNAME, 'node_modules/@patternfly'),
+              path.resolve(ROOT_NODE_MODULES, '@patternfly'),
               path.resolve(
                 RELATIVE_DIRNAME,
                 'node_modules/mod-arch-shared/node_modules/@patternfly',

@@ -1,11 +1,11 @@
-import { k8sPatchResource } from '@openshift/dynamic-plugin-sdk-utils';
-import { RayJobModel } from '@odh-dashboard/internal/api/models/kubeflow';
-import { mockWorkloadK8sResource } from '@odh-dashboard/internal/__mocks__/mockWorkloadK8sResource';
+import { k8sPatchResource } from '@odh-dashboard/k8s-browser';
+import { RayJobModel } from '@odh-dashboard/dashboard-foundation-frontend/api/models/kubeflow';
+import { mockWorkloadK8sResource } from '@odh-dashboard/test-mocks/mockWorkloadK8sResource';
 import { patchRayJobSuspension, setRayJobPauseState } from '../rayJobLifecycle';
 import { mockRayJobK8sResource } from '../../__mocks__/mockRayJobK8sResource';
 import { getWorkloadForJob, patchWorkloadActiveState } from '../workloads';
 
-jest.mock('@openshift/dynamic-plugin-sdk-utils');
+jest.mock('@odh-dashboard/k8s-browser');
 jest.mock('../workloads');
 
 const mockK8sPatchResource = jest.mocked(k8sPatchResource);

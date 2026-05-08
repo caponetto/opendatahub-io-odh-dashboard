@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Td, Tr } from '@patternfly/react-table';
 import { Link } from 'react-router-dom';
-import TableRowTitleDescription from '@odh-dashboard/internal/components/table/TableRowTitleDescription';
+import TableRowTitleDescription from '@odh-dashboard/dashboard-foundation-frontend/components/table/TableRowTitleDescription';
 import { Features } from '../../types/features';
 import { featureRoute } from '../../FeatureStoreRoutes';
 import { featureViewRoute } from '../../routes';

@@ -1,3 +1,4 @@
+// import { SupportedArea } from '@odh-dashboard/dashboard-foundation-frontend/concepts/areas';
 import type { NavExtension, RouteExtension } from '@odh-dashboard/plugin-core/extension-points';
 
 const extensions: (NavExtension | RouteExtension)[] = [

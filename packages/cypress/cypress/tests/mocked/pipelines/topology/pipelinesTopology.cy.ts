@@ -1,24 +1,28 @@
 /* eslint-disable camelcase */
-import { mockDataSciencePipelineApplicationK8sResource } from '@odh-dashboard/internal/__mocks__/mockDataSciencePipelinesApplicationK8sResource';
-import { mockDscStatus } from '@odh-dashboard/internal/__mocks__/mockDscStatus';
-import { mockK8sResourceList } from '@odh-dashboard/internal/__mocks__/mockK8sResourceList';
+import { mockDataSciencePipelineApplicationK8sResource } from '@odh-dashboard/test-mocks/mockDataSciencePipelinesApplicationK8sResource';
+import { mockDscStatus } from '@odh-dashboard/test-mocks/mockDscStatus';
+import { mockK8sResourceList } from '@odh-dashboard/test-mocks/mockK8sResourceList';
 import {
   buildMockPipelineVersion,
   buildMockPipelineVersions,
-} from '@odh-dashboard/internal/__mocks__/mockPipelineVersionsProxy';
-import { mockProjectK8sResource } from '@odh-dashboard/internal/__mocks__/mockProjectK8sResource';
-import { mockRouteK8sResource } from '@odh-dashboard/internal/__mocks__/mockRouteK8sResource';
-import { mockSecretK8sResource } from '@odh-dashboard/internal/__mocks__/mockSecretK8sResource';
-import { buildMockRecurringRunKF } from '@odh-dashboard/internal/__mocks__/mockRecurringRunKF';
-import { mockPodLogs } from '@odh-dashboard/internal/__mocks__/mockPodLogs';
-import { buildMockRunKF } from '@odh-dashboard/internal/__mocks__/mockRunKF';
-import { mockPipelinePodK8sResource } from '@odh-dashboard/internal/__mocks__/mockPipelinePodK8sResource';
-import { buildMockExperimentKF, buildMockPipeline } from '@odh-dashboard/internal/__mocks__';
+} from '@odh-dashboard/test-mocks/mockPipelineVersionsProxy';
+import { mockProjectK8sResource } from '@odh-dashboard/test-mocks/mockProjectK8sResource';
+import { mockRouteK8sResource } from '@odh-dashboard/test-mocks/mockRouteK8sResource';
+import { mockSecretK8sResource } from '@odh-dashboard/test-mocks/mockSecretK8sResource';
+import { buildMockRecurringRunKF } from '@odh-dashboard/test-mocks/mockRecurringRunKF';
+import { mockPodLogs } from '@odh-dashboard/test-mocks/mockPodLogs';
+import { buildMockRunKF } from '@odh-dashboard/test-mocks/mockRunKF';
+import { mockPipelinePodK8sResource } from '@odh-dashboard/test-mocks/mockPipelinePodK8sResource';
+import { buildMockExperimentKF, buildMockPipeline } from '@odh-dashboard/test-mocks';
+import { RecurringRunStatus, RuntimeStateKF } from '@odh-dashboard/pipelines/concepts/kfTypes';
+import { DataScienceStackComponent } from '@odh-dashboard/dashboard-foundation-frontend/concepts/areas';
 import {
-  RecurringRunStatus,
-  RuntimeStateKF,
-} from '@odh-dashboard/internal/concepts/pipelines/kfTypes';
-import { DataScienceStackComponent } from '@odh-dashboard/internal/concepts/areas/types';
+  DataSciencePipelineApplicationModel,
+  PodModel,
+  ProjectModel,
+  RouteModel,
+  SecretModel,
+} from '@odh-dashboard/dashboard-foundation-frontend/api/models';
 import {
   pipelineDetails,
   pipelineRecurringRunDetails,
@@ -26,13 +30,6 @@ import {
   pipelineVersionImportModal,
 } from '../../../../pages/pipelines';
 import { verifyRelativeURL } from '../../../../utils/url';
-import {
-  DataSciencePipelineApplicationModel,
-  PodModel,
-  ProjectModel,
-  RouteModel,
-  SecretModel,
-} from '../../../../utils/models';
 import { deleteModal } from '../../../../pages/components/DeleteModal';
 import { toastNotifications } from '../../../../pages/components/ToastNotifications';
 import { initMlmdIntercepts } from '../mlmdUtils';

@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import { NotReadyError } from '@odh-dashboard/internal/utilities/useFetch';
+import { NotReadyError } from '@odh-dashboard/dashboard-foundation-frontend/utilities/useFetch';
 import { FeatureStoreError } from '../../types/global';
 import { handleFeatureStoreFailures, getFeatureStoreErrorMessage } from '../errorUtils';
 

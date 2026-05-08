@@ -1,4 +1,4 @@
-import TableRowTitleDescription from '@odh-dashboard/internal/components/table/TableRowTitleDescription';
+import TableRowTitleDescription from '@odh-dashboard/dashboard-foundation-frontend/components/table/TableRowTitleDescription';
 import { Button, Content, Truncate } from '@patternfly/react-core';
 import { Td, Tr } from '@patternfly/react-table';
 import * as React from 'react';

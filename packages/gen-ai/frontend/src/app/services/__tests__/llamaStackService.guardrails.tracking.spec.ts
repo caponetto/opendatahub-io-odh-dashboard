@@ -1,13 +1,16 @@
 /* eslint-disable camelcase */
-import { fireMiscTrackingEvent } from '@odh-dashboard/internal/concepts/analyticsTracking/segmentIOUtils';
+import { fireMiscTrackingEvent } from '@odh-dashboard/dashboard-foundation-frontend/concepts/analyticsTracking/segmentIOUtils';
 import { createResponse } from '~/app/services/llamaStackService';
 import { URL_PREFIX } from '~/app/utilities';
 import { TEST_NAMESPACE, mockStreamingRequest } from './llamaStackService.fixtures';
 
 // Mock tracking
-jest.mock('@odh-dashboard/internal/concepts/analyticsTracking/segmentIOUtils', () => ({
-  fireMiscTrackingEvent: jest.fn(),
-}));
+jest.mock(
+  '@odh-dashboard/dashboard-foundation-frontend/concepts/analyticsTracking/segmentIOUtils',
+  () => ({
+    fireMiscTrackingEvent: jest.fn(),
+  }),
+);
 
 // Mock mod-arch-core
 jest.mock('mod-arch-core', () => ({

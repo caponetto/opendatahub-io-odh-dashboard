@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import { ModelLocationType } from '@odh-dashboard/internal/concepts/modelRegistry/types';
+import { ModelLocationType } from '@odh-dashboard/model-registry/concepts/modelRegistry/types';
 import AutofillConnectionButton from '../AutofillConnectionButton';
 
-jest.mock('@odh-dashboard/internal/concepts/modelRegistry/content/ConnectionModal', () => ({
+jest.mock('@odh-dashboard/model-registry/concepts/modelRegistry/content/ConnectionModal', () => ({
   ConnectionModal: ({
     onClose,
     onSubmit,
@@ -42,7 +42,7 @@ jest.mock('@odh-dashboard/internal/concepts/modelRegistry/content/ConnectionModa
   ),
 }));
 
-jest.mock('@odh-dashboard/internal/concepts/connectionTypes/utils', () => ({
+jest.mock('@odh-dashboard/connection-types-shared/concepts/connectionTypes/utils', () => ({
   convertObjectStorageSecretData: () => [
     { key: 'AWS_S3_ENDPOINT', value: 'https://s3.amazonaws.com' },
     { key: 'AWS_S3_BUCKET', value: 'my-bucket' },

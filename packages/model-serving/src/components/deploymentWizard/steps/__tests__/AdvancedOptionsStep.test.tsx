@@ -1,9 +1,9 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
+import type { WizardField } from '@odh-dashboard/model-serving-shared/types/form-data';
 import { AdvancedSettingsStepContent } from '../AdvancedOptionsStep';
 import type { ExternalDataMap } from '../../ExternalDataLoader';
 import { mockDeploymentWizardState } from '../../../../__tests__/mockUtils';
-import type { WizardField } from '../../types';
 
 const externalData: ExternalDataMap = {};
 

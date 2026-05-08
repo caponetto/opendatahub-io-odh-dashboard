@@ -1,9 +1,9 @@
-import type { RoleBindingSubject } from '@odh-dashboard/internal/k8sTypes';
-import { DataScienceStackComponent } from '@odh-dashboard/internal/concepts/areas/types';
-import { mockComponents } from '@odh-dashboard/internal/__mocks__/mockComponents';
-import { mockDashboardConfig, mockK8sResourceList } from '@odh-dashboard/internal/__mocks__';
-import { mockDscStatus } from '@odh-dashboard/internal/__mocks__/mockDscStatus';
-import { mockRoleBindingK8sResource } from '@odh-dashboard/internal/__mocks__/mockRoleBindingK8sResource';
+import type { RoleBindingSubject } from '@odh-dashboard/dashboard-foundation-frontend/k8sTypes';
+import { DataScienceStackComponent } from '@odh-dashboard/dashboard-foundation-frontend/concepts/areas';
+import { mockComponents } from '@odh-dashboard/test-mocks/mockComponents';
+import { mockDashboardConfig, mockK8sResourceList } from '@odh-dashboard/test-mocks';
+import { mockDscStatus } from '@odh-dashboard/test-mocks/mockDscStatus';
+import { mockRoleBindingK8sResource } from '@odh-dashboard/test-mocks/mockRoleBindingK8sResource';
 import { enabledPage } from '../../../pages/enabled';
 import { jupyterCard } from '../../../pages/components/JupyterCard';
 import { mlflowCard } from '../../../pages/components/MLflowCard';

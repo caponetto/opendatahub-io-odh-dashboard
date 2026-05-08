@@ -5,13 +5,13 @@ USER root
 WORKDIR /usr/src/workspace
 # Copy root workspace manifest (needed for npm workspaces)
 COPY package.json package-lock.json* ./
-# Copy frontend workspace manifests (for @odh-dashboard/internal)
+# Copy frontend workspace manifests (for shared dashboard packages)
 COPY frontend/package.json ./frontend/
 COPY frontend/src/package.json ./frontend/src/
 # Copy required workspace packages
 COPY packages/plugin-core/ ./packages/plugin-core/
 COPY packages/tsconfig/ ./packages/tsconfig/
-# Copy frontend source (for @odh-dashboard/internal exports)
+# Copy frontend source (for shared dashboard exports)
 COPY frontend/src/ ./frontend/src/
 # Copy gen-ai module package.json
 COPY packages/gen-ai/package.json ./packages/gen-ai/

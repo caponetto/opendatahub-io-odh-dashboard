@@ -12,7 +12,7 @@ import {
   AlertActionCloseButton,
   AlertActionLink,
 } from '@patternfly/react-core';
-import { K8sStatusError } from '@odh-dashboard/internal/api/errorUtils';
+import { K8sStatusError } from '@odh-dashboard/dashboard-foundation-frontend/api/errorUtils';
 
 type DeploymentFooterProps = {
   submitButtonText?: string;

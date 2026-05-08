@@ -4,7 +4,7 @@ import {
   ModelStateToggleLabel,
   ModelStateLabel,
   YAMLViewerToggleOption,
-} from '@odh-dashboard/model-serving/types/form-data';
+} from '@odh-dashboard/model-serving/components/deploymentWizard/types';
 import {
   tiersPage,
   createTierPage,

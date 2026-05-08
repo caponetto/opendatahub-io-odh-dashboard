@@ -9,7 +9,7 @@ import {
 import { Td, Tr } from '@patternfly/react-table';
 import { PlusCircleIcon } from '@patternfly/react-icons';
 import React from 'react';
-import Table from '@odh-dashboard/internal/components/table/Table';
+import Table from '@odh-dashboard/dashboard-foundation-frontend/components/table/Table';
 import { FeatureView } from '../../../types/featureView';
 import { MaterializationInterval } from '../../../types/global';
 import FeatureStoreTimestamp from '../../../components/FeatureStoreTimestamp';

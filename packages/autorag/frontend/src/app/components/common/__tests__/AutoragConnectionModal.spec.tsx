@@ -1,5 +1,5 @@
-import { mockConnectionTypeConfigMapObj } from '@odh-dashboard/internal/__mocks__/mockConnectionType';
-import * as secretsApi from '@odh-dashboard/internal/api/k8s/secrets';
+import { mockConnectionTypeConfigMapObj } from '@odh-dashboard/test-mocks/mockConnectionType';
+import * as secretsApi from '@odh-dashboard/dashboard-foundation-frontend/api/k8s/secrets';
 import '@testing-library/jest-dom';
 import { fireEvent, render, screen } from '@testing-library/react';
 import React, { act } from 'react';
@@ -7,7 +7,7 @@ import AutoragConnectionModal from '~/app/components/common/AutoragConnectionMod
 
 const TEST_PROJECT = 'my-project';
 
-jest.mock('@odh-dashboard/internal/api/k8s/secrets', () => ({
+jest.mock('@odh-dashboard/dashboard-foundation-frontend/api/k8s/secrets', () => ({
   createSecret: jest.fn(),
 }));
 

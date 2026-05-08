@@ -19,26 +19,26 @@ import {
 } from '@patternfly/react-core';
 import { useNavigate, Link } from 'react-router-dom';
 import { SearchIcon } from '@patternfly/react-icons';
-import { ProjectObjectType } from '@odh-dashboard/internal/concepts/design/utils';
-import TypeBorderedCard from '@odh-dashboard/internal/concepts/design/TypeBorderedCard';
-import HeaderIcon from '@odh-dashboard/internal/concepts/design/HeaderIcon';
-import CollapsibleSection from '@odh-dashboard/internal/concepts/design/CollapsibleSection';
-import { ProjectDetailsContext } from '@odh-dashboard/internal/pages/projects/ProjectDetailsContext';
-import { getDisplayNameFromK8sResource } from '@odh-dashboard/internal/concepts/k8s/utils';
-import { ModelStatusIcon } from '@odh-dashboard/internal/concepts/modelServing/ModelStatusIcon';
-import { ModelDeploymentState } from '@odh-dashboard/internal/pages/modelServing/screens/types';
-import ResourceNameTooltip from '@odh-dashboard/internal/components/ResourceNameTooltip';
+import { ProjectObjectType } from '@odh-dashboard/dashboard-foundation-frontend/concepts/design/utils';
+import TypeBorderedCard from '@odh-dashboard/dashboard-foundation-frontend/concepts/design/TypeBorderedCard';
+import HeaderIcon from '@odh-dashboard/dashboard-foundation-frontend/concepts/design/HeaderIcon';
+import CollapsibleSection from '@odh-dashboard/dashboard-foundation-frontend/concepts/design/CollapsibleSection';
+import { ProjectDetailsContext } from '@odh-dashboard/projects-shared/concepts/projects/ProjectDetailsContext';
+import { getDisplayNameFromK8sResource } from '@odh-dashboard/dashboard-foundation-frontend/concepts/k8s/utils';
+import ResourceNameTooltip from '@odh-dashboard/dashboard-foundation-frontend/components/ResourceNameTooltip';
+import { ModelDeploymentState } from '@odh-dashboard/model-serving-shared/concepts/modelServing/deploymentState';
+import {
+  DeployedModelServingDetails,
+  Deployment,
+  isDeployedModelServingDetails,
+} from '@odh-dashboard/model-serving-shared/extension-points';
+import { ModelStatusIcon } from '../../concepts/ModelStatusIcon';
 import { ModelDeploymentsContext } from '../../concepts/ModelDeploymentsContext';
 import {
   useProjectServingPlatform,
   type ModelServingPlatform,
 } from '../../concepts/useProjectServingPlatform';
 import DeployedModelsDetails from '../deployments/DeployedModelsVersion';
-import {
-  DeployedModelServingDetails,
-  Deployment,
-  isDeployedModelServingDetails,
-} from '../../../extension-points';
 import DeploymentStatus from '../deployments/DeploymentStatus';
 import {
   ExtensionDataEntry,

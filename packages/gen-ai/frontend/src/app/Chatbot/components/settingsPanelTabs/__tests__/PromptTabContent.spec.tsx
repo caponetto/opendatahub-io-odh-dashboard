@@ -6,7 +6,7 @@ import PromptTabContent from '~/app/Chatbot/components/settingsPanelTabs/PromptT
 let mockPromptManagementEnabled = false;
 const mockOpenModal = jest.fn();
 
-jest.mock('@openshift/dynamic-plugin-sdk', () => ({
+jest.mock('@odh-dashboard/plugin-core', () => ({
   useFeatureFlag: jest.fn(() => [mockPromptManagementEnabled]),
 }));
 

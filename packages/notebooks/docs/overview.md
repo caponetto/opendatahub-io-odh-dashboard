@@ -12,7 +12,7 @@
 - **Host proxy**: Proxies `/workspaces/api` to the upstream API (path rewritten to `/api`).
 - **ODH registration**: Under `upstream/workspaces/frontend/src/odh/` — `extensions.ts` for area/nav/route; `NotebooksWrapper.tsx` loads the federated shell.
 - **Upstream vs ODH**: Upstream repo includes its own Go backend for non-ODH deployments; in ODH federated mode, browser traffic to workspace APIs goes through the dashboard proxy to that API surface, not a separate dashboard BFF layer.
-- **`Dockerfile.workspace`**: Federated build depends on unpublished workspace packages (`@odh-dashboard/plugin-core`, `@odh-dashboard/internal`, dynamic plugin SDK) and needs monorepo context.
+- **`Dockerfile.workspace`**: Federated build depends on unpublished workspace packages (`@odh-dashboard/plugin-core`, `@odh-dashboard/dashboard-foundation-frontend`, dynamic plugin SDK) and needs monorepo context.
 - **Development**: Treat the **host** as source of truth for auth and navigation; the notebooks dev server is the federated asset origin only.
 
 ## Key Concepts

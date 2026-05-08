@@ -1,0 +1,64 @@
+{
+  "private": true,
+  "name": "@odh-dashboard/dashboard-shell-backend",
+  "description": "Backend shell: configurable Fastify server with kube proxy, MF routing, and SPA serving",
+  "version": "0.0.0",
+  "main": "src/createServer.ts",
+  "exports": {
+    ".": "./src/createServer.ts",
+    "./app": "./src/app.ts",
+    "./types": "./src/types.ts",
+    "./plugins/*": "./src/plugins/*.ts",
+    "./discoverPluginRoutes": "./src/discoverPluginRoutes.ts"
+  },
+  "scripts": {
+    "build": "rimraf dist && tsc -p tsconfig.prod.json",
+    "clean": "rimraf ../../logs/adminActivity.log",
+    "start": "NODE_ENV=production node ./dist/standalone.js",
+    "start:dev": "NODE_TLS_REJECT_UNAUTHORIZED=0 NODE_ENV=development APP_ENV=development nodemon src/standalone.ts",
+    "start:dev:wait": "npx wait-on -i 1000 http://localhost:4000",
+    "debug": "cross-env NODE_TLS_REJECT_UNAUTHORIZED=0 NODE_ENV=development nodemon --exec 'node --inspect --require ts-node/register' src/standalone.ts",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "type-check": "tsc --noEmit",
+    "test-unit": "jest --silent",
+    "test-unit-coverage": "jest --silent --coverage",
+    "test:jest": "jest",
+    "test:jest:coverage": "rimraf jest-coverage && jest --silent --coverage --coverageReporters=json --coverageReporters=lcov"
+  },
+  "dependencies": {
+    "@fastify/accepts": "^4.3.0",
+    "@fastify/autoload": "^5.7.1",
+    "@fastify/sensible": "^5.2.0",
+    "@fastify/static": "^6.10.2",
+    "@fastify/view": "^9.1.0",
+    "@fastify/websocket": "^8.3.1",
+    "@kubernetes/client-node": "^0.12.2",
+    "@odh-dashboard/dashboard-foundation-backend": "*",
+    "@odh-dashboard/dashboard-build": "*",
+    "@odh-dashboard/dashboard-config": "*",
+    "ejs": "^3.1.9",
+    "fastify": "^4.23.2",
+    "fastify-plugin": "^4.5.1",
+    "http-errors": "^1.8.0",
+    "js-yaml": "^4.0.0",
+    "pino": "^9.9.0",
+    "ws": "^8.18.1"
+  },
+  "devDependencies": {
+    "@odh-dashboard/eslint-config": "*",
+    "@odh-dashboard/jest-config": "*",
+    "@odh-dashboard/tsconfig": "*",
+    "@types/ejs": "*",
+    "@types/http-errors": "^1.8.0",
+    "@types/lodash": "^4.14.182",
+    "@types/node": "^18.14.5",
+    "nodemon": "^3.0.2",
+    "pino-pretty": "*",
+    "ts-node": "^10.9.1",
+    "typescript": "*"
+  },
+  "topology": {
+    "tier": "shell"
+  }
+}

@@ -2,7 +2,7 @@ import { Td, Tr } from '@patternfly/react-table';
 import * as React from 'react';
 import { Content, Truncate, Button } from '@patternfly/react-core';
 import { Link } from 'react-router';
-import TableRowTitleDescription from '@odh-dashboard/internal/components/table/TableRowTitleDescription';
+import TableRowTitleDescription from '@odh-dashboard/dashboard-foundation-frontend/components/table/TableRowTitleDescription';
 import { useFeatureStoreProject } from '../../../FeatureStoreContext';
 import { Entity } from '../../../types/entities';
 import FeatureStoreTags from '../../../components/FeatureStoreTags';

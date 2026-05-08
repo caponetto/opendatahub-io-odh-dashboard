@@ -8,7 +8,7 @@
 
 ## Design Intent
 
-- **No BFF**: `src/api/custom.ts` uses `proxyGET` from `@odh-dashboard/internal/api/proxyUtils`; all Feast traffic is **main dashboard backend → Feast REST** (`/api/v1/...`).
+- **No BFF**: `src/api/custom.ts` uses `proxyGET` from `@odh-dashboard/dashboard-foundation-frontend/api/proxyUtils`; all Feast traffic is **main dashboard backend → Feast REST** (`/api/v1/...`).
 - **Discovery**: Backend resolves upstream host from a Kubernetes `FeatureStore` CR (or equivalent) using label `feature-store-ui=enabled` on the target service.
 - **Read-only UI**: List and inspect projects, entities, feature views, features, feature services, data sources, saved datasets, lineage, search, and overview metrics — no create/update/delete through this package.
 - **No Webpack remote**: Library package; `extensions.ts` registers with the host; `package.json` exports `./extensions`, `./routes`, `./types/*`, `./components/*`, and `./screens/lineage/*` for the plugin system.
@@ -34,7 +34,7 @@
 |-----------|------|---------|
 | ODH Dashboard backend | Proxy | All Feast calls via `proxyGET`; resolves host from labelled FeatureStore/service discovery. |
 | Feast REST API | External service | `/api/v1/` read-only API; must be reachable from the cluster. |
-| `@odh-dashboard/internal` | Package | `proxyGET`, `useFetch`, k8s types, area/flag infrastructure. |
+| `@odh-dashboard/dashboard-foundation-frontend` | Package | `proxyGET`, `useFetch`, shared components/utilities/API helpers. |
 | `@odh-dashboard/plugin-core` | Package | Extension types; nav and route mounting. |
 | Kubernetes | Cluster API | Feature store discovery via `feature-store-ui=enabled`. |
 

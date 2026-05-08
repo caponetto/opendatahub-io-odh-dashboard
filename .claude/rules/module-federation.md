@@ -14,12 +14,12 @@ This rule provides a quick reference for working with Module Federation files. D
 
 ## Architecture
 
-ODH Dashboard uses Webpack Module Federation (`@module-federation/enhanced`) to dynamically load remote modules at runtime. The host (`frontend/`) discovers and loads remote packages (`packages/*/`) that expose extensions via a plugin system.
+ODH Dashboard uses a **hybrid extension model**: static shell extensions bundled at build time provide the core UI structure (navigation, routes, task areas), while Webpack Module Federation (`@module-federation/enhanced`) dynamically loads remote module extensions at runtime.
 
 | Role | Location | MF Name |
 |---|---|---|
-| **Host** | `frontend/` | `host` |
-| **Remotes** | `packages/*/frontend/` | camelCase (e.g., `genAi`, `modelRegistry`, `maas`) |
+| **Host / Shell** | `packages/dashboard-shell-frontend/` | `host` |
+| **Remotes** | `packages/*/` (with `module-federation` in `package.json`) | camelCase (e.g., `genAi`, `modelRegistry`, `maas`) |
 
 The host never exposes modules (`exposes: {}`). Remotes expose `./extensions` and optionally `./extension-points`.
 
@@ -30,7 +30,7 @@ See [docs/module-federation.md](../../docs/module-federation.md) for the full co
 1. **`package.json`** — add a `module-federation` key (name, remoteEntry, proxy, local port, service) and `"exports": { "./extensions": "..." }`
 2. **`moduleFederation.js`** — configure `ModuleFederationPlugin` with `name`, `exposes`, `shared` singletons, `runtime: false`
 3. **`src/odh/extensions.ts`** — export a default array of `Extension` objects
-4. **Static bundling** — `discoverPluginPackages.js` finds `./extensions` exports and generates `plugin-extensions.ts` at build time
+4. **Plugin discovery** — `discoverPluginPackages.js` finds packages with `./extensions` exports for webpack chunk grouping and manifest generation (it does not generate a static aggregator module)
 
 ## Shared Dependencies
 
@@ -42,12 +42,13 @@ All use `singleton: true` and `requiredVersion: deps['<package>']` from the loca
 
 ## Runtime Loading Flow
 
-1. Backend injects `mfRemotesJson` into `index.html` as `<script id="mf-remotes-json">` (prod) or `DefinePlugin` sets `MF_REMOTES` (dev)
-2. `useAppExtensions` calls `init()` from `@module-federation/runtime` with remote entry URLs at `/_mf/{name}/remoteEntry.js`
-3. Each remote's `./extensions` is loaded via `loadRemote('{name}/extensions')`
-4. Failed loads are caught gracefully — the remote returns `[]` instead of crashing
-5. Static and federated extensions merge in `ExtensibilityContext`
-6. `PluginStore` makes all extensions available via `useExtensions()` / `useResolvedExtensions()`
+1. `ExtensibilityContext` imports static shell extensions (`packages/dashboard-shell-frontend/src/plugins/extensions/`) at build time — these provide core navigation, routes, and task areas
+2. Backend injects `mfRemotesJson` into `index.html` as `<script id="mf-remotes-json">` (prod) or `DefinePlugin` sets `MF_REMOTES` (dev)
+3. `useAppExtensions` calls `init()` from `@module-federation/runtime` with remote entry URLs at `/_mf/{name}/remoteEntry.js`
+4. Each remote's `./extensions` is loaded via `loadRemote('{name}/extensions')`
+5. Failed loads are caught gracefully — the remote returns `[]` instead of crashing
+6. `ExtensibilityContext` merges static shell extensions (keyed `'shell'`) with dynamic MF extensions into a single `PluginStore`
+7. `PluginStore` makes all extensions available via `useExtensions()` / `useResolvedExtensions()`
 
 ## Entry Point Pattern
 
@@ -75,15 +76,15 @@ import('./bootstrap');
 
 | Purpose | Path |
 |---|---|
-| Host MF config | `frontend/config/moduleFederation.js` |
-| Plugin discovery | `frontend/config/discoverPluginPackages.js` |
-| Extensions generator | `frontend/config/generateExtensionsPlugin.js` |
-| Runtime init + loading | `frontend/src/plugins/useAppExtensions.ts` |
-| PluginStore provider | `frontend/src/plugins/ExtensibilityContext.tsx` |
-| MF_REMOTES constant | `frontend/src/utilities/const.ts` |
-| Backend proxy setup | `backend/src/routes/module-federation.ts` |
-| Backend remotes injection | `backend/src/routes/root.ts` |
-| Shared MF config util | `packages/app-config/src/module-federation.ts` |
+| Host MF config | `packages/dashboard-config/src/module-federation.ts` |
+| Plugin discovery | `packages/dashboard-build/discoverPluginPackages.js` |
+| Plugin manifest | `packages/dashboard-build/generatePluginManifest.js` |
+| Shell static extensions | `packages/dashboard-shell-frontend/src/plugins/extensions/` |
+| Runtime init + loading | `packages/dashboard-shell-frontend/src/plugins/useAppExtensions.ts` |
+| PluginStore provider | `packages/dashboard-shell-frontend/src/plugins/ExtensibilityContext.tsx` |
+| MF_REMOTES constant | `packages/dashboard-foundation-frontend/src/utilities/const.ts` |
+| Backend proxy setup | `packages/dashboard-shell-backend/src/routes/module-federation.ts` |
+| Backend remotes injection | `packages/dashboard-shell-backend/src/routes/root.ts` |
 | Prod ConfigMap | `manifests/modular-architecture/federation-configmap.yaml` |
 | Extension point types | `packages/plugin-core/src/extension-points/` |
 | Full MF docs | `docs/module-federation.md` |

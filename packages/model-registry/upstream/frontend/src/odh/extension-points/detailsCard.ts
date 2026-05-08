@@ -1,4 +1,4 @@
-import type { CodeRef, Extension } from '@openshift/dynamic-plugin-sdk';
+import type { CodeRef, Extension } from '@odh-dashboard/plugin-core';
 
 export type ModelDetailsDeploymentCardExtension = Extension<
   'model-registry.model-details/details-card',

@@ -1,4 +1,4 @@
-import type { Extension, CodeRef } from '@openshift/dynamic-plugin-sdk';
+import type { CodeRef, Extension } from '../core/types';
 
 export type StatusReport = { status: 'info' | 'warning' | 'error'; message: string };
 

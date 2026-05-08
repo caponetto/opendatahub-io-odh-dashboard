@@ -1,11 +1,11 @@
-import type { useHardwareProfileConfig } from '@odh-dashboard/internal/concepts/hardwareProfiles/useHardwareProfileConfig';
-import { CrPathConfig } from '@odh-dashboard/internal/concepts/hardwareProfiles/types';
+import type { useHardwareProfileConfig } from '@odh-dashboard/hardware-profiles-shared/concepts/hardwareProfiles/useHardwareProfileConfig';
+import { CrPathConfig } from '@odh-dashboard/hardware-profiles-shared/concepts/hardwareProfiles/types';
 import {
   getExistingHardwareProfileData,
   getExistingResources,
-} from '@odh-dashboard/internal/concepts/hardwareProfiles/utils';
-import { MODEL_SERVING_VISIBILITY } from '@odh-dashboard/internal/concepts/hardwareProfiles/const';
-import type { ExtractionResult } from '@odh-dashboard/model-serving/extension-points';
+} from '@odh-dashboard/hardware-profiles-shared/concepts/hardwareProfiles/utils';
+import { MODEL_SERVING_VISIBILITY } from '@odh-dashboard/hardware-profiles-shared/concepts/hardwareProfiles/const';
+import type { ExtractionResult } from '@odh-dashboard/model-serving-shared/extension-points';
 import type { LLMdDeployment, LLMInferenceServiceKind } from '../types';
 
 export const LLMD_INFERENCE_SERVICE_HARDWARE_PROFILE_PATHS: CrPathConfig = {

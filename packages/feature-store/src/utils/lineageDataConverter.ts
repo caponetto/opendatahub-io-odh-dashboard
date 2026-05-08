@@ -1,10 +1,6 @@
 import { EdgeStyle } from '@patternfly/react-topology';
-import {
-  LineageData,
-  LineageEdge,
-  LineageNode,
-} from '@odh-dashboard/internal/components/lineage/types';
 import { LineageEntityType } from './featureStoreObjects';
+import { LineageData, LineageEdge, LineageNode } from '../components/lineage/types';
 import { FeatureStoreLineage, LineageFeatureView, FeatureViewLineage } from '../types/lineage';
 import { Entity } from '../types/entities';
 import { DataSource } from '../types/dataSources';

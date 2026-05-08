@@ -1,5 +1,5 @@
 import React from 'react';
-import ApplicationsPage from '@odh-dashboard/internal/pages/ApplicationsPage';
+import ApplicationsPage from '@odh-dashboard/dashboard-foundation-frontend/components/ApplicationsPage';
 import { PageSection } from '@patternfly/react-core';
 import { useListAuthPolicies } from '~/app/hooks/useListAuthPolicies';
 import { MaaSAuthPolicy } from '~/app/types/subscriptions';

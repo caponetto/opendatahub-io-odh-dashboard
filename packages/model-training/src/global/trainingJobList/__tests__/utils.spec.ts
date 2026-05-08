@@ -1,5 +1,8 @@
-import { WorkloadCondition, WorkloadKind } from '@odh-dashboard/internal/k8sTypes';
-import { genUID } from '@odh-dashboard/internal/__mocks__/mockUtils';
+import {
+  WorkloadCondition,
+  WorkloadKind,
+} from '@odh-dashboard/dashboard-foundation-frontend/k8sTypes';
+import { genUID } from '@odh-dashboard/test-mocks/mockUtils';
 import { mockTrainJobK8sResource } from '../../../__mocks__/mockTrainJobK8sResource';
 import { mockRayJobK8sResource } from '../../../__mocks__/mockRayJobK8sResource';
 import { TrainingJobState, JobType } from '../../../types';

@@ -1,0 +1,59 @@
+{
+  "private": true,
+  "name": "@odh-dashboard/workbenches-shared",
+  "description": "Shared notebook types, hooks, and utilities consumed by notebook-controller and workbenches",
+  "version": "0.0.0",
+  "sideEffects": false,
+  "topology": {
+    "tier": "shared"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "type-check": "tsc --noEmit",
+    "test-unit": "jest --silent --passWithNoTests"
+  },
+  "imports": {
+    "#~/*": [
+      "./src/*",
+      "./src/*.ts",
+      "./src/*.d.ts",
+      "./src/*.tsx",
+      "./src/*/index.ts",
+      "./src/*/index.tsx"
+    ]
+  },
+  "exports": {
+    "./*": [
+      "./src/*",
+      "./src/*.ts",
+      "./src/*.d.ts",
+      "./src/*.tsx",
+      "./src/*/index.ts",
+      "./src/*/index.tsx"
+    ]
+  },
+  "dependencies": {
+    "@odh-dashboard/connection-types-shared": "*",
+    "@odh-dashboard/dashboard-foundation-frontend": "*",
+    "@odh-dashboard/distributed-workloads-shared": "*",
+    "@odh-dashboard/hardware-profiles-shared": "*",
+    "@odh-dashboard/k8s-browser": "*",
+    "@odh-dashboard/plugin-core": "*",
+    "@odh-dashboard/projects-shared": "*",
+    "@patternfly/react-core": "*",
+    "@patternfly/react-icons": "*",
+    "@patternfly/react-tokens": "*",
+    "lodash-es": "*",
+    "react": "^18.2.0",
+    "react-router-dom": "^7.6.2"
+  },
+  "devDependencies": {
+    "@odh-dashboard/eslint-config": "*",
+    "@odh-dashboard/jest-config": "*",
+    "@odh-dashboard/test-mocks": "*",
+    "@odh-dashboard/tsconfig": "*",
+    "@types/lodash-es": "*",
+    "@types/react": "*"
+  }
+}

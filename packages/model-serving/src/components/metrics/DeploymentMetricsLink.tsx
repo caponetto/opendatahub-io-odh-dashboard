@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, useLocation, matchPath } from 'react-router-dom';
-import { getDisplayNameFromK8sResource } from '@odh-dashboard/internal/concepts/k8s/utils';
-import type { Deployment } from '../../../extension-points';
+import { getDisplayNameFromK8sResource } from '@odh-dashboard/dashboard-foundation-frontend/concepts/k8s/utils';
+import type { Deployment } from '@odh-dashboard/model-serving-shared/extension-points';
 
 const getMetricsUrl = (currentPath: string, deployment: Deployment) => {
   if (matchPath('/ai-hub/models/deployments/*', currentPath)) {

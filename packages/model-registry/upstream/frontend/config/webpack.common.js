@@ -14,6 +14,7 @@ const SRC_DIR = process.env._SRC_DIR;
 const COMMON_DIR = process.env._COMMON_DIR;
 const DIST_DIR = process.env._DIST_DIR;
 const OUTPUT_ONLY = process.env._OUTPUT_ONLY;
+const ROOT_NODE_MODULES = path.resolve(RELATIVE_DIRNAME, '../../../../node_modules');
 const FAVICON = process.env.FAVICON;
 const PRODUCT_NAME = process.env.PRODUCT_NAME;
 const COVERAGE = process.env.COVERAGE;
@@ -66,6 +67,11 @@ module.exports = (env) => ({
           ),
           path.resolve(RELATIVE_DIRNAME, 'node_modules/@patternfly/patternfly/assets/fonts'),
           path.resolve(RELATIVE_DIRNAME, 'node_modules/@patternfly/patternfly/assets/pficon'),
+          path.resolve(ROOT_NODE_MODULES, 'patternfly/dist/fonts'),
+          path.resolve(ROOT_NODE_MODULES, '@patternfly/react-core/dist/styles/assets/fonts'),
+          path.resolve(ROOT_NODE_MODULES, '@patternfly/react-core/dist/styles/assets/pficon'),
+          path.resolve(ROOT_NODE_MODULES, '@patternfly/patternfly/assets/fonts'),
+          path.resolve(ROOT_NODE_MODULES, '@patternfly/patternfly/assets/pficon'),
         ],
         use: {
           loader: 'file-loader',
@@ -145,6 +151,10 @@ module.exports = (env) => ({
             RELATIVE_DIRNAME,
             'node_modules/@patternfly/react-inline-edit-extension/node_modules/@patternfly/react-styles/css/assets/images',
           ),
+          path.resolve(ROOT_NODE_MODULES, 'patternfly'),
+          path.resolve(ROOT_NODE_MODULES, '@patternfly/patternfly/assets/images'),
+          path.resolve(ROOT_NODE_MODULES, '@patternfly/react-styles/css/assets/images'),
+          path.resolve(ROOT_NODE_MODULES, '@patternfly/react-core/dist/styles/assets/images'),
         ],
         use: [
           {

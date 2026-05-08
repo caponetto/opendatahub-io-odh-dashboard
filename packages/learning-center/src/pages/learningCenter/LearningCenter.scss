@@ -1,0 +1,102 @@
+.odh-dashboard {
+  &__page-content {
+    border-radius: var(--pf-t--global--border--radius--medium);
+  }
+}
+
+.odh-learning-paths {
+  &__filter-panel {
+    padding-top: var(--pf-t--global--spacer--md);
+    width: 240px;
+    &.m-is-collapsible {
+      background: var(--pf-t--global--background--color--floating--default);
+      border: 1px solid var(--pf-t--global--border--color--default);
+      left: 0;
+      margin-left: -1px;
+      margin-top: -1px;
+      position: absolute;
+      transition: left 0.5s;
+      z-index: var(--pf-t--global--z-index--md);
+    }
+    &.m-is-collapsed {
+      padding: 0;
+      overflow: hidden;
+      left: -240px;
+    }
+    &__collapse-button {
+      position: absolute;
+      right: 0;
+      top: var(--pf-t--global--spacer--sm);
+      z-index: var(--pf-t--global--z-index--md);
+    }
+    .pf-v6-c-tabs.pf-m-vertical {
+      margin-bottom: var(--pf-t--global--spacer--lg);
+    }
+    &__filters {
+      padding-inline: 0;
+    }
+    &__filter-category {
+      padding-left: var(--pf-t--global--spacer--md);
+      &-title {
+        font-size: var(--pf-t--global--font--size--body--sm);
+        font-weight: var(--pf-t--global--font--weight--heading--default);
+        margin-bottom: var(--pf-t--global--spacer--sm);
+      }
+      .pf-v6-c-check__label {
+        font-size: var(--pf-t--global--font--size--body--sm);
+      }
+      &-show-more {
+        background: none;
+        border: none;
+        color: var(--pf-t--global--color--brand--default);
+        cursor: pointer;
+        font-size: var(--pf-t--global--font--size--body--sm);
+        padding: var(--pf-t--global--spacer--xs) 0;
+        &:hover {
+          color: var(--pf-t--global--color--brand--hover);
+        }
+      }
+    }
+  }
+  &__view-panel {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    padding: var(--pf-t--global--spacer--md);
+
+    &__list-view {
+      padding: 0 0 var(--pf-t--global--spacer--md) 0;
+    }
+  }
+  &__toolbar {
+    padding-top: 0;
+  }
+  &__list-view {
+    display: grid;
+    column-gap: var(--pf-t--global--spacer--md);
+    row-gap: var(--pf-t--global--spacer--md);
+    grid-template-columns: 20px fit-content(50%) fit-content(20%) 110px auto auto;
+    &.m-odh-size-md {
+      grid-template-columns: auto fit-content(50%) fit-content(20%) auto 0 auto;
+      .odh-list-item__link {
+        margin-left: calc(-1 * var(--pf-t--global--spacer--md));
+      }
+    }
+    &.m-odh-size-sm {
+      grid-template-columns: auto fit-content(50%) fit-content(20%) 0 0 auto;
+      .odh-list-item__link {
+        margin-left: calc(-2 * var(--pf-t--global--spacer--md));
+      }
+    }
+    &__header {
+      font-size: var(--pf-t--global--font--size--body--sm);
+      font-weight: var(--pf-t--global--font--weight--heading--default);
+      overflow: hidden;
+      &__no-sort {
+        color: var(
+          --pf-t--global--text--color--subtle
+        ); // --pf-t--global--text--color--disabled is an alternative, but makes it more difficult to see when the text itself isn't currently actionable
+      }
+    }
+  }
+}

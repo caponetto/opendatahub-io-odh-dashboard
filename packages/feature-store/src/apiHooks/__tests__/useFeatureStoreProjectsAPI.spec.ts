@@ -6,12 +6,14 @@ import { ProjectList } from '../../types/featureStoreProjects';
 import { FeatureStoreAPIState } from '../useFeatureStoreAPIState';
 import useFeatureStoreProjectsAPI from '../useFeatureStoreProjectsAPI';
 
-jest.mock('@odh-dashboard/internal/utilities/useFetch', () => ({
+jest.mock('@odh-dashboard/dashboard-foundation-frontend/utilities/useFetch', () => ({
   __esModule: true,
   default: jest.fn(),
 }));
 
-const mockUseFetch = jest.mocked(require('@odh-dashboard/internal/utilities/useFetch').default);
+const mockUseFetch = jest.mocked(
+  require('@odh-dashboard/dashboard-foundation-frontend/utilities/useFetch').default,
+);
 
 describe('useFeatureStoreProjectsAPI', () => {
   const mockProjectList: ProjectList = {
@@ -132,9 +134,12 @@ describe('useFeatureStoreProjectsAPI', () => {
   });
 
   it('should recreate callback when apiState changes', () => {
-    const { rerender } = renderHook(({ apiState }) => useFeatureStoreProjectsAPI(apiState), {
-      initialProps: { apiState: mockApiState },
-    });
+    const { rerender } = renderHook(
+      ({ apiState }: { apiState: typeof mockApiState }) => useFeatureStoreProjectsAPI(apiState),
+      {
+        initialProps: { apiState: mockApiState },
+      },
+    );
 
     const firstCallback = mockUseFetch.mock.calls[0][0];
 

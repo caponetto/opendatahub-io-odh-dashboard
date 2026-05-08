@@ -1,7 +1,9 @@
 import * as React from 'react';
-import { getPodContainerLogText } from '@odh-dashboard/internal/api/k8s/pods';
-import { NotReadyError } from '@odh-dashboard/internal/utilities/useFetchState';
-import useFetch, { FetchStateObject } from '@odh-dashboard/internal/utilities/useFetch';
+import { getPodContainerLogText } from '@odh-dashboard/dashboard-foundation-frontend/api/k8s/pods';
+import { NotReadyError } from '@odh-dashboard/dashboard-foundation-frontend/utilities/useFetchState';
+import useFetch, {
+  FetchStateObject,
+} from '@odh-dashboard/dashboard-foundation-frontend/utilities/useFetch';
 
 const LOG_REFRESH_RATE = 3000;
 

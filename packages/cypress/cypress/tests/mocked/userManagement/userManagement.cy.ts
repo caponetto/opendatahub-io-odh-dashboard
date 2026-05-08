@@ -1,10 +1,10 @@
-import { mockAuth } from '@odh-dashboard/internal/__mocks__/mockAuth';
-import { mockGroup } from '@odh-dashboard/internal/__mocks__/mockGroup';
-import { mockK8sResourceList } from '@odh-dashboard/internal/__mocks__';
+import { mockAuth } from '@odh-dashboard/test-mocks/mockAuth';
+import { mockGroup } from '@odh-dashboard/test-mocks/mockGroup';
+import { mockK8sResourceList } from '@odh-dashboard/test-mocks';
+import { AuthModel, GroupModel } from '@odh-dashboard/dashboard-foundation-frontend/api/models';
 import { userManagement } from '../../../pages/userManagement';
 import { asProductAdminUser, asProjectAdminUser } from '../../../utils/mockUsers';
 import { pageNotfound } from '../../../pages/pageNotFound';
-import { AuthModel, GroupModel } from '../../../utils/models';
 
 it('Cluster settings should not be available for non product admins', () => {
   asProjectAdminUser();

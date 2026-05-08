@@ -1,0 +1,61 @@
+{
+  "private": true,
+  "name": "@odh-dashboard/dashboard-dist-full",
+  "description": "Full RHOAI/ODH dashboard assembler — uses app-shell which delegates to the real frontend code",
+  "version": "0.0.0",
+  "topology": {
+    "tier": "assembler"
+  },
+  "pluginPackages": "all",
+  "scripts": {
+    "build": "webpack --config ./config/webpack.prod.js",
+    "build:prod": "webpack --config ./config/webpack.prod.js",
+    "build:clean": "rimraf ./public",
+    "build:stats": "webpack --config ./config/webpack.stats.js",
+    "start:dev": "webpack serve --hot --color --config ./config/webpack.dev.js",
+    "start:dev:ext": "cross-env EXT_CLUSTER=true npm run start:dev",
+    "start:dev:mf": "cross-env MF_UPDATE_TYPES=true npm run start:dev",
+    "start:dev:wait": "npx wait-on -i 1000 http://localhost:4010",
+    "start:dev:backend": "ASSEMBLER_DIR=$PWD NODE_TLS_REJECT_UNAUTHORIZED=0 NODE_ENV=development APP_ENV=development npm run start:dev --prefix ../dashboard-shell-backend",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "type-check": "tsc --noEmit",
+    "test-unit": "jest --silent --passWithNoTests",
+    "test-unit-coverage": "jest --silent --coverage --passWithNoTests",
+    "test:cypress-ci": "npx concurrently -P -k -s first \"npm run cypress:server:build && npm run cypress:server\" \"npm run cypress:server:wait && npm run cypress:run:mock -- {@}\" -- ",
+    "test:cypress-ci:coverage": "npx concurrently -P -k -s first \"npm run cypress:server:build:coverage && npm run cypress:server\" \"npm run cypress:server:wait && npm run cypress:run:mock:coverage -- {@}\" -- ",
+    "test:cypress-ci:coverage:nobuild": "npx concurrently -P -k -s first 'npm run cypress:server' 'npm run cypress:server:wait && npm run cypress:run:mock:coverage -- {@}' --",
+    "test:cypress:e2e": "npx cypress run --project ../cypress --env grepTags=\"${CY_TEST_TAGS}\",skipTags=\"${CY_SKIP_TAGS}\" --browser chrome",
+    "test:cypress:e2e:open": "npx cypress open --project ../cypress --env grepTags=\"${CY_TEST_TAGS}\",skipTags=\"${CY_SKIP_TAGS}\"",
+    "coverage:merge": "rimraf coverage && istanbul-merge --out coverage/coverage-final.json jest-coverage/coverage-final.json ../cypress/coverage/coverage-final.json && nyc report --reporter html -t coverage --report-dir coverage/report && nyc report --reporter json-summary -t coverage --report-dir coverage",
+    "cypress:server": "serve ./public-cypress -p 9001 -s -L",
+    "cypress:server:build": "cross-env MF_DEV=true ODH_DIST_DIR=./public-cypress POLL_INTERVAL=9999999 FAST_POLL_INTERVAL=9999999 WS_HOSTNAME=localhost:9002 npm run build",
+    "cypress:server:build:coverage": "cross-env COVERAGE=true npm run cypress:server:build",
+    "cypress:server:dev": "cross-env POLL_INTERVAL=9999999 FAST_POLL_INTERVAL=9999999 ODH_PORT=9001 WS_HOSTNAME=localhost:9002 npm run start:dev",
+    "cypress:server:wait": "npx wait-on -i 1000 http://localhost:9001",
+    "cypress:open": "cypress open --project ../cypress",
+    "cypress:open:mock": "cross-env CY_MOCK=1 CY_WS_PORT=9002 npm run cypress:open -- ",
+    "cypress:open:record": "cross-env CY_RECORD=1 npm run cypress:open",
+    "cypress:e2e": "npx cypress run --env grepTags=@Dashboard+-@Bug --browser=chrome --project ../cypress",
+    "cypress:run": "cypress run -b chrome --project ../cypress",
+    "cypress:run:mock": "cross-env CY_MOCK=1 CY_WS_PORT=9002 npm run cypress:run -- ",
+    "cypress:run:mock:coverage": "rimraf ../cypress/coverage ../cypress/.nyc_output && cross-env CY_COVERAGE=true npm run cypress:run:mock -- {@}",
+    "cypress:run:electron": "cypress run -b electron --project ../cypress",
+    "cypress:run:chrome": "cypress run -b chrome --project ../cypress",
+    "cypress:run:record": "cross-env CY_RECORD=1 npm run cypress:run && npm run cypress:format",
+    "cypress:format": "prettier --write ../cypress/cypress/**/*.snap.json"
+  },
+  "dependencies": {
+    "@odh-dashboard/dashboard-shell-backend": "*",
+    "@odh-dashboard/dashboard-foundation-frontend": "*",
+    "@odh-dashboard/dashboard-shell-frontend": "*",
+    "dotenv": "*",
+    "dotenv-expand": "*"
+  },
+  "devDependencies": {
+    "@odh-dashboard/dashboard-build": "*",
+    "@odh-dashboard/eslint-config": "*",
+    "@odh-dashboard/jest-config": "*",
+    "@odh-dashboard/tsconfig": "*"
+  }
+}

@@ -18,8 +18,8 @@ import { Link } from 'react-router-dom';
 import text from '@patternfly/react-styles/css/utilities/Text/text';
 import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons';
 // eslint-disable-next-line @odh-dashboard/no-restricted-imports
-import IndentSection from '@odh-dashboard/internal/pages/projects/components/IndentSection';
-import DashboardPopupIconButton from '@odh-dashboard/internal/concepts/dashboard/DashboardPopupIconButton';
+import IndentSection from '@odh-dashboard/dashboard-foundation-frontend/components/IndentSection';
+import DashboardPopupIconButton from '@odh-dashboard/dashboard-foundation-frontend/concepts/dashboard/DashboardPopupIconButton';
 import FeatureStoreTimestamp from '../../../components/FeatureStoreTimestamp';
 import { hasContent } from '../../../const';
 import { DataSet } from '../../../types/dataSets';

@@ -11,10 +11,10 @@ import {
 } from '@patternfly/react-core';
 import { CogIcon } from '@patternfly/react-icons';
 import { useParams } from 'react-router-dom';
-import ApplicationsPage from '@odh-dashboard/internal/pages/ApplicationsPage';
-import { ProjectIconWithSize } from '@odh-dashboard/internal/concepts/projects/ProjectIconWithSize';
-import { IconSize } from '@odh-dashboard/internal/types';
-import WhosMyAdministrator from '@odh-dashboard/internal/components/WhosMyAdministrator';
+import ApplicationsPage from '@odh-dashboard/dashboard-foundation-frontend/components/ApplicationsPage';
+import { ProjectIconWithSize } from '@odh-dashboard/dashboard-foundation-frontend/concepts/projects/ProjectIconWithSize';
+import { IconSize } from '@odh-dashboard/dashboard-foundation-frontend/types';
+import WhosMyAdministrator from '@odh-dashboard/dashboard-foundation-frontend/components/WhosMyAdministrator';
 import SupportIcon from '~/app/icons/SupportIcon';
 import { evalHubEvaluationsRoute } from '~/app/utilities/routes';
 import { useEvaluationJobs } from '~/app/hooks/useEvaluationJobs';

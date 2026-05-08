@@ -35,7 +35,7 @@
 | Dependency | Type | Details |
 |-----------|------|---------|
 | `@odh-dashboard/model-serving` | Parent package | Registers KServe extensions; wizard, types, auth utilities |
-| `@odh-dashboard/internal` | Shared library | K8s types, API helpers, feature flags, RBAC |
+| `@odh-dashboard/dashboard-foundation-frontend` | Shared library | K8s types, models, API helpers, utilities |
 | Main dashboard backend (`/api/k8s/`) | HTTP proxy | All cluster API traffic from the browser |
 | `@odh-dashboard/model-registry` | Sibling package | Pre-filled deploy wizard data for registered model versions |
 | `InferenceService`, `ServingRuntime`, `Pod`, `Secret`, `ServiceAccount`, `Role`, `RoleBinding` | Kubernetes API | CRUD / watch as described in Design Intent |

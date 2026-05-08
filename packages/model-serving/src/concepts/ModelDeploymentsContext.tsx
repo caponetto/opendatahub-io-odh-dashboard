@@ -1,11 +1,11 @@
 import React from 'react';
-import type { ProjectKind } from '@odh-dashboard/internal/k8sTypes';
+import type { ProjectKind } from '@odh-dashboard/dashboard-foundation-frontend/k8sTypes';
 import { useResolvedExtensions } from '@odh-dashboard/plugin-core';
 import {
   Deployment,
   isModelServingPlatformWatchDeployments,
   type ModelServingPlatformWatchDeployments,
-} from '../../extension-points';
+} from '@odh-dashboard/model-serving-shared/extension-points';
 
 type ModelDeploymentsContextType = {
   deployments?: Deployment[];

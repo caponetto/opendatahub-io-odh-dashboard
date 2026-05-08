@@ -1,10 +1,16 @@
-module.exports = require('@odh-dashboard/eslint-config')
-  .extend({
-    rules: {
-      'no-barrel-files/no-barrel-files': 'off',
+const { merge } = require('@odh-dashboard/eslint-config/utils');
+const { tierRestrictions } = require('@odh-dashboard/eslint-config/tier-restrictions');
 
-      // TODO enable once the dependency cycle with @odh-dashboard/internal is resolved
-      'import/no-extraneous-dependencies': 'off',
-    },
-  })
-  .recommendedReactTypescript(__dirname);
+module.exports = merge(
+  require('@odh-dashboard/eslint-config')
+    .extend({
+      rules: {
+        'no-barrel-files/no-barrel-files': 'off',
+
+        // TODO enable once the dependency cycle with @odh-dashboard/internal is resolved
+        'import/no-extraneous-dependencies': 'off',
+      },
+    })
+    .recommendedReactTypescript(__dirname),
+  tierRestrictions('plugin-core'),
+);

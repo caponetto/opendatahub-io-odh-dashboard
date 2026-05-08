@@ -99,6 +99,8 @@
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
     "@module-federation/runtime": "^0.21.4",
+    "@odh-dashboard/dashboard-foundation-frontend": "*",
+    "@odh-dashboard/mlflow-shared": "*",
     "@patternfly/patternfly": "^6.3.1",
     "@patternfly/react-core": "^6.3.1",
     "@patternfly/react-icons": "^6.3.1",

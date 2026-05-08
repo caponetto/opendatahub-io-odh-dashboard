@@ -2,15 +2,15 @@ import * as React from 'react';
 import { Navigate, useSearchParams, useNavigate } from 'react-router-dom';
 import { EmptyState, EmptyStateBody, EmptyStateFooter } from '@patternfly/react-core';
 import { WrenchIcon } from '@patternfly/react-icons/dist/esm/icons/wrench-icon';
-// eslint-disable-next-line @odh-dashboard/no-restricted-imports
-import ApplicationsPage from '@odh-dashboard/internal/pages/ApplicationsPage';
-import { byName, ProjectsContext } from '@odh-dashboard/internal/concepts/projects/ProjectsContext';
-import InvalidProject from '@odh-dashboard/internal/concepts/projects/InvalidProject';
-// eslint-disable-next-line @odh-dashboard/no-restricted-imports
-import PipelineCoreProjectSelector from '@odh-dashboard/internal/pages/pipelines/global/PipelineCoreProjectSelector';
-// eslint-disable-next-line @odh-dashboard/no-restricted-imports
-import NewProjectButton from '@odh-dashboard/internal/pages/projects/screens/projects/NewProjectButton';
-import { WORKSPACE_QUERY_PARAM } from '@odh-dashboard/internal/routes/pipelines/mlflow';
+import ApplicationsPage from '@odh-dashboard/dashboard-foundation-frontend/components/ApplicationsPage';
+import {
+  byName,
+  ProjectsContext,
+} from '@odh-dashboard/dashboard-foundation-frontend/concepts/projects/ProjectsContext';
+import InvalidProject from '@odh-dashboard/dashboard-foundation-frontend/concepts/projects/InvalidProject';
+import PipelineCoreProjectSelector from '@odh-dashboard/pipelines-shared/concepts/pipelines/PipelineCoreProjectSelector';
+import NewProjectButton from '@odh-dashboard/dashboard-foundation-frontend/components/NewProjectButton';
+import { WORKSPACE_QUERY_PARAM } from '@odh-dashboard/mlflow-shared/concepts/mlflow/routes';
 
 type ApplicationPageProps = React.ComponentProps<typeof ApplicationsPage>;
 type ApplicationPageRenderState = Pick<ApplicationPageProps, 'emptyStatePage' | 'empty'>;

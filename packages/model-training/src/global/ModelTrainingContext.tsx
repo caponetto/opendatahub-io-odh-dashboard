@@ -1,9 +1,15 @@
 import * as React from 'react';
-import { ProjectKind } from '@odh-dashboard/internal/k8sTypes';
-import { DEFAULT_LIST_WATCH_RESULT } from '@odh-dashboard/internal/utilities/const';
-import { ProjectsContext, byName } from '@odh-dashboard/internal/concepts/projects/ProjectsContext';
-import { CustomWatchK8sResult } from '@odh-dashboard/internal/types';
-import { SupportedArea, useIsAreaAvailable } from '@odh-dashboard/internal/concepts/areas';
+import { ProjectKind } from '@odh-dashboard/dashboard-foundation-frontend/k8sTypes';
+import { DEFAULT_LIST_WATCH_RESULT } from '@odh-dashboard/dashboard-foundation-frontend/utilities/const';
+import {
+  ProjectsContext,
+  byName,
+} from '@odh-dashboard/dashboard-foundation-frontend/concepts/projects/ProjectsContext';
+import { CustomWatchK8sResult } from '@odh-dashboard/dashboard-foundation-frontend/types';
+import {
+  SupportedArea,
+  useIsAreaAvailable,
+} from '@odh-dashboard/dashboard-foundation-frontend/concepts/areas';
 import { useTrainJobs, useRayJobs } from '../api';
 import { TrainJobKind, RayJobKind } from '../k8sTypes';
 

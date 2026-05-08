@@ -1,10 +1,13 @@
 import { useLocation, useNavigate, type NavigateFunction } from 'react-router-dom';
 import React from 'react';
-import { SupportedArea, useIsAreaAvailable } from '@odh-dashboard/internal/concepts/areas';
+import {
+  SupportedArea,
+  useIsAreaAvailable,
+} from '@odh-dashboard/dashboard-foundation-frontend/concepts/areas';
+import { InitialWizardFormData } from '@odh-dashboard/model-serving-shared/types/form-data';
+import { type Deployment } from '@odh-dashboard/model-serving-shared/extension-points';
 import { getDeploymentWizardRoute } from './utils';
 import { useExtractFormDataFromDeployment } from './useExtractFormDataFromDeployment';
-import { InitialWizardFormData } from './types';
-import { type Deployment } from '../../../extension-points';
 
 /**
  * Custom hook that provides a navigation function to the deployment wizard.

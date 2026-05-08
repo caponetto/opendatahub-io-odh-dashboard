@@ -2,7 +2,7 @@ import * as React from 'react';
 import useFetch, {
   FetchStateCallbackPromise,
   FetchStateObject,
-} from '@odh-dashboard/internal/utilities/useFetch';
+} from '@odh-dashboard/dashboard-foundation-frontend/utilities/useFetch';
 import { useFeatureStoreAPI } from '../FeatureStoreContext';
 import { Features } from '../types/features';
 

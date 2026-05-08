@@ -2,13 +2,15 @@ import React from 'react';
 import { Alert, FormGroup, Stack, StackItem } from '@patternfly/react-core';
 import TypeaheadSelect, {
   TypeaheadSelectOption,
-} from '@odh-dashboard/internal/components/TypeaheadSelect';
-import { PersistentVolumeClaimKind } from '@odh-dashboard/internal/k8sTypes';
-import { getDisplayNameFromK8sResource } from '@odh-dashboard/internal/concepts/k8s/utils';
-import { getModelServingPVCAnnotations } from '@odh-dashboard/internal/pages/modelServing/utils';
-import { AccessMode } from '@odh-dashboard/internal/pages/storageClasses/storageEnums';
-import { getPvcAccessMode } from '@odh-dashboard/internal/pages/projects/utils';
+} from '@odh-dashboard/dashboard-foundation-frontend/components/TypeaheadSelect';
+import {
+  PersistentVolumeClaimKind,
+  AccessMode,
+} from '@odh-dashboard/dashboard-foundation-frontend/k8sTypes';
+import { getDisplayNameFromK8sResource } from '@odh-dashboard/dashboard-foundation-frontend/concepts/k8s/utils';
+import { getPvcAccessMode } from '@odh-dashboard/dashboard-foundation-frontend/api/k8s/pvcs';
 import { PVCInputField } from './PVCInputField';
+import { getModelServingPVCAnnotations } from '../../../../pages/utils';
 
 type PvcSelectProps = {
   pvcs?: PersistentVolumeClaimKind[];

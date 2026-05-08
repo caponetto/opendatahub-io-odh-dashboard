@@ -1,5 +1,5 @@
 import * as React from 'react';
-import useNotification from '@odh-dashboard/internal/utilities/useNotification';
+import useNotification from '@odh-dashboard/dashboard-foundation-frontend/utilities/useNotification';
 import usePauseTrainingJobModalAvailability from './usePauseTrainingJobModalAvailability';
 import { TrainJobKind } from '../../../k8sTypes';
 import { TrainingJobState } from '../../../types';

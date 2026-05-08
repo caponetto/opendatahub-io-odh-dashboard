@@ -1,12 +1,13 @@
 import React from 'react';
-import { ProjectsContext } from '@odh-dashboard/internal/concepts/projects/ProjectsContext';
+import { ProjectsContext } from '@odh-dashboard/dashboard-foundation-frontend/concepts/projects/ProjectsContext';
 import { LazyCodeRefComponent, useExtensions } from '@odh-dashboard/plugin-core';
 import { Bullseye, Spinner } from '@patternfly/react-core';
 import { useNavigate, useParams } from 'react-router-dom';
+import { isModelServingPlatformExtension } from '@odh-dashboard/model-serving-shared/extension-points';
 import GlobalDeploymentsView from './GlobalDeploymentsView';
+import { getGlobalDeploymentsPath } from './globalRouteUtils';
 import { ModelDeploymentsProvider } from '../../concepts/ModelDeploymentsContext';
 import { getMultiProjectServingPlatforms } from '../../concepts/useProjectServingPlatform';
-import { isModelServingPlatformExtension } from '../../../extension-points';
 
 const GlobalModelsPage: React.FC = () => {
   const availablePlatforms = useExtensions(isModelServingPlatformExtension);
@@ -28,7 +29,9 @@ const GlobalModelsPage: React.FC = () => {
 
   React.useEffect(() => {
     if (!namespace && preferredProject) {
-      navigate(`/ai-hub/models/deployments/${preferredProject.metadata.name}`, { replace: true });
+      navigate(getGlobalDeploymentsPath(preferredProject.metadata.name), {
+        replace: true,
+      });
     }
   }, [namespace, preferredProject, navigate]);
 

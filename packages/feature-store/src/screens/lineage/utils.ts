@@ -1,9 +1,6 @@
-import { SelectionOptions } from '@odh-dashboard/internal/components/MultiSelection';
-import {
-  LineageData,
-  convertToLineageEdgeModel,
-} from '@odh-dashboard/internal/components/lineage/types';
-import { findConnectedElements } from '@odh-dashboard/internal/components/lineage/graphUtils';
+import { SelectionOptions } from '@odh-dashboard/dashboard-foundation-frontend/components/MultiSelection';
+import { LineageData, convertToLineageEdgeModel } from '../../components/lineage/types';
+import { findConnectedElements } from '../../components/lineage/graphUtils';
 import { FeatureStoreLineage, FeatureViewLineage } from '../../types/lineage';
 import { FeatureStoreLineageSearchFilters } from '../../types/toolbarTypes';
 

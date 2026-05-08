@@ -42,6 +42,9 @@ jobs:
       - name: Validate module federation ports
         run: npm run validate:ports
 
+      - name: Validate architecture tiers
+        run: npm run validate:tiers
+
       - name: Check for uncommitted changes
         run: git diff --exit-code
 
@@ -132,6 +135,25 @@ jobs:
           name: unit-coverage
           path: ./jest-coverage
           if-no-files-found: error
+
+  Build-Lite:
+    needs: [Setup, Lint, Type-Check]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4.3.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Restore cache
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            ~/.cache/Cypress
+            **/node_modules
+          key: ${{ needs.Setup.outputs.modules-cache-key }}
+      - name: Build dashboard-dist-slim
+        run: npm run build:slim
 
   Get-Test-Groups:
     needs: Setup
@@ -328,7 +350,7 @@ jobs:
       - name: Run Cypress Mock tests
         run: |
           npm run test:cypress-ci:coverage:nobuild -- --spec "../packages/${{ matrix.test-group.spec }}"
-        working-directory: ./frontend
+        working-directory: ./packages/dashboard-dist-full
       - name: Test group name
         if: ${{ always() }}
         run: echo "TEST_GROUP_NAME=$(echo '${{ matrix.test-group.name }}' | tr '/-' '_')" >> $GITHUB_ENV
@@ -406,6 +428,7 @@ jobs:
       - Lint
       - Type-Check
       - Unit-Tests
+      - Build-Lite
       - Contract-Tests
       - Cypress-Mock-Tests
       - Combine-Results-and-Upload

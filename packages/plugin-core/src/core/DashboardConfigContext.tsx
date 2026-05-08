@@ -1,5 +1,5 @@
 import * as React from 'react';
-import type { DashboardConfigKind } from '@odh-dashboard/internal/k8sTypes';
+import type { DashboardConfigKind } from '@odh-dashboard/dashboard-foundation-frontend/k8sTypes';
 
 /**
  * Shared React context for dashboard configuration.

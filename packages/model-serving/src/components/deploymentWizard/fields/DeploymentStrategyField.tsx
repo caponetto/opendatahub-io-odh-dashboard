@@ -1,16 +1,20 @@
 import React from 'react';
 import { Radio, Stack, StackItem } from '@patternfly/react-core';
 import { z } from 'zod';
+import type {
+  DeploymentStrategyFieldData,
+  DeploymentStrategyFieldHook,
+} from '@odh-dashboard/model-serving-shared/types/form-data';
+import type { ModelServerSelectField } from '@odh-dashboard/model-serving-shared/concepts/modelServing/ModelServerTemplateSelectField';
 import type { ModelTypeField } from './ModelTypeSelectField';
-import type { ModelServerSelectField } from './ModelServerTemplateSelectField';
 import { isDeploymentStrategyField } from '../types';
 import { useWizardFieldFromExtension } from '../dynamicFormUtils';
 import { useModelServingClusterSettings } from '../../../concepts/useModelServingClusterSettings';
 
+export type { DeploymentStrategyFieldData, DeploymentStrategyFieldHook };
+
 // Schema
 export const deploymentStrategyFieldSchema = z.enum(['rolling', 'recreate']);
-
-export type DeploymentStrategyFieldData = z.infer<typeof deploymentStrategyFieldSchema>;
 
 export const deploymentStrategyRolling: DeploymentStrategyFieldData = 'rolling';
 export const deploymentStrategyRecreate: DeploymentStrategyFieldData = 'recreate';
@@ -20,12 +24,6 @@ export const isValidDeploymentStrategy = (value: unknown): value is DeploymentSt
 };
 
 // Hook
-export type DeploymentStrategyFieldHook = {
-  data: DeploymentStrategyFieldData;
-  setData: (data: DeploymentStrategyFieldData) => void;
-  isVisible: boolean;
-};
-
 export const useDeploymentStrategyField = (
   existingData?: DeploymentStrategyFieldData,
   modelType?: ModelTypeField,

@@ -1,7 +1,7 @@
 import {
   ModelLocationSelectOption,
   ModelTypeLabel,
-} from '@odh-dashboard/model-serving/types/form-data';
+} from '@odh-dashboard/model-serving/components/deploymentWizard/types';
 import {
   modelServingGlobal,
   modelServingSection,

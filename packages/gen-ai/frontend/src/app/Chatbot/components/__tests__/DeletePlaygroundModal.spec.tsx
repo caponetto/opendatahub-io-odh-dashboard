@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { fireFormTrackingEvent } from '@odh-dashboard/internal/concepts/analyticsTracking/segmentIOUtils';
-import { TrackingOutcome } from '@odh-dashboard/internal/concepts/analyticsTracking/trackingProperties';
+import { fireFormTrackingEvent } from '@odh-dashboard/dashboard-foundation-frontend/concepts/analyticsTracking/segmentIOUtils';
+import { TrackingOutcome } from '@odh-dashboard/dashboard-foundation-frontend/concepts/analyticsTracking/trackingProperties';
 import DeletePlaygroundModal from '~/app/Chatbot/components/DeletePlaygroundModal';
 import { GenAiContext } from '~/app/context/GenAiContext';
 import { ChatbotContext } from '~/app/context/ChatbotContext';
@@ -10,7 +10,7 @@ import { useGenAiAPI } from '~/app/hooks/useGenAiAPI';
 import { mockGenAiContextValue } from '~/__mocks__/mockGenAiContext';
 
 jest.mock('~/app/hooks/useGenAiAPI');
-jest.mock('@odh-dashboard/internal/concepts/analyticsTracking/segmentIOUtils');
+jest.mock('@odh-dashboard/dashboard-foundation-frontend/concepts/analyticsTracking/segmentIOUtils');
 
 jest.mock('~/app/shared/DeleteModal', () => ({
   __esModule: true,

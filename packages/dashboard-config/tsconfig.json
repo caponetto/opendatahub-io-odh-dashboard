@@ -1,0 +1,8 @@
+{
+  "extends": "@odh-dashboard/tsconfig/tsconfig.node.json",
+  "compilerOptions": {
+    "isolatedDeclarations": true,
+    "declaration": true
+  },
+  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.d.ts"]
+}

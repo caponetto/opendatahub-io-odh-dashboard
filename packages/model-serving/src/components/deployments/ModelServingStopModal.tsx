@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from '@patternfly/react-core';
-import ConfirmStopModal from '@odh-dashboard/internal/pages/projects/components/ConfirmStopModal';
+import ConfirmStopModal from '@odh-dashboard/dashboard-foundation-frontend/components/ConfirmStopModal';
 import useStopModalPreference from '../../concepts/useStopModalPreference';
 
 type ModelServingStopModalProps = {

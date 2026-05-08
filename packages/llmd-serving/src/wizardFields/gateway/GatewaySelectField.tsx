@@ -8,12 +8,14 @@ import {
   Stack,
   StackItem,
 } from '@patternfly/react-core';
-import {
+import type {
   WizardField,
   WizardReviewSection,
-} from '@odh-dashboard/model-serving/components/deploymentWizard/types';
-import SimpleSelect, { SimpleSelectOption } from '@odh-dashboard/internal/components/SimpleSelect';
-import { ProjectSectionType } from '@odh-dashboard/model-serving/components/deploymentWizard/fields/ProjectSection';
+  ProjectSectionType,
+} from '@odh-dashboard/model-serving-shared/types/form-data';
+import SimpleSelect, {
+  type SimpleSelectOption,
+} from '@odh-dashboard/dashboard-foundation-frontend/components/SimpleSelect';
 import { isLLMInferenceServiceActive } from '../../formUtils';
 import { GatewayOption, useGetGatewayOptions } from '../../api/services/gatewayDiscovery';
 

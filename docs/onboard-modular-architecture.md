@@ -71,7 +71,7 @@ Pick an unused port and update both `Makefile` and `package.json`:
 
 To enable your module in the main dashboard, you need to add a feature flag.
 
-1. Open `frontend/src/concepts/areas/const.ts` in the root of the repository.
+1. Open `packages/dashboard-foundation-frontend/src/concepts/areas/const.ts` in the root of the repository.
 2. Search for existing flags (e.g., search for `disable` or `techPreviewFlags`).
 3. Add your new feature flag to the appropriate group (e.g., `techPreviewFlags`):
 
@@ -86,19 +86,23 @@ To enable your module in the main dashboard, you need to add a feature flag.
 
 Now that your project is configured, you can run the entire stack (backend, frontend, and your new module).
 
-From the root of the repository, run:
+From the root of the repository, run the full development stack:
 
 ```bash
-npm run dev:frontend
+npm run dev
 ```
 
-And in other terminal
+Or start the frontend and backend separately:
 
 ```bash
-npm run dev:backend
+npm run dev:full:frontend
 ```
 
-And once you have that in another terminal run
+```bash
+npm run dev:full:backend
+```
+
+And once you have that, in another terminal run your federated module:
 
 ```bash
 cd packages/<your-module>

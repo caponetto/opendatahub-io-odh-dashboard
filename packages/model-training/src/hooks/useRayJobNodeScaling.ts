@@ -1,7 +1,7 @@
 import * as React from 'react';
-import useNotification from '@odh-dashboard/internal/utilities/useNotification';
-import { useAccessReview } from '@odh-dashboard/internal/api/useAccessReview';
-import { RayJobModel } from '@odh-dashboard/internal/api/models/kubeflow';
+import useNotification from '@odh-dashboard/dashboard-foundation-frontend/utilities/useNotification';
+import { useAccessReview } from '@odh-dashboard/dashboard-foundation-frontend/api/useAccessReview';
+import { RayJobModel } from '@odh-dashboard/dashboard-foundation-frontend/api/models/kubeflow';
 import { updateRayJobNumNodes } from '../api';
 import { getStatusFlags, getRayJobStatusSync } from '../global/trainingJobList/utils';
 import { RayJobKind } from '../k8sTypes';

@@ -1,5 +1,5 @@
 import React from 'react';
-import useDebounceCallback from '@odh-dashboard/internal/utilities/useDebounceCallback';
+import useDebounceCallback from '@odh-dashboard/dashboard-foundation-frontend/utilities/useDebounceCallback';
 import { applyFeatureViewFilters } from './utils';
 import { featureViewTableFilterOptions } from './const';
 import FeatureViewsTable from './FeatureViewsTable';

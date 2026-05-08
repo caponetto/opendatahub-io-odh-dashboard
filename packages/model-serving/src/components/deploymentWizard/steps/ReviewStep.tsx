@@ -10,20 +10,16 @@ import {
   Stack,
   StackItem,
 } from '@patternfly/react-core';
-import { ServingRuntimeModelType } from '@odh-dashboard/internal/types';
+import { ServingRuntimeModelType } from '@odh-dashboard/dashboard-foundation-frontend/types';
 import {
   isModelServingCompatible,
   ModelServingCompatibleTypes,
   isConnectionTypeDataField,
-} from '@odh-dashboard/internal/concepts/connectionTypes/utils';
+} from '@odh-dashboard/connection-types-shared/concepts/connectionTypes/utils';
+import type { WizardReviewSection } from '@odh-dashboard/model-serving-shared/types/form-data';
+import { ModelLocationType } from '@odh-dashboard/model-serving-shared/concepts/modelServing/modelLocationTypes';
 import { UseModelDeploymentWizardState } from '../useDeploymentWizard';
-import {
-  ModelLocationType,
-  ModelTypeLabel,
-  WizardReviewSection,
-  WizardStepTitle,
-  resolveFieldValue,
-} from '../types';
+import { ModelTypeLabel, WizardStepTitle, resolveFieldValue } from '../types';
 import { deploymentStrategyRecreate } from '../fields/DeploymentStrategyField';
 import { ExternalDataMap } from '../ExternalDataLoader';
 import { isWizardStepTitle } from '../utils';

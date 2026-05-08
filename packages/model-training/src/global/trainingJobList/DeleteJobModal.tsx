@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line @odh-dashboard/no-restricted-imports
-import DeleteModal from '@odh-dashboard/internal/pages/projects/components/DeleteModal';
+import DeleteModal from '@odh-dashboard/dashboard-foundation-frontend/components/DeleteModal';
 import { getUnifiedJobStatusSync } from './utils';
 import { TrainingJobState, UnifiedJobKind, isRayJob } from '../../types';
 import { deleteTrainJob, deleteRayJob } from '../../api';

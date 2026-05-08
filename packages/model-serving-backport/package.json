@@ -4,7 +4,10 @@
   "description": "Simple plugin support for model mesh and nim.",
   "version": "0.0.0",
   "exports": {
-    "./extensions": "./extensions.ts"
+    "./extensions": "./src/extensions.ts"
+  },
+  "topology": {
+    "tier": "extension"
   },
   "scripts": {
     "lint": "eslint .",
@@ -12,7 +15,10 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
-    "@odh-dashboard/internal": "*",
+    "@odh-dashboard/dashboard-foundation-frontend": "*",
+    "@odh-dashboard/model-serving-shared": "*"
+  },
+  "peerDependencies": {
     "@odh-dashboard/model-serving": "*"
   },
   "devDependencies": {

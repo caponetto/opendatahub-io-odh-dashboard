@@ -1,0 +1,62 @@
+{
+  "private": true,
+  "name": "@odh-dashboard/distributed-workloads",
+  "description": "Distributed Workloads feature plugin",
+  "version": "0.0.0",
+  "topology": {
+    "tier": "extension"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "type-check": "tsc --noEmit",
+    "test-unit": "jest --silent"
+  },
+  "exports": {
+    "./extensions": "./src/extensions.ts",
+    "./*": [
+      "./src/*",
+      "./src/*.ts",
+      "./src/*.d.ts",
+      "./src/*.tsx",
+      "./src/*/index.ts",
+      "./src/*/index.tsx"
+    ]
+  },
+  "dependencies": {
+    "@odh-dashboard/dashboard-foundation-frontend": "*",
+    "@odh-dashboard/distributed-workloads-shared": "*",
+    "@odh-dashboard/k8s-browser": "*",
+    "@odh-dashboard/plugin-core": "*",
+    "@patternfly/react-charts": "^8.4.0",
+    "victory-area": "^37.3.6",
+    "victory-axis": "^37.3.6",
+    "victory-bar": "^37.3.6",
+    "victory-box-plot": "^37.3.6",
+    "victory-chart": "^37.3.6",
+    "victory-core": "^37.3.6",
+    "victory-create-container": "^37.3.6",
+    "victory-cursor-container": "^37.3.6",
+    "victory-group": "^37.3.6",
+    "victory-legend": "^37.3.6",
+    "victory-line": "^37.3.6",
+    "victory-pie": "^37.3.6",
+    "victory-scatter": "^37.3.6",
+    "victory-stack": "^37.3.6",
+    "victory-tooltip": "^37.3.6",
+    "victory-voronoi-container": "^37.3.6",
+    "victory-zoom-container": "^37.3.6",
+    "@patternfly/react-core": "*",
+    "@patternfly/react-icons": "*",
+    "@patternfly/react-table": "*",
+    "@patternfly/react-tokens": "*",
+    "react": "^18.2.0",
+    "react-router-dom": "^7.6.2"
+  },
+  "devDependencies": {
+    "@odh-dashboard/eslint-config": "*",
+    "@odh-dashboard/jest-config": "*",
+    "@odh-dashboard/test-mocks": "*",
+    "@odh-dashboard/tsconfig": "*"
+  }
+}

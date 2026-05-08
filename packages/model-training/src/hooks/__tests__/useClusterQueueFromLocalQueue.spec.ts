@@ -2,17 +2,13 @@
  * @jest-environment jsdom
  */
 import { testHook } from '@odh-dashboard/jest-config/hooks';
-import useFetch from '@odh-dashboard/internal/utilities/useFetch';
-import { mockLocalQueueK8sResource } from '@odh-dashboard/internal/__mocks__/mockLocalQueueK8sResource';
+import useFetch from '@odh-dashboard/dashboard-foundation-frontend/utilities/useFetch';
+import { mockLocalQueueK8sResource } from '@odh-dashboard/test-mocks/mockLocalQueueK8sResource';
 import useClusterQueueFromLocalQueue from '../useClusterQueueFromLocalQueue';
 
-jest.mock('@odh-dashboard/internal/utilities/useFetch', () => ({
+jest.mock('@odh-dashboard/dashboard-foundation-frontend/utilities/useFetch', () => ({
   __esModule: true,
   default: jest.fn(),
-}));
-
-jest.mock('@odh-dashboard/internal/api/k8s/localQueues', () => ({
-  getLocalQueue: jest.fn(),
 }));
 
 const useFetchMock = jest.mocked(useFetch);

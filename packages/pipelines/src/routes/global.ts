@@ -1,0 +1,24 @@
+import {
+  pipelinesRootPath,
+  pipelinesBaseRoute,
+} from '@odh-dashboard/pipelines-shared/concepts/pipelines/routes';
+
+const globNamespace = ':namespace';
+export const globNamespaceAll = `/${globNamespace}?/*`;
+
+export const globPipelinesAll = `${pipelinesRootPath}/*`;
+
+export const pipelineVersionsBaseRoute = (
+  namespace: string | undefined,
+  pipelineId: string | undefined,
+  pipelineVersionId: string | undefined,
+): string =>
+  !pipelineId || !pipelineVersionId
+    ? pipelinesBaseRoute(namespace)
+    : `${pipelinesBaseRoute(namespace)}/${pipelineId}/${pipelineVersionId}`;
+
+export const pipelineVersionDetailsRoute = (
+  namespace: string | undefined,
+  pipelineId: string | undefined,
+  pipelineVersionId: string | undefined,
+): string => `${pipelineVersionsBaseRoute(namespace, pipelineId, pipelineVersionId)}/view`;

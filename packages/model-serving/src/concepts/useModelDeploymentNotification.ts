@@ -1,18 +1,18 @@
 import * as React from 'react';
 import { useNavigate } from 'react-router-dom';
-import useNotification from '@odh-dashboard/internal/utilities/useNotification';
+import useNotification from '@odh-dashboard/dashboard-foundation-frontend/utilities/useNotification';
 import {
   NotificationResponseStatus,
   NotificationWatcherContext,
-} from '@odh-dashboard/internal/concepts/notificationWatcher/NotificationWatcherContext';
-import { ModelDeploymentState } from '@odh-dashboard/internal/pages/modelServing/screens/types';
-import { FAST_POLL_INTERVAL } from '@odh-dashboard/internal/utilities/const';
-import { useResolvedDeploymentExtension } from '../concepts/extensionUtils';
+} from '@odh-dashboard/dashboard-foundation-frontend/concepts/notificationWatcher/NotificationWatcherContext';
+import { FAST_POLL_INTERVAL } from '@odh-dashboard/dashboard-foundation-frontend/utilities/const';
+import { ModelDeploymentState } from '@odh-dashboard/model-serving-shared/concepts/modelServing/deploymentState';
 import {
   Deployment,
   isModelServingPlatformFetchDeploymentStatus,
   ModelServingPlatformFetchDeploymentStatus,
-} from '../../extension-points';
+} from '@odh-dashboard/model-serving-shared/extension-points';
+import { useResolvedDeploymentExtension } from '../concepts/extensionUtils';
 
 type ModelDeploymentNotification = {
   watchDeployment: () => void;

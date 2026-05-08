@@ -1,10 +1,10 @@
 import { renderHook, waitFor } from '@testing-library/react';
-import { ProjectKind } from '@odh-dashboard/internal/k8sTypes';
-import { getProjects } from '@odh-dashboard/internal/api/k8s/projects';
+import { ProjectKind } from '@odh-dashboard/dashboard-foundation-frontend/k8sTypes';
+import { getProjects } from '@odh-dashboard/dashboard-foundation-frontend/api/k8s/projects';
 import { useFeatureStoreAccessibleProjects } from '../useFeatureStoreAccessibleProjects';
 import { mockProjects, createMockProject } from '../../__mocks__/mockProjects';
 
-jest.mock('@odh-dashboard/internal/api/k8s/projects');
+jest.mock('@odh-dashboard/dashboard-foundation-frontend/api/k8s/projects');
 
 const mockGetProjects = getProjects as jest.MockedFunction<typeof getProjects>;
 
@@ -44,7 +44,7 @@ describe('useFeatureStoreAccessibleProjects', () => {
       });
 
       expect(result.current.accessibleProjects).toHaveLength(3);
-      expect(result.current.accessibleProjects.map((p) => p.metadata.name)).toEqual([
+      expect(result.current.accessibleProjects.map((p: ProjectKind) => p.metadata.name)).toEqual([
         'user-project',
         'default',
         'feature-store-project',
@@ -157,8 +157,10 @@ describe('useFeatureStoreAccessibleProjects', () => {
       });
 
       expect(result.current.accessibleProjects).toHaveLength(2);
-      expect(result.current.accessibleProjects.map((p) => p.metadata.name)).toContain('default');
-      expect(result.current.accessibleProjects.map((p) => p.metadata.name)).toContain(
+      expect(result.current.accessibleProjects.map((p: ProjectKind) => p.metadata.name)).toContain(
+        'default',
+      );
+      expect(result.current.accessibleProjects.map((p: ProjectKind) => p.metadata.name)).toContain(
         'user-project',
       );
     });

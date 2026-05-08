@@ -2,7 +2,7 @@
 import type {
   PipelineRecurringRunKF,
   PipelineRunKF,
-} from '@odh-dashboard/internal/concepts/pipelines/kfTypes';
+} from '@odh-dashboard/pipelines/concepts/kfTypes';
 import { TableRow } from '../components/table';
 
 class PipelineRunsRow extends TableRow {

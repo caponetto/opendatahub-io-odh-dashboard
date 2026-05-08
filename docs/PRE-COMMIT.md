@@ -342,9 +342,9 @@ FORCE_LINT_HOOK=true git commit -m "Final commit"
 The configuration uses bash parameter expansion to handle monorepo paths:
 
 ```bash
-# lint-staged passes: "frontend/src/component.tsx"
-# ${@#frontend/} converts to: "src/component.tsx"
-# Then runs: cd frontend && npx eslint src/component.tsx
+# lint-staged passes: "packages/dashboard-foundation-frontend/src/component.tsx"
+# Path handling ensures ESLint runs from the correct package root
+# Then runs: cd packages/dashboard-foundation-frontend && npx eslint src/component.tsx
 ```
 
 This ensures ESLint runs with the correct configuration and relative paths.

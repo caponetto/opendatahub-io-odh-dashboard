@@ -10,7 +10,7 @@ import { usePipelineRuns } from '~/app/hooks/usePipelineRuns';
 import type { PipelineDefinition, PipelineRun } from '~/app/types';
 
 const mockGetGenericErrorCode = jest.fn();
-jest.mock('@odh-dashboard/internal/api/errorUtils', () => ({
+jest.mock('@odh-dashboard/dashboard-foundation-frontend/api/errorUtils', () => ({
   getGenericErrorCode: (error: unknown) => mockGetGenericErrorCode(error),
 }));
 
@@ -27,7 +27,7 @@ jest.mock('~/app/hooks/usePipelineRuns', () => ({
   usePipelineRuns: jest.fn(),
 }));
 
-jest.mock('@odh-dashboard/internal/pages/UnauthorizedError', () => ({
+jest.mock('@odh-dashboard/dashboard-foundation-frontend/components/UnauthorizedError', () => ({
   __esModule: true,
   default: () => <div data-testid="unauthorized-error">Unauthorized</div>,
 }));

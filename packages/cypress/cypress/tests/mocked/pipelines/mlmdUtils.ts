@@ -1,19 +1,19 @@
 import type { Interception } from 'cypress/types/net-stubbing';
-import { mockGetEventsByArtifactIDs } from '@odh-dashboard/internal/__mocks__/mlmd/mockGetEventsByArtifactIDs';
-import { mockGetArtifactTypes } from '@odh-dashboard/internal/__mocks__/mlmd/mockGetArtifactTypes';
-import { mockGetArtifactsByContext } from '@odh-dashboard/internal/__mocks__/mlmd/mockGetArtifactsByContext';
-import { mockGetContextByTypeAndName } from '@odh-dashboard/internal/__mocks__/mlmd/mockGetContextByTypeAndName';
-import { mockGetEventsByExecutionIDs } from '@odh-dashboard/internal/__mocks__/mlmd/mockGetEventsByExecutionIDs';
+import { mockGetEventsByArtifactIDs } from '@odh-dashboard/test-mocks/mlmd/mockGetEventsByArtifactIDs';
+import { mockGetArtifactTypes } from '@odh-dashboard/test-mocks/mlmd/mockGetArtifactTypes';
+import { mockGetArtifactsByContext } from '@odh-dashboard/test-mocks/mlmd/mockGetArtifactsByContext';
+import { mockGetContextByTypeAndName } from '@odh-dashboard/test-mocks/mlmd/mockGetContextByTypeAndName';
+import { mockGetEventsByExecutionIDs } from '@odh-dashboard/test-mocks/mlmd/mockGetEventsByExecutionIDs';
 import {
   mockGetExecutions,
   mockGetNoExecutions,
-} from '@odh-dashboard/internal/__mocks__/mlmd/mockGetExecutions';
-import { mockGetExecutionsByContext } from '@odh-dashboard/internal/__mocks__/mlmd/mockGetExecutionsByContext';
-import { mockGetExecutionsByID } from '@odh-dashboard/internal/__mocks__/mlmd/mockGetExecutionsByID';
-import { GetExecutionsRequest } from '@odh-dashboard/internal/__mocks__/third_party/mlmd';
-import { mockGetContextsByExecution } from '@odh-dashboard/internal/__mocks__/mlmd/mockGetContextsByExecution';
-import { mockGetContextType } from '@odh-dashboard/internal/__mocks__/mlmd/mockGetContextType';
-import { mockGetContextsByType } from '@odh-dashboard/internal/__mocks__/mlmd/mockGetContextsByType';
+} from '@odh-dashboard/test-mocks/mlmd/mockGetExecutions';
+import { mockGetExecutionsByContext } from '@odh-dashboard/test-mocks/mlmd/mockGetExecutionsByContext';
+import { mockGetExecutionsByID } from '@odh-dashboard/test-mocks/mlmd/mockGetExecutionsByID';
+import { GetExecutionsRequest } from '@odh-dashboard/test-mocks/third_party/mlmd';
+import { mockGetContextsByExecution } from '@odh-dashboard/test-mocks/mlmd/mockGetContextsByExecution';
+import { mockGetContextType } from '@odh-dashboard/test-mocks/mlmd/mockGetContextType';
+import { mockGetContextsByType } from '@odh-dashboard/test-mocks/mlmd/mockGetContextsByType';
 
 export const initMlmdIntercepts = (
   projectName: string,

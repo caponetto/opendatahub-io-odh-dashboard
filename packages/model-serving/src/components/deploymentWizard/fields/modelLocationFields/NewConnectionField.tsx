@@ -4,16 +4,16 @@ import {
   ConnectionTypeConfigMapObj,
   ConnectionTypeDataField,
   ConnectionTypeValueType,
-} from '@odh-dashboard/internal/concepts/connectionTypes/types';
+} from '@odh-dashboard/connection-types-shared/concepts/connectionTypes/types';
 import {
   ModelServingCompatibleTypes,
   isModelServingCompatible,
   isConnectionTypeDataField,
-} from '@odh-dashboard/internal/concepts/connectionTypes/utils';
-import ConnectionTypeFormFields from '@odh-dashboard/internal/concepts/connectionTypes/fields/ConnectionTypeFormFields';
-import ConnectionOciPathField from '@odh-dashboard/internal/pages/modelServing/screens/projects/InferenceServiceModal/ConnectionOciPathField';
-import ConnectionS3FolderPathField from '@odh-dashboard/internal/pages/modelServing/screens/projects/InferenceServiceModal/ConnectionS3FolderPathField';
-import { ModelLocationData } from '../../types';
+} from '@odh-dashboard/connection-types-shared/concepts/connectionTypes/utils';
+import ConnectionTypeFormFields from '@odh-dashboard/connection-types-shared/concepts/connectionTypes/fields/ConnectionTypeFormFields';
+import type { ModelLocationData } from '@odh-dashboard/model-serving-shared/types/form-data';
+import ConnectionOciPathField from '../../../../pages/screens/projects/InferenceServiceModal/ConnectionOciPathField';
+import ConnectionS3FolderPathField from '../../../../pages/screens/projects/InferenceServiceModal/ConnectionS3FolderPathField';
 
 type Props = {
   setModelLocationData: (data: ModelLocationData | undefined) => void;

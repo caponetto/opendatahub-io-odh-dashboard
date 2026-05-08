@@ -7,7 +7,7 @@
 
 ## Design Intent
 
-- **Kubernetes APIs**: Training job data is read and written through K8s using `@odh-dashboard/internal` helpers — no dedicated model-training backend.
+- **Kubernetes APIs**: Training job data is read and written through K8s using `@odh-dashboard/dashboard-foundation-frontend` helpers — no dedicated model-training backend.
 - **Kueue and runtimes**: Kueue scheduling metadata from `ClusterQueue` / `LocalQueue` and related modules; `ClusterTrainingRuntime` supplies create-form defaults.
 - **List and detail**: **TrainJob** and **RayJob** rows with separate drawers and scaling flows where applicable.
 - **Module Federation**: Remote `plugin-model-training` exposes `./ModelTrainingRoutes` for `/develop-train/training-jobs/*`.

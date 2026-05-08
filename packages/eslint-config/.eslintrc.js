@@ -1,1 +1,1 @@
-module.exports = require('@odh-dashboard/eslint-config').recommendedCore(__dirname);
+module.exports = require('./index').recommendedCore(__dirname);

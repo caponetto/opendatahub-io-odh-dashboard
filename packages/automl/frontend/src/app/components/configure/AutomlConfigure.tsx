@@ -1,10 +1,10 @@
-import { Connection } from '@odh-dashboard/internal/concepts/connectionTypes/types';
+import { Connection } from '@odh-dashboard/connection-types-shared/concepts/connectionTypes/types';
 import {
   isConnectionType,
   isConnectionTypeDataField,
   S3ConnectionTypeKeys,
-} from '@odh-dashboard/internal/concepts/connectionTypes/utils';
-import { useWatchConnectionTypes } from '@odh-dashboard/internal/utilities/useWatchConnectionTypes';
+} from '@odh-dashboard/connection-types-shared/concepts/connectionTypes/utils';
+import { useWatchConnectionTypes } from '@odh-dashboard/connection-types-shared/concepts/connectionTypes/useWatchConnectionTypes';
 import {
   Alert,
   Button,

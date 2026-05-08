@@ -5,6 +5,14 @@
   "description": "ODH Dashboard custom ESLint plugin",
   "type": "commonjs",
   "main": "./index.js",
+  "topology": {
+    "tier": "infrastructure",
+    "eslintTierExempt": true
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
+  },
   "dependencies": {
     "micromatch": "^4.0.8"
   },
@@ -13,4 +21,3 @@
     "eslint": "^8.57.0"
   }
 }
-

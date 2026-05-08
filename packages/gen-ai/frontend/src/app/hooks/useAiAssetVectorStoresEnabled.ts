@@ -1,4 +1,4 @@
-import { useFeatureFlag } from '@openshift/dynamic-plugin-sdk';
+import { useFeatureFlag } from '@odh-dashboard/plugin-core';
 import { EXTERNAL_VECTOR_STORES } from '~/odh/extensions';
 
 const useAiAssetVectorStoresEnabled = (): boolean => {

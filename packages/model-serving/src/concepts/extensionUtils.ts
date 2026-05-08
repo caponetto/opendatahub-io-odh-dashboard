@@ -1,8 +1,8 @@
 import React from 'react';
 import { useResolvedExtensions, useExtensions } from '@odh-dashboard/plugin-core';
-import { Extension, ExtensionPredicate, ResolvedExtension } from '@openshift/dynamic-plugin-sdk';
+import type { Extension, ExtensionPredicate, ResolvedExtension } from '@odh-dashboard/plugin-core';
+import { type Deployment } from '@odh-dashboard/model-serving-shared/extension-points';
 import { ModelServingPlatform } from './useProjectServingPlatform';
-import { type Deployment } from '../../extension-points';
 
 export type PlatformExtension = Extension & { properties: { platform: string } };
 

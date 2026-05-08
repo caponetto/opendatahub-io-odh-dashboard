@@ -1,13 +1,16 @@
 import { renderHook, waitFor } from '@testing-library/react';
-import { fireFormTrackingEvent } from '@odh-dashboard/internal/concepts/analyticsTracking/segmentIOUtils';
-import { TrackingOutcome } from '@odh-dashboard/internal/concepts/analyticsTracking/trackingProperties';
+import { fireFormTrackingEvent } from '@odh-dashboard/dashboard-foundation-frontend/concepts/analyticsTracking/segmentIOUtils';
+import { TrackingOutcome } from '@odh-dashboard/dashboard-foundation-frontend/concepts/analyticsTracking/trackingProperties';
 import useGenerateMaaSToken from '~/app/hooks/useGenerateMaaSToken';
 import { useGenAiAPI } from '~/app/hooks/useGenAiAPI';
 
 // Mock tracking
-jest.mock('@odh-dashboard/internal/concepts/analyticsTracking/segmentIOUtils', () => ({
-  fireFormTrackingEvent: jest.fn(),
-}));
+jest.mock(
+  '@odh-dashboard/dashboard-foundation-frontend/concepts/analyticsTracking/segmentIOUtils',
+  () => ({
+    fireFormTrackingEvent: jest.fn(),
+  }),
+);
 
 // Mock useGenAiAPI
 const mockGenerateMaaSToken = jest.fn();

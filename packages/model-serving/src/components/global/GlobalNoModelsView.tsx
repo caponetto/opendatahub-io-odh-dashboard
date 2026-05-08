@@ -1,7 +1,10 @@
 import React from 'react';
-import EmptyDetailsView from '@odh-dashboard/internal/components/EmptyDetailsView';
-import { ProjectObjectType, typedEmptyImage } from '@odh-dashboard/internal/concepts/design/utils';
-import { ProjectKind } from '@odh-dashboard/internal/k8sTypes';
+import EmptyDetailsView from '@odh-dashboard/dashboard-foundation-frontend/components/EmptyDetailsView';
+import {
+  ProjectObjectType,
+  typedEmptyImage,
+} from '@odh-dashboard/dashboard-foundation-frontend/concepts/design/utils';
+import { ProjectKind } from '@odh-dashboard/dashboard-foundation-frontend/k8sTypes';
 import { DeployButton } from '../../components/deploy/DeployButton';
 
 type GlobalNoModelsViewProps = {

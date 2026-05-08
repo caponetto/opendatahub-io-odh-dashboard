@@ -11,3 +11,6 @@ declare module '*.rdf';
 declare module '*.ttl';
 declare module '*.pdf';
 declare module '*.yaml';
+
+// eslint-disable-next-line @typescript-eslint/naming-convention -- Webpack DefinePlugin global
+declare const __COMMIT_HASH__: string | undefined;

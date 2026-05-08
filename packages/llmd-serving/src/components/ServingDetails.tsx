@@ -1,12 +1,14 @@
 import * as React from 'react';
 import { LabelGroup, Stack, StackItem } from '@patternfly/react-core';
-import { useDashboardNamespace } from '@odh-dashboard/internal/redux/selectors/project';
-import type { FetchStateObject } from '@odh-dashboard/internal/utilities/useFetch';
-import { getDisplayNameFromK8sResource } from '@odh-dashboard/internal/concepts/k8s/utils';
-import ServingRuntimeVersionLabel from '@odh-dashboard/internal/pages/modelServing/screens/ServingRuntimeVersionLabel';
-import { getServingRuntimeVersionStatus } from '@odh-dashboard/internal/pages/modelServing/utils';
-import ServingRuntimeVersionStatus from '@odh-dashboard/internal/pages/modelServing/screens/ServingRuntimeVersionStatus';
-import { ServingRuntimeVersionStatusLabel } from '@odh-dashboard/internal/pages/modelServing/screens/const';
+import { useDashboardNamespace } from '@odh-dashboard/dashboard-foundation-frontend/redux/selectors/project';
+import type { FetchStateObject } from '@odh-dashboard/dashboard-foundation-frontend/utilities/useFetch';
+import { getDisplayNameFromK8sResource } from '@odh-dashboard/dashboard-foundation-frontend/concepts/k8s/utils';
+import ServingRuntimeVersionLabel from '@odh-dashboard/model-serving-shared/concepts/modelServing/ServingRuntimeVersionLabel';
+import {
+  getServingRuntimeVersionStatus,
+  ServingRuntimeVersionStatusLabel,
+} from '@odh-dashboard/model-serving-shared/concepts/modelServing/servingRuntimeVersionUtils';
+import ServingRuntimeVersionStatus from '@odh-dashboard/model-serving-shared/concepts/modelServing/ServingRuntimeVersionStatus';
 import type { LLMdDeployment, LLMInferenceServiceConfigKind } from '../types';
 import { useFetchLLMInferenceServiceConfigs } from '../api/LLMInferenceServiceConfigs';
 

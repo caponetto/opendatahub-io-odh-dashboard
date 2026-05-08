@@ -1,6 +1,6 @@
 ---
 description: Modular Architecture — Module Federation, plugin/extension system, and how packages integrate with the host app
-globs: "packages/**,frontend/src/plugins/**,frontend/config/**"
+globs: "packages/**"
 alwaysApply: false
 ---
 
@@ -14,21 +14,22 @@ This rule summarises the architecture at a glance and lists key files. Defer to 
 
 ## Quick architecture summary
 
-The host app (`frontend/`) uses Webpack Module Federation (`@module-federation/enhanced`) to load remote packages at runtime. Remotes are discovered automatically from workspace packages that declare a `module-federation` key in `package.json`.
+The dashboard uses a **hybrid extension model**. The shell (`packages/dashboard-shell-frontend/`) provides core UI structure (navigation, routes, task areas) as static extensions bundled at build time. Webpack Module Federation (`@module-federation/enhanced`) loads remote packages at runtime for additional functionality.
 
 | Role | Location | MF Name |
 |---|---|---|
-| **Host** | `frontend/` | `host` |
-| **Remotes** | `packages/*/frontend/` | camelCase (e.g., `genAi`, `modelRegistry`, `maas`) |
+| **Host / Shell** | `packages/dashboard-shell-frontend/` | `host` |
+| **Remotes** | `packages/*/` (with `module-federation` in `package.json`) | camelCase (e.g., `genAi`, `modelRegistry`, `maas`) |
 
 ### Runtime loading flow
 
-1. Backend injects `mfRemotesJson` into the HTML template (`backend/src/routes/root.ts`)
-2. `useAppExtensions()` calls `init()` with remotes at `/_mf/{name}/remoteEntry.js`
-3. `loadRemote('{name}/extensions')` fetches each remote's extensions
-4. Backend proxies `/_mf/{name}/*` to each module's service (`backend/src/routes/module-federation.ts`)
-5. Static (`pluginExtensions`) and federated (`appExtensions`) extensions merge in `ExtensibilityContext`
-6. `PluginStore` makes all extensions available via `useExtensions()` / `useResolvedExtensions()`
+1. `ExtensibilityContext` imports static shell extensions (`packages/dashboard-shell-frontend/src/plugins/extensions/`) at build time
+2. Backend injects `mfRemotesJson` into the HTML template (`packages/dashboard-shell-backend/src/routes/root.ts`)
+3. `useAppExtensions()` calls `init()` with remotes at `/_mf/{name}/remoteEntry.js`
+4. `loadRemote('{name}/extensions')` fetches each remote's extensions
+5. Backend proxies `/_mf/{name}/*` to each module's service (`packages/dashboard-shell-backend/src/routes/module-federation.ts`)
+6. `ExtensibilityContext` merges static shell extensions (keyed `'shell'`) with dynamic MF extensions into a single `PluginStore`
+7. `PluginStore` makes all extensions available via `useExtensions()` / `useResolvedExtensions()`
 
 > **Security**: Treat `mfRemotesJson` as a privileged config surface.
 > - Only allow remotes from an explicit backend allowlist (name + origin + path).
@@ -51,21 +52,20 @@ Full details in [docs/extensibility.md](../../docs/extensibility.md).
 
 Naming convention: `namespace.section[/sub-section]` (e.g., `model-registry.registered-models/table-column`).
 
-Packages can define their own extension points in `frontend/src/odh/extension-points/`.
+Packages can define their own extension points in `packages/plugin-core/src/extension-points/`.
 
 ## How packages register as plugins
 
 1. Package exports `./extensions` in `package.json` `exports` field
 2. `discoverPluginPackages.js` discovers them via `npm query .workspace`
-3. At build time, `GenerateExtensionsPlugin` creates `plugin-extensions.ts` importing all package extensions
-4. At runtime, federated modules load extensions via `loadRemote('{name}/extensions')`
-5. `ExtensibilityContextProvider` creates a `PluginStore` with all extensions
+3. At runtime, federated modules load extensions via `loadRemote('{name}/extensions')`
+4. `ExtensibilityContextProvider` creates a `PluginStore` with all extensions
 
 ## Feature gating
 
 Extensions use `flags.required` / `flags.disallowed` arrays referencing `SupportedArea` values. `PluginStore.isExtensionInUse()` filters extensions by checking all required flags are `true` and all disallowed flags are `false`.
 
-`SupportedArea` is defined in `frontend/src/concepts/areas/types.ts`. Each area maps to feature flags (from `OdhDashboardConfig`), required DSC components, and reliant areas in `frontend/src/concepts/areas/const.ts`.
+`SupportedArea` is defined in `packages/dashboard-foundation-frontend/src/concepts/areas/types.ts`. Each area maps to feature flags (from `OdhDashboardConfig`), required DSC components, and reliant areas in `packages/dashboard-foundation-frontend/src/concepts/areas/const.ts`.
 
 ## Standard package structure
 
@@ -90,16 +90,16 @@ packages/<name>/
 
 | Purpose | Path |
 |---|---|
-| Host MF config | `frontend/config/moduleFederation.js` |
-| Plugin discovery | `frontend/config/discoverPluginPackages.js` |
-| Extensions codegen | `frontend/config/generateExtensionsPlugin.js` |
-| Extensions loader | `frontend/src/plugins/useAppExtensions.ts` |
+| Host MF config | `packages/dashboard-config/src/module-federation.ts` |
+| Plugin discovery | `packages/dashboard-build/discoverPluginPackages.js` |
+| Extensions loader | `packages/dashboard-shell-frontend/src/plugins/useAppExtensions.ts` |
 | Plugin store | `packages/plugin-core/src/core/plugin-store.ts` |
 | Extension points | `packages/plugin-core/src/extension-points/` |
-| Area flags | `frontend/src/concepts/areas/types.ts`, `const.ts` |
-| Backend MF proxy | `backend/src/routes/module-federation.ts` |
-| Backend remotes injection | `backend/src/routes/root.ts` |
-| Shared MF config util | `packages/app-config/src/module-federation.ts` |
+| Shell static extensions | `packages/dashboard-shell-frontend/src/plugins/extensions/` |
+| Area flags | `packages/dashboard-foundation-frontend/src/concepts/areas/types.ts`, `const.ts` |
+| Backend MF proxy | `packages/dashboard-shell-backend/src/routes/module-federation.ts` |
+| Backend remotes injection | `packages/dashboard-shell-backend/src/routes/root.ts` |
+| Shared MF config util | `packages/dashboard-config/src/module-federation.ts` |
 | Prod ConfigMap | `manifests/modular-architecture/federation-configmap.yaml` |
 | Full MF docs | `docs/module-federation.md` |
 | Extensibility docs | `docs/extensibility.md` |

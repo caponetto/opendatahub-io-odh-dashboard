@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { ActionsColumn, Td } from '@patternfly/react-table';
-import ResourceTr from '@odh-dashboard/internal/components/ResourceTr';
-import TableRowTitleDescription from '@odh-dashboard/internal/components/table/TableRowTitleDescription';
-import ResourceNameTooltip from '@odh-dashboard/internal/components/ResourceNameTooltip';
+import ResourceTr from '@odh-dashboard/dashboard-foundation-frontend/components/ResourceTr';
+import TableRowTitleDescription from '@odh-dashboard/dashboard-foundation-frontend/components/table/TableRowTitleDescription';
+import ResourceNameTooltip from '@odh-dashboard/dashboard-foundation-frontend/components/ResourceNameTooltip';
 import { Content, Label } from '@patternfly/react-core';
 import { Link, useNavigate } from 'react-router-dom';
-import type { K8sResourceCommon } from '@odh-dashboard/internal/k8sTypes';
+import type { K8sResourceCommon } from '@odh-dashboard/dashboard-foundation-frontend/k8sTypes';
 import { MaaSSubscription } from '~/app/types/subscriptions';
 import { URL_PREFIX } from '~/app/utilities/const';
 import { convertSubscriptionToK8sResource } from '~/app/utilities/subscriptions';

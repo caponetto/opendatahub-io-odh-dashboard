@@ -11,25 +11,21 @@ import {
   Content,
 } from '@patternfly/react-core';
 import { z } from 'zod';
-import { ServingRuntimeModelType } from '@odh-dashboard/internal/types';
-import { SupportedArea, useIsAreaAvailable } from '@odh-dashboard/internal/concepts/areas';
-import { ModelTypeFieldData } from './ModelTypeSelectField';
+import { ServingRuntimeModelType } from '@odh-dashboard/dashboard-foundation-frontend/types';
+import {
+  SupportedArea,
+  useIsAreaAvailable,
+} from '@odh-dashboard/dashboard-foundation-frontend/concepts/areas';
+import type {
+  ModelAvailabilityFieldsData,
+  ModelAvailabilityFields,
+} from '@odh-dashboard/model-serving-shared/types/form-data';
+import type { ModelTypeFieldData } from './ModelTypeSelectField';
 import { GenericFieldRenderer } from './GenericFieldRenderer';
 import type { UseModelDeploymentWizardState } from '../useDeploymentWizard';
 import type { ExternalDataMap } from '../ExternalDataLoader';
 
-export type ModelAvailabilityFieldsData = {
-  saveAsAiAsset: boolean;
-  useCase?: string;
-};
-
-export type ModelAvailabilityFields = {
-  data: ModelAvailabilityFieldsData;
-  setData: (data: ModelAvailabilityFieldsData) => void;
-  isGenAiEnabled: boolean;
-  showField?: boolean;
-  showSaveAsMaaS?: boolean;
-};
+export type { ModelAvailabilityFieldsData, ModelAvailabilityFields };
 
 export const isValidModelAvailabilityFieldsData = (): boolean => {
   // All fields are optional (for now)

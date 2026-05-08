@@ -6,7 +6,7 @@ import { RayJobState } from '../../../../types';
 import { mockRayJobK8sResource } from '../../../../__mocks__/mockRayJobK8sResource';
 
 jest.mock('../../../../api');
-jest.mock('@odh-dashboard/internal/utilities/useNotification');
+jest.mock('@odh-dashboard/dashboard-foundation-frontend/utilities/useNotification');
 jest.mock('../usePauseRayJobModalAvailability');
 
 const mockSetRayJobPauseState = jest.mocked(setRayJobPauseState);
@@ -27,9 +27,9 @@ describe('useRayJobPauseResume', () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
-    jest.requireMock('@odh-dashboard/internal/utilities/useNotification').default = jest.fn(
-      () => mockNotification,
-    );
+    jest.requireMock(
+      '@odh-dashboard/dashboard-foundation-frontend/utilities/useNotification',
+    ).default = jest.fn(() => mockNotification);
     jest.requireMock('../usePauseRayJobModalAvailability').default = jest.fn(() => [
       false,
       mockSetDontShowModalValue,

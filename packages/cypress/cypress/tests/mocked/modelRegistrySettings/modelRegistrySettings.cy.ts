@@ -3,12 +3,15 @@ import {
   mockDashboardConfig,
   mockDscStatus,
   mockK8sResourceList,
-} from '@odh-dashboard/internal/__mocks__';
-import { mockDsciStatus } from '@odh-dashboard/internal/__mocks__/mockDsciStatus';
-import { DataScienceStackComponent } from '@odh-dashboard/internal/concepts/areas/types';
-import { mockModelRegistry } from '@odh-dashboard/internal/__mocks__/mockModelRegistry';
-import type { ConfigSecretItem, RoleBindingSubject } from '@odh-dashboard/internal/k8sTypes';
-import { mockRoleBindingK8sResource } from '@odh-dashboard/internal/__mocks__/mockRoleBindingK8sResource';
+} from '@odh-dashboard/test-mocks';
+import { mockDsciStatus } from '@odh-dashboard/test-mocks/mockDsciStatus';
+import { DataScienceStackComponent } from '@odh-dashboard/dashboard-foundation-frontend/concepts/areas';
+import { mockModelRegistry } from '@odh-dashboard/test-mocks/mockModelRegistry';
+import type {
+  ConfigSecretItem,
+  RoleBindingSubject,
+} from '@odh-dashboard/dashboard-foundation-frontend/k8sTypes';
+import { mockRoleBindingK8sResource } from '@odh-dashboard/test-mocks/mockRoleBindingK8sResource';
 import {
   DatabaseType,
   FormFieldSelector,

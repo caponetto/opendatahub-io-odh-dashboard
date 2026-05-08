@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
-import { LoadedExtension } from '@openshift/dynamic-plugin-sdk';
+import type { LoadedExtension } from '@odh-dashboard/plugin-core';
 import ModelVersionsDetails from '~/app/pages/modelRegistry/screens/ModelVersionDetails/ModelVersionDetails';
 import ModelVersionsArchiveDetails from '~/app/pages/modelRegistry/screens/ModelVersionsArchive/ModelVersionArchiveDetails';
 import ArchiveModelVersionDetails from '~/app/pages/modelRegistry/screens/ModelVersionsArchive/ArchiveModelVersionDetails';

@@ -36,12 +36,12 @@ import {
 } from '@patternfly/react-core';
 import TypeaheadSelect, {
   TypeaheadSelectOption,
-} from '@odh-dashboard/internal/components/TypeaheadSelect';
+} from '@odh-dashboard/dashboard-foundation-frontend/components/TypeaheadSelect';
 import { CheckCircleIcon, EyeIcon, EyeSlashIcon } from '@patternfly/react-icons';
 import React from 'react';
 import { z } from 'zod';
-import { useZodFormValidation } from '@odh-dashboard/internal/hooks/useZodFormValidation';
-import TruncatedText from '@odh-dashboard/internal/components/TruncatedText';
+import { useZodFormValidation } from '@odh-dashboard/dashboard-foundation-frontend/hooks/useZodFormValidation';
+import TruncatedText from '@odh-dashboard/dashboard-foundation-frontend/components/TruncatedText';
 import { formatApiKeyError, formatApiKeyHiddenPreview } from '~/app/pages/api-keys/utils';
 import { createApiKey } from '~/app/api/api-keys';
 import { useUserSubscriptions } from '~/app/hooks/useUserSubscriptions';

@@ -1,12 +1,12 @@
 import { act } from '@testing-library/react';
 import { testHook } from '@odh-dashboard/jest-config/hooks';
 import { stringify } from 'yaml';
-import type { WizardFormData } from '../../types';
+import type { WizardFormData } from '@odh-dashboard/model-serving-shared/types/form-data';
 import type {
   Deployment,
   ModelResourceType,
   DeploymentAssemblyResources,
-} from '../../../../../extension-points';
+} from '@odh-dashboard/model-serving-shared/extension-points';
 import { useFormToResourcesTransformer } from '../useFormToResourcesTransformer';
 import { useFormYamlResources } from '../useYamlResourcesResult';
 import { useWizardFieldApply } from '../../useWizardFieldApply';

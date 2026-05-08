@@ -20,7 +20,7 @@ import {
 } from '@patternfly/react-core';
 import { EllipsisVIcon, PlusCircleIcon } from '@patternfly/react-icons';
 import { Table, Tbody, Td, Th, Thead, Tr, type ThProps } from '@patternfly/react-table';
-import TableRowTitleDescription from '@odh-dashboard/internal/components/table/TableRowTitleDescription';
+import TableRowTitleDescription from '@odh-dashboard/dashboard-foundation-frontend/components/table/TableRowTitleDescription';
 import { MaaSModelRefSummary, ModelSubscriptionRef } from '~/app/types/subscriptions';
 import { formatTokenLimits } from '~/app/pages/subscriptions/viewSubscription/utils';
 

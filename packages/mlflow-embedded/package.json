@@ -3,6 +3,9 @@
   "name": "@odh-dashboard/mlflow-embedded",
   "description": "Embeds selected pages from the external MLflow frontend into the dashboard.",
   "version": "0.0.0",
+  "topology": {
+    "tier": "extension"
+  },
   "scripts": {
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
@@ -40,15 +43,46 @@
       }
     ]
   },
+  "imports": {
+    "#~/*": [
+      "./src/*",
+      "./src/*.ts",
+      "./src/*.tsx",
+      "./src/*/index.ts",
+      "./src/*/index.tsx"
+    ]
+  },
   "exports": {
-    "./extensions": "./extensions.ts"
+    "./extensions": "./src/extensions.ts",
+    "./shared/PipelineCoreProjectSelector": "./shared/PipelineCoreProjectSelector.tsx",
+    "./*": [
+      "./src/*",
+      "./src/*.ts",
+      "./src/*.d.ts",
+      "./src/*.tsx",
+      "./src/*/index.ts",
+      "./src/*/index.tsx"
+    ]
   },
   "dependencies": {
-    "@odh-dashboard/internal": "*",
-    "@odh-dashboard/plugin-core": "*"
+    "@module-federation/runtime": "*",
+    "@odh-dashboard/dashboard-foundation-frontend": "*",
+    "@odh-dashboard/mlflow-shared": "*",
+    "@odh-dashboard/pipelines-shared": "*",
+    "@odh-dashboard/plugin-core": "*",
+    "@patternfly/react-core": "*",
+    "@patternfly/react-icons": "*",
+    "@patternfly/react-table": "*",
+    "react-router-dom": "^7.6.2"
   },
   "devDependencies": {
     "@odh-dashboard/eslint-config": "*",
-    "@odh-dashboard/tsconfig": "*"
+    "@odh-dashboard/jest-config": "*",
+    "@odh-dashboard/tsconfig": "*",
+    "@testing-library/jest-dom": "*",
+    "@testing-library/react": "16.3.0",
+    "@testing-library/user-event": "*",
+    "@types/react": "*",
+    "react-dom": "^18.2.0"
   }
 }

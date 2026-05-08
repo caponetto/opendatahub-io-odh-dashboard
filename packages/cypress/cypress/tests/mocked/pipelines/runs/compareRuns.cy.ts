@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
-import { PluginStateKF } from '@odh-dashboard/internal/concepts/pipelines/kfTypes';
-import { DSPAMlflowIntegrationMode } from '@odh-dashboard/internal/k8sTypes';
+import { PluginStateKF } from '@odh-dashboard/pipelines/concepts/kfTypes';
+import { DSPAMlflowIntegrationMode } from '@odh-dashboard/dashboard-foundation-frontend/k8sTypes';
 import {
   buildMockExperimentKF,
   mockDashboardConfig,
@@ -14,15 +14,15 @@ import {
   mockRouteK8sResource,
   buildMockRunKF,
   buildMockPipelineVersions,
-} from '@odh-dashboard/internal/__mocks__';
-import { mockCancelledGoogleRpcStatus } from '@odh-dashboard/internal/__mocks__/mockGoogleRpcStatusKF';
-import { mockArtifactStorage } from '@odh-dashboard/internal/__mocks__/mockArtifactStorage';
-import { verifyRelativeURL } from '../../../../utils/url';
+} from '@odh-dashboard/test-mocks';
+import { mockCancelledGoogleRpcStatus } from '@odh-dashboard/test-mocks/mockGoogleRpcStatusKF';
+import { mockArtifactStorage } from '@odh-dashboard/test-mocks/mockArtifactStorage';
 import {
   DataSciencePipelineApplicationModel,
   ProjectModel,
   RouteModel,
-} from '../../../../utils/models';
+} from '@odh-dashboard/dashboard-foundation-frontend/api/models';
+import { verifyRelativeURL } from '../../../../utils/url';
 import {
   compareRunsGlobal,
   compareRunsListTable,

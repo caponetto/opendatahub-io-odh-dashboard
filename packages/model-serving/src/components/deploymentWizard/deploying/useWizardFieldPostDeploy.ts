@@ -1,10 +1,10 @@
 import React from 'react';
 import { useResolvedExtensions } from '@odh-dashboard/plugin-core';
-import type { WizardFormData } from '../types';
+import type { WizardFormData } from '@odh-dashboard/model-serving-shared/types/form-data';
 import {
   isWizardFieldDeploymentFunctionsExtension,
   type Deployment,
-} from '../../../../extension-points';
+} from '@odh-dashboard/model-serving-shared/extension-points';
 import { useActiveFields } from '../dynamicFormUtils';
 
 /**

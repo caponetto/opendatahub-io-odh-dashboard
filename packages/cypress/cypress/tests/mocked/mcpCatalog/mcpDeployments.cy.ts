@@ -3,9 +3,10 @@ import {
   mockDscStatus,
   mockK8sResourceList,
   mockProjectK8sResource,
-} from '@odh-dashboard/internal/__mocks__';
-import { mockDsciStatus } from '@odh-dashboard/internal/__mocks__/mockDsciStatus';
+} from '@odh-dashboard/test-mocks';
+import { mockDsciStatus } from '@odh-dashboard/test-mocks/mockDsciStatus';
 import type { McpDeployment } from '@odh-dashboard/model-registry/types/mcpDeploymentTypes';
+import { ProjectModel } from '@odh-dashboard/dashboard-foundation-frontend/api/models';
 import {
   mcpDeploymentsPage,
   mcpDeployModal,
@@ -19,7 +20,6 @@ import {
   mockMcpDeployment,
   mockMcpServerCR,
 } from '../../../utils/mcpDeploymentUtils';
-import { ProjectModel } from '../../../utils/models';
 
 const BFF_PREFIX = '/model-registry/api/v1';
 const MCP_DEPLOYMENTS_API = `${BFF_PREFIX}/mcp_deployments`;

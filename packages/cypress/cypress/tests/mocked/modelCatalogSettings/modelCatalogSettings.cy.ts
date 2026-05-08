@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
-import { mockDashboardConfig, mockDscStatus } from '@odh-dashboard/internal/__mocks__';
-import { mockDsciStatus } from '@odh-dashboard/internal/__mocks__/mockDsciStatus';
-import { DataScienceStackComponent } from '@odh-dashboard/internal/concepts/areas/types';
+import { mockDashboardConfig, mockDscStatus } from '@odh-dashboard/test-mocks';
+import { mockDsciStatus } from '@odh-dashboard/test-mocks/mockDsciStatus';
+import { DataScienceStackComponent } from '@odh-dashboard/dashboard-foundation-frontend/concepts/areas';
 import { modelCatalogSettings } from '../../../pages/modelCatalogSettings';
 import { pageNotfound } from '../../../pages/pageNotFound';
 import { asProductAdminUser, asProjectAdminUser } from '../../../utils/mockUsers';

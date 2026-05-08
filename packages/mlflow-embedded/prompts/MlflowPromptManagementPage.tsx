@@ -3,18 +3,14 @@ import { Bullseye, Content, Flex, FlexItem, Spinner } from '@patternfly/react-co
 import { useSearchParams } from 'react-router-dom';
 import { loadRemote } from '@module-federation/runtime';
 import { LazyCodeRefComponent } from '@odh-dashboard/plugin-core';
-// eslint-disable-next-line @odh-dashboard/no-restricted-imports
-import ApplicationsPage from '@odh-dashboard/internal/pages/ApplicationsPage';
-import { ProjectIconWithSize } from '@odh-dashboard/internal/concepts/projects/ProjectIconWithSize';
-import { IconSize } from '@odh-dashboard/internal/types';
-import ProjectSelectorNavigator from '@odh-dashboard/internal/concepts/projects/ProjectSelectorNavigator';
-import TitleWithIcon from '@odh-dashboard/internal/concepts/design/TitleWithIcon';
-import { ProjectObjectType } from '@odh-dashboard/internal/concepts/design/utils';
-import {
-  promptManagementPath,
-  mlflowPromptManagementBaseRoute,
-  WORKSPACE_QUERY_PARAM,
-} from '@odh-dashboard/internal/routes/pipelines/mlflow';
+import ApplicationsPage from '@odh-dashboard/dashboard-foundation-frontend/components/ApplicationsPage';
+import { ProjectIconWithSize } from '@odh-dashboard/dashboard-foundation-frontend/concepts/projects/ProjectIconWithSize';
+import { IconSize } from '@odh-dashboard/dashboard-foundation-frontend/types';
+import ProjectSelectorNavigator from '@odh-dashboard/dashboard-foundation-frontend/concepts/projects/ProjectSelectorNavigator';
+import TitleWithIcon from '@odh-dashboard/dashboard-foundation-frontend/concepts/design/TitleWithIcon';
+import { ProjectObjectType } from '@odh-dashboard/dashboard-foundation-frontend/concepts/design/utils';
+import { WORKSPACE_QUERY_PARAM } from '@odh-dashboard/mlflow-shared/concepts/mlflow/routes';
+import { promptManagementPath, mlflowPromptManagementBaseRoute } from '#~/routes';
 import MLflowUnavailable from '../shared/MLflowUnavailable';
 import MlflowBreadcrumbs, { type BreadcrumbEntry } from '../shared/MlflowBreadcrumbs';
 import LaunchMlflowButton from '../shared/LaunchMlflowButton';

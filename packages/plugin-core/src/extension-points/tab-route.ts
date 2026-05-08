@@ -1,7 +1,6 @@
-import type { Extension } from '@openshift/dynamic-plugin-sdk';
-import type { AccessReviewResourceAttributes } from '@odh-dashboard/internal/k8sTypes';
+import type { AccessReviewResourceAttributes } from '@odh-dashboard/dashboard-foundation-frontend/k8sTypes';
 import type { NavItemProperties } from './navigation';
-import type { ComponentCodeRef } from '../core/types';
+import type { Extension, ComponentCodeRef } from '../core/types';
 
 /**
  * Defines a tabbed page that appears as a navigation item.

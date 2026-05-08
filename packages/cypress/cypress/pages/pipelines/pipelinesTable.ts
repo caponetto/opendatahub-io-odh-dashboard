@@ -1,10 +1,7 @@
 /* eslint-disable camelcase */
-import {
-  type PipelineKF,
-  type PipelineVersionKF,
-} from '@odh-dashboard/internal/concepts/pipelines/kfTypes';
-import { buildMockPipelines } from '@odh-dashboard/internal/__mocks__/mockPipelinesProxy';
-import { buildMockPipelineVersions } from '@odh-dashboard/internal/__mocks__/mockPipelineVersionsProxy';
+import { type PipelineKF, type PipelineVersionKF } from '@odh-dashboard/pipelines/concepts/kfTypes';
+import { buildMockPipelines } from '@odh-dashboard/test-mocks/mockPipelinesProxy';
+import { buildMockPipelineVersions } from '@odh-dashboard/test-mocks/mockPipelineVersionsProxy';
 import { TableRow } from '../components/table';
 import { be } from '../../utils/should';
 

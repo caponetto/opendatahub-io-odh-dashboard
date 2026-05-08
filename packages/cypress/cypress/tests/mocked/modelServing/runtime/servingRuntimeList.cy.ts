@@ -1,45 +1,42 @@
-import { mockDashboardConfig } from '@odh-dashboard/internal/__mocks__/mockDashboardConfig';
-import { mockDscStatus } from '@odh-dashboard/internal/__mocks__/mockDscStatus';
-import { mockInferenceServiceK8sResource } from '@odh-dashboard/internal/__mocks__/mockInferenceServiceK8sResource';
-import { mockK8sResourceList } from '@odh-dashboard/internal/__mocks__/mockK8sResourceList';
-import { mockPodK8sResource } from '@odh-dashboard/internal/__mocks__/mockPodK8sResource';
-import { mockProjectK8sResource } from '@odh-dashboard/internal/__mocks__/mockProjectK8sResource';
+import { mockDashboardConfig } from '@odh-dashboard/test-mocks/mockDashboardConfig';
+import { mockDscStatus } from '@odh-dashboard/test-mocks/mockDscStatus';
+import { mockInferenceServiceK8sResource } from '@odh-dashboard/test-mocks/mockInferenceServiceK8sResource';
+import { mockK8sResourceList } from '@odh-dashboard/test-mocks/mockK8sResourceList';
+import { mockPodK8sResource } from '@odh-dashboard/test-mocks/mockPodK8sResource';
+import { mockProjectK8sResource } from '@odh-dashboard/test-mocks/mockProjectK8sResource';
 import {
   mockRouteK8sResource,
   mockRouteK8sResourceModelServing,
-} from '@odh-dashboard/internal/__mocks__/mockRouteK8sResource';
-import { mockSecretK8sResource } from '@odh-dashboard/internal/__mocks__/mockSecretK8sResource';
+} from '@odh-dashboard/test-mocks/mockRouteK8sResource';
+import { mockSecretK8sResource } from '@odh-dashboard/test-mocks/mockSecretK8sResource';
 import {
   mockServingRuntimeK8sResource,
   mockServingRuntimeK8sResourceLegacy,
-} from '@odh-dashboard/internal/__mocks__/mockServingRuntimeK8sResource';
+} from '@odh-dashboard/test-mocks/mockServingRuntimeK8sResource';
 import {
   mockInvalidTemplateK8sResource,
   mockServingRuntimeTemplateK8sResource,
-} from '@odh-dashboard/internal/__mocks__/mockServingRuntimeTemplateK8sResource';
+} from '@odh-dashboard/test-mocks/mockServingRuntimeTemplateK8sResource';
 import type {
   DataScienceClusterKindStatus,
   InferenceServiceKind,
   ServingRuntimeKind,
-} from '@odh-dashboard/internal/k8sTypes';
-import { ServingRuntimePlatform } from '@odh-dashboard/internal/types';
-import { DataScienceStackComponent } from '@odh-dashboard/internal/concepts/areas/types';
-import { mockDsciStatus } from '@odh-dashboard/internal/__mocks__/mockDsciStatus';
+} from '@odh-dashboard/dashboard-foundation-frontend/k8sTypes';
+import { ServingRuntimePlatform } from '@odh-dashboard/dashboard-foundation-frontend/types';
+import { DataScienceStackComponent } from '@odh-dashboard/dashboard-foundation-frontend/concepts/areas';
+import { mockDsciStatus } from '@odh-dashboard/test-mocks/mockDsciStatus';
 import {
   mockGlobalScopedHardwareProfiles,
   mockProjectScopedHardwareProfiles,
-} from '@odh-dashboard/internal/__mocks__/mockHardwareProfile';
-import { STOP_MODAL_PREFERENCE_KEY } from '@odh-dashboard/internal/pages/modelServing/useStopModalPreference';
-import { mockOdhApplication } from '@odh-dashboard/internal/__mocks__/mockOdhApplication';
-import { mockNimServingRuntimeTemplate } from '@odh-dashboard/internal/__mocks__/mockNimResource';
-import { NamespaceApplicationCase } from '@odh-dashboard/internal/pages/projects/types';
+} from '@odh-dashboard/test-mocks/mockHardwareProfile';
+import { STOP_MODAL_PREFERENCE_KEY } from '@odh-dashboard/model-serving/pages/useStopModalPreference';
+import { mockOdhApplication } from '@odh-dashboard/test-mocks/mockOdhApplication';
+import { mockNimServingRuntimeTemplate } from '@odh-dashboard/test-mocks/mockNimResource';
+import { NamespaceApplicationCase } from '@odh-dashboard/dashboard-foundation-frontend/concepts/projects/types';
 import {
   ModelStateToggleLabel,
   ModelStateLabel,
 } from '@odh-dashboard/model-serving/components/deploymentWizard/types';
-import { modelServingGlobal, modelServingSection } from '../../../../pages/modelServing';
-import { projectDetails } from '../../../../pages/projects';
-import { be } from '../../../../utils/should';
 import {
   HardwareProfileModel,
   InferenceServiceModel,
@@ -50,7 +47,10 @@ import {
   SecretModel,
   ServingRuntimeModel,
   TemplateModel,
-} from '../../../../utils/models';
+} from '@odh-dashboard/dashboard-foundation-frontend/api/models';
+import { modelServingGlobal, modelServingSection } from '../../../../pages/modelServing';
+import { projectDetails } from '../../../../pages/projects';
+import { be } from '../../../../utils/should';
 
 type HandlersProps = {
   disableKServe?: boolean;

@@ -1,7 +1,10 @@
 import * as React from 'react';
 import { Button, ToolbarGroup } from '@patternfly/react-core';
 import { useNavigate } from 'react-router-dom';
-import { ProjectObjectType, typedEmptyImage } from '@odh-dashboard/internal/concepts/design/utils';
+import {
+  ProjectObjectType,
+  typedEmptyImage,
+} from '@odh-dashboard/dashboard-foundation-frontend/concepts/design/utils';
 import { useResolvedExtensions } from '@odh-dashboard/plugin-core';
 import { ModelVersion, RegisteredModel } from '~/app/types';
 import { ModelRegistrySelectorContext } from '~/app/context/ModelRegistrySelectorContext';

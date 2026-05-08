@@ -1,6 +1,6 @@
 import React from 'react';
 import { HookNotify } from '@odh-dashboard/plugin-core';
-import type { WizardField } from './types';
+import type { WizardField } from '@odh-dashboard/model-serving-shared/types/form-data';
 import { WizardFormAction, WizardFormState } from './useDeploymentWizardReducer';
 import { getFieldDependencies } from './dynamicFormUtils';
 

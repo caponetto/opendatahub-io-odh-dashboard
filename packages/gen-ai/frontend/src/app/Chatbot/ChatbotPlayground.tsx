@@ -8,7 +8,7 @@ import {
 } from '@patternfly/react-core';
 import { Chatbot, ChatbotContent, ChatbotDisplayMode } from '@patternfly/chatbot';
 import { useLocation } from 'react-router-dom';
-import { fireMiscTrackingEvent } from '@odh-dashboard/internal/concepts/analyticsTracking/segmentIOUtils';
+import { fireMiscTrackingEvent } from '@odh-dashboard/dashboard-foundation-frontend/concepts/analyticsTracking/segmentIOUtils';
 import { useUserContext } from '~/app/context/UserContext';
 import { ChatbotContext } from '~/app/context/ChatbotContext';
 import { GenAiContext } from '~/app/context/GenAiContext';
@@ -285,9 +285,9 @@ const ChatbotPlayground: React.FC<ChatbotPlaygroundProps> = ({
   React.useEffect(() => {
     const shouldClear = Boolean(
       location.state?.mcpServers ||
-        location.state?.model ||
-        location.state?.mcpServerStatuses ||
-        location.state?.openSettingsToTab,
+      location.state?.model ||
+      location.state?.mcpServerStatuses ||
+      location.state?.openSettingsToTab,
     );
     if (shouldClear) {
       const timeoutId = setTimeout(() => window.history.replaceState({}, ''), 100);

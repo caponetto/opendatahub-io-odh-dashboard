@@ -1,8 +1,8 @@
 import * as React from 'react';
-import ProjectSelector from '@odh-dashboard/internal/concepts/projects/ProjectSelector';
+import ProjectSelector from '@odh-dashboard/dashboard-foundation-frontend/concepts/projects/ProjectSelector';
 import { useNamespaceSelector } from 'mod-arch-core';
 import { useNavigate } from 'react-router-dom';
-import { fireMiscTrackingEvent } from '@odh-dashboard/internal/concepts/analyticsTracking/segmentIOUtils';
+import { fireMiscTrackingEvent } from '@odh-dashboard/dashboard-foundation-frontend/concepts/analyticsTracking/segmentIOUtils';
 
 type PipelineCoreProjectSelectorProps = {
   namespace?: string;

@@ -1,12 +1,12 @@
 import React from 'react';
 import { z } from 'zod';
 import { Form, FormSection, Spinner } from '@patternfly/react-core';
-import { useZodFormValidation } from '@odh-dashboard/internal/hooks/useZodFormValidation';
+import { useZodFormValidation } from '@odh-dashboard/dashboard-foundation-frontend/hooks/useZodFormValidation';
+import type { ModelLocationData } from '@odh-dashboard/model-serving-shared/types/form-data';
 import { modelTypeSelectFieldSchema, ModelTypeSelectField } from '../fields/ModelTypeSelectField';
 import { UseModelDeploymentWizardState } from '../useDeploymentWizard';
 import { ModelLocationSelectField } from '../fields/ModelLocationSelectField';
 import { isValidModelLocationData } from '../fields/ModelLocationInputFields';
-import { ModelLocationData } from '../types';
 import {
   createConnectionDataSchema,
   CreateConnectionInputFields,

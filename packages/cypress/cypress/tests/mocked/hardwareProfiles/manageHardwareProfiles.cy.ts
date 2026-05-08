@@ -3,13 +3,18 @@ import {
   SchedulingType,
   TolerationEffect,
   TolerationOperator,
-} from '@odh-dashboard/internal/types';
-import { mockK8sResourceList } from '@odh-dashboard/internal/__mocks__/mockK8sResourceList';
-import { mockHardwareProfile } from '@odh-dashboard/internal/__mocks__/mockHardwareProfile';
+} from '@odh-dashboard/dashboard-foundation-frontend/types';
+import { mockK8sResourceList } from '@odh-dashboard/test-mocks/mockK8sResourceList';
+import { mockHardwareProfile } from '@odh-dashboard/test-mocks/mockHardwareProfile';
 
-import { mockDashboardConfig } from '@odh-dashboard/internal/__mocks__';
-import { mockWorkloadPriorityClassK8sResource as mockWorkloadPriorityClass } from '@odh-dashboard/internal/__mocks__/mockWorkloadPriorityClassK8Resource';
-import { mockDsc } from '@odh-dashboard/internal/__mocks__/mockDsc';
+import { mockDashboardConfig } from '@odh-dashboard/test-mocks';
+import { mockWorkloadPriorityClassK8sResource as mockWorkloadPriorityClass } from '@odh-dashboard/test-mocks/mockWorkloadPriorityClassK8Resource';
+import { mockDsc } from '@odh-dashboard/test-mocks/mockDsc';
+import {
+  DataScienceClusterModel,
+  HardwareProfileModel,
+} from '@odh-dashboard/dashboard-foundation-frontend/api/models';
+import { WorkloadPriorityClassModel } from '@odh-dashboard/distributed-workloads-shared/api/models/kueue';
 import {
   createHardwareProfile,
   createNodeResourceModal,
@@ -22,11 +27,6 @@ import {
   editTolerationModal,
 } from '../../../pages/hardwareProfile';
 import { asProductAdminUser } from '../../../utils/mockUsers';
-import {
-  HardwareProfileModel,
-  WorkloadPriorityClassModel,
-  DataScienceClusterModel,
-} from '../../../utils/models';
 
 type HandlersProps = {
   isPresent?: boolean;

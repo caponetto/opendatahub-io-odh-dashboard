@@ -1,8 +1,8 @@
-import { ProjectKind } from '@odh-dashboard/internal/k8sTypes';
-import { useKueueConfiguration } from '@odh-dashboard/internal/concepts/hardwareProfiles/kueueUtils';
+import { ProjectKind } from '@odh-dashboard/dashboard-foundation-frontend/k8sTypes';
+import { useKueueConfiguration } from '@odh-dashboard/distributed-workloads-shared/concepts/kueue/kueueUtils';
 import { useExtensions } from '@odh-dashboard/plugin-core';
+import { isModelServingDeploy } from '@odh-dashboard/model-serving-shared/extension-points';
 import { useServingRuntimeTemplates } from './servingRuntimeTemplates/useServingRuntimeTemplates';
-import { isModelServingDeploy } from '../../extension-points';
 
 export const useCanMakeNewDeployment = (
   project?: ProjectKind | null,
@@ -16,7 +16,8 @@ export const useCanMakeNewDeployment = (
   const { isKueueDisabled } = useKueueConfiguration(project ?? undefined);
 
   const [globalTemplates, globalTemplatesLoaded] = useServingRuntimeTemplates();
-  const isMissingTemplates = globalTemplates.length === 0 && globalTemplatesLoaded;
+  const safeGlobalTemplates = globalTemplates ?? [];
+  const isMissingTemplates = safeGlobalTemplates.length === 0 && globalTemplatesLoaded;
 
   const disabled = isMissingTemplates || isKueueDisabled || isMissingDeployMethods;
   const disabledReason = isMissingTemplates

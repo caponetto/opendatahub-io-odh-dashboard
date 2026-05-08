@@ -4,14 +4,14 @@ import {
   mockK8sResourceList,
   mockProjectK8sResource,
   mockSecretK8sResource,
-} from '@odh-dashboard/internal/__mocks__';
+} from '@odh-dashboard/test-mocks';
 import {
   mockConnectionTypeConfigMap,
   mockModelServingFields,
-} from '@odh-dashboard/internal/__mocks__/mockConnectionType';
-import { ConnectionTypeFieldType } from '@odh-dashboard/internal/concepts/connectionTypes/types';
+} from '@odh-dashboard/test-mocks/mockConnectionType';
+import { ConnectionTypeFieldType } from '@odh-dashboard/connection-types-shared/concepts/connectionTypes/types';
+import { ProjectModel, SecretModel } from '@odh-dashboard/dashboard-foundation-frontend/api/models';
 import { projectDetails } from '../../../../pages/projects';
-import { ProjectModel, SecretModel } from '../../../../utils/models';
 import { connectionsPage } from '../../../../pages/connections';
 import { deleteModal } from '../../../../pages/components/DeleteModal';
 

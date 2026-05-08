@@ -1,7 +1,10 @@
 import React from 'react';
 import { LazyCodeRefComponent } from '@odh-dashboard/plugin-core';
+import {
+  Deployment,
+  type DeployedModelServingDetails,
+} from '@odh-dashboard/model-serving-shared/extension-points';
 import type { ExtensionDataEntry } from '../../concepts/extensionHelpers/usePlatformExtensionDataMap';
-import { Deployment, type DeployedModelServingDetails } from '../../../extension-points';
 
 type DeployedModelsVersionProps = {
   deployment: Deployment;

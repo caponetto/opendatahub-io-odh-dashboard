@@ -1,7 +1,7 @@
 import React, { act } from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import { ProjectKind } from '@odh-dashboard/internal/k8sTypes';
+import { ProjectKind } from '@odh-dashboard/dashboard-foundation-frontend/k8sTypes';
 import { MemoryRouter } from 'react-router-dom';
 import { DeployButton } from '../DeployButton';
 

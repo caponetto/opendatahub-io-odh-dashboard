@@ -16,19 +16,22 @@
   },
   "packageManager": "npm@10.9.2",
   "workspaces": [
-    "backend",
     "packages/*",
-    "frontend",
-    "frontend/src"
+    "packages/*/frontend"
   ],
   "scripts": {
     "build": "run-p -l build:*",
-    "build:backend": "npm run build --prefix packages/app-config && npm run build --prefix backend",
-    "build:frontend": "npm run build --prefix frontend",
-    "dev": "run-p -l dev:*",
-    "dev:backend": "cd ./backend && npm run start:dev",
-    "dev:frontend": "cd ./frontend && npm run start:dev",
-    "format": "prettier --write \"backend/**/*.ts\" \"frontend/**/*.ts\" \"frontend/**/*.tsx\"",
+    "build:all": "turbo run build",
+    "build:backend": "npm run build --prefix packages/dashboard-config && npm run build --prefix packages/dashboard-shell-backend",
+    "build:frontend": "npm run build --prefix packages/dashboard-dist-full",
+    "build:slim": "npm run build --prefix packages/dashboard-dist-slim",
+    "dev": "run-p -l dev:full:backend dev:full:frontend",
+    "dev:full:backend": "cd ./packages/dashboard-dist-full && npm run start:dev:backend",
+    "dev:full:frontend": "cd ./packages/dashboard-dist-full && npm run start:dev",
+    "dev:slim": "run-p -l dev:slim:backend dev:slim:frontend",
+    "dev:slim:backend": "cd ./packages/dashboard-dist-slim && npm run start:dev:backend",
+    "dev:slim:frontend": "cd ./packages/dashboard-dist-slim && npm run start:dev",
+    "format": "prettier --write \"packages/**/*.ts\" \"packages/**/*.tsx\"",
     "make": "make",
     "make:build": "make build",
     "make:deploy": "make deploy",
@@ -36,26 +39,17 @@
     "make:undeploy": "make undeploy",
     "make:push": "make push",
     "start": "run-p start:*",
-    "start:backend": "cd ./backend && npm start",
-    "start:frontend": "echo \"...available at ./frontend/public\"",
-    "test": "run-s test:backend test:frontend",
-    "test:backend": "cd ./backend && npm run test",
-    "test:frontend": "cd ./frontend && npm run test",
-    "test:frontend:coverage": "cd ./frontend && npm run test:coverage",
-    "test:frontend:unit-coverage": "cd ./frontend && npm run test:unit-coverage",
-    "test:backend:unit-coverage": "cd ./backend && npm run test:unit-coverage",
-    "test:cypress-ci": "cd ./frontend && npm run test:cypress-ci -- ",
+    "start:backend": "cd ./packages/dashboard-shell-backend && npm start",
+    "start:frontend": "echo \"...available at ./packages/dashboard-dist-full/public\"",
+    "test": "run-s test:unit",
     "test:unit": "turbo run test:unit",
-    "lint:frontend:backend": "run-p test:lint:*",
-    "test:lint:backend": "cd ./backend && npm run test:lint",
-    "test:lint:frontend": "cd ./frontend && npm run test:lint",
-    "test:fix": "run-s test:fix-backend test:fix-frontend",
-    "test:fix-backend": "cd ./backend && npm run test:fix",
-    "test:fix-frontend": "cd ./frontend && npm run test:fix",
+    "test:cypress-ci": "cd ./packages/dashboard-dist-full && npm run test:cypress-ci -- ",
+    "test:cypress-ci:coverage": "cd ./packages/dashboard-dist-full && npm run test:cypress-ci:coverage -- ",
     "commit:skip-lint-hook": "SKIP_LINT_HOOK=true git commit",
     "commit:force-lint-hook": "FORCE_LINT_HOOK=true git commit",
     "prepare": "husky",
     "validate:ports": "node scripts/validate-module-ports.js",
+    "validate:tiers": "node packages/eslint-config/validate-tiers.js",
     "lint": "turbo run lint",
     "lint:fix": "turbo run lint:fix",
     "type-check": "turbo run type-check",
@@ -67,19 +61,20 @@
     "cypress:server:build": "turbo run cypress:server:build",
     "cypress:server:build:coverage": "turbo run cypress:server:build:coverage",
     "postinstall": "turbo run install:module --ui=stream",
-    "test-e2e:dev": "concurrently --hide=0 -k -s first \"turbo run start:dev\" \"turbo run start:dev:wait && npm run test:cypress:e2e --prefix frontend\"",
+    "test-e2e:dev": "concurrently --hide=0 -k -s first \"turbo run start:dev\" \"turbo run start:dev:wait && npm run run:e2e -w @odh-dashboard/cypress\"",
     "start:dev": "turbo run start:dev",
-    "start:dev:ext": "turbo run start:dev:ext"
+    "start:dev:ext": "cd ./packages/dashboard-dist-full && npm run start:dev:ext",
+    "start:dev:slim:ext": "cd ./packages/dashboard-dist-slim && npm run start:dev:ext"
   },
   "dependencies": {
     "@kubernetes/client-node": "^0.12.2",
-    "@openshift/dynamic-plugin-sdk-utils": "^5.0.1",
     "@types/tar": "^6.1.13",
     "jsonpath-plus": "^10.3.0",
     "tough-cookie": "^4.1.3",
     "ws": "^8.18.1"
   },
   "devDependencies": {
+    "babel-plugin-transform-imports": "^2.0.0",
     "cross-env": "^10.1.0",
     "dotenv": "^16.4.7",
     "dotenv-expand": "^5.1.0",
@@ -88,24 +83,7 @@
     "npm-run-all": "^4.1.5",
     "turbo": "^2.4.2"
   },
-  "lint-staged": {
-    "**/*.{js,ts,jsx,tsx,md}": [
-      "npx eslint --max-warnings 0"
-    ]
-  },
   "overrides": {
-    "@openshift/dynamic-plugin-sdk-utils": {
-      "react-redux": "^8.0.4",
-      "react-router": "^7.6.2",
-      "react-router-dom": "^7.6.2",
-      "react": "^18.2.0",
-      "react-dom": "^18.2.0",
-      "@patternfly/react-core": "^6.4.1",
-      "@patternfly/react-icons": "^6.4.0",
-      "@patternfly/react-styles": "^6.4.0",
-      "@patternfly/react-table": "^6.4.1",
-      "@patternfly/react-virtualized-extension": "^6.2.0"
-    },
     "@patternfly/react-topology": {
       "react": "^18.2.0"
     },
@@ -117,6 +95,7 @@
     "tough-cookie": "^4.1.3",
     "redux": "^4.2.0",
     "form-data": "^4.0.4",
-    "axios": "^1.15.0"
+    "axios": "^1.15.0",
+    "@types/node": "^18.14.5"
   }
 }

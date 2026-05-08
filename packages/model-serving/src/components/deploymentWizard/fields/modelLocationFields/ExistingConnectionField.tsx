@@ -4,23 +4,25 @@ import {
   getDescriptionFromK8sResource,
   getDisplayNameFromK8sResource,
   getResourceNameFromK8sResource,
-} from '@odh-dashboard/internal/concepts/k8s/utils';
+} from '@odh-dashboard/dashboard-foundation-frontend/concepts/k8s/utils';
 import TypeaheadSelect, {
   TypeaheadSelectOption,
-} from '@odh-dashboard/internal/components/TypeaheadSelect';
-import { ConnectionDetailsHelperText } from '@odh-dashboard/internal/concepts/connectionTypes/ConnectionDetailsHelperText';
+} from '@odh-dashboard/dashboard-foundation-frontend/components/TypeaheadSelect';
+import { ConnectionDetailsHelperText } from '@odh-dashboard/connection-types-shared/concepts/connectionTypes/ConnectionDetailsHelperText';
 import {
   getConnectionTypeDisplayName,
   isModelServingCompatible,
   ModelServingCompatibleTypes,
-} from '@odh-dashboard/internal/concepts/connectionTypes/utils';
+} from '@odh-dashboard/connection-types-shared/concepts/connectionTypes/utils';
 import {
   Connection,
   ConnectionTypeConfigMapObj,
-} from '@odh-dashboard/internal/concepts/connectionTypes/types';
-import ConnectionS3FolderPathField from '@odh-dashboard/internal/pages/modelServing/screens/projects/InferenceServiceModal/ConnectionS3FolderPathField';
-import ConnectionOciPathField from '@odh-dashboard/internal/pages/modelServing/screens/projects/InferenceServiceModal/ConnectionOciPathField';
-import { ConnectionTypeRefs, ModelLocationData, ModelLocationType } from '../../types';
+} from '@odh-dashboard/connection-types-shared/concepts/connectionTypes/types';
+import type { ModelLocationData } from '@odh-dashboard/model-serving-shared/types/form-data';
+import { ModelLocationType } from '@odh-dashboard/model-serving-shared/concepts/modelServing/modelLocationTypes';
+import ConnectionS3FolderPathField from '../../../../pages/screens/projects/InferenceServiceModal/ConnectionS3FolderPathField';
+import ConnectionOciPathField from '../../../../pages/screens/projects/InferenceServiceModal/ConnectionOciPathField';
+import { ConnectionTypeRefs } from '../../types';
 import { isExistingModelLocation, resolveConnectionType } from '../../utils';
 
 type ExistingConnectionFieldProps = {

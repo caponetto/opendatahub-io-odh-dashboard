@@ -1,9 +1,9 @@
-import { k8sGetResource } from '@openshift/dynamic-plugin-sdk-utils';
-import { ClusterTrainingRuntimeModel } from '@odh-dashboard/internal/api/models/kubeflow';
+import { k8sGetResource } from '@odh-dashboard/k8s-browser';
+import { ClusterTrainingRuntimeModel } from '@odh-dashboard/dashboard-foundation-frontend/api/models/kubeflow';
 import { getClusterTrainingRuntime } from '../runtimes';
 import { mockClusterTrainingRuntimeK8sResource } from '../../__mocks__/mockClusterTrainingRuntimeK8sResource';
 
-jest.mock('@openshift/dynamic-plugin-sdk-utils');
+jest.mock('@odh-dashboard/k8s-browser');
 
 const mockK8sGetResource = jest.mocked(k8sGetResource);
 

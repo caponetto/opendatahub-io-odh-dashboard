@@ -720,7 +720,7 @@ Follow along by opening these files in your IDE:
 
 #### Step 1: Find the test ID in the component
 
-Open `frontend/src/pages/projects/screens/projects/NewProjectButton.tsx` and locate the `data-testid`:
+Open `packages/dashboard-foundation-frontend/src/components/NewProjectButton.tsx` and locate the `data-testid`:
 
 ```tsx
 <Button data-testid="create-project" variant="primary" onClick={() => setOpen(true)}>
@@ -770,7 +770,7 @@ npm run cypress:open
 
 #### Step 4: Change and update the test ID
 
-1. In `frontend/src/pages/projects/screens/projects/NewProjectButton.tsx`, change the test ID:
+1. In `packages/dashboard-foundation-frontend/src/components/NewProjectButton.tsx`, change the test ID:
 
 ```tsx
 // Change this:

@@ -2,16 +2,18 @@ import React from 'react';
 import { Bullseye } from '@patternfly/react-core';
 import { CogIcon, ExternalLinkAltIcon } from '@patternfly/react-icons';
 import { Link, Outlet, useParams } from 'react-router-dom';
-import { FeatureStoreModel } from '@odh-dashboard/internal/api/models/odh';
-import { conditionalArea } from '@odh-dashboard/internal/concepts/areas/AreaComponent';
-import { SupportedArea } from '@odh-dashboard/internal/concepts/areas/types';
-import ApplicationsPage from '@odh-dashboard/internal/pages/ApplicationsPage';
-import WhosMyAdministrator from '@odh-dashboard/internal/components/WhosMyAdministrator';
-import RedirectErrorState from '@odh-dashboard/internal/pages/external/RedirectErrorState';
-import { useAccessAllowed } from '@odh-dashboard/internal/concepts/userSSAR/useAccessAllowed';
-import { verbModelAccess } from '@odh-dashboard/internal/concepts/userSSAR/utils';
-import { useClusterInfo } from '@odh-dashboard/internal/redux/selectors/clusterInfo';
-import { getOpenShiftConsoleAction } from '@odh-dashboard/internal/app/AppLauncher';
+import { FeatureStoreModel } from '@odh-dashboard/dashboard-foundation-frontend/api/models/odh';
+import {
+  conditionalArea,
+  SupportedArea,
+} from '@odh-dashboard/dashboard-foundation-frontend/concepts/areas';
+import ApplicationsPage from '@odh-dashboard/dashboard-foundation-frontend/components/ApplicationsPage';
+import WhosMyAdministrator from '@odh-dashboard/dashboard-foundation-frontend/components/WhosMyAdministrator';
+import RedirectErrorState from '@odh-dashboard/dashboard-foundation-frontend/pages/external/RedirectErrorState';
+import { useAccessAllowed } from '@odh-dashboard/dashboard-foundation-frontend/concepts/userSSAR/useAccessAllowed';
+import { verbModelAccess } from '@odh-dashboard/dashboard-foundation-frontend/concepts/userSSAR/utils';
+import { useClusterInfo } from '@odh-dashboard/dashboard-foundation-frontend/redux/selectors/clusterInfo';
+import { getOpenShiftConsoleAction } from '#~/utilities/appLauncherUtils';
 import EmptyStateFeatureStore from './screens/components/EmptyStateFeatureStore';
 import { FeatureStoreObject } from './const';
 import InvalidFeatureStoreProject from './screens/components/InvalidFeatureStoreProject';

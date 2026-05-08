@@ -1,4 +1,4 @@
-import type { DeploymentEndpoint } from '@odh-dashboard/model-serving/extension-points';
+import type { DeploymentEndpoint } from '@odh-dashboard/model-serving-shared/extension-points';
 import type { LLMInferenceServiceKind } from '../types';
 
 export const getLLMdDeploymentEndpoints = (
