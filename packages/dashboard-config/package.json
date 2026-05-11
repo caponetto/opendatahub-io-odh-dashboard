@@ -9,9 +9,8 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./src/index.ts",
-      "require": "./src/index.ts",
-      "default": "./src/index.ts"
+      "@dev": "./src/index.ts",
+      "default": "./dist/index.js"
     }
   },
   "topology": {

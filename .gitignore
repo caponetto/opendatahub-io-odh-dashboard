@@ -35,6 +35,7 @@ empty-coverage.json
 # Build outputs
 dist
 .plugin-manifest.json
+.production-backend
 
 # Contract test results
 contract-test-results

@@ -15,6 +15,7 @@ interface ManifestPackage {
   name: string;
   path: string;
   routesExport?: string;
+  routesExportDev?: string;
   exports?: Record<string, string>;
 }
 
@@ -58,6 +59,7 @@ export function discoverPluginRoutes(assemblerDir?: string): string[] {
   const selectedNames: string[] = resolveSelectedPackages(availableNames, assemblerDir);
 
   const routePaths: string[] = [];
+  const isDev = process.env.NODE_ENV === 'development';
 
   for (const name of selectedNames) {
     const pkg = routePackages.find((p) => p.name === name);
@@ -69,15 +71,23 @@ export function discoverPluginRoutes(assemblerDir?: string): string[] {
     if (!routesExport) {
       continue;
     }
-
-    const routeEntryPath = path.resolve(pkg.path, routesExport);
+    const exportPath = (isDev && pkg.routesExportDev) || routesExport;
+    const routeEntryPath = path.resolve(pkg.path, exportPath);
     if (fs.existsSync(routeEntryPath)) {
       routePaths.push(routeEntryPath);
-    } else {
-      const tsPath = routeEntryPath.replace(/\.js$/, '.ts');
-      if (fs.existsSync(tsPath)) {
-        routePaths.push(tsPath);
+    } else if (isDev && !pkg.routesExportDev) {
+      // No manifest or routesExportDev unavailable — derive TS source from
+      // the compiled-JS export path as a best-effort fallback for cold starts.
+      const srcPath = routeEntryPath
+        .replace(/[\\/]dist[\\/]backend[\\/]/, `${path.sep}src${path.sep}backend${path.sep}`)
+        .replace(/\.js$/, '.ts');
+      if (fs.existsSync(srcPath)) {
+        routePaths.push(srcPath);
+      } else {
+        console.warn(`Warning: ${name} route entry not found at ${routeEntryPath} or ${srcPath}`);
       }
+    } else {
+      console.warn(`Warning: ${name} route entry not found: ${routeEntryPath}`);
     }
   }
 
@@ -86,6 +96,13 @@ export function discoverPluginRoutes(assemblerDir?: string): string[] {
       'Discovered plugin routes:',
       selectedNames.filter((n) => routePackages.some((p) => p.name === n)),
     );
+    if (isDev && routePaths.some((p) => p.endsWith('.js'))) {
+      console.warn(
+        'Warning: running in development mode but loading compiled .js route files. ' +
+          'This usually means --conditions=@dev is not set in NODE_OPTIONS. ' +
+          'Source changes may not take effect until the next build:backend run.',
+      );
+    }
   }
 
   return routePaths;

@@ -22,7 +22,7 @@
   "scripts": {
     "build": "run-p -l build:*",
     "build:all": "turbo run build",
-    "build:backend": "npm run build --prefix packages/dashboard-config && npm run build --prefix packages/dashboard-shell-backend",
+    "build:backend": "turbo run build:backend && npm run build --prefix packages/dashboard-shell-backend",
     "build:frontend": "npm run build --prefix packages/dashboard-dist-full",
     "build:slim": "npm run build --prefix packages/dashboard-dist-slim",
     "dev": "run-p -l dev:full:backend dev:full:frontend",

@@ -4,12 +4,16 @@
   "description": "Shared backend types, helpers, and utilities consumed by extension backend routes",
   "version": "0.0.0",
   "scripts": {
+    "build": "rimraf dist && tsc -p tsconfig.prod.json",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "type-check": "tsc --noEmit"
   },
   "exports": {
-    "./*": "./src/*.ts"
+    "./*": {
+      "@dev": "./src/*.ts",
+      "default": "./dist/*.js"
+    }
   },
   "dependencies": {
     "@fastify/http-proxy": "^9.5.0",

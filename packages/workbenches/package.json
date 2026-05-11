@@ -7,6 +7,7 @@
     "tier": "extension"
   },
   "scripts": {
+    "build:backend": "rimraf dist/backend && tsc -p tsconfig.backend.json",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "type-check": "tsc --noEmit",
@@ -16,7 +17,7 @@
     "./extensions": "./src/extensions.ts",
     "./extension-points": "./src/extension-points/index.ts",
     "./extension-points/model-serving": "./src/extension-points/model-serving.ts",
-    "./routes": "./src/backend/routes/index.ts",
+    "./routes": "./dist/backend/routes/index.js",
     "./*": [
       "./src/*",
       "./src/*.ts",

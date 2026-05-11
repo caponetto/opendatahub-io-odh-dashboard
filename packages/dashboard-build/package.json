@@ -12,9 +12,12 @@
     "test-unit": "jest --silent",
     "test-unit-coverage": "jest --silent --coverage"
   },
-  "dependencies": {
+  "devDependencies": {
     "@jsdevtools/coverage-istanbul-loader": "*",
     "@module-federation/enhanced": "*",
+    "@odh-dashboard/eslint-config": "*",
+    "@odh-dashboard/jest-config": "*",
+    "@odh-dashboard/tsconfig": "*",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.15",
     "@swc/core": "^1.13.3",
     "copy-webpack-plugin": "*",
@@ -49,11 +52,6 @@
     "webpack-dev-server": "*",
     "webpack-merge": "*",
     "webpack-virtual-modules": "^0.6.2"
-  },
-  "devDependencies": {
-    "@odh-dashboard/eslint-config": "*",
-    "@odh-dashboard/jest-config": "*",
-    "@odh-dashboard/tsconfig": "*"
   },
   "topology": {
     "tier": "infrastructure",

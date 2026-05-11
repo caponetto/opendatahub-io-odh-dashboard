@@ -26,7 +26,7 @@ This is a massive change — over 4,000 files touched in a single commit. The re
 
 ### Build output: Full vs. Slim
 
-One of the key benefits of the new architecture is the ability to produce different distributions from the same codebase. The **full** assembler bundles every extension package, while the **slim** assembler includes only a subset. The difference in build output is significant:
+One of the key benefits of the new architecture is the ability to produce different distributions from the same codebase. The **full** assembler bundles every extension package, while the **slim** assembler includes only a subset. The difference in frontend build output (webpack) is significant:
 
 | Metric | Full | Slim | Difference |
 |--------|------|------|------------|
@@ -43,6 +43,16 @@ One of the key benefits of the new architecture is the ability to produce differ
 The slim build is roughly **half the size** of the full build, and this is not even optimized. This demonstrates the core value of the assembler model — distributions that only need model serving capabilities, for instance, no longer have to ship the entire dashboard with pipelines, workbenches, distributed workloads, and every other feature baked in.
 
 > **Why does the slim build have more CSS files?** The CSS file count is a webpack chunk-splitting artifact, not an increase in actual CSS content. In the full build, 30 extension packages share many of the same CSS dependencies (PatternFly, foundation styles), so webpack's `splitChunks` optimizer consolidates them into fewer, larger shared chunks. In the slim build, only 4 extensions exist — fewer consumers sharing CSS means less consolidation opportunity, so webpack produces more granular chunks. The total CSS size still drops by 24%; it is just sliced into more pieces.
+
+The backend build is also selective. Each extension with Fastify routes compiles `src/backend/` to `dist/backend/` via `tsconfig.backend.json`. The production image only includes compiled routes for the assembler's selected extensions:
+
+| Metric | Full | Slim | Difference |
+|--------|------|------|------------|
+| Core backend (shared) | 83 files, 279 KB | 83 files, 279 KB | same |
+| Extension route files | 34 files, 111 KB | 8 files, 20 KB | -76% |
+| **Total backend JS** | **117 files, 390 KB** | **91 files, 299 KB** | **-23%** |
+
+The slim assembler's three plugins (`hardware-profiles`, `kserve`, `model-serving`) only `model-serving` declares backend routes, so the slim image ships a single extension backend. The core backend (shell, config, foundation) dominates the size in both cases, keeping the overall difference at 23%, but extension route code itself is 76% smaller.
 
 ### Slim distribution in action
 
@@ -325,7 +335,7 @@ The old `backend/src/routes/api/` directory contained all API route handlers in 
 
 Feature-specific routes now live inside their extension package under `src/backend/routes/`. Core routes that serve the overall application (config, health, K8s proxy, etc.) stayed in the shell backend.
 
-Extension packages declare their backend routes by adding a `"./routes"` export to their `package.json`, pointing to the route entry file (e.g., `"./routes": "./src/backend/routes/index.ts"`). At startup, `dashboard-shell-backend` calls `discoverPluginRoutes()`, which reads the build-time plugin manifest (or falls back to scanning workspace packages) and collects every package that has a `"./routes"` export. It then filters this list based on which extensions the assembler selected via `pluginPackages`. The resolved route entry files are registered directly via `require()` and `fastify.register()` alongside the shell's own built-in routes (which use `@fastify/autoload` for directory-based loading). The result: each extension's API endpoints are automatically available without any manual wiring in the shell.
+Extension packages declare their backend routes by adding a `"./routes"` export to their `package.json` pointing to the compiled entry file (`./dist/backend/routes/index.js`). Each extension has a `tsconfig.backend.json` that compiles `src/backend/` to `dist/backend/` during the `build:backend` step. At startup, `dashboard-shell-backend` calls `discoverPluginRoutes()`, which reads the build-time plugin manifest (or falls back to scanning workspace packages) and collects every package that has a `"./routes"` export. It then filters this list based on which extensions the assembler selected via `pluginPackages`. In production, the compiled `.js` routes are loaded directly; in dev mode, `discoverPluginRoutes()` derives the TS source path from the export (`dist/backend/` → `src/backend/`, `.js` → `.ts`) and loads that instead. The resolved route entry files are registered via `require()` and `fastify.register()` alongside the shell's own built-in routes (which use `@fastify/autoload` for directory-based loading). The result: each extension's API endpoints are automatically available without any manual wiring in the shell.
 
 ### Frontend API layer split
 
@@ -476,6 +486,10 @@ The restructuration has been validated through automated scripts and manual veri
 - **Type checking** — `npm run type-check` passes, verifying that all cross-package type references resolve correctly after the move.
 - **Unit tests** — `npm run test` passes, confirming that existing unit tests continue to work in their new package locations.
 - **Production builds** — both `dashboard-dist-full` and `dashboard-dist-slim` build successfully with `npm run build`, producing valid bundles.
+- **Production build locally** — the full production stack (compiled backend + webpack frontend) can be tested without Docker. Backend packages use Node.js conditional exports (`@dev` / `default`) so that the same `package.json` works for both `npm run dev` (resolves TS source) and production (resolves compiled JS). Build and run (requires `oc login` to a cluster):
+  - **Full**: `npm run build && NODE_TLS_REJECT_UNAUTHORIZED=0 APP_ENV=development ASSEMBLER_DIR=$PWD/packages/dashboard-dist-full node packages/dashboard-shell-backend/dist/standalone.js`
+  - **Slim**: `npm run build:backend && npm run build:slim && NODE_TLS_REJECT_UNAUTHORIZED=0 APP_ENV=development ASSEMBLER_DIR=$PWD/packages/dashboard-dist-slim node packages/dashboard-shell-backend/dist/standalone.js`
+  - Then open `http://localhost:8080`.
 - **Manual sanity checks** — both the full and slim distributions have been manually tested in a browser, verifying that pages load, navigation works, and extensions render correctly.
 
 Cypress mock and E2E tests have **not** been run against this restructuration. A full Cypress pass would be a prerequisite before moving beyond the POC stage.

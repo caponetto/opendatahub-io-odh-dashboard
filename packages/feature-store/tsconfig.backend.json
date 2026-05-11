@@ -1,0 +1,9 @@
+{
+  "extends": "@odh-dashboard/tsconfig/tsconfig.backend.json",
+  "compilerOptions": {
+    "rootDir": "src/backend",
+    "outDir": "dist/backend"
+  },
+  "include": ["src/backend/**/*.ts"],
+  "exclude": ["node_modules", "dist"]
+}

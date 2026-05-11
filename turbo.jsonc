@@ -9,6 +9,10 @@
       "cache": false,
       "dependsOn": ["^build"]
     },
+    "build:backend": {
+      "cache": false,
+      "dependsOn": ["@odh-dashboard/dashboard-foundation-backend#build"]
+    },
     "lint": {
       "inputs": ["$TURBO_DEFAULT$", "$TURBO_ROOT$/packages/eslint-config/**/*"]
     },

@@ -42,6 +42,26 @@ function generateManifest() {
         }
         if (pkg.exports?.['./routes']) {
           entry.routesExport = pkg.exports['./routes'];
+          const tsconfigPath = path.join(pkg.path, 'tsconfig.backend.json');
+          if (fs.existsSync(tsconfigPath)) {
+            let tsconfig = JSON.parse(fs.readFileSync(tsconfigPath, 'utf8'));
+            // Only resolves one level of extends — sufficient for the current
+            // convention where extensions extend tsconfig/tsconfig.backend.json
+            // directly. Chained extends would need recursive resolution.
+            if (!tsconfig.compilerOptions && tsconfig.extends) {
+              const basePath = require.resolve(tsconfig.extends, { paths: [pkg.path] });
+              tsconfig = JSON.parse(fs.readFileSync(basePath, 'utf8'));
+            }
+            const { rootDir, outDir } = tsconfig.compilerOptions || {};
+            if (rootDir && outDir) {
+              const prefix = new RegExp(`^\\./${outDir.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}/`);
+              if (prefix.test(entry.routesExport)) {
+                entry.routesExportDev = entry.routesExport
+                  .replace(prefix, `./${rootDir}/`)
+                  .replace(/\.js$/, '.ts');
+              }
+            }
+          }
         }
         if (pkg['module-federation']) {
           entry.moduleFederation = pkg['module-federation'];
@@ -53,6 +73,24 @@ function generateManifest() {
       }),
   };
   return manifest;
+}
+
+function validateRouteExports(manifest) {
+  const missing = manifest.packages.filter((pkg) => {
+    if (!pkg.routesExport) {
+      return false;
+    }
+    const compiledPath = path.join(pkg.path, pkg.routesExport);
+    return !fs.existsSync(compiledPath);
+  });
+  if (missing.length > 0) {
+    console.warn(
+      '\nWarning: The following packages declare ./routes but the compiled entry is missing.',
+    );
+    console.warn('Run `npm run build:backend` to compile extension backends:');
+    missing.forEach((pkg) => console.warn(`  - ${pkg.name}: ${pkg.routesExport}`));
+    console.warn('');
+  }
 }
 
 function validateDualPathPackages(manifest) {
@@ -76,6 +114,7 @@ function main() {
     outIdx >= 0 && args[outIdx + 1] ? path.resolve(args[outIdx + 1]) : DEFAULT_OUTPUT;
 
   const manifest = generateManifest();
+  validateRouteExports(manifest);
   validateDualPathPackages(manifest);
   fs.writeFileSync(outputPath, `${JSON.stringify(manifest, null, 2)}\n`);
   console.log(`Plugin manifest written to ${outputPath} (${manifest.packages.length} packages)`);

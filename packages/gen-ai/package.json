@@ -48,16 +48,11 @@
     "lint:fix": "cd frontend && npm run lint:fix"
   },
   "exports": {
-    "./extension-points": "./frontend/src/odh/extension-points/index.ts",
-    "./routes": "./src/backend/routes/index.ts"
+    "./extension-points": "./frontend/src/odh/extension-points/index.ts"
   },
   "dependencies": {
-    "@fastify/autoload": "^5.7.1",
-    "@odh-dashboard/dashboard-foundation-backend": "*",
     "@odh-dashboard/dashboard-foundation-frontend": "*",
-    "@odh-dashboard/plugin-core": "*",
-    "fastify": "^4.23.2",
-    "fastify-plugin": "^4.5.1"
+    "@odh-dashboard/plugin-core": "*"
   },
   "devDependencies": {
     "@odh-dashboard/contract-tests": "*",

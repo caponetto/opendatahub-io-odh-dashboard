@@ -8,6 +8,7 @@
   },
   "scripts": {
     "build": "make -C upstream build",
+    "build:backend": "rimraf dist/backend && tsc -p tsconfig.backend.json",
     "install:module": "npm install --prefix upstream/frontend",
     "lint": "eslint .",
     "type-check": "tsc --noEmit",
@@ -60,7 +61,7 @@
     "startCommandCluster": "make -C upstream dev-bff-e2e-cluster"
   },
   "exports": {
-    "./routes": "./src/backend/routes/index.ts",
+    "./routes": "./dist/backend/routes/index.js",
     "./extensions": "./src/extensions.ts",
     "./model-catalog-deploy": {
       "types": "./upstream/frontend/src/odh/extension-points/model-catalog-deploy.ts"
