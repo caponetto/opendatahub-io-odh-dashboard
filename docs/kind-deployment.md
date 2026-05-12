@@ -281,9 +281,9 @@ The Kind overlay deploys an `OdhDashboardConfig` CR with sensible defaults for l
 - `disableSupport: true` -- No Red Hat support integration
 - `disableTracking: true` -- No telemetry
 - `disableISVBadges: true` -- No ISV badges
-- `disablePerformanceMetrics: true` -- No Thanos/OpenShift monitoring stack
-- `disableTrustyBiasMetrics: true` -- No TrustyAI metrics
-- `disableKServeMetrics: true` -- No KServe-specific metrics endpoint
+- `disablePerformanceMetrics: false` -- Performance metrics enabled (served by Thanos Querier stack)
+- `disableTrustyBiasMetrics: false` -- TrustyAI bias metrics enabled
+- `disableKServeMetrics: false` -- KServe metrics enabled
 - `observabilityDashboard: true` -- Enables the Observe & Monitor > Dashboard nav item (served by real Perses + Prometheus)
 - `modelAsService: true` -- Enables the Gen AI Studio nav items (requires the MaaS plugin)
 
@@ -341,7 +341,7 @@ With the real server enabled, the BFF's `--mock-mr-client` and `--mock-mr-catalo
 
 #### MaaS Plugin
 
-The MaaS BFF runs in mock mode (`MOCK_K8S_CLIENT=true`, `MOCK_HTTP_CLIENT=true`) on Kind, so it returns sample data without needing real backend services.
+The MaaS BFF runs in mock mode (`--mock-http-client`) on Kind, so it returns sample data without needing real backend services.
 
 A `DataScienceCluster` CRD stub and sample CR are installed automatically. The DSC status is patched with component statuses (`kserve: Managed`, `modelregistry: Managed`, etc.) and a `ModelsAsServiceReady: True` condition, which the MaaS plugin requires to activate.
 
