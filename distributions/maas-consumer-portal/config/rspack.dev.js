@@ -10,6 +10,14 @@ const RELATIVE_DIRNAME = path.resolve(__dirname, '..');
 const DIST_DIR = path.resolve(RELATIVE_DIRNAME, 'public');
 const PORT = process.env.SHELL_PORT || 4020;
 const BASE_PATH = '/maas-consumer-portal';
+const portalApiPaths = {
+  maas: `${BASE_PATH}/maas/api`,
+  genAi: `${BASE_PATH}/gen-ai/api`,
+  perses: `${BASE_PATH}/perses/api`,
+  k8s: `${BASE_PATH}/api/k8s`,
+  operatorSubscriptionStatus: `${BASE_PATH}/api/operator-subscription-status`,
+};
+const portalApiContexts = Object.values(portalApiPaths);
 
 const clusterCAFile = process.env.ODH_DASHBOARD_CA_FILE;
 const clusterProxyAgent = clusterCAFile
@@ -140,7 +148,7 @@ const buildProxyConfig = () => {
       }
       return [
         {
-          context: [`${BASE_PATH}/maas/api`, `${BASE_PATH}/gen-ai/api`],
+          context: portalApiContexts,
           target: `https://${dashboardHost}`,
           pathRewrite: { [`^${BASE_PATH}`]: '' },
           secure: true,
@@ -156,26 +164,33 @@ const buildProxyConfig = () => {
   // Local mode: proxy to explicit BFF targets (port-forward or local BFF)
   const MAAS_BFF_TARGET = process.env.MAAS_BFF_TARGET || 'http://localhost:4000';
   const GENAI_BFF_TARGET = process.env.GENAI_BFF_TARGET || 'http://localhost:8080';
-  console.info('Proxy targets:', { maas: MAAS_BFF_TARGET, genAi: GENAI_BFF_TARGET });
+  const PERSES_TARGET = process.env.PERSES_TARGET || 'http://localhost:9005';
+  const CORE_BFF_TARGET = process.env.CORE_BFF_TARGET || 'http://localhost:4000';
+  console.info('Proxy targets:', {
+    maas: MAAS_BFF_TARGET,
+    genAi: GENAI_BFF_TARGET,
+    perses: PERSES_TARGET,
+    coreBff: CORE_BFF_TARGET,
+  });
 
   return [
+    { path: portalApiPaths.maas, target: MAAS_BFF_TARGET, pathRewrite: '/api' },
+    { path: portalApiPaths.genAi, target: GENAI_BFF_TARGET, pathRewrite: '/api' },
+    { path: portalApiPaths.perses, target: PERSES_TARGET, pathRewrite: '' },
+    { path: portalApiPaths.k8s, target: CORE_BFF_TARGET, pathRewrite: '/api/k8s' },
     {
-      context: [`${BASE_PATH}/maas/api`],
-      target: MAAS_BFF_TARGET,
-      pathRewrite: { [`^${BASE_PATH}/maas/api`]: '/api' },
-      secure: false,
-      changeOrigin: true,
-      on,
+      path: portalApiPaths.operatorSubscriptionStatus,
+      target: CORE_BFF_TARGET,
+      pathRewrite: '/api/operator-subscription-status',
     },
-    {
-      context: [`${BASE_PATH}/gen-ai/api`],
-      target: GENAI_BFF_TARGET,
-      pathRewrite: { [`^${BASE_PATH}/gen-ai/api`]: '/api' },
-      secure: false,
-      changeOrigin: true,
-      on,
-    },
-  ];
+  ].map(({ path: proxyPath, target, pathRewrite }) => ({
+    context: [proxyPath],
+    target,
+    pathRewrite: { [`^${proxyPath}`]: pathRewrite },
+    secure: false,
+    changeOrigin: true,
+    on,
+  }));
 };
 
 module.exports = merge(rspackCommon(), {

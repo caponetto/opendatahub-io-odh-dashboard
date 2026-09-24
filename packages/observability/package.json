@@ -12,6 +12,7 @@
   },
   "exports": {
     "./extensions": "./extensions.ts",
+    "./dashboard": "./src/dashboard.ts",
     "./embeddable": "./src/perses/embeddable/api.ts"
   },
   "module-federation": {

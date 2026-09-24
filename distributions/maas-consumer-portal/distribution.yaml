@@ -6,6 +6,9 @@ packages:
     - name: maas-consumer-portal
       extensionsPath: ./extensions
   bundled:
+    - package: '@odh-dashboard/observability'
+      featureFlags:
+        observabilityDashboard: true
     - package: '@odh-dashboard/maas'
       extensionsPath: './extensions/static'
       featureFlags:
@@ -18,4 +21,3 @@ packages:
         plugin-gen-ai: true
         chatPlayground: true
         modelAsService: true
-
