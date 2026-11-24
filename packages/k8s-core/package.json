@@ -27,6 +27,7 @@
     "./api/apiResource": "./src/api/apiResource.ts",
     "./api/operatorSubscriptionStatus": "./src/api/operatorSubscriptionStatus.ts",
     "./api/secrets": "./src/api/secrets.ts",
+    "./api/namespaces": "./src/api/namespaces.ts",
     "./api/serviceAccounts": "./src/api/serviceAccounts.ts",
     "./api/roles": "./src/api/roles.ts",
     "./api/roleBindings": "./src/api/roleBindings.ts",

@@ -34,6 +34,7 @@
     "./components/detail/ErrorOverviewCard": "./src/components/detail/ErrorOverviewCard.tsx",
     "./components/detail/DetailsSection": "./src/components/detail/DetailsSection.tsx",
     "./components/ScopedLabel": "./src/components/ScopedLabel.tsx",
+    "./components/UserMenu": "./src/components/UserMenu.tsx",
     "./components/ProjectScopedPopover": "./src/components/ProjectScopedPopover.tsx",
     "./components/LastDeployed": "./src/components/LastDeployed.tsx",
     "./components/searchSelector": "./src/components/searchSelector/index.ts",
@@ -76,6 +77,7 @@
     "./contexts/ThemeContext": "./src/contexts/ThemeContext.tsx",
     "./contexts/NotificationContext": "./src/contexts/NotificationContext.tsx",
     "./contexts/NotificationWatcherContext": "./src/contexts/NotificationWatcherContext.tsx",
+    "./contexts/ToastNotificationProvider": "./src/contexts/ToastNotificationProvider.tsx",
     "./types": "./src/types.ts",
     "./types/metrics": "./src/types/metrics.ts",
     "./components/projectSelector": "./src/components/projectSelector/index.ts",
@@ -113,7 +115,9 @@
   },
   "module-federation-shared": [
     "./context/HardwareProfilesContext",
-    "./context/WorkingProjectContext"
+    "./context/WorkingProjectContext",
+    "./contexts/NotificationContext",
+    "./contexts/NotificationWatcherContext"
   ],
   "scripts": {
     "lint": "eslint .",

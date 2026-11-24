@@ -45,8 +45,8 @@ const extensions: Extension[] = [
   {
     type: 'app.masthead/toolbar-item',
     properties: {
-      id: 'auth-placeholder',
-      component: () => import('./components/AuthPlaceholder'),
+      id: 'user-menu',
+      component: () => import('./components/RhaiiUserMenu'),
       position: 'trailing',
     },
   } satisfies MastheadToolbarItemExtension,

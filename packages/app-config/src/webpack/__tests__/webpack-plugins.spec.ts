@@ -190,6 +190,12 @@ describe('getRuntimeOdhPackages', () => {
     expect(hostProvided.has('@odh-dashboard/ui-core/context/HardwareProfilesContext')).toBe(true);
     expect(all.has('@odh-dashboard/ui-core/context/WorkingProjectContext')).toBe(true);
     expect(hostProvided.has('@odh-dashboard/ui-core/context/WorkingProjectContext')).toBe(true);
+    expect(all.has('@odh-dashboard/ui-core/contexts/NotificationContext')).toBe(true);
+    expect(hostProvided.has('@odh-dashboard/ui-core/contexts/NotificationContext')).toBe(true);
+    expect(all.has('@odh-dashboard/ui-core/contexts/NotificationWatcherContext')).toBe(true);
+    expect(hostProvided.has('@odh-dashboard/ui-core/contexts/NotificationWatcherContext')).toBe(
+      true,
+    );
   });
 
   it.each(['./*', 'context', './missing'])(

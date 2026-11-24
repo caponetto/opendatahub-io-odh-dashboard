@@ -33,6 +33,12 @@ export const SecretModel: K8sModelCommon = {
   plural: 'secrets',
 };
 
+export const NamespaceModel: K8sModelCommon = {
+  apiVersion: 'v1',
+  kind: 'Namespace',
+  plural: 'namespaces',
+};
+
 export const ServiceAccountModel: K8sModelCommon = {
   apiVersion: 'v1',
   kind: 'ServiceAccount',

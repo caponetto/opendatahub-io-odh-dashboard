@@ -1,23 +1,15 @@
-import * as React from 'react';
-import { useFeatureFlag } from '@openshift/dynamic-plugin-sdk';
+import React, { type FC, type PropsWithChildren } from 'react';
 import {
   IntegrationsContext,
   type IntegrationsStatusContextType,
 } from '@odh-dashboard/plugin-core/integrations';
-import {
-  AreaContext,
-  SupportedArea,
-  type IsAreaAvailableStatus,
-} from '@odh-dashboard/plugin-core/areas';
-import { DashboardNamespaceProvider } from './DashboardNamespaceContext';
+import ToastNotificationProvider from '@odh-dashboard/ui-core/contexts/ToastNotificationProvider';
+import AppBootstrapProvider from './AppBootstrapProvider';
 import HardwareProfilesContextProvider from './HardwareProfilesContextProvider';
 import HostApiProvider from './HostApiProvider';
 import ProjectsContextProvider from './ProjectsContextProvider';
+import RhaiiAreaProvider from './RhaiiAreaProvider';
 import TiltFixturesProvider from '../development/tilt/TiltFixturesProvider';
-
-type RhaiiAppProviderProps = {
-  children: React.ReactNode;
-};
 
 const integrationsContextValue: IntegrationsStatusContextType = {
   integrationStatus: {},
@@ -26,35 +18,7 @@ const integrationsContextValue: IntegrationsStatusContextType = {
   refresh: () => Promise.resolve(undefined),
 };
 
-const availableAreaStatus: IsAreaAvailableStatus = {
-  status: true,
-  devFlags: null,
-  featureFlags: null,
-  reliantAreas: null,
-  requiredCapabilities: null,
-  requiredComponents: null,
-};
-
-const getAreasStatus = (unifiedProjectSelectorEnabled: boolean) => ({
-  [SupportedArea.MODEL_SERVING]: availableAreaStatus,
-  [SupportedArea.K_SERVE]: availableAreaStatus,
-  [SupportedArea.LLMD_SERVING]: availableAreaStatus,
-  [SupportedArea.UNIFIED_PROJECT_SELECTOR]: {
-    ...availableAreaStatus,
-    status: unifiedProjectSelectorEnabled,
-  },
-});
-
-const RhaiiAppProvider: React.FC<RhaiiAppProviderProps> = ({ children }) => {
-  const [unifiedProjectSelectorEnabled] = useFeatureFlag('unified-project-selector');
-  const areaContextValue = React.useMemo(
-    () => ({
-      dscStatus: null,
-      dsciStatus: null,
-      areasStatus: getAreasStatus(unifiedProjectSelectorEnabled === true),
-    }),
-    [unifiedProjectSelectorEnabled],
-  );
+const RhaiiAppProvider: FC<PropsWithChildren> = ({ children }) => {
   const appContent =
     process.env.RHAII_TILT_FIXTURES === 'true' ? (
       <TiltFixturesProvider>{children}</TiltFixturesProvider>
@@ -64,15 +28,17 @@ const RhaiiAppProvider: React.FC<RhaiiAppProviderProps> = ({ children }) => {
 
   return (
     <IntegrationsContext.Provider value={integrationsContextValue}>
-      <AreaContext.Provider value={areaContextValue}>
-        <DashboardNamespaceProvider>
+      <AppBootstrapProvider>
+        <RhaiiAreaProvider>
           <HardwareProfilesContextProvider>
             <ProjectsContextProvider>
-              <HostApiProvider>{appContent}</HostApiProvider>
+              <HostApiProvider>
+                <ToastNotificationProvider>{appContent}</ToastNotificationProvider>
+              </HostApiProvider>
             </ProjectsContextProvider>
           </HardwareProfilesContextProvider>
-        </DashboardNamespaceProvider>
-      </AreaContext.Provider>
+        </RhaiiAreaProvider>
+      </AppBootstrapProvider>
     </IntegrationsContext.Provider>
   );
 };
