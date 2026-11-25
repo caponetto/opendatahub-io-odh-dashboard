@@ -8,7 +8,7 @@ const productionTargets = {
   host: {
     workspace: 'distributions/rhaii',
     config: 'distributions/rhaii/config/rspack.prod.js',
-    environment: { MODEL_SERVING_REMOTE_ENTRY, RHAII_TILT_FIXTURES: 'false' },
+    environment: { MODEL_SERVING_REMOTE_ENTRY },
   },
   'model-serving': {
     workspace: 'packages/model-serving/frontend',

@@ -29,6 +29,9 @@ import {
 } from '@odh-dashboard/k8s-core/api/namespaces';
 import { DashboardNamespaceContext } from './DashboardNamespaceContext';
 import { checkAccess } from './checkAccess';
+import { useServingConnections } from './useServingConnections';
+import { useWatchConnectionTypes } from './useWatchConnectionTypes';
+import UriConnectionFormFields from '../components/UriConnectionFormFields';
 
 const ProjectDetailsContext = createContext(null);
 const MODEL_SERVING_CONTEXT_VALUE = {
@@ -140,6 +143,7 @@ const infraApi: HostApiInfraServices = {
 
 const NIM_SUPPORT_ANNOTATION = 'opendatahub.io/nim-support';
 
+// Only KServe promotion/reset in RHAII; NIM/ModelMesh are ODH-only.
 const servingPlatformChanges: Partial<Record<NamespaceApplicationCase, NamespaceMetadataChange>> = {
   [NamespaceApplicationCase.KSERVE_PROMOTION]: {
     labels: { [KnownLabels.MODEL_SERVING_PROJECT]: 'false' },
@@ -169,13 +173,13 @@ const setProjectServingPlatform: HostApiServices['setProjectServingPlatform'] = 
 const hostApi: HostApiServices = {
   useTemplates: () => [[], true, undefined],
   setProjectServingPlatform,
-  useWatchConnectionTypes: () => [[], true, undefined, () => Promise.resolve([])],
-  useServingConnections: () => [[], true, undefined, () => Promise.resolve([])],
+  useWatchConnectionTypes,
+  useServingConnections,
   getDashboardConfigTemplateOrder: () => Promise.resolve([]),
   getDashboardConfigTemplateDisablement: () => Promise.resolve([]),
   isProjectNIMSupported: () => false,
   createProject: unsupportedCreateProject,
-  ConnectionTypeFormFields: () => null,
+  ConnectionTypeFormFields: UriConnectionFormFields,
   contexts: {
     ProjectDetailsContext,
     ModelServingContext,

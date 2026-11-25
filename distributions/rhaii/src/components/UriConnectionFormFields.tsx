@@ -1,42 +1,10 @@
-import * as React from 'react';
+import React from 'react';
 import { FormGroup, TextInput } from '@patternfly/react-core';
-import {
-  isConnectionTypeDataField,
-  type ConnectionTypeConfigMapObj,
-} from '@odh-dashboard/k8s-core';
+import { isConnectionTypeDataField } from '@odh-dashboard/k8s-core';
 import type { HostApiServices } from '@odh-dashboard/plugin-core/host-api';
 import { trimInputOnBlur, trimInputOnPaste } from '@odh-dashboard/ui-core/utilities';
 
-export const createTiltUriConnectionType = (namespace: string): ConnectionTypeConfigMapObj => ({
-  apiVersion: 'v1',
-  kind: 'ConfigMap',
-  metadata: {
-    name: 'uri-v1',
-    namespace,
-    labels: {
-      'opendatahub.io/dashboard': 'true',
-      'opendatahub.io/connection-type': 'true',
-    },
-    annotations: {
-      'openshift.io/display-name': 'URI',
-      'openshift.io/description': 'Direct model URI for the RHAII Tilt environment.',
-      'opendatahub.io/disabled': 'false',
-    },
-  },
-  data: {
-    fields: [
-      {
-        envVar: 'URI',
-        name: 'URI',
-        description: 'URI of the model to deploy.',
-        required: true,
-        type: 'uri',
-        properties: {},
-      },
-    ],
-  },
-});
-
+/** Renders the built-in URI connection type's field as a model-URI input. */
 const UriConnectionFormFields: HostApiServices['ConnectionTypeFormFields'] = ({
   fields,
   isDisabled,
@@ -56,11 +24,11 @@ const UriConnectionFormFields: HostApiServices['ConnectionTypeFormFields'] = ({
   const handleChange = (value: string) => onChange?.(uriField, value);
 
   return (
-    <FormGroup label={uriField.name} fieldId="rhaii-tilt-model-uri" isRequired={uriField.required}>
+    <FormGroup label={uriField.name} fieldId="rhaii-model-uri" isRequired={uriField.required}>
       <TextInput
         autoComplete="off"
-        id="rhaii-tilt-model-uri"
-        data-testid="rhaii-tilt-model-uri"
+        id="rhaii-model-uri"
+        data-testid="rhaii-model-uri"
         value={stringValue}
         isDisabled={isDisabled}
         isRequired={uriField.required}

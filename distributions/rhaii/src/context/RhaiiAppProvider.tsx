@@ -9,7 +9,6 @@ import HardwareProfilesContextProvider from './HardwareProfilesContextProvider';
 import HostApiProvider from './HostApiProvider';
 import ProjectsContextProvider from './ProjectsContextProvider';
 import RhaiiAreaProvider from './RhaiiAreaProvider';
-import TiltFixturesProvider from '../development/tilt/TiltFixturesProvider';
 
 const integrationsContextValue: IntegrationsStatusContextType = {
   integrationStatus: {},
@@ -18,29 +17,20 @@ const integrationsContextValue: IntegrationsStatusContextType = {
   refresh: () => Promise.resolve(undefined),
 };
 
-const RhaiiAppProvider: FC<PropsWithChildren> = ({ children }) => {
-  const appContent =
-    process.env.RHAII_TILT_FIXTURES === 'true' ? (
-      <TiltFixturesProvider>{children}</TiltFixturesProvider>
-    ) : (
-      children
-    );
-
-  return (
-    <IntegrationsContext.Provider value={integrationsContextValue}>
-      <AppBootstrapProvider>
-        <RhaiiAreaProvider>
-          <HardwareProfilesContextProvider>
-            <ProjectsContextProvider>
-              <HostApiProvider>
-                <ToastNotificationProvider>{appContent}</ToastNotificationProvider>
-              </HostApiProvider>
-            </ProjectsContextProvider>
-          </HardwareProfilesContextProvider>
-        </RhaiiAreaProvider>
-      </AppBootstrapProvider>
-    </IntegrationsContext.Provider>
-  );
-};
+const RhaiiAppProvider: FC<PropsWithChildren> = ({ children }) => (
+  <IntegrationsContext.Provider value={integrationsContextValue}>
+    <AppBootstrapProvider>
+      <RhaiiAreaProvider>
+        <HardwareProfilesContextProvider>
+          <ProjectsContextProvider>
+            <HostApiProvider>
+              <ToastNotificationProvider>{children}</ToastNotificationProvider>
+            </HostApiProvider>
+          </ProjectsContextProvider>
+        </HardwareProfilesContextProvider>
+      </RhaiiAreaProvider>
+    </AppBootstrapProvider>
+  </IntegrationsContext.Provider>
+);
 
 export default RhaiiAppProvider;

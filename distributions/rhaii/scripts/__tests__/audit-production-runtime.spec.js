@@ -53,7 +53,6 @@ describe('production audit command', () => {
     jest.replaceProperty(process, 'env', {
       ...process.env,
       MODEL_SERVING_REMOTE_ENTRY: '',
-      RHAII_TILT_FIXTURES: 'false',
     });
     execFileSync.mockImplementation((command, args) => {
       if (command === 'git') return args[0] === 'rev-parse' ? 'revision\n' : '';

@@ -64,8 +64,6 @@ WORKDIR /usr/src/workspace/distributions/rhaii
 # Tilt overrides it with its local development server on port 9109.
 ARG MODEL_SERVING_REMOTE_ENTRY="/_mf/modelServing/remoteEntry.js"
 ENV MODEL_SERVING_REMOTE_ENTRY=${MODEL_SERVING_REMOTE_ENTRY}
-ARG RHAII_TILT_FIXTURES=false
-ENV RHAII_TILT_FIXTURES=${RHAII_TILT_FIXTURES}
 RUN pnpm run build
 
 # Build the Model Serving module as a federated remote. The final stage places

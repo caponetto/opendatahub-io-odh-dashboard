@@ -71,6 +71,7 @@ const RhaiiAreaProvider: FC<PropsWithChildren> = ({ children }) => {
     setAreaFlagsApplied(true);
   }, [pluginStore, areaFlags]);
 
+  // AppBootstrapProvider owns the spinner; no fallback UI here.
   if (!areaFlagsApplied) {
     return null;
   }

@@ -87,6 +87,20 @@ export const replaceSecret = (data: SecretKind, opts?: K8sAPIOptions): Promise<S
     ),
   );
 
+export const getSecretsForNamespace = (
+  namespace: string,
+  opts?: K8sAPIOptions,
+): Promise<SecretKind[]> =>
+  k8sListResource<SecretKind>(
+    applyK8sAPIOptions(
+      {
+        model: SecretModel,
+        queryOptions: { ns: namespace },
+      },
+      opts,
+    ),
+  ).then((list) => list.items);
+
 export const deleteSecret = (
   projectName: string,
   secretName: string,

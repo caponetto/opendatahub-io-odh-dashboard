@@ -20,7 +20,6 @@ jest.mock('../ProjectsContextProvider', () => ({
   default: ({ children }: { children: ReactNode }) => children,
 }));
 
-const ORIGINAL_TILT_FIXTURES = process.env.RHAII_TILT_FIXTURES;
 let pluginStore: PluginStore;
 
 const DEFAULT_STATUS = { kube: { namespace: 'opendatahub' } };
@@ -100,43 +99,22 @@ beforeEach(() => {
 });
 
 afterEach(() => {
-  if (ORIGINAL_TILT_FIXTURES === undefined) {
-    delete process.env.RHAII_TILT_FIXTURES;
-  } else {
-    process.env.RHAII_TILT_FIXTURES = ORIGINAL_TILT_FIXTURES;
-  }
   jest.restoreAllMocks();
   delete (globalThis as { fetch?: typeof fetch }).fetch;
 });
 
-describe('RhaiiAppProvider Tilt fixture composition', () => {
-  it.each([
-    ['enabled', 'true', 'uri-v1'],
-    ['disabled', 'false', ''],
-    ['unset', undefined, ''],
-  ] as const)(
-    'should expose the expected connection types when fixtures are %s',
-    async (_state, flag, expected) => {
-      if (flag === undefined) {
-        delete process.env.RHAII_TILT_FIXTURES;
-      } else {
-        process.env.RHAII_TILT_FIXTURES = flag;
-      }
+describe('RhaiiAppProvider composition', () => {
+  it('should provide the built-in URI connection type through the composition', async () => {
+    render(
+      <RhaiiAppProvider>
+        <ConnectionTypesConsumer />
+      </RhaiiAppProvider>,
+    );
 
-      render(
-        <RhaiiAppProvider>
-          <ConnectionTypesConsumer />
-        </RhaiiAppProvider>,
-      );
-
-      await waitFor(() =>
-        expect(screen.getByTestId('connection-type-names').textContent).toBe(expected),
-      );
-      await waitFor(() =>
-        expect(screen.getByTestId('hardware-profile-names').textContent).toBe('default-profile'),
-      );
-    },
-  );
+    await waitFor(() =>
+      expect(screen.getByTestId('connection-type-names').textContent).toBe('uri-v1'),
+    );
+  });
 
   it('should watch the dashboard namespace resolved by the BFF', async () => {
     globalThis.fetch = createBootstrapFetch({

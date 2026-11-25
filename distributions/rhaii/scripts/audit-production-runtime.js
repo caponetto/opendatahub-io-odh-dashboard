@@ -15,9 +15,6 @@ const main = async (args = process.argv.slice(2)) => {
   for (const filename of ['stats.json', 'report.json', 'report.md']) {
     fs.rmSync(path.join(outputDir, filename), { force: true });
   }
-  if (process.env.RHAII_TILT_FIXTURES === 'true') {
-    throw new Error('Disable RHAII_TILT_FIXTURES for the production runtime audit');
-  }
   if (
     process.env.MODEL_SERVING_REMOTE_ENTRY &&
     process.env.MODEL_SERVING_REMOTE_ENTRY !== MODEL_SERVING_REMOTE_ENTRY
